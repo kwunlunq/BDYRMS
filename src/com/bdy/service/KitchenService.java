@@ -4,13 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 
 import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdySet;
+import com.bdy.model.BdySetdetail;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyDiscountDao;
 import com.bdy.model.dao.BdyEmpDao;
@@ -42,6 +47,10 @@ public class KitchenService {
 	BdySetdetailDao setdetailDao;
 	BdyTableDao tableDao;
 	BdyMainkindDao mainkindDao;
+	Map<Integer,Map<Integer,Double>> sortmealMap = new LinkedHashMap<Integer,Map<Integer,Double>>();
+	public Map<Integer, Map<Integer, Double>> getMealMap() {
+		return sortmealMap;
+	}
 	public BdyMainkindDao getMainkindDao() {
 		return mainkindDao;
 	}
@@ -88,6 +97,37 @@ public class KitchenService {
 		this.tableDao = tableDao;
 	}
 	public KitchenService(){}
+	public void sortAllSetOutMealMap(){
+		List<BdySet> setMeaList=setDao.getAllSet();
+		for(BdySet item:setMeaList){//------------納帕套餐
+			System.out.println(item.getName());
+			Set<BdySetdetail> itemMealKinds=item.getBdySetdetails();//-----------納帕套餐的食物種類處理
+			List<BdySetdetail> temp =new  ArrayList<BdySetdetail>();
+			for(BdySetdetail item1:itemMealKinds){//--change ArrayList
+				System.out.println("食物種類名稱: " + item1.getBdyFoodkind().getName());
+				temp.add(item1);
+			}
+			Collections.sort(temp, new Comparator<BdySetdetail>() {
+
+				@Override
+				public int compare(BdySetdetail item1, BdySetdetail item2) {
+					
+					return new Integer(item1.getBdyFoodkind().getSeq()).compareTo(new Integer(item2.getBdyFoodkind().getSeq()));
+				}
+			});
+			System.out.println("--------------------------------------------");
+			Double countDate = new Double(0);
+			Map<Integer,Double> detailMap = new LinkedHashMap<Integer, Double>();
+			for(BdySetdetail timeslot:temp){
+				detailMap.put(new Integer(timeslot.getBdyFoodkind().getFkId()),new Double(timeslot.getBdyFoodkind().getPeriod()+countDate));
+				countDate+=timeslot.getBdyFoodkind().getPeriod();
+			System.out.println("出餐名稱-->"+timeslot.getBdyFoodkind().getName()+":點餐後"+(Double)detailMap.get(timeslot.getBdyFoodkind().getFkId())+"分鐘出餐");
+			
+		}
+			sortmealMap.put(item.getSetId(), detailMap);
+			
+		}
+	}
 	
 	public JsonArray getAllOrderlists(){
 		List<BdyOrderlist> list= orderlistDao.getAllorderlist();
