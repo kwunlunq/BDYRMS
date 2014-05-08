@@ -8,22 +8,22 @@
             <column name="OD_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select">
+        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select" lazy="false" >
             <column name="EMP_ID" length="10" />
         </many-to-one>
-        <many-to-one name="bdyTable" class="com.bdy.model.BdyTable" fetch="select">
+        <many-to-one name="bdyTable" class="com.bdy.model.BdyTable" lazy="false" fetch="select">
             <column name="TB_ID" />
         </many-to-one>
         <property name="ordTime" type="timestamp">
             <column name="ORD_TIME" length="23" />
         </property>
-        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="true" fetch="select">
+        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="OD_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdyBill" />
         </set>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="true" fetch="select">
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="OD_ID" />
             </key>

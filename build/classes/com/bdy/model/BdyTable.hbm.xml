@@ -23,7 +23,7 @@
         <property name="bdyFloor" type="java.lang.Integer">
             <column name="BDY_FLOOR" />
         </property>
-        <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="true" fetch="select">
+        <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="TB_ID" />
             </key>

@@ -8,7 +8,7 @@
             <column name="FK_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdyMakearea" class="com.bdy.model.BdyMakearea" fetch="select">
+        <many-to-one name="bdyMakearea" class="com.bdy.model.BdyMakearea" lazy="false" fetch="select">
             <column name="MA_ID" />
         </many-to-one>
         <property name="name" type="string">
@@ -17,19 +17,19 @@
         <property name="period" type="java.lang.Double">
             <column name="PERIOD" precision="53" scale="0" />
         </property>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="true" fetch="select">
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="FK_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdyOrderlist" />
         </set>
-        <set name="bdyFoods" table="BDY_FOOD" inverse="true" lazy="true" fetch="select">
+        <set name="bdyFoods" table="BDY_FOOD" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="FK_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdyFood" />
         </set>
-        <set name="bdySetdetails" table="BDY_SETDETAIL" inverse="true" lazy="true" fetch="select">
+        <set name="bdySetdetails" table="BDY_SETDETAIL" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="FK_ID" />
             </key>

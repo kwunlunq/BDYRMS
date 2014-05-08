@@ -11,7 +11,7 @@
         <property name="name" type="string">
             <column name="NAME" length="20" />
         </property>
-        <set name="bdyFoodkinds" table="BDY_FOODKIND" inverse="true" lazy="true" fetch="select">
+        <set name="bdyFoodkinds" table="BDY_FOODKIND" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="MA_ID" />
             </key>

@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<!-- Generated 2014/5/8 ?U?? 04:44:58 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.bdy.model.BdyMakearea" table="BDY_MAKEAREA">
-        <id name="maId" type="int">
-            <column name="MA_ID" />
+    <class name="com.bdy.model.BdyMainkind" table="BDY_MAINKIND" catalog="BDY">
+        <id name="mkId" type="int">
+            <column name="MK_ID" />
             <generator class="native" />
         </id>
         <property name="name" type="string">
             <column name="NAME" length="20" />
         </property>
-        <set name="bdyFoodkinds" table="BDY_FOODKIND" inverse="true" lazy="false" fetch="select">
+        <set name="bdyFoods" table="BDY_FOOD" inverse="true" lazy="false" fetch="select">
             <key>
-                <column name="MA_ID" />
+                <column name="MK_ID" />
             </key>
-            <one-to-many class="com.bdy.model.BdyFoodkind" />
+            <one-to-many class="com.bdy.model.BdyFood" />
         </set>
     </class>
 </hibernate-mapping>

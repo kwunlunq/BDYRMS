@@ -8,10 +8,10 @@
             <column name="SD_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdySet" class="com.bdy.model.BdySet" fetch="select">
+        <many-to-one name="bdySet" class="com.bdy.model.BdySet" lazy="false" fetch="select">
             <column name="SET_ID" />
         </many-to-one>
-        <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" fetch="select">
+        <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" lazy="false" fetch="select">
             <column name="FK_ID" />
         </many-to-one>
         <property name="price" type="java.lang.Double">

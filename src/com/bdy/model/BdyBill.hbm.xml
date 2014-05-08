@@ -8,13 +8,13 @@
             <column name="BILL_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdyDiscount" class="com.bdy.model.BdyDiscount" fetch="select">
+        <many-to-one name="bdyDiscount" class="com.bdy.model.BdyDiscount" lazy="false" fetch="select">
             <column name="DIS_ID" />
         </many-to-one>
-        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" fetch="select">
+        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" lazy="false" fetch="select">
             <column name="OD_ID" />
         </many-to-one>
-        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select">
+        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" lazy="false" fetch="select">
             <column name="EMP_ID" length="10" />
         </many-to-one>
         <property name="endDate" type="timestamp">

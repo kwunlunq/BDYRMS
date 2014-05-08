@@ -1,6 +1,6 @@
 package com.bdy.model;
 
-// Generated 2014/4/17 �U�� 08:38:49 by Hibernate Tools 4.0.0
+// Generated 2014/5/8 �U�� 04:44:57 by Hibernate Tools 4.0.0
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,7 @@ import java.util.Set;
 public class BdyFood implements java.io.Serializable {
 
 	private int fdId;
+	private BdyMainkind bdyMainkind;
 	private BdyFoodkind bdyFoodkind;
 	private String name;
 	private Double price;
@@ -25,9 +26,11 @@ public class BdyFood implements java.io.Serializable {
 		this.fdId = fdId;
 	}
 
-	public BdyFood(int fdId, BdyFoodkind bdyFoodkind, String name,
-			Double price, Integer qty, String descript, Set bdyOrderlists) {
+	public BdyFood(int fdId, BdyMainkind bdyMainkind, BdyFoodkind bdyFoodkind,
+			String name, Double price, Integer qty, String descript,
+			Set bdyOrderlists) {
 		this.fdId = fdId;
+		this.bdyMainkind = bdyMainkind;
 		this.bdyFoodkind = bdyFoodkind;
 		this.name = name;
 		this.price = price;
@@ -42,6 +45,14 @@ public class BdyFood implements java.io.Serializable {
 
 	public void setFdId(int fdId) {
 		this.fdId = fdId;
+	}
+
+	public BdyMainkind getBdyMainkind() {
+		return this.bdyMainkind;
+	}
+
+	public void setBdyMainkind(BdyMainkind bdyMainkind) {
+		this.bdyMainkind = bdyMainkind;
 	}
 
 	public BdyFoodkind getBdyFoodkind() {

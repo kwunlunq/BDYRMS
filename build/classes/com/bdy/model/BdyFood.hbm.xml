@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<!-- Generated 2014/5/8 ?U?? 04:44:58 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.bdy.model.BdyFood" table="BDY_FOOD">
+    <class name="com.bdy.model.BdyFood" table="BDY_FOOD" catalog="BDY">
         <id name="fdId" type="int">
             <column name="FD_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" fetch="select">
+        <many-to-one name="bdyMainkind" class="com.bdy.model.BdyMainkind" lazy="false" fetch="select">
+            <column name="MK_ID" />
+        </many-to-one>
+        <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" lazy="false" fetch="select">
             <column name="FK_ID" />
         </many-to-one>
         <property name="name" type="string">
@@ -23,7 +26,7 @@
         <property name="descript" type="string">
             <column name="DESCRIPT" length="100" />
         </property>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="true" fetch="select">
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="FD_ID" />
             </key>

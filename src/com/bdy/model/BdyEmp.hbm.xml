@@ -8,7 +8,7 @@
             <column name="EMP_ID" length="10" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="bdyPriority" class="com.bdy.model.BdyPriority" fetch="select">
+        <many-to-one name="bdyPriority" class="com.bdy.model.BdyPriority" lazy="false" fetch="select">
             <column name="PRI_ID" />
         </many-to-one>
         <property name="passwd" type="string">
@@ -32,13 +32,13 @@
         <property name="empAddress" type="string">
             <column name="EMP_ADDRESS" length="50" />
         </property>
-        <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="true" fetch="select">
+        <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="EMP_ID" length="10" />
             </key>
             <one-to-many class="com.bdy.model.BdyOrder" />
         </set>
-        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="true" fetch="select">
+        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="EMP_ID" length="10" />
             </key>
