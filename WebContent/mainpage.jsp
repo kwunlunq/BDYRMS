@@ -51,7 +51,8 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 
 <div id="article">
-
+Hello ${empData.name}<br>
+呼叫員工資料  empData
 </div>
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />

@@ -41,7 +41,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
 <title>BDY RSM - Welcome</title>
 </head>
-<body>
+<body onLoad="startTimer()">
 <SCRIPT>
 var timerID = null
 var timerRunning = false

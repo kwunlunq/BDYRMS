@@ -2,8 +2,12 @@ package com.bdy.service;
 
 import java.util.List;
 
+import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdySet;
+import com.bdy.model.BdySetdetail;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyDiscountDao;
 import com.bdy.model.dao.BdyEmpDao;
@@ -122,6 +126,13 @@ public class ManageService {
 	public ManageService(){}
 	public List<BdyFood> getAllFood(){
 		 return foodDao.getAllFood();
+	}
+	public List<BdySetdetail> getAllDetail(){
+		return setdetailDao.getAllSetdetail();
+	}
+
+	public List<BdyDiscount> getAllDiscount(){
+		return discountDao.getAllDiscount();
 	}
 	
 }

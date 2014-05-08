@@ -34,10 +34,12 @@
                 <column name="FK_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdySetdetail" />
-        </set>
-        
+        </set> 
         <property name="isMain" type="int">
             <column name="IS_MAIN" />
+        </property>
+        <property name="seq" type="int">
+            <column name="SEQ" />
         </property>
     </class>
 </hibernate-mapping>
