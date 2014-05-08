@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyOrderlist" table="BDY_ORDERLIST">
+        <id name="odlistId" type="int">
+            <column name="ODLIST_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" fetch="select" lazy="false">
+            <column name="OD_ID" />
+        </many-to-one>
+        <many-to-one name="bdySet" class="com.bdy.model.BdySet" fetch="select" lazy="false">
+            <column name="SET_ID" />
+        </many-to-one>
+        <many-to-one name="bdyFood" class="com.bdy.model.BdyFood" fetch="select" lazy="false">
+            <column name="FD_ID" />
+        </many-to-one>
+        <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" fetch="select" lazy="false">
+            <column name="FK_ID" />
+        </many-to-one>
+        <property name="addmoney" type="java.lang.Double">
+            <column name="ADDMONEY" precision="53" scale="0" />
+        </property>
+        <property name="olState" type="java.lang.Integer">
+            <column name="OL_STATE" />
+        </property>
+    </class>
+</hibernate-mapping>

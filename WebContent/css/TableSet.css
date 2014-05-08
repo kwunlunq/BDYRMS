@@ -1,0 +1,28 @@
+.divTB {
+	font-size: 9px;
+	width: 62px;
+	height: 62px;
+	border: 1px solid silver;
+	padding: 0.5em;
+	background: rgb(242,246,248);
+	background: -moz-linear-gradient(-45deg,  rgb(242,246,248) 0%, rgb(216,225,231) 50%, rgb(181,198,208) 51%, rgb(224,239,249) 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgb(242,246,248)), color-stop(50%,rgb(216,225,231)), color-stop(51%,rgb(181,198,208)), color-stop(100%,rgb(224,239,249)));
+	background: -webkit-linear-gradient(-45deg,  rgb(242,246,248) 0%,rgb(216,225,231) 50%,rgb(181,198,208) 51%,rgb(224,239,249) 100%);
+	background: -o-linear-gradient(-45deg,  rgb(242,246,248) 0%,rgb(216,225,231) 50%,rgb(181,198,208) 51%,rgb(224,239,249) 100%);
+	background: -ms-linear-gradient(-45deg,  rgb(242,246,248) 0%,rgb(216,225,231) 50%,rgb(181,198,208) 51%,rgb(224,239,249) 100%);
+	background: linear-gradient(135deg,  rgb(242,246,248) 0%,rgb(216,225,231) 50%,rgb(181,198,208) 51%,rgb(224,239,249) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#e0eff9',GradientType=1 );
+}
+
+.tbimg {
+	width: 20px;
+	height: 20px;
+}
+
+#floorBTN{
+	text-align:right;
+}
+
+#picTB{
+	border: 1px solid black;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyTable" table="BDY_TABLE">
+        <id name="tbId" type="int">
+            <column name="TB_ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="20" />
+        </property>
+        <property name="tableState" type="java.lang.Integer">
+            <column name="TABLE_STATE" />
+        </property>
+        <property name="size" type="java.lang.Integer">
+            <column name="SIZE" />
+        </property>
+        <property name="location" type="string">
+            <column name="LOCATION" length="20" />
+        </property>
+        <property name="bdyFloor" type="java.lang.Integer">
+            <column name="BDY_FLOOR" />
+        </property>
+        <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TB_ID" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyOrder" />
+        </set>
+    </class>
+</hibernate-mapping>

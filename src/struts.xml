@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.action.extension" value="action"></constant>
+
+<!-- Kevin -->
+	<package name="ordermeal" namespace="/order" extends="struts-default">
+	</package>
+	
+<!-- Hamilton -->
+	<package name="kitchen" namespace="/kitchen" extends="struts-default">
+	<action name="kitchenView" class="com.bdy.controller.KitchenViewAction">
+		<result name="success">/kitchen/kitchenView.jsp</result>
+	</action>
+	</package>
+	
+<!-- Max -->
+	<package name="table" namespace="/table" extends="struts-default">
+	</package>
+	
+<!-- Frank -->
+	<package name="report" namespace="/report" extends="struts-default">
+	
+	</package>
+	
+<!-- Rick -->
+ <package name="secure" namespace="/secure" extends="struts-default">
+    	<action name="login" class="com.bdy.controller.LoginAction">
+    		<result name="input" type="dispatcher">/index.jsp</result>
+    		<result name="success" type="redirect">/mainpage.jsp</result>
+    		<result name="return" type="redirect">${dest}</result>
+    	</action>
+	</package>
+
+</struts>

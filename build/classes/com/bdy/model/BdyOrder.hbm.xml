@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyOrder" table="BDY_ORDER">
+        <id name="odId" type="int">
+            <column name="OD_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select">
+            <column name="EMP_ID" length="10" />
+        </many-to-one>
+        <many-to-one name="bdyTable" class="com.bdy.model.BdyTable" fetch="select">
+            <column name="TB_ID" />
+        </many-to-one>
+        <property name="ordTime" type="timestamp">
+            <column name="ORD_TIME" length="23" />
+        </property>
+        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OD_ID" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyBill" />
+        </set>
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OD_ID" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyOrderlist" />
+        </set>
+    </class>
+</hibernate-mapping>

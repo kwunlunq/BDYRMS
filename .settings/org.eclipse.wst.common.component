@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="BDY_SSHR v4.2_combine1">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="BDY_SSHR_v4.2_combine1"/>
+        <property name="java-output-path" value="/BDY_SSHR v4.2_combine1/build/classes"/>
+    </wb-module>
+</project-modules>

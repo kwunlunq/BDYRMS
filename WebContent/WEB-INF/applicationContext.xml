@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://localhost:1433;database=BDY"/>
+		<property name="username" value="BDY" />
+		<property name="password" value="sa1234" />
+	</bean>
+	
+<!-- 	<bean id="dataSource" -->
+<!-- 		class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+<!-- 		<property name="jndiName"> -->
+<!-- 			<value>java:comp/env/jdbc/BDY</value> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="destroy">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/bdy/model/BdyBill.hbm.xml</value>
+				<value>com/bdy/model/BdyDiscount.hbm.xml</value>
+				<value>com/bdy/model/BdyEmp.hbm.xml</value>
+				<value>com/bdy/model/BdyFood.hbm.xml</value>
+				<value>com/bdy/model/BdyFoodkind.hbm.xml</value>
+				<value>com/bdy/model/BdyMakearea.hbm.xml</value>
+				<value>com/bdy/model/BdyOrder.hbm.xml</value>
+				<value>com/bdy/model/BdyOrderlist.hbm.xml</value>
+				<value>com/bdy/model/BdyPriority.hbm.xml</value>
+				<value>com/bdy/model/BdySet.hbm.xml</value>
+				<value>com/bdy/model/BdySetdetail.hbm.xml</value>
+				<value>com/bdy/model/BdyTable.hbm.xml</value>
+				<value>com/bdy/model/BdyFloor.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="show_sql">true</prop>
+				<prop key="format_sql">true</prop>
+				<prop key="default-schema">dbo</prop>
+			</props>
+		</property>		
+	</bean>
+
+	
+	<bean id="order" name="order" class="com.bdy.model.BdyOrder" />
+	<bean id="orderlist" name="orderlist" class="com.bdy.model.BdyOrderlist" />
+	<bean id="discount" name="discount" class="com.bdy.model.BdyDiscount" />
+	<bean id="emp" name="emp" class="com.bdy.model.BdyEmp" />
+	<bean id="food" name="food" class="com.bdy.model.BdyFood" />
+	<bean id="foodKind" name="foodKind" class="com.bdy.model.BdyFoodkind" />
+	<bean id="markarea" name="markarea" class="com.bdy.model.BdyMakearea" />
+	<bean id="priority" name="priority" class="com.bdy.model.BdyPriority" />
+	<bean id="set" name="set" class="com.bdy.model.BdySet" />
+	<bean id="setdetail" name="setdetail" class="com.bdy.model.BdySetdetail" />
+	<bean id="table" name="table" class="com.bdy.model.BdyTable" />
+	<bean id="bill" name="bill" class="com.bdy.model.BdyBill" />
+	<bean id="floor" name="floor" class="com.bdy.model.BdyFloor" />
+
+	<bean id="BdyTableDao" class="com.bdy.model.dao.BdyTableDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BdyOrderDao" class="com.bdy.model.dao.BdyOrderDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+	<bean id="BdyOrderlistDao" class="com.bdy.model.dao.BdyOrderlistDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+	<bean id="BdyFoodDao" class="com.bdy.model.dao.BdyFoodDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BdyFoodkindDao" class="com.bdy.model.dao.BdyFoodkindDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BdyBillDao" class="com.bdy.model.dao.BdyBillDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BdyEmpDao" class="com.bdy.model.dao.BdyEmpDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BdyMakeareaDao" class="com.bdy.model.dao.BdyMakeareaDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BdyPriorityDao" class="com.bdy.model.dao.BdyPriorityDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="BdyDiscountDao" class="com.bdy.model.dao.BdyDiscountDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+
+	<bean id="BdySetDao" class="com.bdy.model.dao.BdySetDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="BdySetDetailDao" class="com.bdy.model.dao.BdySetdetailDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="BdyFloorDao" class="com.bdy.model.dao.BdyFloorDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+	
+	<bean id="KitchenService" class="com.bdy.service.KitchenService">
+		<property name="billDao">
+			<ref bean="BdyBillDao"/>
+		</property>
+		<property name="discountDao">
+			<ref bean="BdyDiscountDao"/>
+		</property>
+		<property name="empDao">
+			<ref bean="BdyEmpDao"/>
+		</property>
+		<property name="floorDao">
+			<ref bean="BdyFloorDao"/>
+		</property>
+		<property name="foodDao">
+			<ref bean="BdyFoodDao"/>
+		</property>
+		<property name="foodkindDao">
+			<ref bean="BdyFoodkindDao"/>
+		</property>
+		<property name="makeareaDao">
+			<ref bean="BdyMakeareaDao"/>
+		</property>
+		<property name="orderDao">
+			<ref bean="BdyOrderDao"/>
+		</property>		
+		<property name="orderlistDao">
+			<ref bean="BdyOrderlistDao"/>
+		</property>
+		<property name="priorityDao">
+			<ref bean="BdyPriorityDao"/>
+		</property>
+		<property name="setDao">
+			<ref bean="BdySetDao"/>
+		</property>
+		<property name="setdetailDao">
+			<ref bean="BdySetDetailDao"/>
+		</property>
+		<property name="tableDao">
+			<ref bean="BdyTableDao"/>
+		</property>
+	</bean>
+	<bean id="ReportService" class="com.bdy.service.ReportService">
+		<property name="billDao">
+			<ref bean="BdyBillDao"/>
+		</property>
+		<property name="discountDao">
+			<ref bean="BdyDiscountDao"/>
+		</property>
+		<property name="empDao">
+			<ref bean="BdyEmpDao"/>
+		</property>
+		<property name="floorDao">
+			<ref bean="BdyFloorDao"/>
+		</property>
+		<property name="foodDao">
+			<ref bean="BdyFoodDao"/>
+		</property>
+		<property name="foodkindDao">
+			<ref bean="BdyFoodkindDao"/>
+		</property>
+		<property name="makeareaDao">
+			<ref bean="BdyMakeareaDao"/>
+		</property>
+		<property name="orderDao">
+			<ref bean="BdyOrderDao"/>
+		</property>		
+		<property name="orderlistDao">
+			<ref bean="BdyOrderlistDao"/>
+		</property>
+		<property name="priorityDao">
+			<ref bean="BdyPriorityDao"/>
+		</property>
+		<property name="setDao">
+			<ref bean="BdySetDao"/>
+		</property>
+		<property name="setdetailDao">
+			<ref bean="BdySetDetailDao"/>
+		</property>
+		<property name="tableDao">
+			<ref bean="BdyTableDao"/>
+		</property>
+	</bean>	
+	
+	<bean id="ManageService" class="com.bdy.service.ManageService">
+		<property name="billDao">
+			<ref bean="BdyBillDao"/>
+		</property>
+		<property name="discountDao">
+			<ref bean="BdyDiscountDao"/>
+		</property>
+		<property name="empDao">
+			<ref bean="BdyEmpDao"/>
+		</property>
+		<property name="floorDao">
+			<ref bean="BdyFloorDao"/>
+		</property>
+		<property name="foodDao">
+			<ref bean="BdyFoodDao"/>
+		</property>
+		<property name="foodkindDao">
+			<ref bean="BdyFoodkindDao"/>
+		</property>
+		<property name="makeareaDao">
+			<ref bean="BdyMakeareaDao"/>
+		</property>
+		<property name="orderDao">
+			<ref bean="BdyOrderDao"/>
+		</property>		
+		<property name="orderlistDao">
+			<ref bean="BdyOrderlistDao"/>
+		</property>
+		<property name="priorityDao">
+			<ref bean="BdyPriorityDao"/>
+		</property>
+		<property name="setDao">
+			<ref bean="BdySetDao"/>
+		</property>
+		<property name="setdetailDao">
+			<ref bean="BdySetDetailDao"/>
+		</property>
+		<property name="tableDao">
+			<ref bean="BdyTableDao"/>
+		</property>
+	</bean>	
+	
+	
+	<bean id="OrderService" class="com.bdy.service.OrderService">
+		<property name="billDao">
+			<ref bean="BdyBillDao"/>
+		</property>
+		<property name="discountDao">
+			<ref bean="BdyDiscountDao"/>
+		</property>
+		<property name="empDao">
+			<ref bean="BdyEmpDao"/>
+		</property>
+		<property name="floorDao">
+			<ref bean="BdyFloorDao"/>
+		</property>
+		<property name="foodDao">
+			<ref bean="BdyFoodDao"/>
+		</property>
+		<property name="foodkindDao">
+			<ref bean="BdyFoodkindDao"/>
+		</property>
+		<property name="makeareaDao">
+			<ref bean="BdyMakeareaDao"/>
+		</property>
+		<property name="orderDao">
+			<ref bean="BdyOrderDao"/>
+		</property>		
+		<property name="orderlistDao">
+			<ref bean="BdyOrderlistDao"/>
+		</property>
+		<property name="priorityDao">
+			<ref bean="BdyPriorityDao"/>
+		</property>
+		<property name="setDao">
+			<ref bean="BdySetDao"/>
+		</property>
+		<property name="setdetailDao">
+			<ref bean="BdySetDetailDao"/>
+		</property>
+		<property name="tableDao">
+			<ref bean="BdyTableDao"/>
+		</property>
+	</bean>	
+	
+</beans>

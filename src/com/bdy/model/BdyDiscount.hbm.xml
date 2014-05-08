@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyDiscount" table="BDY_DISCOUNT">
+        <id name="disId" type="int">
+            <column name="DIS_ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="20" />
+        </property>
+        <property name="disPrice" type="java.lang.Double">
+            <column name="DIS_PRICE" precision="53" scale="0" />
+        </property>
+        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="DIS_ID" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyBill" />
+        </set>
+    </class>
+</hibernate-mapping>

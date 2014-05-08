@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="BDY" match-name="BDY_BILL"/>
+  <table-filter match-catalog="BDY" match-name="BDY_DISCOUNT"/>
+  <table-filter match-catalog="BDY" match-name="BDY_EMP"/>
+  <table-filter match-catalog="BDY" match-name="BDY_FOOD"/>
+  <table-filter match-catalog="BDY" match-name="BDY_FOODKIND"/>
+  <table-filter match-catalog="BDY" match-name="BDY_MAKEAREA"/>
+  <table-filter match-catalog="BDY" match-name="BDY_ORDER"/>
+  <table-filter match-catalog="BDY" match-name="BDY_ORDERLIST"/>
+  <table-filter match-catalog="BDY" match-name="BDY_PRIORITY"/>
+  <table-filter match-catalog="BDY" match-name="BDY_SET"/>
+  <table-filter match-catalog="BDY" match-name="BDY_SETDETIAL"/>
+  <table-filter match-catalog="BDY" match-name="BDY_TABLE"/>
+</hibernate-reverse-engineering>

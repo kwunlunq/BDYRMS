@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdySetdetail" table="BDY_SETDETAIL">
+        <id name="sdId" type="int">
+            <column name="SD_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdySet" class="com.bdy.model.BdySet" fetch="select">
+            <column name="SET_ID" />
+        </many-to-one>
+        <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" fetch="select">
+            <column name="FK_ID" />
+        </many-to-one>
+        <property name="price" type="java.lang.Double">
+            <column name="PRICE" precision="53" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

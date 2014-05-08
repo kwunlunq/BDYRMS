@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyBill" table="BDY_BILL">
+        <id name="billId" type="int">
+            <column name="BILL_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdyDiscount" class="com.bdy.model.BdyDiscount" fetch="select">
+            <column name="DIS_ID" />
+        </many-to-one>
+        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" fetch="select">
+            <column name="OD_ID" />
+        </many-to-one>
+        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select">
+            <column name="EMP_ID" length="10" />
+        </many-to-one>
+        <property name="endDate" type="timestamp">
+            <column name="END_DATE" length="23" />
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="PRICE" precision="53" scale="0" />
+        </property>
+        <property name="custNum" type="java.lang.Integer">
+            <column name="CUST_NUM" />
+        </property>
+    </class>
+</hibernate-mapping>
