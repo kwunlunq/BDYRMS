@@ -96,6 +96,7 @@ public class BdyFoodDao {
 			tmpFood.setDescript(food.getDescript());
 			tmpFood.setBdyOrderlists(food.getBdyOrderlists());
 			tmpFood.setBdyFoodkind(food.getBdyFoodkind());
+			tmpFood.setBdyMainkind(food.getBdyMainkind());
 		} else {
 			System.out.println("修改失敗 : 資料不存在 (fdId:"+food.getFdId()+")");
 			session.close();
