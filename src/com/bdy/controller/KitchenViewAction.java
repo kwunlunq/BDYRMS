@@ -62,21 +62,9 @@ public class KitchenViewAction extends ActionSupport implements ServletRequestAw
 
 	@Override
 	public String execute() throws Exception {
-	viewlist=service.getAllOrderlistsForView();
-	Map<Integer, Map<Integer, Double>> sortMap = service.getMealMap();
-	for(Map.Entry<Integer, Map<Integer, Double>> entry:sortMap.entrySet()){
-		System.out.println("套餐ID"+entry.getKey());
-		for(Map.Entry<Integer, Double> entry2:entry.getValue().entrySet()){
-			System.out.println("食物種類ID"+entry2.getKey());
-			System.out.println("套餐出菜時間"+entry2.getValue());
-		}
-		
-	}
-//	message="Hello AJAX Struts2";
-//	request.setAttribute("view",viewlist);
+		viewlist=service.getNotOutOrderlistsObject();
 		return Action.SUCCESS;
 	}
-
 
 
 //	public void myExecute() throws Exception {

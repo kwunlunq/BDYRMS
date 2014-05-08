@@ -7,6 +7,14 @@ public class KitchenView  {
 	private int tableID;
 	private java.util.Date orderDate;
 	private int orderStatus;
+	private Long outMealTime;
+	
+	public Long getOutMealTime() {
+		return outMealTime;
+	}
+	public void setOutMealTime(Long outMealTime) {
+		this.outMealTime = outMealTime;
+	}
 	public String getOrderlistname() {
 		return orderlistname;
 	}

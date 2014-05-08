@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -97,6 +99,7 @@ public class KitchenService {
 		this.tableDao = tableDao;
 	}
 	public KitchenService(){}
+	//-------------------------------------------init方法得到必須呼叫
 	public void sortAllSetOutMealMap(){
 		List<BdySet> setMeaList=setDao.getAllSet();
 		for(BdySet item:setMeaList){//------------納帕套餐
@@ -124,9 +127,12 @@ public class KitchenService {
 			System.out.println("出餐名稱-->"+timeslot.getBdyFoodkind().getName()+":點餐後"+(Double)detailMap.get(timeslot.getBdyFoodkind().getFkId())+"分鐘出餐");
 			
 		}
-			sortmealMap.put(item.getSetId(), detailMap);
-			
+			sortmealMap.put(item.getSetId(), detailMap);		
 		}
+	}
+	//--------------------------------------------------輸入套餐ID，食物類別ID，得到DOUBLE
+	public Double findOutMealTime(int setId,int fkId){
+			return	sortmealMap.get(setId).get(fkId);
 	}
 	
 	public JsonArray getAllOrderlists(){
@@ -177,8 +183,84 @@ public class KitchenService {
 			}
 			 
 		 });
-		return viewList;
-		
+		return viewList;		
+	}
+	public List<KitchenView> getNotOutOrderlistsObject(){
+		List<BdyOrderlist> list= orderlistDao.getAllorderlist();
+		List<BdyOrderlist> notOutMeallist = new ArrayList<BdyOrderlist>();//-----未出餐的食物LIST
+		for(BdyOrderlist meal:list){
+			if(meal.getOlState().equals(new Integer(0))){//------------如果是未出餐的，放置notOutMeallist
+				notOutMeallist.add(meal);
+			}
+		}
+		//-------依造"未出餐的食物"的"出餐時間"排序
+		List<KitchenView> sortOutlist =new LinkedList<KitchenView>();//---------排序過後的LIST
+		for(BdyOrderlist temp:notOutMeallist){
+			KitchenView viewItem = new KitchenView();
+			Double slotTime =findOutMealTime(temp.getBdySet().getSetId(),temp.getBdyFoodkind().getFkId());
+			System.out.println("--------------------------測試---------------------------------"+slotTime);
+			viewItem.setTableID(temp.getBdyOrder().getBdyTable().getTbId());//桌號
+			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
+			viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
+			viewItem.setOutMealTime(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000);//實際出餐時間
+			sortOutlist.add(viewItem);
+			System.out.println("食物名稱"+viewItem.getOrderlistname());
+			System.out.println("食物出餐時間" + viewItem.getOrderDate());
+		}
+		Collections.sort(sortOutlist,new Comparator<KitchenView>() {//--------------依造出餐時間點排序
+
+			@Override
+			public int compare(KitchenView o1, KitchenView o2) {
+				
+				return o1.getOutMealTime().compareTo(o2.getOutMealTime());
+			}
+		});
+		return sortOutlist;
 	}
 	
+	//--------------------------------拿到所有未出餐食物的出餐順序
+	@SuppressWarnings("unchecked")
+	public JsonArray getNotOutOrderlists(){
+		List<BdyOrderlist> list= orderlistDao.getAllorderlist();
+		List<BdyOrderlist> notOutMeallist = new ArrayList<BdyOrderlist>();//-----未出餐的食物LIST
+		for(BdyOrderlist meal:list){
+			if(meal.getOlState().equals(new Integer(0))){//------------如果是未出餐的，放置notOutMeallist
+				notOutMeallist.add(meal);
+			}
+		}
+		//-------依造"未出餐的食物"的"出餐時間"排序
+		List<KitchenView> sortOutlist =new LinkedList<KitchenView>();//---------排序過後的LIST
+		for(BdyOrderlist temp:notOutMeallist){
+			KitchenView viewItem = new KitchenView();
+			Double slotTime =findOutMealTime(temp.getBdySet().getSetId(),temp.getBdyFoodkind().getFkId());
+			viewItem.setTableID(temp.getBdyOrder().getBdyTable().getTbId());//桌號
+			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
+			viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
+			viewItem.setOutMealTime(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue());//實際出餐時間
+			sortOutlist.add(viewItem);
+		}
+		Collections.sort(sortOutlist,new Comparator<KitchenView>() {//--------------依造出餐時間點排序
+
+			@Override
+			public int compare(KitchenView o1, KitchenView o2) {
+				
+				return o1.getOutMealTime().compareTo(o2.getOutMealTime());
+			}
+		});
+		
+		//--------------------------JSON
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
+		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+		for(KitchenView notOutMealitem:sortOutlist){
+			jsonArrayBuilder.add(
+                    Json.createObjectBuilder()
+                    .add("桌號",notOutMealitem.getTableID())
+                    .add("點單時間", notOutMealitem.getOrderDate().toString())
+                    .add("食物名稱", notOutMealitem.getOrderlistname())
+                    .add("出餐時間",notOutMealitem.getOutMealTime())
+                    );
+		}
+		JsonArray jsonArray = jsonArrayBuilder.build();
+		return jsonArray;
+	}
 }
