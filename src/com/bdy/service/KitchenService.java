@@ -197,7 +197,7 @@ public class KitchenService {
 		List<KitchenView> sortOutlist =new LinkedList<KitchenView>();//---------排序過後的LIST
 		for(BdyOrderlist temp:notOutMeallist){
 			KitchenView viewItem = new KitchenView();
-			Double slotTime =findOutMealTime(temp.getBdySet().getSetId(),temp.getBdyFoodkind().getFkId());
+			Double slotTime =findOutMealTime(temp.getBdySet().getSetId(),temp.getBdyFood().getBdyFoodkind().getFkId());
 			System.out.println("--------------------------測試---------------------------------"+slotTime);
 			viewItem.setTableID(temp.getBdyOrder().getBdyTable().getTbId());//桌號
 			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
