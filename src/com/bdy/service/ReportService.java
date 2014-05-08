@@ -2,12 +2,6 @@ package com.bdy.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServlet;
-
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import com.bdy.model.BdyBill;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyDiscountDao;
