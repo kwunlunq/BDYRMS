@@ -11,5 +11,5 @@
 <input class="MenuBtn2" type="BUTTON" value="出餐" onclick="goURL('<c:url value="/kitchen/kitchenView.action"/>')"><BR>
 <input class="MenuBtn2" type="BUTTON" value="報表" onclick="goURL('<c:url value="/report/reportMenu.jsp" />')"><BR>
 <input class="MenuBtn2" type="BUTTON" value="員工管理" onclick="goURL('<c:url value="/secure/modifyEmp.jsp" />')"><BR>
-<input class="MenuBtn2" type="BUTTON" value="餐廳管理" onclick="goURL('<c:url value="/secure/food" />')"><BR>
+<input class="MenuBtn2" type="BUTTON" value="餐廳管理" onclick="goURL('<c:url value="/secure/food?act=show" />')"><BR>
 <input class="MenuBtn"  type="button" value="登出" onclick="goURL('<c:url value="/index.jsp" />')">

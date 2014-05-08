@@ -1,6 +1,8 @@
 package com.bdy.controller;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,14 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
 @WebServlet("/secure/food")
 public class food extends HttpServlet {
-
 	
 	ManageService manage;
+	boolean booleanFoodPrice = true;
+	boolean booleanQty = true;
 	public void init() throws ServletException {
 		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
 		manage = (ManageService) context.getBean("ManageService");	
@@ -33,18 +38,72 @@ public class food extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		response.setCharacterEncoding("UTF-8");
-		String path=request.getContextPath();
 		List<BdyFood> food = manage.getAllFood();
-		System.out.println(food+"111");
-		request.setAttribute("resultfood", food);
+		List<BdySetdetail> detail = manage.getAllDetail();
+		List<BdyDiscount> discount = manage.getAllDiscount();
+		String act = request.getParameter("act");
+		
+		//排序價位 和 庫存star
+		if(act.equals("sort")){
+			String type = request.getParameter("type");
+		if(type.equals("price")){
+		if(booleanFoodPrice==true){
+		Collections.sort(food,new Comparator<BdyFood>() {
+
+			@Override
+			public int compare(BdyFood price,BdyFood price2) {
+				
+				return (int) (price2.getPrice()-price.getPrice());
+			}
+		});
+		booleanFoodPrice=false;
+		}else{
+			Collections.sort(food, new Comparator<BdyFood>(){
+
+				@Override
+				public int compare(BdyFood price, BdyFood price2) {
+
+					return (int) (price.getPrice()-price2.getPrice());
+				}
+				
+			});
+			booleanFoodPrice=true;
+		}
+		}
+		if(type.equals("qty")){
+		if(booleanQty==true){
+			Collections.sort(food,new Comparator<BdyFood>(){
+
+				@Override
+				public int compare(BdyFood qty, BdyFood qty1) {
+					return qty1.getQty()-qty.getQty();
+				}				
+			});
+			booleanQty=false;
+		}else{
+			Collections.sort(food,new Comparator<BdyFood>(){
+
+				@Override
+				public int compare(BdyFood qty, BdyFood qty1) {
+					return qty.getQty()-qty1.getQty();
+				}				
+			});
+			booleanQty=true;
+		}
+		}
+		}
+		//排序價位 和 庫存end
+		request.setAttribute("resultFood", food);
+		request.setAttribute("resultDetail", detail);
+		request.setAttribute("resultdiscount", discount);
+		
 		if(food!=null){
-			request.setAttribute("count", food.size());
+			request.setAttribute("foodcount", food.size());
+			
 		}
 		else{
-			request.setAttribute("count","0");
+			request.setAttribute("foodcount","0");
 		}
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
 	}

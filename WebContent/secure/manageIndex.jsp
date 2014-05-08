@@ -26,16 +26,17 @@
 -->
 <style>
 #tabs{
-		height:100%;
-		width:100%;
+		
+		width:98%;
+		padding-bottom:0px;
 }
 #top{
 		/*margin-left:10%;*/ 
    		margin-top:10px;
    		margin-bottom:10px;
 }
-#mid{
-		/*margin-left:40%;*/ 
+#tabs-1{
+width:90%;height:600px;overflow:auto
 }
 #top>input[type=button]{
 width: 200px;
@@ -45,6 +46,19 @@ font-weight: bold;
 background-color: paleturquoise;
 border-radius: 10px;
 }
+.point{
+cursor: pointer;
+text-decoration: underline;
+font-style: italic;
+}
+.textstyle{
+width:95%;
+}
+.thstyle{
+width:110px;
+max-width:110px;
+}
+
 </style>
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
@@ -58,6 +72,7 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" id="cssStyle" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script src="<c:url value="/js/main.js"/>"></script>
+<%-- <script src="<c:url value="/js/manage.js"/>"></script> --%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
@@ -68,8 +83,11 @@ var contextPath='<%=request.getContextPath()%>';
 <script type="text/javascript">
 $(function(){
 	$( "#tabs" ).tabs();
-	
 });
+function foodupdate(){
+	alert("1");
+}
+
 </script>
 <script src="<c:url value="/js/Food.js"/>"></script>
 <div id="mainBox">
@@ -82,59 +100,114 @@ $(function(){
 
 <div id="article">
 <!-- START Write -->
-<form action="manageIndex.controller" method="post">
 <div id="tabs">
   <ul>
     <li><a href="#tabs-1"  id="modifyfood">修改食物</a></li>
     <li><a href="#tabs-2"  id="modifypackage">修改套餐</a></li>
     <li><a href="#tabs-3"  id="modifycount">修改折扣</a></li>
   </ul>
-  		<div id="tabs-1">		
-		<div id="mid">
-		<div id="div1" style="display: block">
-		共${count }s筆
+  		<div id="tabs-1">
+		
+		共${foodcount }筆 
+		<button onclick="myFunction()">新增一筆資料</button>
+	
+		
 		<table border="1">
 		<thead>
 		<tr>
-		<th>食物名稱</th>
-		<th>食物價錢</th>
-		<th>庫存量</th>
-		<th>說明</th>
+		<th class="thstyle">食物名稱</th>
+		<th class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/food?act=sort&type=price' />')">食物價錢</th>
+		<th class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/food?act=sort&type=qty' />')">庫存量</th>
+		<th class="thstyle">說明</th>
+		<th class="thstyle">種類</th>
+		<th class="thstyle">製作時間</th>
+		<th class="thstyle">功能</th>
 		</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="food" items="${resultfood }">
+		<c:forEach var="food" items="${resultFood }">
+		
+		<form action="<c:url value='/secure/food?act=updatefood'/>" method="post">
 		<tr>
+		<input type="hidden" value="${food.fdId }" name="fid">
+		<c:if test="${food.fdId==param.fid }">
+		<td><input class="textstyle" name="foodname" type="text" value="${food.name }"></td>
+		<td><input class="textstyle" name="foodprice" type="text" value="${food.price }"></td>
+		<td><input class="textstyle" name="foodqty" type="text" value="${food.qty }"></td>
+		<td><input class="textstyle" name="fooddescount" type="text" value="${food.descript }"></td>
+		<td><input class="textstyle" name="foodkind" type="text" value="${food.bdyFoodkind.name}"></td>
+		<td><input class="textstyle" name="foodperiod" type="text" value="${food.bdyFoodkind.period}"></td>
+		<td><input  type="submit"  name="btn"  value="完成" >
+		<input type="submit"  name="btn"  value="刪除">
+		</td>
+		</c:if>
+		
+		<c:if test="${food.fdId!=param.fid }">
 		<td>${food.name }</td>
 		<td>${food.price }</td>
 		<td>${food.qty }</td>
 		<td>${food.descript }</td>
-		<td>修改</td>
-		<td>刪除</td>
+		<td>${food.bdyFoodkind.name }</td>
+		<td>${food.bdyFoodkind.period }</td>
+		<td>
+		<input type="button" id="foodupdate" name="btn"  value="修改" onclick="foodupdate()" >
+		<input type="button" id="fooddelete" name="btn"  value="刪除" onclick=""></td>
+		</c:if>
 		</tr>
+		</form>
 		</c:forEach>
 		</tbody>
 		</table>
 		
 		</div>
 		
-		</div></div>
-		
 		 <div id="tabs-2">
-		 	修改套餐
-		 <div id="div2" style="display: block">
-		<input type="button" value="新增套餐">
-		<input type="button" value="刪除套餐">
-		<input type="button" value="修改套餐">
-		<input type="button" value="查詢套餐">
+		 <input type="button" id="insert2" value="新增一筆資料">
+		<table border="1">		
+		<thead>
+		<tr>
+		<th>套餐名稱</th>
+		<th>食物類別</th>
+		</tr>
+		</thead>
+		<tbody>
+		<c:forEach var="detail" items="${resultDetail }">
+		<tr>
+		<td>${detail.bdySet.name}</td>
+		<td>${detail.bdyFoodkind.name}</td>		
+		<td><input type="button" id="update2" value="修改"></td>
+		<td><input type="button" id="delete2" value="刪除"></td>
+		</tr>
+		</c:forEach>
+		</tbody>
+		</table>
 		</div>
-		 </div>
+		
+		 
 		 <div id="tabs-3">
-		 	修改折扣
+		 <input type="button" id="insert3" value="新增一筆資料">
+		 	<table border="1">
+		<thead>
+		<tr>
+		<th>折扣名稱</th>
+		<th>則扣優惠</th>
+		</tr>
+		</thead>
+		<tbody>
+		<c:forEach var="discount" items="${resultdiscount }">
+		<tr>
+		<td>${discount.name}</td>
+		<td>${discount.disPrice}</td>		
+		<td><input type="button" id="update2" value="修改"></td>
+		<td><input type="button" id="delete2" value="刪除"></td>
+		</tr>
+		</c:forEach>
+		</tbody>
+		</table>
 		 </div>
  
 </div>
-</form>
+
 <!-- END Write-->
 </div>
 <div id="footer">

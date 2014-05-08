@@ -61,8 +61,10 @@ public class LoginAction extends ActionSupport implements SessionAware,ServletRe
             		this.getText("loginForm.login.fail"));
 			return Action.INPUT;
 		}else if(bean.getBdyPriority().getPriId() == 3){
+			session.put("empData", bean);
 			return Action.SUCCESS;
 		}else{
+			session.put("empData", bean);
 			return Action.SUCCESS;
 		}
 		
