@@ -52,7 +52,7 @@ var contextPath='<%=request.getContextPath()%>';
 
 <div id="article">
 <!-- START Write -->
-		<input class="StmtBtn" type="button" value="日營業查詢" onclick="goURL('<c:url value="/report/showSingleDay.jsp" />')">
+		<input class="StmtBtn" type="button" value="日營業查詢" onclick="goURL('<c:url value="/report/showsingleday.jsp" />')">
 		<br>
 		<input type="button" value="月營業查詢">
 <!-- END Write-->
