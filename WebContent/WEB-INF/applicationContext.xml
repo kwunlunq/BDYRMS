@@ -36,6 +36,7 @@
 				<value>com/bdy/model/BdySetdetail.hbm.xml</value>
 				<value>com/bdy/model/BdyTable.hbm.xml</value>
 				<value>com/bdy/model/BdyFloor.hbm.xml</value>
+				<value>com/bdy/model/BdyMainkind.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -62,6 +63,7 @@
 	<bean id="table" name="table" class="com.bdy.model.BdyTable" />
 	<bean id="bill" name="bill" class="com.bdy.model.BdyBill" />
 	<bean id="floor" name="floor" class="com.bdy.model.BdyFloor" />
+	<bean id="mainkind" name="floor" class="com.bdy.model.BdyMainkind" />
 
 	<bean id="BdyTableDao" class="com.bdy.model.dao.BdyTableDao">
 		<property name="sessionFactory">
@@ -133,6 +135,12 @@
 		</property>
 	</bean>	
 	
+	<bean id="BdyMainkindDao" class="com.bdy.model.dao.BdyMainkindDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>	
+	
 	<bean id="KitchenService" class="com.bdy.service.KitchenService">
 		<property name="billDao">
 			<ref bean="BdyBillDao"/>
@@ -173,7 +181,11 @@
 		<property name="tableDao">
 			<ref bean="BdyTableDao"/>
 		</property>
+		<property name="mainkindDao">
+			<ref bean="BdyMainkindDao"/>
+		</property>
 	</bean>
+	
 	<bean id="ReportService" class="com.bdy.service.ReportService">
 		<property name="billDao">
 			<ref bean="BdyBillDao"/>
@@ -213,6 +225,9 @@
 		</property>
 		<property name="tableDao">
 			<ref bean="BdyTableDao"/>
+		</property>
+	    <property name="mainkindDao">
+			<ref bean="BdyMainkindDao"/>
 		</property>
 	</bean>	
 	
@@ -256,6 +271,9 @@
 		<property name="tableDao">
 			<ref bean="BdyTableDao"/>
 		</property>
+		<property name="mainkindDao">
+			<ref bean="BdyMainkindDao"/>
+		</property>
 	</bean>	
 	
 	
@@ -298,6 +316,9 @@
 		</property>
 		<property name="tableDao">
 			<ref bean="BdyTableDao"/>
+		</property>
+		<property name="mainkindDao">
+			<ref bean="BdyMainkindDao"/>
 		</property>
 	</bean>	
 	
