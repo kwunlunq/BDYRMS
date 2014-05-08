@@ -30,7 +30,6 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
-<script src="<c:url value="/js/ordermeal.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
@@ -41,19 +40,6 @@ var contextPath='<%=request.getContextPath()%>';
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
 <title>BDY RSM - Meal Ordering</title>
-
-<script type="text/javascript">
-var contextPath='<%=request.getContextPath()%>';
-</script>
-<script src="<c:url value="/js/jquery.js"/>"></script>
-<script src="<c:url value="/js/jquery-ui.js"/>"></script>
-<script src="<c:url value="/js/main.js"/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/ordermain.css"/>">
-<script type="text/javascript">
-
-</script>
 </head>
 <body>
 <div id="mainBox">
@@ -70,8 +56,100 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- START Write -->
 
 <!-- <script src="//code.jquery.com/jquery-1.9.1.js" ></script> -->
+
+<script type="text/javascript">
+var contextPath='<%=request.getContextPath()%>';
+</script>
+<script src="<c:url value="/js/jquery.js"/>"></script>
+<script src="<c:url value="/js/jquery-ui.js"/>"></script>
+<script src="<c:url value="/js/main.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/ordermain.css"/>">
+<script type="text/javascript">
+$(function() {
+	 getSetdetail();
+	//  css掛載
+// 	$('#btnArea>:button').mouseover(function() {
+// 					$(this).css("background", "#44C3B6");})
+// 				.mouseout(function() {
+// 					$(this).css("background", "#3BB0A4");});
+	/*
+	*	解決IE緩存問題
+	*/
+	$.ajaxSetup({ cache: false });
+});
+
+var contextPath = "${pageContext.request.contextPath}";
+
+/*
+ * 當"點套餐"按鈕按下時, 利用$.getJSON呼叫/order/getSetDetailServlet
+ * 將回傳結果(result)傳給showSetBtnWithDetail()
+ */
+function getSetdetail() {
+	var url = contextPath+"/order/GetMainServlet";
+	$.getJSON(url, function(result) {
+		$('.page1').hide();
+		showMains(result);
+	});
+}
+
+ 
+ /*
+  * <div id="mainArea">
+ 		<h2 id="mainTitle">牛排</h2>
+ 		<hr>
+ 		<h4 id="mainContent">牛小排</h4>
+ 		<h4 id="mainContent">菲力牛排</h4>
+ 		<br>
+ 		<h2 id="mainTitle">披薩</h2>
+ 		<h4 id="mainContent">夏威夷披薩</h4>
+ 	</div>
+ */
+
+ /*
+ [  {"牛排":["牛小排","菲力牛排","肋眼牛排"]}, 
+    {"披薩":["夏威夷披薩","海鮮披薩","龍蝦披薩"]},
+    {"義大利麵":["奶油蛤蠣義大利麵","青醬海鮮義大利麵","好吃的義大利麵"]},
+    {"燉飯":["OO燉飯","XX燉飯","VV燉飯"]}
+   ]
+ */
+function showMains(mains) {
+	 var div = document.getElementById("mainArea");
+	 
+	 for (var i = 0; i < mains.length; i++) {
+		 var title = document.createElement("h2");
+		 title.setAttribute("id", "mainTitle");
+		 
+		 $(div).append(title)
+	 	   .append('<hr>');
+		 for (key in mains[i]) {
+			 var titleText = document.createTextNode(key);
+			 console.log(key);
+			 $(title).append(titleText);
+			 
+			 var content = document.createElement("h4");
+			 content.setAttribute("id", "mainContent");
+			 var contents = mains[i][key];
+			 for (var j = 0; j < contents.length; j++) {
+				 console.log(contents[j]);
+				 var contextText = document.createTextNode(contents[j]);
+				 console.log(contextText);
+				 $(content).append(contextText)
+				  		   .append('<br>');
+				 $(div).append(content);
+			 }
+		 }
+		 $(div).append('<br>');
+	 }
+}
+ 
+</script>
+</head>
+<body>
 	<div id="mainArea">
 	</div>
+</body>
 <!-- END Write-->
 </div>
 <div id="footer">

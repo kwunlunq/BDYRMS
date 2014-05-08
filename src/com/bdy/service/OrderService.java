@@ -9,6 +9,7 @@ import javax.json.JsonArrayBuilder;
 
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
@@ -118,6 +119,7 @@ public class OrderService {
 		return setdetailDao.fkCount(setId, fkId);
 	}
 	
+//	public JsonArray get
 	public JsonArray getMainsJSON() {
 //		foodkindDao.getMainFoodkinds();
 		
@@ -127,21 +129,21 @@ public class OrderService {
  		 *  {"披薩":["夏威夷披薩", "海鮮披薩", "xx披薩"]}
  		 *  ]
 		 */
-		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
-		for (BdyFoodkind fk : foodkindDao.getMainFoodkinds()) {
-			System.out.println(fk.getName());
+		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
+		for (BdyMainkind mk : mainkindDao.getAllMainkind()) {
+			System.out.println(mk.getName());
 			System.out.println("---------------");
-			int fkId = fk.getFkId();
+			int mkId = mk.getMkId();
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
-			for (BdyFood food : foodDao.getFoodsByFkId(fkId)) {
+			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
 				System.out.println(food.getName());
 				foodBuilder.add(food.getName());
 			}
 			System.out.println("\n\n");
-			fkBuilder.add(Json.createObjectBuilder()
-					 		  .add(fk.getName(), foodBuilder));
+			mkBuilder.add(Json.createObjectBuilder()
+					 		  .add(mk.getName(), foodBuilder));
 		}
-		return fkBuilder.build();
+		return mkBuilder.build();
 	}
 	
 }

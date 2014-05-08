@@ -6,7 +6,7 @@
 <input class="MenuBtn2" type="button" value="訂位"><br>
 <input class="MenuBtn2" type="button" value="劃位"><br>
 <input class="MenuBtn2" type="button" value="結帳"><br>
-<input class="MenuBtn2" type="button" value="點餐" onclick="goURL('<c:url value="/order/ordermainnewstyle.jsp" />')"><br>
+<input class="MenuBtn2" type="button" value="點餐" onclick="goURL('<c:url value="/order/ordermain.jsp" />')"><br>
 <input class="MenuBtn"  type="button" value="餐桌擺設" onclick="goURL('<c:url value="/table/tableset.jsp" />')"><br>
 <input class="MenuBtn2" type="BUTTON" value="出餐" onclick="goURL('<c:url value="/kitchen/kitchenView.action"/>')"><BR>
 <input class="MenuBtn2" type="BUTTON" value="報表" onclick="goURL('<c:url value="/report/reportMenu.jsp" />')"><BR>

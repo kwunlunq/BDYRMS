@@ -1,6 +1,6 @@
 
 $(function() {
-	 getSetdetail();
+	getMains();
 	//  css掛載
 // 	$('#btnArea>:button').mouseover(function() {
 // 					$(this).css("background", "#44C3B6");})
@@ -12,13 +12,7 @@ $(function() {
 	$.ajaxSetup({ cache: false });
 });
 
-var contextPath = "${pageContext.request.contextPath}";
-
-/*
- * 當"點套餐"按鈕按下時, 利用$.getJSON呼叫/order/getSetDetailServlet
- * 將回傳結果(result)傳給showSetBtnWithDetail()
- */
-function getSetdetail() {
+function getMains() {
 	var url = contextPath+"/order/GetMainServlet";
 	$.getJSON(url, function(result) {
 		$('.page1').hide();
@@ -55,109 +49,150 @@ function getSetdetail() {
  */
  
 
- function orderClick() {
-// 		alert("123");
-// 		alert($(this)[0].childNodes[0].nodeValue);
-	if ($(this)[0].childNodes[0].nodeValue)
-		var value = $(this)[0].childNodes[0].nodeValue;
-		if (value == "點餐")
-			$(this)[0].childNodes[0].nodeValue = 1;
-		else
-			$(this)[0].childNodes[0].nodeValue ++;
-// 		alert("3");
-		
-		
-	}
+// function orderClick2() {
+//	if ($(this)[0].childNodes[0].nodeValue)
+//		var value = $(this)[0].childNodes[0].nodeValue;
+//		if (value == "點餐")
+//			$(this)[0].childNodes[0].nodeValue = 1;
+//		else
+//			$(this)[0].childNodes[0].nodeValue ++;
+//	}
  
- function orderClick2() {
-// 		alert($(this)[0].childNodes[0].nodeValue);
-// 		alert($(this)[0].innerHTML);
-// 		alert($(this)[0].nodeName);
-// 		alert($(this)[0].parentNode.nodeName);
-// 		alert($(this)[0].parentNode.firstChild.nodeName);
-// 		var parent = $(this)[0].parentNode;
-// 		$(parent).$('#count');
-// 		alert($(parent+" #count"));
-
-// 		for (var i = 0; i <= 3; i++) {
-// 			alert(i + "  " + $(this)[0].parentNode.childNodes[i].nodeName);
-// 		}
-		
-// 		alert($(this)[0].parentNode.nodeName);  //li
-		//alert($(this)[0].parentNode.getElementById("count").nodeName);
+ function orderClick() {
 		var id = $(this).attr("id").substring(5);
-		//$(id).text = count++;
 		var count = $('#count' + id).text();
-		var num = parseInt(count)+1;
-// 		alert(count);
-		$('#count' + id).text(num);
+		var numatr = parseInt($(this).attr("num"));
+		var num = parseInt(count)+numatr;
 		
-// 		alert($(this));
-//		alert($(this).parentNode.getElementById("count").nodevalue);
-// 		alert($(this)[0].parantNode[0][0].childNodes[1].nodeValue);
-	}
+		if (num >= 0) {
+			$('#count' + id).text(num);
+		}
+}
+ 
+function comfirmClick() {
+	var value = $(this)[0].childNodes[0].nodeValue;
+//	console.log(value);
+
+	value = $(this).nodeName;
+//	console.log(value);
+	
+	value = $(this)[0].nodeName;
+	console.log(value);  //ul
+	
+	value = $(this)[0].childNodes[0].nodeName;
+	console.log(value);  //li
+
+	value = $(this).parent();
+//	console.log(value);
+//	console.log(value.nodeName);
+
+	value = $(this).val();
+	console.log(value);  //
+	value = $(this).html();  
+	console.log(value); //<li><a href="#" class="myButton"
+						// id="btnconfirm">確認</a></li>
+	console.log("length : ");
+	console.log($(this).parent().children("li").length);
+
+	value = $(this).text(); // 確認
+	console.log(value);
+
+	console.log($(this).parent().is("li").length);
+	console.log($(this).parent().length);
+	console.log("ul's num : "			+$(this).parent().children("ul")		   .length);
+	console.log("ul's li's num : "+$(this).parent().children("ul").children("li").length);
+	console.log("ul's li's span's num : "+$(this).parent().children("ul").children("li").children("span").length);
+	console.log("li's num : "			+$(this).parent().children("li").length);
+
+	console.log("ul's id=mainContent's num :" +$(this).parent().children("ul").children("#mainContent").length);
+//	console.log("ul's id=mainContent's num (2):" +$(this).parent().childrens("#mainContent").length);
+	console.log("ul's id=mainContent's num (3):" +$(this).parent().find("#mainContent").length);
+	var mainContents = $(this).parent().children("ul").children("#mainContent");
+	console.log("loop : ");
+	var count = [];
+	var orderListJson = [];
+	var c = 0;
+	$(mainContents).children("span").each(function(index) {
+		console.log(index +":"+$(this).text());
+		count[c] = $(this).text();
+		c++;
+		var texts = $(this).parent().filter(function() {
+			return this.nodeType === 3;
+		});
+//		console.log('123');
+		$(texts).each(function(index2) {
+			console.log($(this).text());
+		});
+//		console.log($(this).parent())
+	});
+	console.log("loop children :");
+	var c1 = 0;
+	var oljCount = 0;
+	$(mainContents).contents().
+    filter(function() {
+        return this.nodeType === 3;
+      }).each(function(index) {
+		console.log(index +":"+$(this).text());
+		if(count[c1]>0){
+			orderListJson[oljCount] = {'name': $(this).text(),'count': count[c1]};
+			oljCount++;
+		}
+		c1++;
+	});
+	console.log("loop children and span");
+	console.log(orderListJson);
+	
+//	$(mainContents).contents().each(function(index) {
+//			console.log(index + ":"+ $(this).filter(function() {
+//				return this.nodeType === 3;
+//			}));
+//			console.log(index +":"+$(this).text());
+//	});
+	
+//	console.log($(this).parent().html());
+}
  
 	 
 function showMains(mains) {
-	 var div = document.getElementById("mainArea");
+	var div = document.getElementById("mainArea");
 
-	 var btnConfirm = $('<ul><li><a href="#" class="myButton" id="btnconfirm">確認</a></li></ul>');
-	 $(div).append(btnConfirm);
-// 	 	   .append('<br>');
+	var btnConfirm = $('<ul><li><a href="#" class="myButton" id="btnconfirm">確認</a></li></ul>');
+	btnConfirm.click(comfirmClick);
+	$(div).append(btnConfirm);
 	 
-		var c = 0;
-	 for (var i = 0; i < mains.length; i++) {
-		 var outerUl = document.createElement('ul');
-		 var title = document.createElement("li");
+	var c = 0;
+	for (var i = 0; i < mains.length; i++) {
+		var outerUl = document.createElement('ul');
+		var title = document.createElement("li");
 		 
 		 
 		 title.setAttribute("id", "mainTitle");
 		 $(outerUl).append(title);
 		 $(div).append(outerUl);
-// 	 	   .append('<hr>');
 		 for (key in mains[i]) {
 			 var titleText = document.createTextNode(key);
-			 console.log(key);
 			 $(title).append(titleText);
 			 var innerUl = document.createElement("ul");
 			 var contents = mains[i][key];
 			 for (var j = 0; j < contents.length; j++) {
 			 	var content = document.createElement("li");
 			 	content.setAttribute("id", "mainContent");
-				 console.log(contents[j]);
 				 var contextText = document.createTextNode(contents[j]);
-				 console.log(contextText);
 				 $(content).append(contextText);
-				 var addbutton = $('<a id="order'+c+'" class="myButton">＋</a>');
-				 var subbutton = $('<a id="order'+c+'" class="myButton">－</a>');
-				 var count = $('<span id="count'+c+'">0</span>');				 
-// 				 var count = $('<span class="myButton" id="count">0</span>');
-				 //$(count).click(orderClick);
-				 $(addbutton).click(orderClick2);
-				 $(subbutton).click(orderClick2);
-// 				 $(button).click(orderClick);
-// 				 $('body').on("click","#order", orderClick);
-// 				 button.addEventListener("click",orderClick);
-// 				 $("#element1").bind("click", doSomething2, false);
-// 				 var button = document.createElement("a");
-// 				 button.setAttribute("class", "myButton");
-// 				 button.setAttribute("value", "點餐");
 				 
-// 				 var contextText2 = document.createTextNode("123");
-// 				 $(button).append(contextText2);
-				$(content).append(addbutton);
-				$(content).append(count);
-// 				textarea
-// 				 $(content).append(button);
+				 var addbutton = $('<a id="order'+c+'" num="1" class="myButton">＋</a>');
+				 var subbutton = $('<a id="order'+c+'" num="-1" class="myButton">－</a>');
+				 var count = $('<span id="count'+c+'">0</span>');				 
+				 $(addbutton).click(orderClick);
+				 $(subbutton).click(orderClick);
+				 $(content).append(addbutton);
+				 $(content).append(count);
 				 $(content).append(subbutton);
 				 
-// 				 <a href="#" class="myButton">點餐</a>
 				 $(outerUl).append(content);
-// 				 $(outerUl).append(innerUl);
 				 c++;
 			 }
 		 }
-// 		 $(div).append('<br>');
 	 }
 }
  

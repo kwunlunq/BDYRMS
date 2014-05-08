@@ -130,6 +130,15 @@ public class BdyFoodDao {
 					   .add(Restrictions.eq("fk.fkId", fkId))
 					   .list();
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<BdyFood> getFoodsByMkId(int mkId) {
+		Session session = sf.openSession();
+		Criteria criteria = session.createCriteria(BdyFood.class);
+		return criteria.createAlias("bdyMainkind", "mk")
+					   .add(Restrictions.eq("mk.mkId", mkId))
+					   .list();
+	}
 	
 	// ================================
 }
