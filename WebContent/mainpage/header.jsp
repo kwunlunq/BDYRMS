@@ -27,5 +27,5 @@
 </div>
 <div id="topEMPinfo">
 <p><span class="topItem">員工編號:</span><span class="topValue">BDY9527</span></p>
-<p><span class="topItem">員工名字:</span><span class="topValue">懶洋洋</span></p>
+<p><span class="topItem">員工名字:</span><span class="topValue">${empData.name}</span></p>
 </div>
