@@ -17,6 +17,7 @@ import com.bdy.model.dao.BdyEmpDao;
 import com.bdy.model.dao.BdyFloorDao;
 import com.bdy.model.dao.BdyFoodDao;
 import com.bdy.model.dao.BdyFoodkindDao;
+import com.bdy.model.dao.BdyMainkindDao;
 import com.bdy.model.dao.BdyMakeareaDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
@@ -40,6 +41,13 @@ public class KitchenService {
 	BdySetDao setDao;
 	BdySetdetailDao setdetailDao;
 	BdyTableDao tableDao;
+	BdyMainkindDao mainkindDao;
+	public BdyMainkindDao getMainkindDao() {
+		return mainkindDao;
+	}
+	public void setMainkindDao(BdyMainkindDao mainkindDao) {
+		this.mainkindDao = mainkindDao;
+	}
 	public void setBillDao(BdyBillDao billDao) {
 		this.billDao = billDao;
 	}

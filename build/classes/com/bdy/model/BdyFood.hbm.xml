@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2014/5/8 ?U?? 04:44:58 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.bdy.model.BdyFood" table="BDY_FOOD" catalog="BDY">
+    <class name="com.bdy.model.BdyFood" table="BDY_FOOD">
         <id name="fdId" type="int">
             <column name="FD_ID" />
             <generator class="native" />

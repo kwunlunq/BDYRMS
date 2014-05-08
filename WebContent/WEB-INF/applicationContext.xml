@@ -63,7 +63,7 @@
 	<bean id="table" name="table" class="com.bdy.model.BdyTable" />
 	<bean id="bill" name="bill" class="com.bdy.model.BdyBill" />
 	<bean id="floor" name="floor" class="com.bdy.model.BdyFloor" />
-	<bean id="mainkind" name="floor" class="com.bdy.model.BdyMainkind" />
+	<bean id="mainkind" name="mainkind" class="com.bdy.model.BdyMainkind" />
 
 	<bean id="BdyTableDao" class="com.bdy.model.dao.BdyTableDao">
 		<property name="sessionFactory">
