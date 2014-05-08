@@ -28,7 +28,7 @@ import com.bdy.model.dao.BdyTableDao;
 import com.bdy.service.KitchenService;
 
 @WebServlet("/tableset")
-public class tableSet extends HttpServlet {
+public class TableSetServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
