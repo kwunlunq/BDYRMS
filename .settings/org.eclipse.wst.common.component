@@ -2,7 +2,7 @@
     <wb-module deploy-name="BDYRMS">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="BDY_SSHR_v4.2_combine1"/>
         <property name="java-output-path" value="/BDYRMS/build/classes"/>
+        <property name="context-root" value="BDYRMS"/>
     </wb-module>
 </project-modules>

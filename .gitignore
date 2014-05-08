@@ -1,7 +1,3 @@
 *.class
 .jsdtscope
-.settings/.jsdtscope
-.jsdtscope
-build/classes/com/bdy/controller/tableSet.class
-build/classes/com/bdy/controller/tableSet$1.class
-.settings/.jsdtscope
+
