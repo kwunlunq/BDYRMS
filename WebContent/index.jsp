@@ -6,6 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>BDY Login</title>
+<script type="text/javascript">
+var contextPath='<%=request.getContextPath()%>';
+</script>
+<script src="<c:url value="/js/jquery.js"/>"></script>
+<script src="<c:url value="/js/jquery-ui.js"/>"></script>
+<script src="<c:url value="/js/main.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 </head>
 <body style="background-color: #D1E9E9">
 <div style="width: 500px; height: 300px; position:absolute;left:50%;top:40%;margin-left:-250px;margin-top:-150px;">
@@ -19,7 +27,7 @@
 密碼:<input type="password" name="userPW" value="${param.userPW }">
 
 
-<input style="width:100px;" type="submit" name="btnLogin" value="登入">
+<input class="MainBtnColor" style="width:100px;" type="submit" name="btnLogin" value="登入">
 <td><span style="color: red">${errors.userID}</span></td>
 <td ><span style="color: red">${errors.userPW}</span></td>
 

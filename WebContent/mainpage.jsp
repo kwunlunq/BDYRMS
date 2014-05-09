@@ -58,24 +58,51 @@ var contextPath='<%=request.getContextPath()%>';
 	呼叫員工資料  empData
 	
 	<div style="color:blue;font-size:1.2em;">
-	<pre>
-	MainPage樣版更新小撇步~~
+<pre style="border:1px solid blue;width:90%;">
+@ MainPage樣版更新小撇步~~
 	
-	Step 1. 打開自己的JSP檔 把article中自己的內容保留 其他都刪除~
-			ex:mainpage的話 只剩下面兩行
-				1.Hello $ {empData.name} &ltbr&gt
-		 		2.呼叫員工資料  empData
+Step 1. 打開自己的JSP檔 把&ltdiv id="article"&gt中自己的內容保留 其他都刪除~
+		ex:mainpage的話 只剩下面兩行
+			1.Hello $ {empData.name} &ltbr&gt
+		 	2.呼叫員工資料  empData
 		 		
-	Step 2. 打開Mainpage 從第一行 反白選取 到  &ltdiv id="writeCodeInThisDiv"&gt 這行
-			然後貼到 你自己的JSP檔的內容的上方
+Step 2. 打開Mainpage 從第一行 反白選取 到  &ltdiv id="writeCodeInThisDiv"&gt 這行
+		然後貼到 你自己的JSP檔的內容的上方
 			
-	Step 3. 重複上述動作 但這次是 從&lt/div&gt&lt!-- 	id="writeCodeInThisDiv" --&gt
-			這行複製到檔案最後 然後貼到你自己的JSP檔的內容的下方
+Step 3. 重複上述動作 但這次是 從&lt/div&gt&lt!-- 	id="writeCodeInThisDiv" --&gt
+		這行複製到檔案最後 然後貼到你自己的JSP檔的內容的下方
 	
-	Step 4. 接下來檢查自己的 Script 及 CSS 是否有缺少 ~加上連結 存檔 收工!
+Step 4. 接下來檢查自己的 Script 及 CSS 是否有缺少  若有請加上連結
 	
-	</pre>
-	</div>
+Finish. 存檔 收工!
+</pre>
+	
+<pre style="border:1px solid blue;width:90%;">
+@ Jquery UI Demo [<a href="<c:url value="/jqueryUIDemo/index.html"/>">Link</a>]
+有需要使用到Jquery UI 的套件可以點Link前往後 按右鍵檢視原始碼 可以參考寫法及CSS樣式的使用方式
+以上JS及CSS相關檔案已經匯入 直接寫程式碼即可使用.....
+</pre>
+
+<pre style="border:1px solid blue;width:90%;">
+@ Button 有固定樣式 長相請往左邊看~~~
+有需要使用這個樣式 請加上 class="MainBtnColor"
+--注意 此樣式只有顏色 若要固定大小及字體大小 請另外寫
+
+方法一 (直接寫style) ex: 
+&ltinput type="button" class="MainBtnColor" style="width:100px;"&gt
+
+方法二 (多寫一個Class) ex:
+&ltstyle&gt
+.btnsize{
+	width:100px;
+}
+&lt/style&gt
+
+&ltinput type="button" class="MainBtnColor btnsize"&gt
+
+</pre>
+
+</div>
 	
 	
 	</div><!-- 	id="writeCodeInThisDiv" -->
