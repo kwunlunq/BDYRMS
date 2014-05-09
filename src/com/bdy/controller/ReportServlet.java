@@ -82,7 +82,7 @@ public class ReportServlet extends HttpServlet {
 						response);
 				return;
 			} else {
-				request.setAttribute("select", beans);
+				request.setAttribute("bills", beans);
 				request.getRequestDispatcher("/report/showsingleday.jsp").forward(request,
 						response);
 			}

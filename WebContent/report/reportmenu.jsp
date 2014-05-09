@@ -34,7 +34,7 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-
+<script src="<c:url value="/js/report.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
