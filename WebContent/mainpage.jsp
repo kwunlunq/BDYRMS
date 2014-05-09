@@ -46,13 +46,41 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
 </div>
+<div id="mainContent">
 <div id="aside">
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
-
 <div id="article">
-Hello ${empData.name}<br>
-呼叫員工資料  empData
+
+	<div id="writeCodeInThisDiv">
+	
+	Hello ${empData.name} <br>
+	呼叫員工資料  empData
+	
+	<div style="color:blue;font-size:1.2em;">
+	<pre>
+	MainPage樣版更新小撇步~~
+	
+	Step 1. 打開自己的JSP檔 把article中自己的內容保留 其他都刪除~
+			ex:mainpage的話 只剩下面兩行
+				1.Hello $ {empData.name} &ltbr&gt
+		 		2.呼叫員工資料  empData
+		 		
+	Step 2. 打開Mainpage 從第一行 反白選取 到  &ltdiv id="writeCodeInThisDiv"&gt 這行
+			然後貼到 你自己的JSP檔的內容的上方
+			
+	Step 3. 重複上述動作 但這次是 從&lt/div&gt&lt!-- 	id="writeCodeInThisDiv" --&gt
+			這行複製到檔案最後 然後貼到你自己的JSP檔的內容的下方
+	
+	Step 4. 接下來檢查自己的 Script 及 CSS 是否有缺少 ~加上連結 存檔 收工!
+	
+	</pre>
+	</div>
+	
+	
+	</div><!-- 	id="writeCodeInThisDiv" -->
+
+</div>
 </div>
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />

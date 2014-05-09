@@ -14,8 +14,8 @@
 <div class="topLabel">
 <p><span class="topItem">可用活動1:</span><span class="topValue">滿千送百</span></p>
 <p><span class="topItem">可用活動2:</span><span class="topValue">四人同行一人免費</span></p>
-<p><span class="topItem">可用活動3:</span><span class="topValue">字數測試，這裡最多可以印出十七個字</span></p>
-<p><span class="topItem">可用活動4:</span><span class="topValue">無</span></p>
+<p><span class="topItem">可用活動3:</span><span class="topValue">無,不要太多字</span></p>
+<p><span class="topItem">可用活動4:</span><span class="topValue">超過就隱藏~</span></p>
 <p><span class="topItem">可用活動5:</span><span class="topValue">無</span></p>
 </div>
 <div class="topLabel">
@@ -24,8 +24,4 @@
 <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p>
 <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p>
 <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p>
-</div>
-<div id="topEMPinfo">
-<p><span class="topItem">員工編號:</span><span class="topValue">BDY9527</span></p>
-<p><span class="topItem">員工名字:</span><span class="topValue">${empData.name}</span></p>
 </div>
