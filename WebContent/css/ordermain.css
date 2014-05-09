@@ -2,10 +2,7 @@
 	overflow: scroll;
 }
 
-	body, html{
-		width: 100%;
-		height: 100%;
-	}
+
 	#orderContainer {
 		width: 100%;
 		height: 100%;
@@ -64,7 +61,7 @@ li {
 /* 	padding: 100px; */
 /* 	padding-top:100px; */
 }
-#mainContent {
+#mainContent, .listItem {
 	padding: 20px;
 	background: #e8edff; 
 	border-bottom: 1px solid #fff;
@@ -72,7 +69,7 @@ li {
 	border-top: 1px solid transparent;
 }
 
-#mainContent:hover {
+#mainContent:hover , .listItem:hover{
 	background: #d0dafd;
 	color: #339;
 }
