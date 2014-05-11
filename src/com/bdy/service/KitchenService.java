@@ -202,7 +202,7 @@ public class KitchenService {
 			viewItem.setTableID(temp.getBdyOrder().getBdyTable().getTbId());//桌號
 			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
 			viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
-			viewItem.setOutMealTime(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000);//實際出餐時間
+			viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000));//實際出餐時間
 			sortOutlist.add(viewItem);
 			System.out.println("食物名稱"+viewItem.getOrderlistname());
 			System.out.println("食物出餐時間" + viewItem.getOrderDate());
@@ -236,7 +236,7 @@ public class KitchenService {
 			viewItem.setTableID(temp.getBdyOrder().getBdyTable().getTbId());//桌號
 			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
 			viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
-			viewItem.setOutMealTime(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue());//實際出餐時間
+			viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()));//實際出餐時間
 			sortOutlist.add(viewItem);
 		}
 		Collections.sort(sortOutlist,new Comparator<KitchenView>() {//--------------依造出餐時間點排序
@@ -246,8 +246,7 @@ public class KitchenService {
 				
 				return o1.getOutMealTime().compareTo(o2.getOutMealTime());
 			}
-		});
-		
+		});		
 		//--------------------------JSON
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
 		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
@@ -257,7 +256,7 @@ public class KitchenService {
                     .add("桌號",notOutMealitem.getTableID())
                     .add("點單時間", notOutMealitem.getOrderDate().toString())
                     .add("食物名稱", notOutMealitem.getOrderlistname())
-                    .add("出餐時間",notOutMealitem.getOutMealTime())
+                    .add("出餐時間",notOutMealitem.toString())
                     );
 		}
 		JsonArray jsonArray = jsonArrayBuilder.build();

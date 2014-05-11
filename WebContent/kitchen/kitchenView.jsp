@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!-- 說明 : 此 mainpage.jsp 即是一個樣版 整份複製後 修改檔案名稱
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
@@ -40,36 +40,40 @@ var contextPath='<%=request.getContextPath()%>';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RSM - KitchenView</title>
+<title>BDY RSM - Welcome</title>
 </head>
-<body onLoad="startTimer()">
+<body>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
 </div>
+<div id="mainContent">
 <div id="aside">
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
-
 <div id="article">
+
+	<div id="writeCodeInThisDiv">
 	<div id="accordion" style="width:70%">
 	  <h3>出餐總覽</h3>
 	  <div>
-	  <table>
+	  <table border="1">
 	  	<tr>
 			<th>桌號</th>
-			<th>點單編號</th>
 			<th>餐點名稱</th>
 			<th>點餐時間</th>
-			<th>出餐時間</th>	
+			<th>出餐時間</th>
+			<th>製作時間</th>
+			<th>距離時間</th>	
 	  	</tr>
 	  		<s:iterator var="item" value="viewlist">
 				<tr>
 					<td><s:property value="#item.tableID"/></td>
-					<td><s:property value="#item.orderID"/></td>
 					<td><s:property value="#item.orderlistname"/></td>
 					<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
-					<td><s:property value="#item.outMealTime"/></td>
+					<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
+					<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td>
+					<td name="result"></td>
 				</tr>
 			</s:iterator>
 		</table>		
@@ -98,10 +102,16 @@ var contextPath='<%=request.getContextPath()%>';
 	</div> 
 	<button id="toggle">Toggle icons</button>
 	<FORM NAME="clock"><INPUT TYPE="text" NAME="face" SIZE=10></FORM>
+	
+	
+	</div><!-- 	id="writeCodeInThisDiv" -->
+
+</div>
 </div>
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />
 </div>
 </div>
+
 </body>
 </html>
