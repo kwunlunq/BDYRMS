@@ -13,8 +13,7 @@
 	   如果有掛載JS檔案 且 利用JavaScript產生有包含路徑讀取專案內其他文件或檔案的時候
 	   請在路徑前面 加上 第28行程式碼所產生的變數 "contextPath" 
 	   以確保能夠與 ＜c:url＞ 有相同的功能 正確的讀取專案內的文件或檔案
-	 for example: (掛載的JS檔案中必須要 動態加入images資料夾下的一張圖片 圖片名稱為 01.jpg )
-	 
+	 for example: (掛載的JS檔案中必須要 動態加入images資料夾下的一張圖片 圖片名稱為 01.jpg )	 
 	 function showIMG(){
 	 	var createIMG = document.createElement("img");
 	 	var url_IMG = contextPath + "/images/01.jpg";
@@ -84,7 +83,7 @@ var contextPath='<%=request.getContextPath()%>';
 	  </div>
 	  <h3>湯區</h3>
 	  <div>
-	    <p>123 </p>
+	    <p>123</p>
 	    <ul>
 	      <li>List item one</li>
 	      <li>List item two</li>

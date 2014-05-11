@@ -41,16 +41,16 @@ $(function() {
     	var judge = nowMill-objects[i].value;
     	if(judge<0){
     		var tempD = Math.floor(Math.abs(judge/(1000*60*60*24)))+"天";//---------------天
-    		var tempH = Math.floor(Math.abs(judge/(1000*60*60)))+"小時";//------------------小時
-    		var tempM = Math.ceil(Math.abs(judge/(1000*60)))+"分鐘";//-------------------分鐘
-    		//var tempS = Math.ceil(Math.abs(judge/1000))+"秒";//-----------------------秒
-    		results[i].innerHTML="距離"+tempD+tempH+tempM;   		
+    		var tempH = Math.floor(Math.abs(judge/(1000*60*60)))%24+"小時";//------------------小時
+    		var tempM = Math.floor(Math.abs(judge/(1000*60)))%60+"分鐘";//-------------------分鐘
+    		var tempS = Math.floor(Math.abs(judge/1000))%60+"秒";//-----------------------秒
+    		results[i].innerHTML="距離"+ tempD+ 	tempH+ tempM+tempS;
     	}else{
     		var tempD = Math.floor(Math.abs(judge/(1000*60*60*24)))+"天";//---------------天
-    		var tempH = Math.floor(Math.abs(judge/(1000*60*60)))+"小時";//------------------小時
-    		var tempM = Math.ceil(Math.abs(judge/(1000*60)))+"分鐘";//-------------------分鐘
-    		//var tempS = Math.ceil(Math.abs(judge/1000))+"秒";//-----------------------秒
-    		results[i].innerHTML="Delay" +tempD+tempH+tempM;
+    		var tempH = Math.floor(Math.abs(judge/(1000*60*60)))%24+"小時";//------------------小時
+    		var tempM = Math.floor(Math.abs(judge/(1000*60)))%60+"分鐘";//-------------------分鐘
+    		var tempS = Math.floor(Math.abs(judge/1000))%60+"秒";//-----------------------秒
+    		results[i].innerHTML="Delay" +tempD+ tempH+ tempM+tempS;
     	}
     }
     }
