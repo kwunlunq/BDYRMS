@@ -5,6 +5,11 @@ body,html {
 	background-color:gray;
 }
 
+#mainPageAcdion{
+	margin:0 auto;
+	width:80%;
+}
+
 #mainBox {
 	width:95%;
 	height:100%;

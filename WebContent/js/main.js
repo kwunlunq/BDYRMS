@@ -1,7 +1,20 @@
-console.log(contextPath+"/index.jsp");
+$(function(){
+	var icons = {
+		      header: "ui-icon-plusthick",
+		      activeHeader: "ui-icon-minusthick"
+		    };
+	console.log(contextPath+"/index.jsp");
+	$( "#mainPageAcdion" ).accordion({
+		collapsible: true,
+		heightStyle: "content",
+		icons : icons
+	});
+	window.onresize = resizeWindow;
+	window.onload = resizeWindow;
+});
 
-window.onresize = resizeWindow;
-window.onload = resizeWindow;
+
+
 function resizeWindow(){
 	var mainContentWidth = $('#mainPageContent').width();
 	$('#article').css("width",mainContentWidth - 166.5);
@@ -27,7 +40,3 @@ function hideState(){
 		$(this).remove();
 	});
 }
-
-$(function(){
-
-});
