@@ -15,6 +15,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
@@ -204,6 +205,7 @@ public class KitchenService {
 				viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
 				viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
 				viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000));//實際出餐時間
+				viewItem.setFoodkindID(temp.getBdyFood().getBdyFoodkind().getFkId());
 				viewItem.setOrderlistID(temp.getOdlistId());
 				sortOutlist.add(viewItem);
 			}else{//---------------------套餐的處理(有套餐ID)
@@ -214,6 +216,7 @@ public class KitchenService {
 			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
 			viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
 			viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000));//實際出餐時間
+			viewItem.setFoodkindID(temp.getBdyFood().getBdyFoodkind().getFkId());
 			viewItem.setOrderlistID(temp.getOdlistId());
 			sortOutlist.add(viewItem);
 			System.out.println("食物名稱"+viewItem.getOrderlistname());
@@ -276,10 +279,12 @@ public class KitchenService {
 		JsonArray jsonArray = jsonArrayBuilder.build();
 		return jsonArray;
 	}
-	public void outMealchange(int orderListID){
+	public void outMealchange(int orderListID){//-------------------------出餐
 	BdyOrderlist orderlist=orderlistDao.getorderlist(orderListID);
 	orderlist.setOlState(1);
 	orderlistDao.update(orderlist);
 	}
-	
+	public List<BdyFoodkind> getFoodKinds(){
+		return foodkindDao.getAllFoodkind();
+	}
 }

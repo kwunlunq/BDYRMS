@@ -61,7 +61,7 @@ var contextPath='<%=request.getContextPath()%>';
 </script>
 	<div id="writeCodeInThisDiv">
 	<div id="accordion" style="width:98%">
-	  <h3>出餐總覽</h3>
+	  <h3>出餐總覽(<s:property value="viewlist.size" />)品項</h3>
 	  <div id="myDiv1" style="heigh:98%">
 	  <table border="1">
 	  	<tr>
@@ -86,27 +86,35 @@ var contextPath='<%=request.getContextPath()%>';
 			</s:iterator>
 		</table>		
 	  </div>
-	  <h3>沙拉區</h3>
-	  <div>
-	    <p>123</p>
-	  </div>
-	  <h3>湯區</h3>
-	  <div>
-	    <p>123</p>
-	    <ul>
-	      <li>List item one</li>
-	      <li>List item two</li>
-	      <li>List item three</li>
-	    </ul>
-	  </div>
-	  <h3>主餐區</h3>
-	  <div>
-	    <p>123</p>
-	  </div>
-	  <h3>甜點區</h3>
-	  <div>
-	    <p>321 </p>
-	  </div>
+	  <s:iterator var="foodkind" value="foodKinds">
+	  	<h3><s:property value="#foodkind.name" />區</h3>
+	  	<div>
+	  	<table border="1">
+	  			<tr>
+					<th>桌號</th>
+					<th>餐點名稱</th>
+					<th>點餐時間</th>
+					<th>出餐時間</th>
+	<!-- 			<th>製作時間</th> -->
+					<th>距離時間</th>
+					<th>確定出餐</th>	
+	  			</tr>
+	  		<s:iterator var="item" value="viewlist">
+	  			<s:if test="%{#item.foodkindID==#foodkind.fkId}">
+	  				<tr>
+					<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
+					<td><s:property value="#item.orderlistname"/></td>
+					<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
+					<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
+<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
+					<td name="result"></td>
+					<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>)">出餐</a></td>
+				</tr>
+	  			</s:if>
+	  		</s:iterator>
+	  		</table>
+	  	</div>
+	  </s:iterator>
 	</div>
 	<button id="toggle">Toggle icons</button>
 	<FORM NAME="clock"><INPUT TYPE="text" NAME="face" SIZE=10></FORM>

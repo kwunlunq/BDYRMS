@@ -77,7 +77,7 @@ $(function() {
     		}
     		var tempS = Math.floor(Math.abs(judge/1000))%60+"秒";//-----------------------秒
     		results[i].innerHTML="<span style='color:red'>Delay<span>" +tempD+ tempH+ tempM+tempS;
-    	}//<span style='color:red'>Delay<span>
+    	}
     }
     }
   });

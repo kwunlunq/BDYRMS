@@ -1,15 +1,21 @@
 package com.bdy.model;
 
 public class KitchenView  {
-	private String  orderlistname;
-	private int orderlistID;
-	private int orderID;
-	private int tableID;
-	private java.util.Date orderDate;
-	private int orderStatus;
-	private java.util.Date outMealTime;
+	private String  orderlistname;//-食物名稱:凱薩沙拉
+	private int orderlistID;////明細ID
+	private int orderID;//訂單ID
+	private int tableID;//桌號
+	private java.util.Date orderDate;//點單時間
+	private int orderStatus;//出餐狀態
+	private java.util.Date outMealTime;//出餐時間點
+	private int foodkindID;
 	
-	
+	public int getFoodkindID() {
+		return foodkindID;
+	}
+	public void setFoodkindID(int foodkindID) {
+		this.foodkindID = foodkindID;
+	}
 	public java.util.Date getOutMealTime() {
 		return outMealTime;
 	}
