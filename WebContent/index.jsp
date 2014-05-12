@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>BDY Login</title>
+<title>BDY RMS - Login</title>
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 </script>
@@ -19,7 +19,7 @@ function doLogin(){
 	$('#titleMainBox').animate({width:"0px"},800,function(){
 		$('#titleMainBox').css({display:'none'});
 		$('#loginMainBox').css({display:'block'});
-		$('#loginMainBox').animate({width:"300px"},800,function(){
+		$('#loginMainBox').animate({width:"300px"},1000,function(){
 			$('form').submit();
 		});
 	});
@@ -27,23 +27,29 @@ function doLogin(){
 $(function(){
 	$('#titleMainBox').css({display:'block'});
 	$('#titleMainBox').animate({left:"72%"},800);
+	$(function() {
+	    $("body").keypress(function(event){       
+	        if (event.keyCode == 13) doLogin();
+	    });
+	});
 });
 </script>
 <style>
-body,html{
-	overflow:hidden;
-	width:100%;
-	heght:100%;
-	margin:0 auto;
-	background-image: url("/BDYRMS/images/loginBg.jpg");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	background-position: center;
+	body,html{
+		overflow:hidden;
+		width:100%;
+		heght:100%;
+		margin:0 auto;
+		background-image: url("/BDYRMS/images/loginBg.jpg");
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
-	#inputBox{
-		margin-top:10px;
+	h1{
+		height:30px;
 	}
-	input[type='text'],input[type='password']{
+	input{
+		border-radius:10px;
 		width:80%;
 		height:30px;
 		font-size:1.2em;
@@ -51,11 +57,13 @@ body,html{
 		margin-top:3px;
 		margin-bottom:3px;
 	}
+	input[type='text']{
+		text-transform:uppercase;
+	}
 	.errorBox{
 		color:red;
 	}
 	#titleMainBox{
-		float:left;
 		position:absolute;
 		height:430px;
 		width:300px;
@@ -63,22 +71,20 @@ body,html{
 		margin-top:-200px;
 		left:110%;
 	}
-	#titleTextBox{
+	#titleTextBox,#loginMessage{
 		position:absolute;
 		height:430px;
 		width:300px;
 		text-align:center;
 	}
-	#titleBGBox{
+	#titleBGBox,#loginBGBox{
 		position:absolute;
 		height:430px;
 		width:300px;
 		border-radius:10px;
 		background:white;
 		opacity:0.5;
-	}
-	
-	
+	}	
 	#loginMainBox{
 		display:none;
 		position:absolute;
@@ -89,28 +95,6 @@ body,html{
 		margin-top:-200px;
 		left:72%;
 	}
-	#loginBGBox{
-		position:absolute;
-		height:430px;
-		width:300px;
-		border-radius:10px;
-		background:white;
-		opacity:0.5;
-	}
-	#loginMessage{
-		position:absolute;
-		height:430px;
-		width:300px;
-		text-align:center;;
-	}
-	
-	
-	.loninBtnSize{
-		width:80%;
-	}
-	h2{
-		height:10px;
-	}
 </style>
 </head>
 <body>
@@ -118,15 +102,13 @@ body,html{
 <div id="titleBGBox">
 </div>
 <div id="titleTextBox">
-<h2>巴豆妖</h2>
+<h1>巴豆妖</h1>
 <h4>Restaurant Management Syetem</h4>
 <img src="<c:url value='/images/BADOYAO_LogoSmall.gif'/>">
 <form action="<c:url value="/secure/login.action" />" method="post">
-<div id="inputBox">
-<input type="text" name="userID" placeholder="帳號" value="${param.userID }"><br>
+<input type="text" name="userID" maxlength="10" placeholder="帳號" value="${param.userID }"><br>
 <input type="password" name="userPW" placeholder="密碼" value="${param.userPW }"><br>
-<input class="MainBtnColor loninBtnSize" type="button" name="btnGetIn" onclick="doLogin()" value="登入">
-</div>
+<input class="MainBtnColor" type="button" name="btnGetIn" onclick="doLogin()" value="登入">
 <div class="errorBox">${errors.userID}</div>
 <div class="errorBox">${errors.userPW}</div>
 </form>
@@ -137,9 +119,10 @@ body,html{
 <div id="loginBGBox">
 </div>
 <div  id="loginMessage">
-<h2>巴豆妖</h2>
+<h1>巴豆妖</h1>
 <h4>Restaurant Management Syetem</h4>
 <img src="<c:url value='/images/BADOYAO_LogoSmall.gif'/>">
+<br><br>
 <h1>登入中...</h1>
 </div>
 </div>
