@@ -1,4 +1,11 @@
 $(function() {
+	window.onload=function(){
+		  cala();	 
+		  setInterval(cala,1000);
+	  };
+	  function deleteItem(id){
+		  console.log(id);
+	  }
     var icons = {
       header: "ui-icon-circle-arrow-e",
       activeHeader: "ui-icon-circle-arrow-s"
@@ -7,6 +14,12 @@ $(function() {
       icons: icons,
       heightStyle: "content"
     });
+    $( "a,button" )
+    .button()
+    .click(function( event ) {
+    	event.preventDefault();
+    });
+      
     $( "#toggle" ).button().click(function() {
       if ( $( "#accordion" ).accordion( "option", "icons" ) ) {
         $( "#accordion" ).accordion( "option", "icons", null );
@@ -14,26 +27,8 @@ $(function() {
         $( "#accordion" ).accordion( "option", "icons", icons );
       }
     });
-//    var resultlist = new Array();
-//    var object=$(':hidden');
-//    var i=0;//---------------先抓好所有出餐的物件時間
-//    	$.each(object,function(){
-//    		var now = new Date();//----------------------創造目前時間物件
-//    		var nowMill = now.getTime();//-----------------拿到目前時間物件的LONG
-//    		var temp = Math.floor((nowMill-$(this).val())/1000/60);
-//    		console.log(" 怪怪ㄉ" + temp);//-----------------目前時間減出餐時間點
-//    		if(temp<0){//----------小於0代表在標準出菜時間內
-//    			console.log("距離"+ temp + "分鐘出菜");
-//    			resultlist.push(temp);
-//    		}else{//---------------大於0帶表delay
-//    			console.log("目前了Delay---" + temp + "分鐘出菜");
-//    			resultlist.push(temp);
-//    		}
-//    		resultlist.push(temp);
-//    	});
-//    	console.log(resultlist[1]/1000/60);
+    
     function cala(){
-    var myArray = new Array();
     var results=document.getElementsByName("result");
     var objects=document.getElementsByName("calc");
     for(var i=0;i<objects.length;i++){
@@ -85,8 +80,6 @@ $(function() {
     	}//<span style='color:red'>Delay<span>
     }
     }
-  window.onload=cala();
-	  setInterval(cala,1000);
   });
 //-----------------------------------------------------------------
 //	windows.onload=function(){

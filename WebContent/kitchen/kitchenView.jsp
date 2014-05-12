@@ -51,7 +51,14 @@ var contextPath='<%=request.getContextPath()%>';
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
 <div id="article">
-
+<script>
+	function deleteItem(id){
+	var b=window.confirm("你確定出餐?");
+	if(b){
+		window.location.href="${pageContext.request.contextPath}/kitchen/outMeal.action?id="+id;
+		}
+	}
+</script>
 	<div id="writeCodeInThisDiv">
 	<div id="accordion" style="width:98%">
 	  <h3>出餐總覽</h3>
@@ -62,8 +69,9 @@ var contextPath='<%=request.getContextPath()%>';
 			<th>餐點名稱</th>
 			<th>點餐時間</th>
 			<th>出餐時間</th>
-			<th>製作時間</th>
-			<th>距離時間</th>	
+<!-- 			<th>製作時間</th> -->
+			<th>距離時間</th>
+			<th>確定出餐</th>	
 	  	</tr>
 	  		<s:iterator var="item" value="viewlist">
 				<tr>
@@ -71,8 +79,9 @@ var contextPath='<%=request.getContextPath()%>';
 					<td><s:property value="#item.orderlistname"/></td>
 					<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
 					<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
-					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td>
+<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
 					<td name="result"></td>
+					<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>)">出餐</a></td>
 				</tr>
 			</s:iterator>
 		</table>		
@@ -98,7 +107,7 @@ var contextPath='<%=request.getContextPath()%>';
 	  <div>
 	    <p>321 </p>
 	  </div>
-	</div> 
+	</div>
 	<button id="toggle">Toggle icons</button>
 	<FORM NAME="clock"><INPUT TYPE="text" NAME="face" SIZE=10></FORM>
 	

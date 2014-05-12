@@ -12,9 +12,12 @@
 	
 <!-- Hamilton -->
 	<package name="kitchen" namespace="/kitchen" extends="struts-default">
-	<action name="kitchenView" class="com.bdy.controller.KitchenViewAction">
-	<result name="success">/kitchen/kitchenView.jsp</result>
-	</action>
+		<action name="kitchenView" class="com.bdy.controller.KitchenViewAction">
+			<result name="success">/kitchen/kitchenView.jsp</result>
+		</action>
+		<action name="outMeal" class="com.bdy.controller.OutMealAction">
+			<result name="success">/kitchen/kitchenView.jsp</result>
+		</action>
 	</package>
 	
 <!-- Max -->

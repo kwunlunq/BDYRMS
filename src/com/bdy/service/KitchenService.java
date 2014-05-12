@@ -204,6 +204,7 @@ public class KitchenService {
 				viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
 				viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
 				viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000));//實際出餐時間
+				viewItem.setOrderlistID(temp.getOdlistId());
 				sortOutlist.add(viewItem);
 			}else{//---------------------套餐的處理(有套餐ID)
 			KitchenView viewItem = new KitchenView();
@@ -213,6 +214,7 @@ public class KitchenService {
 			viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
 			viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
 			viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000));//實際出餐時間
+			viewItem.setOrderlistID(temp.getOdlistId());
 			sortOutlist.add(viewItem);
 			System.out.println("食物名稱"+viewItem.getOrderlistname());
 			System.out.println("食物出餐時間" + viewItem.getOrderDate());
@@ -274,4 +276,10 @@ public class KitchenService {
 		JsonArray jsonArray = jsonArrayBuilder.build();
 		return jsonArray;
 	}
+	public void outMealchange(int orderListID){
+	BdyOrderlist orderlist=orderlistDao.getorderlist(orderListID);
+	orderlist.setOlState(1);
+	orderlistDao.update(orderlist);
+	}
+	
 }
