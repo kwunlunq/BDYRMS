@@ -15,6 +15,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.KitchenView;
 import com.bdy.service.KitchenService;
 import com.opensymphony.xwork2.Action;
@@ -26,6 +27,7 @@ public class KitchenViewAction extends ActionSupport implements ServletRequestAw
 	HttpServletRequest request;
 	HttpServletResponse response;
 	List<KitchenView> viewlist;
+	List<BdyFoodkind> foodKinds;
 //	private String message;
 //	
 //	public String getMessage() {
@@ -35,6 +37,14 @@ public class KitchenViewAction extends ActionSupport implements ServletRequestAw
 //	public void setMessage(String message) {
 //		this.message = message;
 //	}
+
+	public List<BdyFoodkind> getFoodKinds() {
+		return foodKinds;
+	}
+
+	public void setFoodKinds(List<BdyFoodkind> foodKinds) {
+		this.foodKinds = foodKinds;
+	}
 
 	public List<KitchenView> getViewlist() {
 		return viewlist;
@@ -64,6 +74,7 @@ public class KitchenViewAction extends ActionSupport implements ServletRequestAw
 	@Override
 	public String execute() throws Exception {
 		viewlist=service.getNotOutOrderlistsObject();
+		foodKinds=service.getFoodKinds();
 		return Action.SUCCESS;
 	}
 
