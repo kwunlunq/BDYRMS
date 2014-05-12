@@ -1,20 +1,29 @@
 var selMains = [];  // array of mains' names
+var setNames = [];
 $(function() {
     $( "#tabs" ).tabs({ heightStyle: "fill", 
 		hide : { effect: "fade", duration: 150 }, 
 		show : { effect: "fade", duration: 150 },
 		disabled: [1]});
-
+	var url = contextPath+"/order/getSetServlet";
+	$.getJSON(url, function(result) {
+		for (var i = 0; i < result.length; i++) {
+			setNames[i] = result[i].name;
+		}
+//		console.log(setNames);
+	});
     getMains();
     
   	$( "#tabs" ).on( "tabsactivate", function( event, ui ) {
   		var active = $( "#tabs" ).tabs( "option", "active" );
   		switch(active) {
   		case 0:
-//  			getMains();
+  			selMains = [];
   		    break;
   		case 1:
-  			showSelectMains();
+//  			showSelectMains();
+//  			comfirmClick();
+  			showSelectMainsAcod();
   		    break;
   		case 2:
   		    break;
@@ -41,6 +50,33 @@ function showSelectMains() {
 	}
 	$("#setArea").append(ul);
 }
+
+function showSelectMainsAcod() {
+	$("#accoDiv").remove();
+	var accoDiv = document.createElement("div");
+	accoDiv.setAttribute("id", "accoDiv");
+
+	var url = contextPath+"/order/getSetServlet";
+	$.getJSON(url, function(result) {
+	
+	});
+	for (var i = 0; i < selMains.length; i++) {
+		var title = document.createElement("h3");
+		$(title).append(document.createTextNode(selMains[i]));
+		$(accoDiv).append(title);
+		var innerDiv = document.createElement("div");
+		innerDiv.setAttribute("id", "mainaco"+i);
+		console.log("outer: i = "+i);
+		for (var j = 0; j < setNames.length; j++) {
+			$(innerDiv).append('<a class="myButton" id="11">'+setNames[j]+'</a>');
+		}
+		$(accoDiv).append(innerDiv);
+	}
+	$(accoDiv).accordion({ collapsible: true , 
+	      					heightStyle: "content"});
+	$("#setArea").append(accoDiv);
+}
+
 
 function getMains() {
 	var url = contextPath+"/order/GetMainServlet";
