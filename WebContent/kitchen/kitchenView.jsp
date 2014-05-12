@@ -67,11 +67,11 @@ var contextPath='<%=request.getContextPath()%>';
 	  	</tr>
 	  		<s:iterator var="item" value="viewlist">
 				<tr>
-					<td><s:property value="#item.tableID"/></td>
+					<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
 					<td><s:property value="#item.orderlistname"/></td>
 					<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
 					<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
-					<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td>
+					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td>
 					<td name="result"></td>
 				</tr>
 			</s:iterator>
