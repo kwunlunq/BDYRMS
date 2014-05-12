@@ -229,7 +229,7 @@ public class KitchenService {
 			}
 		}
 		//-------依造"未出餐的食物"的"出餐時間"排序
-		List<KitchenView> sortOutlist =new LinkedList<KitchenView>();//---------排序過後的LIST
+		List<KitchenView> sortOutlist =new ArrayList<KitchenView>();//---------排序過後的LIST
 		for(BdyOrderlist temp:notOutMeallist){
 			KitchenView viewItem = new KitchenView();
 			Double slotTime =findOutMealTime(temp.getBdySet().getSetId(),temp.getBdyFoodkind().getFkId());
