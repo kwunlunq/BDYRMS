@@ -46,7 +46,7 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
 </div>
-<div id="mainContent">
+<div id="mainPageContent">
 <div id="aside">
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
