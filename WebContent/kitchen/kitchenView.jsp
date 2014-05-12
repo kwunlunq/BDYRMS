@@ -46,16 +46,16 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
 </div>
-<div id="mainContent">
+<div id="mainPageContent">
 <div id="aside">
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	<div id="accordion" style="width:70%">
+	<div id="accordion" style="width:98%">
 	  <h3>出餐總覽</h3>
-	  <div>
+	  <div id="myDiv1" style="heigh:98%">
 	  <table border="1">
 	  	<tr>
 			<th>桌號</th>
