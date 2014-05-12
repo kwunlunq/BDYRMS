@@ -54,11 +54,17 @@ public class GetSetServlet extends HttpServlet{
 			
 			JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 			for (BdySet set : service.getSet()) {
+				// 名稱
 				System.out.println(set.getName());
 				JsonObject object =
 						Json.createObjectBuilder()
 							.add("name", set.getName())
+							.add("id", set.getSetId())
 							.build();
+//				JsonObject objectId = 
+//						Json.createObjectBuilder()
+//							.add("id", set.getSetId())
+//							.build();
 				aryBuilder.add(object);
 			}
 			JsonArray ary = aryBuilder.build();

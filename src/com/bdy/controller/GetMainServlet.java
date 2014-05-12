@@ -38,7 +38,6 @@ public class GetMainServlet extends HttpServlet {
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.write(service.getMainsJSON().toString());
-//		System.out.println(service.getMainsJSON().toString());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

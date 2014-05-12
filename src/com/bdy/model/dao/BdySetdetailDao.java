@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
@@ -123,12 +124,32 @@ private SessionFactory sf = null;
 	 * extra dao by 皓元
 	 * ============================================
 	 */
-
+//	public List<BdySet>
 	public List<BdySetdetail> getSetdetailBySetId(int SetId) {
 		Session session = sf.openSession();
 		Iterator iter = session.createCriteria(BdySetdetail.class)
 							   .createAlias("bdySet", "BdySet")
 							   .add(Restrictions.eq("BdySet.setId", SetId))
+							   .list()
+							   .iterator();
+		
+		List<BdySetdetail> result = new ArrayList<BdySetdetail>();
+		while (iter.hasNext()) {
+			result.add((BdySetdetail) iter.next());
+		}
+		session.close();
+		
+		
+		return result;
+	}
+	public List<BdySetdetail> getSortedSetdetailBySetId(int SetId) {
+		Session session = sf.openSession();
+		Iterator iter = session.createCriteria(BdySetdetail.class)
+							   .createAlias("bdySet", "BdySet")
+							   .add(Restrictions.eq("BdySet.setId", SetId))
+							   .createAlias("bdyFoodkind", "fk")
+//							   .add(Restrictions.eq("fk.fkId", 1))
+							   .addOrder(Order.asc("fk.seq"))
 							   .list()
 							   .iterator();
 		
