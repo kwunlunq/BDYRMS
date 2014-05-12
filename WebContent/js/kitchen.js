@@ -81,7 +81,7 @@ $(function() {
     			tempM = Math.floor(Math.abs(judge/(1000*60)))%60+"分鐘";
     		}
     		var tempS = Math.floor(Math.abs(judge/1000))%60+"秒";//-----------------------秒
-    		results[i].innerHTML="Delay" +tempD+ tempH+ tempM+tempS;
+    		results[i].innerHTML="<span style='color:red'>Delay<span>" +tempD+ tempH+ tempM+tempS;
     	}//<span style='color:red'>Delay<span>
     }
     }
