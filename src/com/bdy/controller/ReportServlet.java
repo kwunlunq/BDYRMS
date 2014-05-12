@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
+import org.json.simple.JSONObject;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -82,6 +81,11 @@ public class ReportServlet extends HttpServlet {
 						response);
 				return;
 			} else {
+				JSONObject obj = new JSONObject();
+				obj=service.getSingleDayJSON(date);
+				
+				System.out.println(obj);
+				request.setAttribute("objs", obj);
 				request.setAttribute("bills", beans);
 				request.getRequestDispatcher("/report/showsingleday.jsp").forward(request,
 						response);
