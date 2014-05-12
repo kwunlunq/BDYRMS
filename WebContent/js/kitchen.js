@@ -4,7 +4,8 @@ $(function() {
       activeHeader: "ui-icon-circle-arrow-s"
     };
     $( "#accordion" ).accordion({
-      icons: icons
+      icons: icons,
+      heightStyle: "content"
     });
     $( "#toggle" ).button().click(function() {
       if ( $( "#accordion" ).accordion( "option", "icons" ) ) {
@@ -80,8 +81,8 @@ $(function() {
     			tempM = Math.floor(Math.abs(judge/(1000*60)))%60+"分鐘";
     		}
     		var tempS = Math.floor(Math.abs(judge/1000))%60+"秒";//-----------------------秒
-    		results[i].innerHTML="<span style='color:red'>Delay<span>" +tempD+ tempH+ tempM+tempS;
-    	}
+    		results[i].innerHTML="Delay" +tempD+ tempH+ tempM+tempS;
+    	}//<span style='color:red'>Delay<span>
     }
     }
   window.onload=cala();

@@ -196,6 +196,16 @@ public class KitchenService {
 		//-------依造"未出餐的食物"的"出餐時間"排序
 		List<KitchenView> sortOutlist =new LinkedList<KitchenView>();//---------排序過後的LIST
 		for(BdyOrderlist temp:notOutMeallist){
+			if(temp.getBdySet()==null){//----------單點(沒有套餐ID)
+				KitchenView viewItem = new KitchenView();
+				Double slotTime =temp.getBdyFood().getBdyFoodkind().getPeriod();
+				System.out.println("------------------------測試單點");
+				viewItem.setTableID(temp.getBdyOrder().getBdyTable().getTbId());//桌號
+				viewItem.setOrderDate(temp.getBdyOrder().getOrdTime());//點單時間
+				viewItem.setOrderlistname(temp.getBdyFood().getName());//點了甚麼食物
+				viewItem.setOutMealTime(new Date(temp.getBdyOrder().getOrdTime().getTime()+slotTime.longValue()*60*1000));//實際出餐時間
+				sortOutlist.add(viewItem);
+			}else{//---------------------套餐的處理(有套餐ID)
 			KitchenView viewItem = new KitchenView();
 			Double slotTime =findOutMealTime(temp.getBdySet().getSetId(),temp.getBdyFood().getBdyFoodkind().getFkId());
 			System.out.println("--------------------------測試---------------------------------"+slotTime);
@@ -206,6 +216,8 @@ public class KitchenService {
 			sortOutlist.add(viewItem);
 			System.out.println("食物名稱"+viewItem.getOrderlistname());
 			System.out.println("食物出餐時間" + viewItem.getOrderDate());
+			}
+			System.out.println(sortOutlist.size());
 		}
 		Collections.sort(sortOutlist,new Comparator<KitchenView>() {//--------------依造出餐時間點排序
 
