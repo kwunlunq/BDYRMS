@@ -53,13 +53,13 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 	<div id="writeCodeInThisDiv">
-		<div style="margin: 0px auto; width: 95%">
+		<div style="margin: 0px auto; width: 95%; height: 100%">
 			<div style="height: 30px; width: 100%;">
 				現在樓層:
 				<select id="changeFloor">
 				</select>
 				<input type="button" id="addTB" value="新增桌子">
-				<input type="button" id="reset" value="重新擺設">
+				<input type="button" id="reset" value="重新讀取">
 			</div>
 			<div id="picTB"></div>
 			<div id="floorBTN">

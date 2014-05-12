@@ -28,24 +28,23 @@
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 </script>
-
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
-<script src="<c:url value="/js/jquery.ui.datepicker-zh-TW.js"/>"></script>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
+<script src="<c:url value="/js/jquery.ui.datepicker-zh-TW.js"/>"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="<c:url value="/js/report.js"/>"></script>
 <style type="text/css">
-	table,th,td,tr{
-		border-style:double;
-	}
+table,th,td,tr {
+	border-style: double;
+}
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -58,61 +57,71 @@ var contextPath='<%=request.getContextPath()%>';
 		<div id="header">
 			<jsp:include page="/mainpage/header.jsp" />
 		</div>
-		<div id="aside">
-			<jsp:include page="/mainpage/aside.jsp" />
-		</div>
-
-		<div id="article">
-			<!-- START Write -->
-			<form action="<c:url value="/ReportServlet" />" method="get">
-				<input type="submit" value="查詢單日營運狀況">請選擇日期: <input
-					type="text" id="datepicker" name="date" value="">${errorMsgs.dateError1}${errorMsgs.dateError2}${errorMsgs.dateError3}
-			</form>
-			<hr>
-			<div id="tabs">
-				<ul>
-					<li><a href="#tabs-1">單日收據明細</a></li>
-					<li><a href="#tabs-2">單日餐點統計</a></li>
-					<li><a href="#tabs-3">平均消費金額/來客數 分佈</a></li>
-				</ul>
-				<div id="tabs-1">
-					<c:if test="${not empty bills}">
-						<table>
-							<thead>
-								<tr>
-									<th>點餐單號</th>
-									<th>用餐人數</th>
-									<th>消費金額</th>
-									<th>折扣名稱</th>
-									<th>結帳金額</th>
-									<th>結帳員工</th>
-									<th>結帳時間</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="bills" items="${bills}">
-									<tr>
-										<td>${bills.bdyOrder.odId}</td>
-										<td>${bills.custNum}</td>
-										<td><fmt:formatNumber type="number" value="${bills.price/bills.bdyDiscount.disPrice}" maxFractionDigits="0"/></td>
-										<td>${bills.bdyDiscount.name}</td>
-										<td><fmt:formatNumber type="number" value="${bills.price}" maxFractionDigits="0"/></td>
-										<td>${bills.bdyEmp.name}</td>
-										<td>${bills.endDate}</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-					</c:if>
-				</div>
-				<div id="tabs-2">
-					<div id="container1" style="width: 65%; height: 62.5%"></div>
-				</div>
-				<div id="tabs-3">
-					<div id="container2" style="width: 65%; height: 62.5%"></div>
-				</div>
+		<div id="mainPageContent">
+			<div id="aside">
+				<jsp:include page="/mainpage/aside.jsp" />
 			</div>
-			<!-- END Write-->
+			<div id="article">
+
+				<div id="writeCodeInThisDiv">
+
+						<!-- START Write -->
+						<form action="<c:url value="/ReportServlet" />" method="get">
+							<input type="submit" class="MainBtnColor" value="查詢單日營運狀況" >請選擇日期: <input
+								type="text" id="datepicker" name="date" value="">${errorMsgs.dateError1}${errorMsgs.dateError2}${errorMsgs.dateError3}
+						</form>
+						<hr>
+						<div id="tabs">
+							<ul>
+								<li><a href="#tabs-1">單日收據明細</a></li>
+								<li><a href="#tabs-2">單日餐點統計</a></li>
+								<li><a href="#tabs-3">平均消費金額/來客數 分佈</a></li>
+							</ul>
+							<div id="tabs-1">
+								<c:if test="${not empty bills}">
+									<table style="margin:0 auto">
+										<thead>
+											<tr>
+												<th>點餐單號</th>
+												<th>用餐人數</th>
+												<th>消費金額</th>
+												<th>折扣名稱</th>
+												<th>結帳金額</th>
+												<th>結帳員工</th>
+												<th>結帳時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="bills" items="${bills}">
+												<tr>
+													<td>${bills.bdyOrder.odId}</td>
+													<td>${bills.custNum}</td>
+													<td><fmt:formatNumber type="number"
+															value="${bills.price/bills.bdyDiscount.disPrice}"
+															maxFractionDigits="0" /></td>
+													<td>${bills.bdyDiscount.name}</td>
+													<td><fmt:formatNumber type="number"
+															value="${bills.price}" maxFractionDigits="0" /></td>
+													<td>${bills.bdyEmp.name}</td>
+													<td>${bills.endDate}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</c:if>
+							</div>
+							<div id="tabs-2">
+								<div id="container1"></div>
+							</div>
+							<div id="tabs-3">
+								<div id="container2"></div>
+							</div>
+						</div>
+						<!-- END Write-->
+				</div>
+				<!-- 	id="writeCodeInThisDiv" -->
+
+			</div>
 		</div>
 		<div id="footer">
 			<jsp:include page="/mainpage/footer.jsp" />

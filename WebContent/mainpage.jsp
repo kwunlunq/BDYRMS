@@ -53,58 +53,46 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	
-	Hello ${empData.name} <br>
-	呼叫員工資料  empData
-	
-	<div style="color:blue;font-size:1.2em;">
-<pre style="border:1px solid blue;width:90%;">
-@ MainPage樣版更新小撇步~~
-	
-Step 1. 打開自己的JSP檔 把&ltdiv id="article"&gt中自己的內容保留 其他都刪除~
-		ex:mainpage的話 只剩下面兩行
-			1.Hello $ {empData.name} &ltbr&gt
-		 	2.呼叫員工資料  empData
-		 		
-Step 2. 打開Mainpage 從第一行 反白選取 到  &ltdiv id="writeCodeInThisDiv"&gt 這行
-		然後貼到 你自己的JSP檔的內容的上方
-			
-Step 3. 重複上述動作 但這次是 從&lt/div&gt&lt!-- 	id="writeCodeInThisDiv" --&gt
-		這行複製到檔案最後 然後貼到你自己的JSP檔的內容的下方
-	
-Step 4. 接下來檢查自己的 Script 及 CSS 是否有缺少  若有請加上連結
-	
-Finish. 存檔 收工!
-</pre>
-	
-<pre style="border:1px solid blue;width:90%;">
-@ Jquery UI Demo [<a href="<c:url value="/jqueryUIDemo/index.html"/>">Link</a>]
+	<div style="text-align:center"><h2>BDYRMS即時公告</h2></div>
+	<div id="mainPageAcdion">
+	<h3>使用Jquery UI 注意事項  <span style="color:red">(重要  20140512)</span></h3>
+		<div>
+			Jquery UI套件都是使用 ID名稱控制物件，各位取ID名稱時注意不要使用原來Demo的名稱，<br>
+			請加上自己要使用的功能的名字來判斷，避免多人使用同一個套件時大家都取一樣的名稱而造成衝突。<br>
+			舉例:<br>
+			mainpage.jsp 使用了Accordion(口風琴)套件 Demo的名稱為 $( "#accordion" ).accordion();<br>
+			假如同時有人使用同一個套件沒有改名稱，會發生造成衝突的可能，mainpage.jsp使用這個套件時，可修改為 id="mainPageAccordion"<br>
+			若覺得名稱太長可以酌量的使用縮寫 => mainPageAcdion or mPageAccor or mPAccordion 請自行發揮 自己看得懂為主
+		</div>
+		<h3>MainPage樣版更新小撇步  <span style="color:red">(更新 20140512)</span></h3>
+		<div>
+Step 1. 複製一份mainpage.jsp 名稱改成自己的功能名稱<br>
+Step 2. 將複製過來的mainpage.jsp(現在是自己的了)，將&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt 裡的內容全部刪掉<br>
+Step 3. 接著把自己已經寫好的內容 複製到 剛剛刪掉的地方=>&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt<br>
+Finish. 存檔 收工!<br>
+		</div>
+		<h3>Jquery UI Demo</h3>
+		<div>
+[<a target="_blank" href="<c:url value="/jqueryUIDemo/index.html"/>">Link</a>]<br>
 有需要使用到Jquery UI 的套件可以點Link前往後 按右鍵檢視原始碼 可以參考寫法及CSS樣式的使用方式
 以上JS及CSS相關檔案已經匯入 直接寫程式碼即可使用.....
-</pre>
-
-<pre style="border:1px solid blue;width:90%;">
-@ Button 有固定樣式 長相請往左邊看~~~
+		</div>
+		<h3>Button 有固定樣式 (長相請往左邊看)</h3>
+		<div>
 有需要使用這個樣式 請加上 class="MainBtnColor"
---注意 此樣式只有顏色 若要固定大小及字體大小 請另外寫
-
-方法一 (直接寫style) ex: 
-&ltinput type="button" class="MainBtnColor" style="width:100px;"&gt
-
-方法二 (多寫一個Class) ex:
-&ltstyle&gt
-.btnsize{
-	width:100px;
-}
-&lt/style&gt
-
-&ltinput type="button" class="MainBtnColor btnsize"&gt
-
-</pre>
-
-</div>
-	
-	
+--注意 此樣式只有顏色 若要固定大小及字體大小 請另外寫<br>
+方法一 (直接寫style):<br>
+&nbsp&nbsp&ltinput type="button" class="MainBtnColor" style="width:100px;"&gt
+<br>
+方法二 (多寫一個Class):<br>
+&nbsp&nbsp&ltstyle&gt<br>
+&nbsp&nbsp.btnsize{<br>
+&nbsp&nbsp&nbsp&nbspwidth:100px;<br>
+&nbsp&nbsp}<br>
+&nbsp&nbsp&lt/style&gt<br>
+&nbsp&nbsp&ltinput type="button" class="MainBtnColor btnsize"&gt
+		</div>
+	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 
 </div>

@@ -1,17 +1,13 @@
 var selMains = [];  // array of mains' names
 var setNames = [];
+var setIds   = [];
 $(function() {
     $( "#tabs" ).tabs({ heightStyle: "fill", 
 		hide : { effect: "fade", duration: 150 }, 
 		show : { effect: "fade", duration: 150 },
 		disabled: [1]});
-	var url = contextPath+"/order/getSetServlet";
-	$.getJSON(url, function(result) {
-		for (var i = 0; i < result.length; i++) {
-			setNames[i] = result[i].name;
-		}
-//		console.log(setNames);
-	});
+    
+    getSets();
     getMains();
     
   	$( "#tabs" ).on( "tabsactivate", function( event, ui ) {
@@ -40,6 +36,18 @@ $(function() {
 	$.ajaxSetup({ cache: false });  //解決IE緩存問題
 });
 
+function getSets() {
+
+	var url = contextPath+"/order/getSetServlet";
+	$.getJSON(url, function(result) {
+		for (var i = 0; i < result.length; i++) {
+			setNames[i] = result[i].name;
+			setIds[i] = result[i].id;
+		}
+//		console.log(setNames);
+//		console.log(setIds);
+	});
+}
 function showSelectMains() {
 	$("#selectMainUl").remove();
 	
@@ -68,26 +76,126 @@ function showSelectMainsAcod() {
 		innerDiv.setAttribute("id", "mainaco"+i);
 		console.log("outer: i = "+i);
 		for (var j = 0; j < setNames.length; j++) {
-			$(innerDiv).append('<a class="myButton" id="11">'+setNames[j]+'</a>');
+			
+			$(innerDiv).append('<a class="myButton" setId="'+setIds[j]+'"id="setBtn'+j+'">'+setNames[j]+'</a>');
+			$(innerDiv).attr("setId", setIds[j]);
+//			alert("setId = "+ setIds[j]);
+			innerDiv.setAttribute("setId", setIds[j]);
 		}
 		$(accoDiv).append(innerDiv);
 	}
 	$(accoDiv).accordion({ collapsible: true , 
-	      					heightStyle: "content"});
+	      					heightStyle: "content" ,
+	      					create: function(event, ui) {
+	      						
+	      					}});
 	$("#setArea").append(accoDiv);
+	$("a[id^=setBtn]").button()
+      				  .click(function( event ) {
+      					  	event.preventDefault();
+      					  	getSetDetails(this);
+      				  });
 }
 
+function getSetDetails(thisbtn) {
+	var setId = $(thisbtn).attr("setId");
+	var mainacoId = $(thisbtn).parent().attr("id");
+	var url = contextPath+"/order/getSetDetailServlet?setId="+setId;
+	$.getJSON(url, function(result) {
+		showSetDetails(result, mainacoId);
+	});
+}
+
+function showSetDetails(details, mainacoId) {
+	var mainaco = document.getElementById(mainacoId);
+	$(mainaco).empty(); // 清空mainaco中的子元素
+	
+	for (var i = 0; i < details.length; i++) {
+		var ul = document.createElement('ul'); 	// <ul>
+		var title = document.createElement("li");  // <li id=setTitle>
+		title.setAttribute("id", "setTitle");
+		$(ul).append(title);
+		$(mainaco).append(ul);
+		
+		for (key in details[i]) {
+			$(title).append(document.createTextNode(key));
+			 
+			 var detail = details[i][key];
+			 for (var j = 0; j < detail.length; j++) {
+				 var li = $("<li class='listItem' id='setContent'></li>");
+				 $(li).append(document.createTextNode(detail[j].fdName));
+				 
+				 // ＋
+				 var addbutton = $('<a id="btnst" num="1" class="myButton">＋</a>');
+				 $(addbutton).click(setClick);
+				 $(li).append(addbutton);
+				 // 0
+				 var count = $('<span id="setcount">0</span>');				 
+				 $(li).append(count);
+				 // －
+				 var subbutton = $('<a id="btnst" num="-1" class="myButton">－</a>');
+				 $(subbutton).click(setClick);
+				 $(li).append(subbutton);
+				 
+				 $(ul).append(li);
+			 }
+		}		
+	}
+}
 
 function getMains() {
 	var url = contextPath+"/order/GetMainServlet";
 	$.getJSON(url, function(result) {
-		$('.page1').hide();
 		showMains(result);
 	});
 }
 
+
+function showMains(mains) {
+	var div = document.getElementById("mainArea");
+
+	var btnConfirm = $('<ul><li><a href="#" class="myButton" id="btnconfirm">確認</a></li></ul>');
+	btnConfirm.click(comfirmClick);
+	$(div).append(btnConfirm);
+	 
+	var c = 0;
+	for (var i = 0; i < mains.length; i++) {
+		var outerUl = document.createElement('ul');
+		var title = document.createElement("li");
+		 
+		 title.setAttribute("id", "mainTitle");
+		 $(outerUl).append(title);
+		 $(div).append(outerUl);
+		 for (key in mains[i]) {
+			 var titleText = document.createTextNode(key);
+			 $(title).append(titleText);
+			 var innerUl = document.createElement("ul");
+			 var contents = mains[i][key];
+			 for (var j = 0; j < contents.length; j++) {
+			 	var content = document.createElement("li");
+			 	content.setAttribute("id", "mainContent");
+				 var contextText = document.createTextNode(contents[j]);
+				 $(content).append(contextText);
+				 
+				 var addbutton = $('<a id="order'+c+'" num="1" class="myButton">＋</a>');
+				 var subbutton = $('<a id="order'+c+'" num="-1" class="myButton">－</a>');
+				 var count = $('<span id="count'+c+'">0</span>');				 
+				 $(addbutton).click(orderClick);
+				 $(subbutton).click(orderClick);
+				 $(content).append(addbutton);
+				 $(content).append(count);
+				 $(content).append(subbutton);
+				 
+				 $(outerUl).append(content);
+				 c++;
+			 }
+		 }
+	 }
+}
+
+
  
- function orderClick() {
+function orderClick() {
 	var id = $(this).attr("id").substring(5);
 	var count = $('#count' + id).text();
 	var numatr = parseInt($(this).attr("num"));
@@ -95,6 +203,15 @@ function getMains() {
 		
 	if (num >= 0) {
 		$('#count' + id).text(num);
+	}
+}
+
+function setClick() {
+	var num = parseInt($(this).attr("num"));
+	var setcount = parseInt($(this).siblings("#setcount").text());
+	setcount += num;
+	if (setcount >= 0) {
+		$(this).siblings("#setcount").text(setcount);
 	}
 }
  
@@ -138,49 +255,6 @@ function comfirmClick() {
 }
  
 	 
-function showMains(mains) {
-//	alert("123");
-	var div = document.getElementById("mainArea");
-
-	var btnConfirm = $('<ul><li><a href="#" class="myButton" id="btnconfirm">確認</a></li></ul>');
-	btnConfirm.click(comfirmClick);
-	$(div).append(btnConfirm);
-	 
-	var c = 0;
-	for (var i = 0; i < mains.length; i++) {
-		var outerUl = document.createElement('ul');
-		var title = document.createElement("li");
-		 
-		 title.setAttribute("id", "mainTitle");
-		 $(outerUl).append(title);
-		 $(div).append(outerUl);
-		 for (key in mains[i]) {
-			 var titleText = document.createTextNode(key);
-			 $(title).append(titleText);
-			 var innerUl = document.createElement("ul");
-			 var contents = mains[i][key];
-			 for (var j = 0; j < contents.length; j++) {
-			 	var content = document.createElement("li");
-			 	content.setAttribute("id", "mainContent");
-				 var contextText = document.createTextNode(contents[j]);
-				 $(content).append(contextText);
-				 
-				 var addbutton = $('<a id="order'+c+'" num="1" class="myButton">＋</a>');
-				 var subbutton = $('<a id="order'+c+'" num="-1" class="myButton">－</a>');
-				 var count = $('<span id="count'+c+'">0</span>');				 
-				 $(addbutton).click(orderClick);
-				 $(subbutton).click(orderClick);
-				 $(content).append(addbutton);
-				 $(content).append(count);
-				 $(content).append(subbutton);
-				 
-				 $(outerUl).append(content);
-				 c++;
-			 }
-		 }
-	 }
-}
-
 //	css掛載
 //	$('#btnArea>:button').mouseover(function() {
 //					$(this).css("background", "#44C3B6");})
@@ -201,8 +275,14 @@ function showMains(mains) {
 	 			<a href="#" id="order" class="myButton">-</a>
 			</li>
 			<li id="mainContent">菲力牛排</li>
+			<li id="mainContent">XX牛排</li>
+			<li id="mainContent">OO牛排</li>
+		</ul>
+		<ul>
 	 		<li id="mainTitle">披薩</li>
 			<li id="mainContent">夏威夷披薩</li>
+			<li.....></li>
+			...
 	 	</ul>
 	 </div>
 */

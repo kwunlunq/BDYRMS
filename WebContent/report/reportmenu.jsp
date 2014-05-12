@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!-- 說明 : 此 mainpage.jsp 即是一個樣版 整份複製後 修改檔案名稱
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
@@ -30,11 +30,13 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
-<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/main.css"/>">
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script src="<c:url value="/js/report.js"/>"></script>
+
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -42,24 +44,33 @@ var contextPath='<%=request.getContextPath()%>';
 <title>Report Menu</title>
 </head>
 <body>
-<div id="mainBox">
-<div id="header">
-<jsp:include page="/mainpage/header.jsp" />
-</div>
-<div id="aside">
-<jsp:include page="/mainpage/aside.jsp" />
-</div>
+	<div id="mainBox">
+		<div id="header">
+			<jsp:include page="/mainpage/header.jsp" />
+		</div>
+		<div id="mainPageContent">
+			<div id="aside">
+				<jsp:include page="/mainpage/aside.jsp" />
+			</div>
+			<div id="article">
 
-<div id="article">
-<!-- START Write -->
-		<input class="StmtBtn" type="button" value="日營業查詢" onclick="goURL('<c:url value="/report/showsingleday.jsp" />')">
-		<br>
-		<input type="button" value="月營業查詢">
-<!-- END Write-->
-</div>
-<div id="footer">
-<jsp:include page="/mainpage/footer.jsp" />
-</div>
-</div>
+				<div id="writeCodeInThisDiv">
+
+						<!-- START Write -->
+						<input type="button" class="MainBtnColor" style="width:100px;" value="日營業查詢"
+							onclick="goURL('<c:url value="/report/showsingleday.jsp" />')">
+						<br>
+						<input type="button" class="MainBtnColor" style="width:100px;" value="月營業查詢"
+							onclick="goURL('<c:url value="/report/showsingleday.jsp" />')">
+						<!-- END Write-->
+				</div>
+				<!-- 	id="writeCodeInThisDiv" -->
+
+			</div>
+		</div>
+		<div id="footer">
+			<jsp:include page="/mainpage/footer.jsp" />
+		</div>
+	</div>
 </body>
 </html>
