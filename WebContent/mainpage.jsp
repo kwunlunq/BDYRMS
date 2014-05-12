@@ -55,7 +55,7 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 	<div style="text-align:center"><h2>BDYRMS即時公告</h2></div>
 	<div id="mainPageAcdion">
-	<h3>使用Jquery UI 注意事項  <span style="color:pink">(重要  20140512)</span></h3>
+	<h3>使用Jquery UI 注意事項  <span style="color:red">(重要  20140512)</span></h3>
 		<div>
 			Jquery UI套件都是使用 ID名稱控制物件，各位取ID名稱時注意不要使用原來Demo的名稱，<br>
 			請加上自己要使用的功能的名字來判斷，避免多人使用同一個套件時大家都取一樣的名稱而造成衝突。<br>
@@ -64,7 +64,7 @@ var contextPath='<%=request.getContextPath()%>';
 			假如同時有人使用同一個套件沒有改名稱，會發生造成衝突的可能，mainpage.jsp使用這個套件時，可修改為 id="mainPageAccordion"<br>
 			若覺得名稱太長可以酌量的使用縮寫 => mainPageAcdion or mPageAccor or mPAccordion 請自行發揮 自己看得懂為主
 		</div>
-		<h3>MainPage樣版更新小撇步  <span style="color:pink">(更新 20140512)</span></h3>
+		<h3>MainPage樣版更新小撇步  <span style="color:red">(更新 20140512)</span></h3>
 		<div>
 Step 1. 複製一份mainpage.jsp 名稱改成自己的功能名稱<br>
 Step 2. 將複製過來的mainpage.jsp(現在是自己的了)，將&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt 裡的內容全部刪掉<br>

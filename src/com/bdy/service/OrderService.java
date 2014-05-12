@@ -1,6 +1,7 @@
 package com.bdy.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.json.Json;
@@ -29,6 +30,7 @@ import com.bdy.model.dao.BdySetdetailDao;
 import com.bdy.model.dao.BdyTableDao;
 
 public class OrderService {
+	private final static int MAIN_SEQ = 10;
 	BdyBillDao billDao;
 	BdyDiscountDao discountDao;
 	BdyEmpDao empDao;
@@ -100,29 +102,53 @@ public class OrderService {
 	public List<BdyFoodkind> getFoodkinds() {
 		return foodkindDao.getAllFoodkind();
 	}
-	public List<BdySetdetail> getSetDetailBySetId(int SetId) {
+	public JsonArray getSetDetailBySetIdJSON(int SetId) {
 		List<BdySetdetail> result = new ArrayList<BdySetdetail>();
+		List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(SetId);
 		
-		List<BdySetdetail> details = setdetailDao.getSetdetailBySetId(SetId);
-		
+		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
 		for (BdySetdetail detail: details) {
-			System.out.print(detail.getBdyFoodkind().getName());
+			BdyFoodkind fk = detail.getBdyFoodkind();
+//			String fkName = fk
+			if (fk.getSeq() == MAIN_SEQ) {
+				continue;
+			}
+			System.out.print(detail.getBdyFoodkind().getSeq()+"-");
+			System.out.println(detail.getBdyFoodkind().getName());
 			System.out.print("\t");
+			Iterator foods = detail.getBdyFoodkind().getBdyFoods().iterator();
+			JsonArrayBuilder fdBuilder = Json.createArrayBuilder();
+			while (foods.hasNext()) {
+				BdyFood food = (BdyFood) foods.next();
+				fdBuilder.add(Json.createObjectBuilder()
+								  .add("fdId", food.getFdId())
+								  .add("fdName", food.getName()));
+				System.out.print(food.getName()+"\t");
+			}
+			fkBuilder.add(Json.createObjectBuilder()
+					 		  .add(fk.getName(), fdBuilder.build())
+					 		  .build());
+//			fkBuilder.add(fk.getName(), fdBuilder.build());
+			System.out.println();
 		}
-		System.out.println();
-		
-		
-		return result;
+//		System.out.println(fkBuilder.build().toString());
+//		return result;
+		return fkBuilder.build();
 	}
-	
 	public int groupTest(int setId, int fkId) {
 		return setdetailDao.fkCount(setId, fkId);
 	}
 	
-//	public JsonArray get
-	public JsonArray getMainsJSON() {
-//		foodkindDao.getMainFoodkinds();
+	public JsonArray getSetDetailJSON(int setId) {
+		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
 		
+		
+//		setdetailDao;
+		
+		
+		return fkBuilder.build();
+	}
+	public JsonArray getMainsJSON() {
 		/*
 		 * 目標 :
 		 * [{"牛排":["牛小排", "菲力牛排", "肋眼牛排"]}, 

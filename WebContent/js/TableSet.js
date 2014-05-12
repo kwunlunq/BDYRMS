@@ -23,18 +23,18 @@ function initcallback(){
 
 	$(function() {
 		getFloor();
-		resizeWindow();
+//		resizeWindow();
 		var count = 0;
 		var idCount = 0;
 		var delTBlist = "";
 		
-		window.onresize = resizeWindow;
-		function resizeWindow(){
-			var picTBHeight = $( document ).height()- ($(document).height()*0.27);
-			var picTBWidth = $('#picTB').width();
-			$('#picTB').css("height",picTBHeight);
-			$('#picTB').css("width",picTBWidth);
-		}
+//		window.onresize = resizeWindow;
+//		function resizeWindow(){
+//			var picTBHeight = $( document ).height()- ($(document).height()*0.27);
+//			var picTBWidth = $('#picTB').width();
+//			$('#picTB').css("height",picTBHeight);
+//			$('#picTB').css("width",picTBWidth);
+//		}
 		
 		function doLoadTable(){
 			$('#picTB>div').fadeToggle(800,function(){
