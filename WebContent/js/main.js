@@ -3,7 +3,7 @@ console.log(contextPath+"/index.jsp");
 window.onresize = resizeWindow;
 window.onload = resizeWindow;
 function resizeWindow(){
-	var mainContentWidth = $('#mainContent').width();
+	var mainContentWidth = $('#mainPageContent').width();
 	$('#article').css("width",mainContentWidth - 166.5);
 }
 
