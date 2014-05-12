@@ -7,7 +7,7 @@
 <div id="functionTXT">功能選單</div>
 <input class="MainBtnColor asideBtn" type="button" value="公告" onclick="goURL('<c:url value="/mainpage.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="訂位"><br>
-<input class="MainBtnColor asideBtn" type="button" value="劃位"><br>
+<input class="MainBtnColor asideBtn" type="button" value="現場動態"><br>
 <input class="MainBtnColor asideBtn" type="button" value="結帳"><br>
 <input class="MainBtnColor asideBtn" type="button" value="點餐" onclick="goURL('<c:url value="/order/ordermain.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="餐桌擺設" onclick="goURL('<c:url value="/table/tableset.jsp" />')"><br>

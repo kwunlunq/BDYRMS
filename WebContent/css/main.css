@@ -25,9 +25,17 @@ body,html {
 	border-radius:20px 20px 0px 0px;
 	margin-top:5px;
 	background-color:white;
+	background-image: url("/BDYRMS/images/headerBg.jpg");
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: right;
 }
 
 #mainPageContent{
+	background-image: url("/BDYRMS/images/headerBg.jpg");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
 	margin-top:2px;
 	min-width: 860px;
 	height:85%;
@@ -54,8 +62,8 @@ body,html {
 #writeCodeInThisDiv{
 	padding-top:10px;
 	padding-left:10px;
-	width:99.1%;
-	height:98.7%;
+	width:99%;
+	height:98.5%;
 }
 
 #footer {
@@ -129,7 +137,7 @@ body,html {
 
 .MainBtnColor:active {
 	position:relative;
-	color:red;
+	color:gray;
 	top:1px;
 }
 
