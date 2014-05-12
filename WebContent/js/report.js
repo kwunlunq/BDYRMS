@@ -1,3 +1,5 @@
+var chart1;
+var chart2;
 $(function() {
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 	$("#datepicker").datepicker({
@@ -6,7 +8,7 @@ $(function() {
 		changeYear : true
 	});
 	$("#tabs").tabs();
-	$('#container1').highcharts({
+	chart1 = $('#container1').highcharts({
 		chart : {
 			type : 'bar'
 		},
@@ -50,10 +52,14 @@ $(function() {
 			data : [ 107, 51, 235, 203 ]
 		} ]
 	});
-	$('#container2').highcharts(
+	chart2 = $('#container2').highcharts(
 			{
 				chart : {
-					zoomType : 'xy'
+					zoomType : 'xy',
+					events : {
+					// 圖表載入後執行GetReportData這個Function
+					load : GetReportData
+					}
 				},
 				title : {
 					text : '平均消費金額/來客數 分佈'
@@ -104,8 +110,7 @@ $(function() {
 							name : '來客數',
 							type : 'column',
 							yAxis : 1,
-							data : [ 0, 20, 30, 50, 55, 60, 20, 10, 30, 40, 49,
-									33, 22, 60, 49, 0 ],
+							data : [],
 							tooltip : {
 								valueSuffix : ' 位'
 							}
@@ -114,11 +119,24 @@ $(function() {
 						{
 							name : '平均消費金額',
 							type : 'spline',
-							data : [ 0, 300, 400, 450, 500, 700, 800, 300, 600,
-									670, 700, 580, 600, 300, 500, 0 ],
+							data : [],
 							tooltip : {
 								valueSuffix : '元'
 							}
 						} ]
 			});
 });
+function GetReportData() {
+	$.ajax({
+		url : '${pageContext.request.contextPath}/con.bdy.controller/ReportServlet',
+		type : 'GET',
+		dataType: 'JSON',
+		// 成功之後，會收到Server端返回的資料，也就是自訂的型別ReportData
+		// 有兩個屬性可以用
+		success : function(result) {
+			chart2.series[0].setData(result.sumCustNumByhour);
+			chart2.series[1].setData(result.avgPriceDividedByCustNumByhour);
+		},
+		cache : false
+	});
+}
