@@ -14,5 +14,5 @@
 <input class="MainBtnColor asideBtn" type="button" value="出餐" onclick="goURL('<c:url value="/kitchen/kitchenView.action"/>')"><BR>
 <input class="MainBtnColor asideBtn" type="button" value="報表" onclick="goURL('<c:url value="/report/reportmenu.jsp" />')"><BR>
 <input class="MainBtnColor asideBtn" type="button" value="員工管理" onclick="goURL('<c:url value="/secure/modifyEmp.jsp" />')"><BR>
-<input class="MainBtnColor asideBtn" type="button" value="餐廳管理" onclick="goURL('<c:url value="/secure/food?act=show" />')"><BR>
+<input class="MainBtnColor asideBtn" type="button" value="餐廳管理" onclick="goURL('<c:url value="/secure/ManageServlet?act=show" />')"><BR>
 <input class="MainBtnColor asideBtn" type="button" value="登出" onclick="goURL('<c:url value="/index.jsp" />')">

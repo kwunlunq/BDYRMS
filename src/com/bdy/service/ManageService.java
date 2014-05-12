@@ -134,5 +134,9 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
-	
+//	public List<BdyFood> updateFood(){
+//		BdyFood food;
+//		
+//		return food;
+//	}
 }

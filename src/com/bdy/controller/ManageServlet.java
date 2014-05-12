@@ -19,8 +19,8 @@ import com.bdy.model.BdyFood;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
-@WebServlet("/secure/food")
-public class food extends HttpServlet {
+@WebServlet("/secure/ManageServlet")
+public class ManageServlet extends HttpServlet {
 	
 	ManageService manage;
 	boolean booleanFoodPrice = true;
@@ -43,6 +43,7 @@ public class food extends HttpServlet {
 		List<BdySetdetail> detail = manage.getAllDetail();
 		List<BdyDiscount> discount = manage.getAllDiscount();
 		String act = request.getParameter("act");
+		String btn = request.getParameter("btn");
 		
 		//排序價位 和 庫存star
 		if(act.equals("sort")){
