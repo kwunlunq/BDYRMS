@@ -5,6 +5,9 @@ body,html {
 	background-color:gray;
 }
 
+input:focus, textarea:focus, select:focus 
+{outline:0 none;}
+
 #mainPageAcdion{
 	margin:0 auto;
 	width:80%;
@@ -137,7 +140,6 @@ body,html {
 
 .MainBtnColor:active {
 	position:relative;
-	color:gray;
 	top:1px;
 }
 

@@ -34,6 +34,12 @@ $(function() {
 	      }
 	});
 	
+	$( "#orderlist" ).delegate( "span.ui-icon-close", "click", function() {
+		 var panelId = $( this ).closest( "li" ).remove().attr("divid");
+	      $( "#" + panelId ).remove();
+	      $( "#orderlist" ).tabs( "refresh" );
+	});
+	
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });  
 });
@@ -63,7 +69,7 @@ function setOnClick() {
 	var li = document.createElement("li");
 	var tagsid = "orderlist-"+ setCount;
 //	$(li).attr("id", "li1");
-	$("#ul-detail").append("<li><a href='#"+ tagsid +"'>"+$(this).val()+"</a></li>");
+	$("#ul-detail").append("<li divid='"+tagsid+"'><a href='#"+ tagsid +"'>"+$(this).val()+"</a><span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>");
 	$("#orderlist").append("<div id='"+tagsid+"'></div>");
 	$("#orderlist").tabs("refresh");
 	var fdBtn = $('#'+$(this).attr("FBId"));
@@ -119,8 +125,6 @@ function drawTab(result) {
 	$("#orderlist").tabs({ heightStyle: "fill", 
 		hide : { effect: "fade", duration: 150 }, 
 		show : { effect: "fade", duration: 150 }});
-
-	$("li").draggable();
 }
 var FBId = 0;
 function addOrderAreaBtn(foodTag,fdId,isMain,foodName){

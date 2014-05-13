@@ -3,7 +3,7 @@
 }
 #ChooseSetDialog input{
 	margin:2px 2px 2px 2px;
-	width:100%;
+	width:80%;
 }
 #orderarea input,#orderlist input{
 	margin:2px 2px 2px 2px;
@@ -25,4 +25,9 @@
 	width:95%;
 	height:57%;
 	margin:0px auto;
+}
+
+#orderlist li .ui-icon-close{
+	margin: 0.6em 0.2em 0 0;
+	cursor: pointer;
 }
