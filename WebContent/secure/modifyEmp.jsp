@@ -34,12 +34,6 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-
-<!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RSM - ModifyEmployee</title>
 <script>
 	$(function(){
 		$(function() {
@@ -62,18 +56,25 @@ var contextPath='<%=request.getContextPath()%>';
 		});
 	});
 </script>
+<!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
+<title>BDY RMS - Welcome</title>
 </head>
 <body>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
 </div>
+<div id="mainPageContent">
 <div id="aside">
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
-
 <div id="article">
 
+	<div id="writeCodeInThisDiv">
+	
 <header>
 <input  id="modifyBTN"  type="button" value="修改資料" >
 <input 	id="insertBTN"  type="button" value="新增員工">
@@ -112,6 +113,12 @@ var contextPath='<%=request.getContextPath()%>';
 <h3>查詢員工</h3>
 </div>
 </article>
+	
+	
+	
+	</div><!-- 	id="writeCodeInThisDiv" -->
+
+</div>
 </div>
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />

@@ -19,7 +19,7 @@ import com.bdy.model.BdyFood;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
-@WebServlet("/secure/ManageServlet")
+@WebServlet("/secure/Manage")
 public class ManageServlet extends HttpServlet {
 	
 	ManageService manage;

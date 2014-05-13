@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 @WebServlet("/secure/update")
 public class UpdateFoodServlet extends HttpServlet {
@@ -36,6 +38,8 @@ public class UpdateFoodServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		List<BdySetdetail> detail = foodservice.getAllDetail();
+		List<BdyDiscount> discount = foodservice.getAllDiscount();
 		String ffdid = request.getParameter("fdid");
 		String fname = request.getParameter("fname");
 		String fprice = request.getParameter("fprice");
@@ -49,12 +53,13 @@ public class UpdateFoodServlet extends HttpServlet {
 		Integer fdid = Integer.parseInt(ffdid);
 		
 
-		System.out.println(fname+"-"+ffkid+"fdid="+fdid);
 		foodservice.updateFood(fdid,fname, price, qty, fdesc, fkid);
 		// request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request,
 		// response);
 		List<BdyFood> foods = foodservice.getAllFood();
 		request.setAttribute("resultFood", foods);
+		request.setAttribute("resultDetail", detail);
+		request.setAttribute("resultdiscount", discount);
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
 	}
 
