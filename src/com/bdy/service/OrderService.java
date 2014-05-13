@@ -1,5 +1,7 @@
 package com.bdy.service;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +11,8 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
@@ -110,7 +114,6 @@ public class OrderService {
 		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
 		for (BdySetdetail detail: details) {
 			BdyFoodkind fk = detail.getBdyFoodkind();
-//			String fkName = fk
 			if (fk.getSeq() == MAIN_SEQ) {
 				continue;
 			}
@@ -130,26 +133,11 @@ public class OrderService {
 			fkBuilder.add(Json.createObjectBuilder()
 					 		  .add(fk.getName(), fdBuilder.build())
 					 		  .build());
-//			fkBuilder.add(fk.getName(), fdBuilder.build());
 			System.out.println();
 		}
-//		System.out.println(fkBuilder.build().toString());
-//		return result;
 		return fkBuilder.build();
-	}
-	public int groupTest(int setId, int fkId) {
-		return setdetailDao.fkCount(setId, fkId);
 	}
 	
-	public JsonArray getSetDetailJSON(int setId) {
-		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
-		
-		
-//		setdetailDao;
-		
-		
-		return fkBuilder.build();
-	}
 	public JsonArray getMainsJSON() {
 		/*
 		 * 目標 :
@@ -174,10 +162,6 @@ public class OrderService {
 		return mkBuilder.build();
 	}
 	
-//	public void test22() {
-//		
-//	}
-
 	public JsonObject getFoodsJSON() {
 		/*
 		 * 目標 :
@@ -201,11 +185,9 @@ public class OrderService {
 			System.out.println(mk.getName());
 			System.out.println("---------------");
 			int mkId = mk.getMkId();
-			// mk name array
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
 			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
 				System.out.println(food.getName());
-//				foodBuilder.add(food.getName());
 				foodBuilder.add(Json.createObjectBuilder()
 									.add("fdId", food.getFdId())
 									.add("fdName", food.getName())
@@ -245,4 +227,26 @@ public class OrderService {
 		return resultObject;
 	}
 	
+	
+	public JsonArray getSetJson() {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		for (BdySet set : setDao.getAllSet()) {
+			// 名稱
+			System.out.println(set.getName());
+			
+			List<BdySetdetail> details = setdetailDao.getSetdetailBySetId(set.getSetId());
+			
+			JsonArrayBuilder detailbuilder = Json.createArrayBuilder();
+			for (BdySetdetail detail : details) {
+				detailbuilder.add(detail.getBdyFoodkind().getFkId());
+			}
+			JsonObject object =	Json.createObjectBuilder()
+									.add("name", set.getName())
+									.add("id", set.getSetId())
+									.add("detail", detailbuilder.build())
+									.build();
+			aryBuilder.add(object);
+		}
+		return aryBuilder.build();
+	}
 }

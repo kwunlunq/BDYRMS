@@ -38,47 +38,12 @@ public class GetSetServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println(request.getContextPath()+", method="+request.getMethod());
-		getJsonSet(request, response);
+		response.setContentType("text/plain;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.write(service.getSetJson().toString());
+		out.close();
 	}
 	
-	public void getJsonSet(HttpServletRequest request,
-			HttpServletResponse response) {
-		System.out.println("making json..");
-		try {
-			response.setContentType("text/plain;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			
-//			OrderService service = (OrderService) context.getBean("OrderService");;
-
-			
-			JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
-			for (BdySet set : service.getSet()) {
-				// 名稱
-				System.out.println(set.getName());
-				JsonObject object =
-						Json.createObjectBuilder()
-							.add("name", set.getName())
-							.add("id", set.getSetId())
-							.build();
-//				JsonObject objectId = 
-//						Json.createObjectBuilder()
-//							.add("id", set.getSetId())
-//							.build();
-				aryBuilder.add(object);
-			}
-			JsonArray ary = aryBuilder.build();
-			out.write(ary.toString());
-			out.close();
-			System.out.println("set query done.");
-			return;
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ;
-		
-	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
