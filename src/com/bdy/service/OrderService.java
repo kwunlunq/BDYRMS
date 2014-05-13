@@ -7,6 +7,8 @@ import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
@@ -105,7 +107,6 @@ public class OrderService {
 	public JsonArray getSetDetailBySetIdJSON(int SetId) {
 		List<BdySetdetail> result = new ArrayList<BdySetdetail>();
 		List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(SetId);
-		
 		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
 		for (BdySetdetail detail: details) {
 			BdyFoodkind fk = detail.getBdyFoodkind();
@@ -113,8 +114,9 @@ public class OrderService {
 			if (fk.getSeq() == MAIN_SEQ) {
 				continue;
 			}
+			int fkCount = setdetailDao.fkCount(SetId, fk.getFkId());
 			System.out.print(detail.getBdyFoodkind().getSeq()+"-");
-			System.out.println(detail.getBdyFoodkind().getName());
+			System.out.println(detail.getBdyFoodkind().getName()+"\t"+fkCount+"份");
 			System.out.print("\t");
 			Iterator foods = detail.getBdyFoodkind().getBdyFoods().iterator();
 			JsonArrayBuilder fdBuilder = Json.createArrayBuilder();
@@ -170,6 +172,77 @@ public class OrderService {
 					 		  .add(mk.getName(), foodBuilder));
 		}
 		return mkBuilder.build();
+	}
+	
+//	public void test22() {
+//		
+//	}
+
+	public JsonObject getFoodsJSON() {
+		/*
+		 * 目標 :
+		 * {"isMain":
+		 * 		[{"牛排":[	{"fdId"="1", "fdName"="牛小排"},
+		 * 					{"fdId"="2", "fdName"="菲力牛排"}
+		 * 					{"fdId"="3", "fdName"="肋眼牛排"}]}, 
+ 		 *  	 {"披薩":["	{"fdId"="4", "fdName"="夏威夷披薩"},
+ 		 *  				{"fdId"="5", "fdName"="海鮮披薩"}]}
+ 		 *  	]
+ 		 *  "notMain":
+ 		 *  	[{"前菜":[  {}, {}, {}    ]
+ 		 *  }
+ 		 *  
+		 */
+		
+		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
+		System.out.println("mk Array : ");
+		for (BdyMainkind mk : mainkindDao.getAllMainkind()) {
+			System.out.println(mk.getName());
+			System.out.println(mk.getName());
+			System.out.println("---------------");
+			int mkId = mk.getMkId();
+			// mk name array
+			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
+			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
+				System.out.println(food.getName());
+//				foodBuilder.add(food.getName());
+				foodBuilder.add(Json.createObjectBuilder()
+									.add("fdId", food.getFdId())
+									.add("fdName", food.getName())
+									.build());
+			}
+			System.out.println("\n\n");
+			mkBuilder.add(Json.createObjectBuilder()
+					 		  .add(mk.getName(), foodBuilder));
+		}
+		
+		System.out.println("fk Array :");
+		
+		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
+		List<BdyFoodkind> fks = foodkindDao.getAllFoodkind();
+		
+		for (BdyFoodkind fk : fks) {
+			List<BdyFood> foods = foodDao.getFoodsByFkId(fk.getFkId());
+			if (foods!=null && foods.size()!=0 && foods.get(0).getBdyMainkind()!=null) {
+				continue;
+			}
+			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
+			for (BdyFood food : foods) {
+				System.out.println(food.getName());
+				foodBuilder.add(Json.createObjectBuilder()
+									.add("fdId", food.getFdId())
+									.add("fdName", food.getName())
+									.build());
+			}
+			fkBuilder.add(Json.createObjectBuilder()
+							  .add(fk.getName(), foodBuilder)
+							  .build());
+		}
+		JsonObject resultObject = 
+				Json.createObjectBuilder().add("isMain", mkBuilder.build())
+								  		  .add("notMain", fkBuilder.build())
+								  		  .build();
+		return resultObject;
 	}
 	
 }
