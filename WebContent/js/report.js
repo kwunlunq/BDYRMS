@@ -1,5 +1,3 @@
-var chart1;
-var chart2;
 $(function() {
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 	$("#datepicker").datepicker({
@@ -8,7 +6,7 @@ $(function() {
 		changeYear : true
 	});
 	$("#tabs").tabs();
-	chart1 = $('#container1').highcharts({
+	$('#container1').highcharts({
 		chart : {
 			type : 'bar'
 		},
@@ -52,20 +50,20 @@ $(function() {
 			data : [ 107, 51, 235, 203 ]
 		} ]
 	});
-	chart2 = $('#container2').highcharts(
+	$('#container2').highcharts(
 			{
 				chart : {
 					zoomType : 'xy',
 					events : {
-					// 圖表載入後執行GetReportData這個Function
-					load : GetReportData
+						// 圖表載入後執行GetReportData這個Function
+						load : GetReportData,
 					}
 				},
 				title : {
 					text : '平均消費金額/來客數 分佈'
 				},
 				subtitle : {
-					text : '2013-03-02'
+					text : ''
 				},
 				xAxis : [ {
 					categories : [ '8-9', '9-10', '10-11', '11-12', '12-13',
@@ -105,38 +103,52 @@ $(function() {
 				tooltip : {
 					shared : true
 				},
-				series : [
-						{
-							name : '來客數',
-							type : 'column',
-							yAxis : 1,
-							data : [],
-							tooltip : {
-								valueSuffix : ' 位'
-							}
-
-						},
-						{
-							name : '平均消費金額',
-							type : 'spline',
-							data : [],
-							tooltip : {
-								valueSuffix : '元'
-							}
-						} ]
+				series : []
 			});
 });
+var chart1 = $('#container1').highcharts();
+
+var data1;
+var data2;
+
 function GetReportData() {
-	$.ajax({
-		url : '${pageContext.request.contextPath}/con.bdy.controller/ReportServlet',
-		type : 'GET',
-		dataType: 'JSON',
-		// 成功之後，會收到Server端返回的資料，也就是自訂的型別ReportData
-		// 有兩個屬性可以用
-		success : function(result) {
-			chart2.series[0].setData(result.sumCustNumByhour);
-			chart2.series[1].setData(result.avgPriceDividedByCustNumByhour);
-		},
-		cache : false
-	});
+	var chart2 = $('#container2').highcharts();
+	var date = $('#datepicker').val();
+	if (date != null && date.length > 0) {
+		$.ajax({
+			url : contextPath + '/SingleDayReportServlet',
+			type : 'POST',
+			dataType : 'JSON',
+			data : {
+				date : date
+			},
+			// 成功之後，會收到Server端返回的資料，也就是自訂的型別ReportData
+			// 有兩個屬性可以用
+			success : function(result) {
+				data1 = result.sumCustNumByhour;
+				data2 = result.avgPriceDividedByCustNumByhour;
+				chart2.setTitle(null, {
+					text : date
+				});
+				chart2.addSeries({
+					name : '來客數',
+					type : 'column',
+					yAxis : 1,
+					data : data1,
+					tooltip : {
+						valueSuffix : ' 位'
+					}
+				});
+				chart2.addSeries({
+					name : '平均消費金額',
+					type : 'spline',
+					data : data2,
+					tooltip : {
+						valueSuffix : ' 元'
+					}
+				});
+			},
+			cache : false
+		});
+	}
 }
