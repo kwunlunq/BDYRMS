@@ -134,9 +134,19 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
-//	public List<BdyFood> updateFood(){
-//		BdyFood food;
-//		
-//		return food;
-//	}
+	public List<BdyFood> updateFood(int fdid,String name,double price,int qty,String desc,int fkid){
+		BdyFood food = new BdyFood();
+		food.setFdId(fdid);
+		food.setName(name);
+		food.setPrice(price);
+		food.setQty(qty);
+		food.setDescript(desc);
+		BdyFoodkind foodkind=foodkindDao.getFoodkind(fkid);
+		food.setBdyFoodkind(foodkind);	
+		foodDao.update(food);
+		
+		List<BdyFood> bean = null;
+		bean = foodDao.getAllFood();
+		return bean;
+	}
 }
