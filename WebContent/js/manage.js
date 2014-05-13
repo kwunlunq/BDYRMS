@@ -47,6 +47,12 @@ function fupdate(fdid){
 		count++;
 	});
 }
+function fdeleteFood(fdid){
+	var b=window.confirm("你確定刪除");
+	if(b){
+		window.location.href=contextPath+"/secure/Delete?fid="+fdid;
+	}
+}
 function option(id){
 	xmlHttpInit.addEventListener("readystatechange",initcallback,true);
 	var urlInit = contextPath + "/secure/Option";
@@ -84,6 +90,6 @@ function fconfirm(fdid){
 }
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind){
-	window.location.href=contextPath+"/secure/update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
+	window.location.href=contextPath+"/secure/Update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
 	//showState("修改完成");
 }

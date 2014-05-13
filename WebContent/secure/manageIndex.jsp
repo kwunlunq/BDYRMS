@@ -98,8 +98,8 @@ var contextPath='<%=request.getContextPath()%>';
 		<thead>
 		<tr>
 		<th width="25%" class="thstyle">食物名稱</th>
-		<th width="10%" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/Manage?act=sort&type=price' />')">食物價錢</th>
-		<th width="10%" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/Manage?act=sort&type=qty' />')">庫存量</th>
+		<th width="10%" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/Sort?act=sort&type=price' />')">食物價錢</th>
+		<th width="10%" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/Sort?act=sort&type=qty' />')">庫存量</th>
 		<th width="30%" class="thstyle">說明</th>
 		<th width="10%" class="thstyle">種類</th>
 		<th width="15%" class="thstyle">功能</th>
@@ -108,9 +108,9 @@ var contextPath='<%=request.getContextPath()%>';
 		<tbody>
 		<c:forEach var="food" items="${resultFood }">
 		
-		<form action="<c:url value='/secure/ManageServlet?act=updatefood'/>" method="post">
+		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<tr id="TRfood${food.fdId}">
-<%-- 		<input type="hidden" value="${food.fdId }" name="fid"/> --%>
+ 		<input type="hidden" value="${food.fdId }" name="fid"/> 
 <%-- 		<input type="hidden" value="${food.name }" name="fname"/> --%>
 <%-- 		<input type="hidden" value="${food.price }" name="fprice"/> --%>
 <%-- 		<input type="hidden" value="${food.qty }" name="fqty"/> --%>
@@ -126,7 +126,7 @@ var contextPath='<%=request.getContextPath()%>';
 		<td id="ffkind${food.fdId}"><div id="foodk${food.fdId}">${food.bdyFoodkind.name}</div></td>
 		<td id="foodbtn${food.fdId}">
 		<input class='MainBtnColor' type="button" id="foodupdate" name="btn"  value="修改" onclick="fupdate(${food.fdId})">
-		<input class='MainBtnColor' type="button" id="fooddelete" name="btn"  value="刪除" onclick="">
+		<input class='MainBtnColor' type="button" id="fooddelete" name="btn"  value="刪除" onclick="fdeleteFood(${food.fdId})">
 		</td>
 		</c:if>
 		</tr>
@@ -147,7 +147,7 @@ var contextPath='<%=request.getContextPath()%>';
 		</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="detail" items="${resultDetail }">
+		<c:forEach var="detail" items="${resultDetail}">
 		<tr>
 		<td>${detail.bdySet.name}</td>
 		<td>${detail.bdyFoodkind.name}</td>		
