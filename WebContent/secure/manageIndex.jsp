@@ -120,28 +120,23 @@ var contextPath='<%=request.getContextPath()%>';
 		
 		<form action="<c:url value='/secure/ManageServlet?act=updatefood'/>" method="post">
 		<tr id="TRfood${food.fdId}">
-		<input type="hidden" value="${food.fdId }" name="fid">
-<%-- 		<c:if test="${food.fdId==param.fid }"> --%>
-<%-- 		<td><input class="textstyle" name="foodname" type="text" value="${food.name }"></td> --%>
-<%-- 		<td><input class="textstyle" name="foodprice" type="text" value="${food.price }"></td> --%>
-<%-- 		<td><input class="textstyle" name="foodqty" type="text" value="${food.qty }"></td> --%>
-<%-- 		<td><input class="textstyle" name="fooddescount" type="text" value="${food.descript }"></td> --%>
-<%-- 		<td><input class="textstyle" name="foodkind" type="text" value="${food.bdyFoodkind.name}"></td> --%>
-<%-- 		<td><input class="textstyle" name="foodperiod" type="text" value="${food.bdyFoodkind.period}"></td> --%>
-<!-- 		<td><input  type="submit"  name="btn"  value="完成" > -->
-<!-- 		<input type="submit"  name="btn"  value="刪除"> -->
-<!-- 		</td> -->
-<%-- 		</c:if> --%>
+		<input type="hidden" value="${food.fdId }" name="fid"/>
+		<input type="hidden" value="${food.name }" name="fname"/>
+		<input type="hidden" value="${food.price }" name="fprice"/>
+		<input type="hidden" value="${food.qty }" name="fqty"/>
+		<input type="hidden" value="${food.descript }" name="fdesc"/>
+		<input type="hidden" value="${food.bdyFoodkind.fkId}" name="ffkind"/>
+
 		
 		<c:if test="${food.fdId!=param.fid }">
-		<td name="fname">${food.name }</td>
-		<td name="fprice">${food.price }</td>
-		<td name="fqty">${food.qty }</td>
-		<td name="fdesc">${food.descript }</td>
-		<td name="ffkind"><div id="foodk${food.fdId}">${food.bdyFoodkind.name}</div></td>
+		<td id="fname${food.fdId}">${food.name}</td>
+		<td id="fprice${food.fdId}">${food.price}</td>
+		<td id="fqty${food.fdId}">${food.qty}</td>
+		<td id="fdesc${food.fdId}">${food.descript}</td>
+		<td id="ffkind${food.fdId}"><div id="foodk${food.fdId}">${food.bdyFoodkind.name}</div></td>
 		<td>
-		<input type="button" id="foodupdate" name="btn"  value="修改" onclick="fupdate(${food.fdId});">
-		<input type="button" id="fooddelete" name="btn"  value="刪除" onclick="">
+		<input type="submit" id="foodupdate" name="btn"  value="修改" onclick="fupdate(${food.fdId});">
+		<input type="submit" id="fooddelete" name="btn"  value="刪除" onclick="">
 		</td>
 		</c:if>
 		</tr>
