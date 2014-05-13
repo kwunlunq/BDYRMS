@@ -9,7 +9,7 @@
 <input class="MainBtnColor asideBtn" type="button" value="訂位"><br>
 <input class="MainBtnColor asideBtn" type="button" value="現場動態"><br>
 <input class="MainBtnColor asideBtn" type="button" value="結帳"><br>
-<input class="MainBtnColor asideBtn" type="button" value="點餐" onclick="goURL('<c:url value="/order/ordermain.jsp" />')"><br>
+<input class="MainBtnColor asideBtn" type="button" value="點餐" onclick="goURL('<c:url value="/order/order.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="餐桌擺設" onclick="goURL('<c:url value="/table/tableset.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="出餐" onclick="goURL('<c:url value="/kitchen/kitchenView.action"/>')"><BR>
 <input class="MainBtnColor asideBtn" type="button" value="報表" onclick="goURL('<c:url value="/report/reportmenu.jsp" />')"><BR>

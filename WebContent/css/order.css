@@ -1,0 +1,28 @@
+#ChooseSetDialog{
+	text-align:center;
+}
+#ChooseSetDialog input{
+	margin:2px 2px 2px 2px;
+	width:100%;
+}
+#orderarea input,#orderlist input{
+	margin:2px 2px 2px 2px;
+	width:19%;
+}
+#mainMenu{
+	font-size:1.4em;
+	background:white;
+	width:95%;
+	height:40px;
+	margin:0px auto;
+}
+#orderarea{
+	width:95%;
+	height:35%;
+	margin:0px auto;
+}
+#orderlist{
+	width:95%;
+	height:57%;
+	margin:0px auto;
+}
