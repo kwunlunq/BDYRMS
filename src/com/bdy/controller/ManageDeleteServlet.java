@@ -16,7 +16,7 @@ import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
-@WebServlet("/secure/Delete")
+@WebServlet("/secure/delete")
 public class ManageDeleteServlet extends HttpServlet {
 	
 
@@ -40,9 +40,7 @@ public class ManageDeleteServlet extends HttpServlet {
 		List<BdySetdetail> detail = deleteService.getAllDetail();
 		List<BdyDiscount> discount = deleteService.getAllDiscount();
 		List<BdyFood> foods = deleteService.getAllFood();
-		System.out.println("star delete");
 		String did = request.getParameter("fid");
-		System.out.println(did);
 		int id = Integer.parseInt(did);		
 		deleteService.deleteFood(id);		
 		request.setAttribute("resultFood", foods);

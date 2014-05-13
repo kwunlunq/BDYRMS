@@ -1,4 +1,3 @@
-var xmlHttp = new XMLHttpRequest();
 var xmlHttpInit = new XMLHttpRequest();
 
 
@@ -19,7 +18,7 @@ function fcancel(fdid,fname,fprice,fqty,fdesc,ffkind) {
 	document.getElementById("ffkind"+fdid).innerHTML="<div id='foodk"+fdid+"'>"+ffkind+"</div>";
 	document.getElementById("foodbtn"+fdid).innerHTML=
 		"<input class='MainBtnColor' type='button' id='foodupdate' name='btn'  value='修改' onclick='fupdate("+fdid+
-		")'><input class='MainBtnColor' type='button' id='fooddelete' name='btn'  value='刪除' onclick=''>";
+		")'><input class='MainBtnColor' type='button' id='fooddelete' name='btn'  value='刪除' onclick='fdeleteFood("+fdid+")'>";
 	
 	
 };
@@ -50,12 +49,12 @@ function fupdate(fdid){
 function fdeleteFood(fdid){
 	var b=window.confirm("你確定刪除");
 	if(b){
-		window.location.href=contextPath+"/secure/Delete?fid="+fdid;
+		window.location.href=contextPath+"/secure/delete?fid="+fdid;
 	}
 }
 function option(id){
 	xmlHttpInit.addEventListener("readystatechange",initcallback,true);
-	var urlInit = contextPath + "/secure/Option";
+	var urlInit = contextPath + "/secure/option";
 	xmlHttpInit.open("post",urlInit,true);
 	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xmlHttpInit.send("act=init&id="+id);
@@ -90,6 +89,6 @@ function fconfirm(fdid){
 }
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind){
-	window.location.href=contextPath+"/secure/Update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
+	window.location.href=contextPath+"/secure/update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
 	//showState("修改完成");
 }

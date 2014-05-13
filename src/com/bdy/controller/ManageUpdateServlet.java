@@ -16,7 +16,7 @@ import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
-@WebServlet("/secure/Update")
+@WebServlet("/secure/update")
 public class ManageUpdateServlet extends HttpServlet {
 	
 	ManageService foodservice;

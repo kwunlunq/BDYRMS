@@ -63,7 +63,8 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script src="<c:url value="/js/manage.js"/>"></script>
+<script src="<c:url value="/js/managefood.js"/>"></script>
+<script src="<c:url value="/js/manageset.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -98,8 +99,8 @@ var contextPath='<%=request.getContextPath()%>';
 		<thead>
 		<tr>
 		<th width="25%" class="thstyle">食物名稱</th>
-		<th width="10%" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/Sort?act=sort&type=price' />')">食物價錢</th>
-		<th width="10%" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/Sort?act=sort&type=qty' />')">庫存量</th>
+		<th width="10%" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/sort?act=sort&type=price' />')">食物價錢</th>
+		<th width="10%" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/sort?act=sort&type=qty' />')">庫存量</th>
 		<th width="30%" class="thstyle">說明</th>
 		<th width="10%" class="thstyle">種類</th>
 		<th width="15%" class="thstyle">功能</th>
@@ -125,8 +126,8 @@ var contextPath='<%=request.getContextPath()%>';
 		<td id="fdesc${food.fdId}">${food.descript}</td>
 		<td id="ffkind${food.fdId}"><div id="foodk${food.fdId}">${food.bdyFoodkind.name}</div></td>
 		<td id="foodbtn${food.fdId}">
-		<input class='MainBtnColor' type="button" id="foodupdate" name="btn"  value="修改" onclick="fupdate(${food.fdId})">
-		<input class='MainBtnColor' type="button" id="fooddelete" name="btn"  value="刪除" onclick="fdeleteFood(${food.fdId})">
+		<input class='MainBtnColor' type="button"   value="修改" onclick="fupdate(${food.fdId})">
+		<input class='MainBtnColor' type="button"   value="刪除" onclick="fdeleteFood(${food.fdId})">
 		</td>
 		</c:if>
 		</tr>
@@ -138,7 +139,7 @@ var contextPath='<%=request.getContextPath()%>';
 		</div>
 		
 		 <div id="tabs-2">
-		 <input type="button" id="insert2" value="新增一筆資料">
+		 <input class='MainBtnColor' type="button"  value="新增一筆資料">
 		<table border="1">		
 		<thead>
 		<tr>
@@ -148,12 +149,17 @@ var contextPath='<%=request.getContextPath()%>';
 		</thead>
 		<tbody>
 		<c:forEach var="detail" items="${resultDetail}">
-		<tr>
-		<td>${detail.bdySet.name}</td>
-		<td>${detail.bdyFoodkind.name}</td>		
-		<td><input type="button" id="update2" value="修改"></td>
-		<td><input type="button" id="delete2" value="刪除"></td>
+		<form>
+		<tr id="TRdetail${detail.sdId }">
+		<input type="hidden" name="sid" value="${detail.bdySet.setId}">
+		<input type="hidden" name="fkid" value="${detail.bdyFoodkind.fkId}">
+		
+		<td><div id="sname${detail.sdId }">${detail.bdySet.name} </div> </td>
+		<td><div id="fkname${detail.sdId }">${detail.bdyFoodkind.name}</td>		
+		<td><input class='MainBtnColor' type="button" id="update2" value="修改" onclick="supdate(${detail.sdId },${detail.bdySet.setId},${detail.bdyFoodkind.fkId})">
+			<input class='MainBtnColor' type="button" id="delete2" value="刪除"></td>
 		</tr>
+		</form>
 		</c:forEach>
 		</tbody>
 		</table>
