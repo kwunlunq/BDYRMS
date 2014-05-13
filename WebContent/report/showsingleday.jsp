@@ -67,8 +67,8 @@ table,th,td,tr {
 
 						<!-- START Write -->
 						<form action="<c:url value="/ReportServlet" />" method="get">
-							<input type="submit" class="MainBtnColor" value="查詢單日營運狀況" >請選擇日期: <input
-								type="text" id="datepicker" name="date" value="">${errorMsgs.dateError1}${errorMsgs.dateError2}${errorMsgs.dateError3}
+							<input type="submit" class="MainBtnColor" value="查詢單日營運狀況" >請選擇日期 : <input
+								type="text" id="datepicker" name="date" value="${param.date}">${errorMsgs.dateError1}${errorMsgs.dateError2}${errorMsgs.dateError3}
 						</form>
 						<hr>
 						<div id="tabs">
@@ -84,9 +84,9 @@ table,th,td,tr {
 											<tr>
 												<th>點餐單號</th>
 												<th>用餐人數</th>
-												<th>消費金額</th>
+												<th>總金額</th>
 												<th>折扣名稱</th>
-												<th>結帳金額</th>
+												<th>消費金額</th>
 												<th>結帳員工</th>
 												<th>結帳時間</th>
 											</tr>
@@ -113,8 +113,10 @@ table,th,td,tr {
 							<div id="tabs-2">
 								<div id="container1"></div>
 							</div>
-							<div id="tabs-3">
-								<div id="container2"></div>
+							<div id="tabs-3" >
+								<c:if test="${not empty bills}">
+									<div id="container2"></div>
+								</c:if>
 							</div>
 						</div>
 						<!-- END Write-->
