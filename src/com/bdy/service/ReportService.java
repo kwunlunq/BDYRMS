@@ -401,7 +401,10 @@ public class ReportService {
 
 		obj.put("sumCustNumByhour", list1);
 		obj.put("avgPriceDividedByCustNumByhour", list2);
-
+		//System.out.println(obj);
+		
+		
+		
 		return obj;
 	}
 }

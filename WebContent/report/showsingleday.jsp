@@ -111,11 +111,11 @@ table,th,td,tr {
 								</c:if>
 							</div>
 							<div id="tabs-2">
-								<div id="container1"></div>
+								<div id="container1" style="width:600px;margin:0px auto"></div>
 							</div>
 							<div id="tabs-3" >
 								<c:if test="${not empty bills}">
-									<div id="container2"></div>
+									<div id="container2" style="width:600px;margin:0px auto;"></div>
 								</c:if>
 							</div>
 						</div>

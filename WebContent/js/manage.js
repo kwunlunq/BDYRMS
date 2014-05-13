@@ -1,13 +1,36 @@
 var xmlHttp = new XMLHttpRequest();
 var xmlHttpInit = new XMLHttpRequest();
 
+
+
+
 $(function(){
+	
 	$( "#tabs" ).tabs();
+
 });
-var fdid;
+
+
+function fcancel(fdid,fname,fprice,fqty,fdesc,ffkind) {
+	document.getElementById("fname"+fdid).innerHTML=fname;
+	document.getElementById("fprice"+fdid).innerHTML=fprice;
+	document.getElementById("fqty"+fdid).innerHTML=fqty;
+	document.getElementById("fdesc"+fdid).innerHTML=fdesc;
+	document.getElementById("ffkind"+fdid).innerHTML="<div id='foodk"+fdid+"'>"+ffkind+"</div>";
+	document.getElementById("foodbtn"+fdid).innerHTML=
+		"<input class='MainBtnColor' type='button' id='foodupdate' name='btn'  value='修改' onclick='fupdate("+fdid+
+		")'><input class='MainBtnColor' type='button' id='fooddelete' name='btn'  value='刪除' onclick=''>";
+	
+	
+};
 function fupdate(fdid){
 	this.fdid= fdid;
 	var count = 0;
+	var fname = document.getElementById("fname"+fdid).innerHTML;
+	var fprice = document.getElementById("fprice"+fdid).innerHTML;
+	var fqty = document.getElementById("fqty"+fdid).innerHTML;
+	var fdesc = document.getElementById("fdesc"+fdid).innerHTML;
+	var ffkind = document.getElementById("ffkind"+fdid).firstChild.innerHTML;
 	$('#TRfood'+fdid+'>td').each(function(){
 		if(count < 4){
 		var str = $(this).text();
@@ -18,20 +41,21 @@ function fupdate(fdid){
 		}
 		else
 		{
-//			alert("是否近來?");
-//			var fname = document.getElementById("fname"+fdid).value;
-//			var fprice = document.getElementById("fprice"+fdid).value;
-//			var fqty = document.getElementById("fqty"+fdid).value;
-//			var fdesc = document.getElementById("fdesc"+fdid).value;
-//			var ffkind = document.getElementById("ffkind"+fdid).value;
-			$(this).html("<input type='submit' name='btn' value='確定' onclick='fconfirm("+fdid+")'><input type='button' name='btn' value='取消'>");
+			$(this).html("<input class='MainBtnColor' type='button'  value='確定' onclick='fconfirm("+fdid+")'>" +
+					" <input class='MainBtnColor' type='button'  value='取消' onclick='fcancel("+fdid+",\""+fname+"\","+fprice+","+fqty+",\""+fdesc+"\",\""+ffkind+"\")'>");
 		}
 		count++;
 	});
 }
+function fdeleteFood(fdid){
+	var b=window.confirm("你確定刪除");
+	if(b){
+		window.location.href=contextPath+"/secure/Delete?fid="+fdid;
+	}
+}
 function option(id){
 	xmlHttpInit.addEventListener("readystatechange",initcallback,true);
-	var urlInit = contextPath + "/change";
+	var urlInit = contextPath + "/secure/Option";
 	xmlHttpInit.open("post",urlInit,true);
 	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xmlHttpInit.send("act=init&id="+id);
@@ -66,7 +90,6 @@ function fconfirm(fdid){
 }
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind){
-//	alert("updateFood function");
-//	alert("ffkind="+ffkind);
-	window.location.href=contextPath+"/secure/update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
+	window.location.href=contextPath+"/secure/Update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
+	//showState("修改完成");
 }

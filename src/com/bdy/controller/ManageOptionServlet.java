@@ -21,8 +21,8 @@ import com.bdy.model.dao.BdyFoodDao;
 import com.bdy.model.dao.BdyFoodkindDao;
 import com.bdy.service.ManageService;
 
-@WebServlet("/change")
-public class OptionServlet extends HttpServlet {
+@WebServlet("/secure/Option")
+public class ManageOptionServlet extends HttpServlet {
 
 
 	@Override

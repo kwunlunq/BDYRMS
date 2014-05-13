@@ -149,4 +149,7 @@ public class ManageService {
 		bean = foodDao.getAllFood();
 		return bean;
 	}
+	public void deleteFood(int id){
+		foodDao.delete(id);
+	}
 }

@@ -25,18 +25,11 @@
 -->
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <style>
-#tabs{
-		
-		width:98%;
-		padding-bottom:0px;
-}
+
 #top{
 		/*margin-left:10%;*/ 
    		margin-top:10px;
    		margin-bottom:10px;
-}
-#tabs-1{
-width:100%;height:90%;overflow:auto
 }
 #top>input[type=button]{
 width: 200px;
@@ -78,6 +71,8 @@ var contextPath='<%=request.getContextPath()%>';
 <title>BDY RSM - Welcome</title>
 </head>
 <body>
+
+
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
@@ -89,8 +84,6 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-
-<div id="article">
 <!-- START Write -->
 <div id="tabs">
   <ul>
@@ -99,33 +92,30 @@ var contextPath='<%=request.getContextPath()%>';
     <li><a href="#tabs-3"  id="modifycount">修改折扣</a></li>
   </ul>
   		<div id="tabs-1">
-		
 		共${foodcount }筆 
-		<button onclick="myFunction()">新增一筆資料</button>
-	
-		
-		<table border="1">
+		<input type="button" class='MainBtnColor' onclick="myFunction()" value="新增一筆資料" />
+		<table width="100%" border="1">
 		<thead>
 		<tr>
-		<th class="thstyle">食物名稱</th>
-		<th class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/ManageServlet?act=sort&type=price' />')">食物價錢</th>
-		<th class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/ManageServlet?act=sort&type=qty' />')">庫存量</th>
-		<th class="thstyle">說明</th>
-		<th class="thstyle">種類</th>
-		<th class="thstyle">功能</th>
+		<th width="25%" class="thstyle">食物名稱</th>
+		<th width="10%" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/Sort?act=sort&type=price' />')">食物價錢</th>
+		<th width="10%" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/Sort?act=sort&type=qty' />')">庫存量</th>
+		<th width="30%" class="thstyle">說明</th>
+		<th width="10%" class="thstyle">種類</th>
+		<th width="15%" class="thstyle">功能</th>
 		</tr>
 		</thead>
 		<tbody>
 		<c:forEach var="food" items="${resultFood }">
 		
-		<form action="<c:url value='/secure/ManageServlet?act=updatefood'/>" method="post">
+		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<tr id="TRfood${food.fdId}">
-		<input type="hidden" value="${food.fdId }" name="fid"/>
-		<input type="hidden" value="${food.name }" name="fname"/>
-		<input type="hidden" value="${food.price }" name="fprice"/>
-		<input type="hidden" value="${food.qty }" name="fqty"/>
-		<input type="hidden" value="${food.descript }" name="fdesc"/>
-		<input type="hidden" value="${food.bdyFoodkind.fkId}" name="ffkind"/>
+ 		<input type="hidden" value="${food.fdId }" name="fid"/> 
+<%-- 		<input type="hidden" value="${food.name }" name="fname"/> --%>
+<%-- 		<input type="hidden" value="${food.price }" name="fprice"/> --%>
+<%-- 		<input type="hidden" value="${food.qty }" name="fqty"/> --%>
+<%-- 		<input type="hidden" value="${food.descript }" name="fdesc"/> --%>
+<%-- 		<input type="hidden" value="${food.bdyFoodkind.fkId}" name="ffkind"/> --%>
 
 		
 		<c:if test="${food.fdId!=param.fid }">
@@ -134,9 +124,9 @@ var contextPath='<%=request.getContextPath()%>';
 		<td id="fqty${food.fdId}">${food.qty}</td>
 		<td id="fdesc${food.fdId}">${food.descript}</td>
 		<td id="ffkind${food.fdId}"><div id="foodk${food.fdId}">${food.bdyFoodkind.name}</div></td>
-		<td>
-		<input type="submit" id="foodupdate" name="btn"  value="修改" onclick="fupdate(${food.fdId});">
-		<input type="submit" id="fooddelete" name="btn"  value="刪除" onclick="">
+		<td id="foodbtn${food.fdId}">
+		<input class='MainBtnColor' type="button" id="foodupdate" name="btn"  value="修改" onclick="fupdate(${food.fdId})">
+		<input class='MainBtnColor' type="button" id="fooddelete" name="btn"  value="刪除" onclick="fdeleteFood(${food.fdId})">
 		</td>
 		</c:if>
 		</tr>
@@ -157,7 +147,7 @@ var contextPath='<%=request.getContextPath()%>';
 		</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="detail" items="${resultDetail }">
+		<c:forEach var="detail" items="${resultDetail}">
 		<tr>
 		<td>${detail.bdySet.name}</td>
 		<td>${detail.bdyFoodkind.name}</td>		
@@ -199,6 +189,6 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />
 </div>
-</div>
+
 </body>
 </html>
