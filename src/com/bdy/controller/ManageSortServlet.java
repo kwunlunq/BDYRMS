@@ -19,8 +19,8 @@ import com.bdy.model.BdyFood;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
-@WebServlet("/secure/Manage")
-public class ManageServlet extends HttpServlet {
+@WebServlet("/secure/Sort")
+public class ManageSortServlet extends HttpServlet {
 	
 	ManageService manage;
 	boolean booleanFoodPrice = true;
