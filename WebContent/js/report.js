@@ -8,7 +8,8 @@ $(function() {
 	$("#tabs").tabs();
 	$('#container1').highcharts({
 		chart : {
-			type : 'bar'
+			type : 'bar',
+			width: 600,
 		},
 		title : {
 			text : '主餐銷售量'
@@ -54,6 +55,7 @@ $(function() {
 			{
 				chart : {
 					zoomType : 'xy',
+					width: 600,
 					events : {
 						// 圖表載入後執行GetReportData這個Function
 						load : GetReportData,
@@ -131,7 +133,7 @@ function GetReportData() {
 					text : date
 				});
 				chart2.addSeries({
-					name : '來客數',
+					name : '來客數 ',
 					type : 'column',
 					yAxis : 1,
 					data : data1,
@@ -140,7 +142,7 @@ function GetReportData() {
 					}
 				});
 				chart2.addSeries({
-					name : '平均消費金額',
+					name : '平均消費金額 ',
 					type : 'spline',
 					data : data2,
 					tooltip : {
