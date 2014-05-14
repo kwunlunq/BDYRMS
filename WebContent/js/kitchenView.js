@@ -1,6 +1,15 @@
 
 $(function() {
-    $( "#tabs" ).tabs();
+	var obj;
+	console.log("page="+page);
+	if(page==null){
+		$( "#tabs" ).tabs();
+	}else{
+		obj = {active:page};
+		$( "#tabs" ).tabs(obj);
+	}
+ 
+//	$( "#tabs" ).tabs();
    
    $('a[name="change"]').button();
     window.onload=function(){
@@ -77,10 +86,10 @@ $(function() {
     		}
   });
 
-function deleteItem(id){
-	console.log(id);
+function deleteItem(id,page){
+	console.log(id + "----" +page);
 	var b=window.confirm("你確定出餐?");
 	if(b){
-		window.location=contextPath+"/kitchen/outMeal.action?id=" + id;
+		window.location=contextPath+"/kitchen/outMeal.action?id="+id+"&page="+page;
 	}
 } 

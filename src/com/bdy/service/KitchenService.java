@@ -285,6 +285,17 @@ public class KitchenService {
 	orderlistDao.update(orderlist);
 	}
 	public List<BdyFoodkind> getFoodKinds(){
-		return foodkindDao.getAllFoodkind();
+	List<BdyFoodkind> temps=foodkindDao.getAllFoodkind();
+	Collections.sort(temps,new Comparator<BdyFoodkind>() {
+
+		@Override
+		public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+			// TODO Auto-generated method stub
+			return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+		}
+		
+		
+	});
+		return temps;
 	}
 }

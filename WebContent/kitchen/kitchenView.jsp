@@ -26,6 +26,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var page='<%=session.getAttribute("page")%>';
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -80,7 +81,7 @@ var contextPath='<%=request.getContextPath()%>';
 									<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
 				<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
 									<td name="result"></td>
-									<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value='#item.orderlistID'/>)">出餐</a></td>
+									<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value='#item.orderlistID'/>,0)">出餐</a></td>
 								</tr>
 							</s:iterator>
 						  	</table>
@@ -107,7 +108,7 @@ var contextPath='<%=request.getContextPath()%>';
 											<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
 						<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
 											<td name="result"></td>
-											<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>)">出餐</a></td>
+											<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>,<s:property value='#foodkind.fkId' />)">出餐</a></td>
 											</tr>
 											</s:if>					 			
 			 			 		</s:iterator>
