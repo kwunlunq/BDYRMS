@@ -15,7 +15,7 @@
             <column name="FK_ID" />
         </many-to-one>
         <property name="price" type="java.lang.Double">
-            <column name="PRICE"  precision="53" scale="0" />
+            <column name="PRICE" precision="53" scale="0" />
         </property>
     </class>
 </hibernate-mapping>
