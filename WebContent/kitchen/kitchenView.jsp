@@ -42,15 +42,6 @@ var contextPath='<%=request.getContextPath()%>';
 <title>BDY RSM - Welcome</title>
 </head>
 <body>
-<script>
-function deleteItem(id){
-	console.log(id);
-	  var b=window.confirm("你確定出餐?");
-	  if(b){
-		  window.location="${pageContext.request.contextPath}/kitchen/outMeal.action?id=" + id;
-	  }
-} 
-</script>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
@@ -69,7 +60,7 @@ function deleteItem(id){
 		    </s:iterator>
 		 	</ul>
 			  <div id="tabs-all">
-			  <table border="1">	    	 	
+			  <table name="tabFood" border="1">	    	 	
 						  	<s:iterator var="item" value="viewlist" status="headCheck">
 						  		<s:if test="%{#headCheck.first}">  	
 						  	<tr>

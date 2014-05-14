@@ -1,12 +1,13 @@
 
 $(function() {
     $( "#tabs" ).tabs();
+   
+   $('a[name="change"]').button();
     window.onload=function(){
 		  cala();	 
 		  setInterval(cala,1000);
-	  };
-	 
-    
+		  
+	};
     function cala(){
         var results=document.getElementsByName("result");
         var objects=document.getElementsByName("calc");
@@ -59,5 +60,17 @@ $(function() {
         	}
         }
         }
+    
+    function hide(){
+    var tab=document.getElementsByName("tabFood");
+    var b = tab
+    }
   });
 
+function deleteItem(id){
+	console.log(id);
+	var b=window.confirm("你確定出餐?");
+	if(b){
+		window.location=contextPath+"/kitchen/outMeal.action?id=" + id;
+	}
+} 
