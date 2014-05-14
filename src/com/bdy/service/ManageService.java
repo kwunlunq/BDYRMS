@@ -152,4 +152,29 @@ public class ManageService {
 	public void deleteFood(int id){
 		foodDao.delete(id);
 	}
+	public List<BdyFoodkind> getAllFoodKind(){
+		List<BdyFoodkind> resultFoodKind = foodkindDao.getAllFoodkind();
+		return resultFoodKind;
+		
+	}
+	public List<BdySet> getAllSet(){
+		List<BdySet> resultSet = setDao.getAllSet();
+		return resultSet;
+	}
+	public List<BdySetdetail> updateSet(int detailId,int setId,int fkId){
+		BdySetdetail detail = new  BdySetdetail();
+		detail.setSdId(detailId);
+		BdySet set = setDao.getSet(setId);
+		detail.setBdySet(set);
+		BdyFoodkind fk = foodkindDao.getFoodkind(fkId);
+		detail.setBdyFoodkind(fk);
+		setdetailDao.update(detail);
+		
+		 List<BdySetdetail> bean = setdetailDao.getAllSetdetail();
+		 return bean;
+		
+	}
+	public void deleteSet(int detailId){
+		setdetailDao.delete(detailId);
+	}
 }

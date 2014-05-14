@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 27~29行JavaScript程式碼 作用等同於 ＜c:url＞的功能 
 	   如果有掛載JS檔案 且 利用JavaScript產生有包含路徑讀取專案內其他文件或檔案的時候
@@ -55,6 +56,7 @@ max-width:110px;
 </style>
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var pags = "${pags}";
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -70,6 +72,7 @@ var contextPath='<%=request.getContextPath()%>';
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
 <title>BDY RSM - Welcome</title>
+
 </head>
 <body>
 
@@ -156,8 +159,11 @@ var contextPath='<%=request.getContextPath()%>';
 		
 		<td><div id="sname${detail.sdId }">${detail.bdySet.name} </div> </td>
 		<td><div id="fkname${detail.sdId }">${detail.bdyFoodkind.name}</td>		
-		<td><input class='MainBtnColor' type="button" id="update2" value="修改" onclick="supdate(${detail.sdId },${detail.bdySet.setId},${detail.bdyFoodkind.fkId})">
-			<input class='MainBtnColor' type="button" id="delete2" value="刪除"></td>
+		<td>
+		
+		<input class='MainBtnColor' type="button" value="修改" onclick="setoption(${detail.sdId },${detail.bdySet.setId},${detail.bdyFoodkind.fkId})">
+		<input class='MainBtnColor' type="button" value="刪除" onclick="setdelete(${detail.sdId })">
+		</td>
 		</tr>
 		</form>
 		</c:forEach>

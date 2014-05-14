@@ -17,8 +17,8 @@ function fcancel(fdid,fname,fprice,fqty,fdesc,ffkind) {
 	document.getElementById("fdesc"+fdid).innerHTML=fdesc;
 	document.getElementById("ffkind"+fdid).innerHTML="<div id='foodk"+fdid+"'>"+ffkind+"</div>";
 	document.getElementById("foodbtn"+fdid).innerHTML=
-		"<input class='MainBtnColor' type='button' id='foodupdate' name='btn'  value='修改' onclick='fupdate("+fdid+
-		")'><input class='MainBtnColor' type='button' id='fooddelete' name='btn'  value='刪除' onclick='fdeleteFood("+fdid+")'>";
+		"<input class='MainBtnColor' type='button' id='foodupdate'  value='修改' onclick='fupdate("+fdid+
+		")'><input class='MainBtnColor' type='button' id='fooddelete'  value='刪除' onclick='fdeleteFood("+fdid+")'>";
 	
 	
 };
@@ -31,12 +31,13 @@ function fupdate(fdid){
 	var fdesc = document.getElementById("fdesc"+fdid).innerHTML;
 	var ffkind = document.getElementById("ffkind"+fdid).firstChild.innerHTML;
 	$('#TRfood'+fdid+'>td').each(function(){
+	
 		if(count < 4){
 		var str = $(this).text();
 		$(this).html("<input type='text' size='7' value='"+str+"'>");
 		}
 		else if(count==4){
-			option(fdid);
+			foodoption(fdid);
 		}
 		else
 		{
@@ -49,18 +50,18 @@ function fupdate(fdid){
 function fdeleteFood(fdid){
 	var b=window.confirm("你確定刪除");
 	if(b){
-		window.location.href=contextPath+"/secure/delete?fid="+fdid;
+		window.location.href=contextPath+"/secure/deletefood?fid="+fdid;
 	}
 }
-function option(id){
-	xmlHttpInit.addEventListener("readystatechange",initcallback,true);
+function foodoption(id){
+	xmlHttpInit.addEventListener("readystatechange",initcallbackFood,true);
 	var urlInit = contextPath + "/secure/option";
 	xmlHttpInit.open("post",urlInit,true);
 	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	xmlHttpInit.send("act=init&id="+id);
+	xmlHttpInit.send("act=foodinit&id="+id);
 }
 
-function initcallback(){
+function initcallbackFood(){
 	if(xmlHttpInit.readyState == 4){
 		if(xmlHttpInit.status == 200){
 			var data = xmlHttpInit.responseText;
@@ -89,6 +90,6 @@ function fconfirm(fdid){
 }
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind){
-	window.location.href=contextPath+"/secure/update?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
+	window.location.href=contextPath+"/secure/updatefood?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
 	//showState("修改完成");
 }

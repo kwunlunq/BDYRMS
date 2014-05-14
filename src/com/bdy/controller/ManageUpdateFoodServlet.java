@@ -16,16 +16,16 @@ import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
-@WebServlet("/secure/delete")
-public class ManageDeleteServlet extends HttpServlet {
+@WebServlet("/secure/updatefood")
+public class ManageUpdateFoodServlet extends HttpServlet {
 	
-
-	ManageService deleteService;
+	ManageService foodservice;
 	@Override
 	public void init() throws ServletException {
 		WebApplicationContext context = WebApplicationContextUtils
 				.getRequiredWebApplicationContext(this.getServletContext());
-		deleteService = (ManageService)context.getBean("ManageService");
+		foodservice = (ManageService)context.getBean("ManageService");
+
 	}
 
 	@Override
@@ -37,17 +37,30 @@ public class ManageDeleteServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<BdySetdetail> detail = deleteService.getAllDetail();
-		List<BdyDiscount> discount = deleteService.getAllDiscount();
-		List<BdyFood> foods = deleteService.getAllFood();
-		String did = request.getParameter("fid");
-		int id = Integer.parseInt(did);		
-		deleteService.deleteFood(id);		
+		request.setCharacterEncoding("UTF-8");
+		List<BdySetdetail> detail = foodservice.getAllDetail();
+		List<BdyDiscount> discount = foodservice.getAllDiscount();
+		String ffdid = request.getParameter("fdid");
+		String fname = request.getParameter("fname");
+		String fprice = request.getParameter("fprice");
+		String fqty = request.getParameter("fqty");
+		String fdesc = request.getParameter("fdesc");
+		String ffkid = request.getParameter("ffkind");
+
+		Double price = Double.parseDouble(fprice);
+		Integer qty = Integer.parseInt(fqty);
+		Integer fkid = Integer.parseInt(ffkid);
+		Integer fdid = Integer.parseInt(ffdid);
+		
+
+		foodservice.updateFood(fdid,fname, price, qty, fdesc, fkid);
+		List<BdyFood> foods = foodservice.getAllFood();
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
-		
 	}
+
+	
 
 }
