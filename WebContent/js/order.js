@@ -59,22 +59,24 @@ function listenerInitial() {
 }
 
 function checkAddable(thisbtn) {
-//	alert("in:"+$(thisbtn).attr("id"));
-	
 	var active = $("#orderlist").tabs("option", "active");
 	if (active == 0) {
 		return true;
 	}
-	
-	
 	
 	console.log("=====================");
 	var div = $("#orderlist-"+active);
 	var thisFk = $(thisbtn).attr("fkid");
 	console.log("this.fkid="+thisFk);
 	var setid = div.attr("setid");
-	var detail = setdetails[setid];
-	console.log("detail="+setdetails[setid]);
+	var aryi = 0;
+	for (; aryi < setIds.length; aryi++) {
+		if (setIds[aryi] == setid) {
+			break;
+		}
+	}
+	var detail = setdetails[aryi];
+	console.log("detail="+setdetails[aryi]);
 	var detailCount = 0;
 	for (var i = 0; i < detail.length; i++) {
 		if (detail[i]==thisFk) {
@@ -98,7 +100,6 @@ function checkAddable(thisbtn) {
 	console.log("超過數量!");
 	
 	return false;
-	
 }
 
 
@@ -106,7 +107,7 @@ function orderlistClick() {
 	$("#ChooseSetDialog").empty();
 	if($(this).attr("isMain") == 'true'){
 		for (var i = 0; i < setNames.length; i++) {
-			// 選套餐方塊中的按鈕
+			// 選套餐dialog中的套餐按鈕
 			var btn = document.createElement("input");
 			$(btn).attr({
 				type:"button", 
@@ -132,12 +133,18 @@ function setOnClick() {
 	$("#orderlist").append("<div id='"+tagsid+"' setId='"+$(this).attr("setid")+"'></div>");
 	$("#orderlist").tabs("refresh");
 	
-	
+	// 建立不同品項div
+	var fkdiv = document.createElement("div");
+	$(fkdiv).attr("id", "fkdiv-");
+	console.log("setid="+$(this).attr("setid"));
+//	var setid = $(this).attr("setid");
+//	console.log(setdetails[setid]);
 	// 將點選要搭配套餐的主餐新增到新的div(id="orderlist-x")
 	var fdBtn = $('#'+$(this).attr("FBId"));
 	addOrderAreaBtn(tagsid, $(fdBtn).attr("fdId"), true, $(fdBtn).val(), $(fdBtn).attr("fkId"));
-	$("#ChooseSetDialog").dialog( "close" );
 	$(fdBtn).remove();
+	
+	$("#ChooseSetDialog").dialog( "close" );
 	// 將active移到新的tab
 	$("#orderlist").tabs( "option", "active", setCount);
 	setCount++;
@@ -146,8 +153,8 @@ function getSets() {
 	var url = contextPath+"/order/getSetServlet";
 	$.getJSON(url, function(result) {
 		for (var i = 0; i < result.length; i++) {
-			setNames[i] = result[i].name;
 			setIds[i] = result[i].id;
+			setNames[i] = result[i].name;
 			setdetails[i] = result[i].detail;
 		}
 	});
@@ -160,7 +167,7 @@ function getFks() {
 					fkName:result[i].fkName,
 					fkId:result[i].fkId
 			};
-			console.log(fks[i]);
+//			console.log(fks[i]);
 		}
 	});
 }
@@ -211,7 +218,7 @@ function drawTab(result) {
 		show : { effect: "fade", duration: 150 }});
 }
 var FBId = 0;
-function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId){
+function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
 	var foodBtnId = "foodBtnId"+FBId;
 	var newOABtn = $("<input class='MainBtnColor' type='button'>");
 	newOABtn.attr({
