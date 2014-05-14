@@ -6,27 +6,13 @@ $(function() {
 	  function deleteItem(id){
 		  console.log(id);
 	  }
-    var icons = {
-      header: "ui-icon-circle-arrow-e",
-      activeHeader: "ui-icon-circle-arrow-s"
-    };
-    $( "#accordion" ).accordion({
-      icons: icons,
-      heightStyle: "content"
-    });
+    $( "#tabs" ).tabs();
     $( "a,button" )
     .button()
     .click(function( event ) {
     	event.preventDefault();
     });
       
-    $( "#toggle" ).button().click(function() {
-      if ( $( "#accordion" ).accordion( "option", "icons" ) ) {
-        $( "#accordion" ).accordion( "option", "icons", null );
-      } else {
-        $( "#accordion" ).accordion( "option", "icons", icons );
-      }
-    });
     
     function cala(){
     var results=document.getElementsByName("result");
