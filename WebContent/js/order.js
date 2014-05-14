@@ -1,4 +1,3 @@
-var selMains   = [];  // array of mains' names
 var setNames   = [];
 var setIds     = [];
 var setdetails = [];
@@ -13,11 +12,14 @@ $(function() {
 	listenerInitial(); // 掛載listener
 	
 	// 解決IE緩存問題
-	$.ajaxSetup({ cache: false });  
+	$.ajaxSetup({ cache: false });
 });
 
 
 function listenerInitial() {
+	$('#finishDialog').dialog({
+		autoOpen: false});
+	$('#orderConfirm').click(confirmClick);
 	$('#orderarea').on('click','input',function(){
 		var canAdd = checkAddable($(this));
 		if (canAdd) {
@@ -55,6 +57,38 @@ function listenerInitial() {
 		 var panelId = $( this ).closest( "li" ).remove().attr("divid");
 	      $( "#" + panelId ).remove();
 	      $( "#orderlist" ).tabs( "refresh" );
+	});
+}
+
+function confirmClick() {
+	$("#finishDialog").dialog("open");
+	var dialog = $("#finishDialog");
+//	console.log($(this).attr("id"));
+	$.each($("div[id^='orderlist-']"), function (index, child) {
+//		console.log(index+" : "+$(this).attr("id"));
+		if (index == 0) {
+			$(dialog).append("<h2>單點</h2>");
+		} else {
+			var setId = $(this).attr("setid");
+			console.log("setId="+setId);
+			console.log("setNames="+setNames);
+			var aryi = 0;
+			for (; aryi < setIds.length; aryi++) {
+				if (setIds[aryi] == setId) {
+					break;
+				}
+			}
+			var setName = setNames[aryi];
+			$(dialog).append("<h2>"+setName+"</h2>");
+		}
+		
+		$.each($(this).children("input"), function (index, cchild) {
+			$(dialog).append("<h3>"+$(this).val()+"</h3>");
+				
+				
+//			console.log($(this).attr("id"));
+			});
+//		$(dialog).append(ul);
 	});
 }
 
@@ -136,7 +170,7 @@ function setOnClick() {
 	// 建立不同品項div
 	var fkdiv = document.createElement("div");
 	$(fkdiv).attr("id", "fkdiv-");
-	console.log("setid="+$(this).attr("setid"));
+//	console.log("setid="+$(this).attr("setid"));
 //	var setid = $(this).attr("setid");
 //	console.log(setdetails[setid]);
 	// 將點選要搭配套餐的主餐新增到新的div(id="orderlist-x")
