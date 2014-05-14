@@ -31,3 +31,35 @@
 	margin: 0.6em 0.2em 0 0;
 	cursor: pointer;
 }
+
+
+
+
+ul {
+	list-style-type: none;
+}
+
+li {
+	padding: 5px;
+	margin: 0px;
+	
+	background: #e8edff; 
+	border-bottom: 1px solid #fff;
+	color: #669;
+	border-top: 1px solid transparent;
+}
+
+li:hover{
+	background: #d0dafd;
+	color: #339;
+}
+
+
+
+
+
+
+
+
+
+
