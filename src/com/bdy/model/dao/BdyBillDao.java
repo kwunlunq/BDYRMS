@@ -133,7 +133,4 @@ public class BdyBillDao {
 		session.close();
 		return bills;
 	}
-	//日收入與來客數
-	//select END_DATE,sum(PRICE),sum(CUST_NUM) from BDY_BILL
-	//where END_DATE between '2013-03-02 00:00:00' and '2013-03-02 23:59:59' group by END_DATE
 }

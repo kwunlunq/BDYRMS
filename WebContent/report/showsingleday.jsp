@@ -79,14 +79,28 @@ table,th,td,tr {
 							</ul>
 							<div id="tabs-1">
 								<c:if test="${not empty bills}">
+									<h3>日期 : ${param.date}</h3>
+									<h3>用餐人數 : <c:set var="totalNum" value="0"/>
+														<c:forEach var="bills" items="${bills}">
+															<c:set var="totalNum" value="${totalNum+bills.custNum}"/>
+														</c:forEach>
+														${totalNum} 人
+									</h3>
+					 				<h3>營收 : <c:set var="totalPrice" value="0"/>
+														<c:forEach var="bills" items="${bills}">
+															<c:set var="totalPrice" value="${totalPrice+bills.price}"/>
+														</c:forEach>
+														<fmt:formatNumber type="number"
+															value="${totalPrice}" maxFractionDigits="0" /> 元
+									</h3>
 									<table style="margin:0 auto">
 										<thead>
 											<tr>
 												<th>點餐單號</th>
 												<th>用餐人數</th>
-												<th>總金額</th>
-												<th>折扣名稱</th>
 												<th>消費金額</th>
+												<th>折扣名稱</th>
+												<th>結帳金額</th>
 												<th>結帳員工</th>
 												<th>結帳時間</th>
 											</tr>
@@ -94,7 +108,7 @@ table,th,td,tr {
 										<tbody>
 											<c:forEach var="bills" items="${bills}">
 												<tr>
-													<td>${bills.bdyOrder.odId}</td>
+													<td id="${bills.bdyOrder.odId}">${bills.bdyOrder.odId}</td>
 													<td>${bills.custNum}</td>
 													<td><fmt:formatNumber type="number"
 															value="${bills.price/bills.bdyDiscount.disPrice}"
@@ -122,7 +136,6 @@ table,th,td,tr {
 						<!-- END Write-->
 				</div>
 				<!-- 	id="writeCodeInThisDiv" -->
-
 			</div>
 		</div>
 		<div id="footer">

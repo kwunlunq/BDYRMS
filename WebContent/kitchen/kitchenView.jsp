@@ -34,7 +34,7 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script src="<c:url value="/js/kitchen.js"/>"></script>
+<script src="<c:url value="/js/kitchenView.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -51,75 +51,71 @@ var contextPath='<%=request.getContextPath()%>';
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
 <div id="article">
-<script>
-	function deleteItem(id){
-	var b=window.confirm("你確定出餐?");
-	if(b){
-		window.location.href="${pageContext.request.contextPath}/kitchen/outMeal.action?id="+id;
-		}
-	}
-</script>
 	<div id="writeCodeInThisDiv">
-	<div id="accordion" style="width:98%">
-	  <h3>出餐總覽(<s:property value="viewlist.size" />)品項</h3>
-	  <div id="myDiv1" style="heigh:98%">
-	  <table border="1">
-	  	<tr>
-			<th>桌號</th>
-			<th>餐點名稱</th>
-			<th>點餐時間</th>
-			<th>出餐時間</th>
-<!-- 			<th>製作時間</th> -->
-			<th>距離時間</th>
-			<th>確定出餐</th>	
-	  	</tr>
-	  		<s:iterator var="item" value="viewlist">
-				<tr>
-					<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
-					<td><s:property value="#item.orderlistname"/></td>
-					<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
-					<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
-<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
-					<td name="result"></td>
-					<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>)">出餐</a></td>
-				</tr>
-			</s:iterator>
-		</table>		
-	  </div>
-	  <s:iterator var="foodkind" value="foodKinds">
-	  	<h3><s:property value="#foodkind.name" />區</h3>
-	  	<div>
-	  	<table border="1">
-	  			<tr>
-					<th>桌號</th>
-					<th>餐點名稱</th>
-					<th>點餐時間</th>
-					<th>出餐時間</th>
-	<!-- 			<th>製作時間</th> -->
-					<th>距離時間</th>
-					<th>確定出餐</th>	
-	  			</tr>
-	  		<s:iterator var="item" value="viewlist">
-	  			<s:if test="%{#item.foodkindID==#foodkind.fkId}">
-	  				<tr>
-					<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
-					<td><s:property value="#item.orderlistname"/></td>
-					<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
-					<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
-<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
-					<td name="result"></td>
-					<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>)">出餐</a></td>
-				</tr>
-	  			</s:if>
-	  		</s:iterator>
-	  		</table>
-	  	</div>
-	  </s:iterator>
-	</div>
-	<button id="toggle">Toggle icons</button>
-	<FORM NAME="clock"><INPUT TYPE="text" NAME="face" SIZE=10></FORM>
-	
-	
+		<div id="tabs">
+		  <ul>
+		    <li><a href="#tabs-all">出餐總覽(<s:property value="viewlist.size" />)品項</a></li>
+		    <s:iterator var="foodkind" value="foodKinds">
+		    	<li><a href="#tabs-<s:property value='#foodkind.fkId' />"><s:property value="#foodkind.name" />區</a></li>
+		    </s:iterator>
+		 	</ul>
+			  <div id="tabs-all">
+			  <table name="tabFood" border="1">	    	 	
+						  	<s:iterator var="item" value="viewlist" status="headCheck">
+						  		<s:if test="%{#headCheck.first}">  	
+						  	<tr>
+								<th>桌號</th>
+								<th>餐點名稱</th>
+								<th>點餐時間</th>
+								<th>出餐時間</th>
+					<!-- 			<th>製作時間</th> -->
+								<th>距離時間</th>
+								<th>確定出餐</th>	
+						  	</tr>
+						  		</s:if>
+								<tr>
+									<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
+									<td><s:property value="#item.orderlistname"/></td>
+									<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
+									<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
+				<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
+									<td name="result"></td>
+									<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value='#item.orderlistID'/>)">出餐</a></td>
+								</tr>
+							</s:iterator>
+						  	</table>
+				</div><!-- table all -->		  	
+			 			 <s:iterator var="foodkind" value="foodKinds">
+			 			 	<div id="tabs-<s:property value="#foodkind.fkId" />">
+			 			 						<table border="1">	
+												<tr>
+															<th>桌號</th>
+															<th>餐點名稱</th>
+															<th>點餐時間</th>
+															<th>出餐時間</th>
+												<!-- 			<th>製作時間</th> -->
+															<th>距離時間</th>
+															<th>確定出餐</th>	
+												</tr> 	  		
+			 			 		<s:iterator var="item" value="viewlist" status="headCheck">
+			 			 							 			 		 
+											<s:if test="%{#item.foodkindID==#foodkind.fkId}">												
+										  	<tr>
+											<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
+											<td><s:property value="#item.orderlistname"/></td>
+											<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
+											<td ><s:date name="#item.outMealTime" format="yyyy-MM-dd EEEE HH:mm"/></td>
+						<%-- 					<td><s:property value="%{(#item.outMealTime.time-#item.orderDate.time)/1000/60}"/>分鐘</td> --%>
+											<td name="result"></td>
+											<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value="#item.orderlistID"/>)">出餐</a></td>
+											</tr>
+											</s:if>					 			
+			 			 		</s:iterator>
+			 			 		</table>
+			 			 	</div>
+			 			 </s:iterator>
+		
+	</div><!-- end tabs  -->
 	</div><!-- 	id="writeCodeInThisDiv" -->
 
 </div>

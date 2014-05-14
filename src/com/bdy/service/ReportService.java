@@ -4,11 +4,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import com.bdy.model.BdyBill;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyDiscountDao;
 import com.bdy.model.dao.BdyEmpDao;
@@ -114,14 +113,37 @@ public class ReportService {
 
 	@SuppressWarnings("unchecked")
 	public JSONObject getSingleDayJSON(java.util.Date date) {
-
+		
+		JSONObject obj = new JSONObject();
 		/*
-		 * 目標 : { "來客數":["", "", "", "", "", ..., ""], "平均消費金額":["", "", "", "",
-		 * "", ..., ""] }
+		 *目標 :
+		 *	{
+		 *		"主餐名稱":["牛排", "披薩", ...,"燉飯"],
+		 *		"主餐數量":["", "", ..., ""]
+ 		 *  }
+ 		 *  
 		 */
-
-		List<BdyBill> beans = new ArrayList<BdyBill>();
-		beans = billDao.getDayRevenueDetailsDB(date);
+		
+		
+		
+		List<BdyMainkind> mainkindBeans = new ArrayList<BdyMainkind>();;
+		mainkindBeans = mainkindDao.getAllMainkind();
+		JSONArray mainkindList = new JSONArray();
+		for (BdyMainkind mainkind : mainkindBeans) {
+			mainkindList.add(mainkind.getName());
+		}
+		obj.put("mainkindName", mainkindList);
+		
+		/*
+		 *目標 : 
+		 *	{ 
+		 * 		"來客數":["", "", "", "", "", ..., ""], 
+		 *		"平均消費金額":["", "", "", "", ..., ""] 
+		 *	}
+		 */		
+		
+		List<BdyBill> billBeans = new ArrayList<BdyBill>();
+		billBeans = billDao.getDayRevenueDetailsDB(date);
 		double sumPrice8 = 0;
 		int sumCustNum8 = 0;
 		double sumPrice9 = 0;
@@ -155,90 +177,89 @@ public class ReportService {
 		double sumPrice23 = 0;
 		int sumCustNum23 = 0;
 
-		for (BdyBill bills : beans) {
-
-			java.util.Date billEndDate = bills.getEndDate();
+		for (BdyBill bill : billBeans) {
+			java.util.Date billEndDate = bill.getEndDate();
 			java.util.Calendar calendar = java.util.Calendar.getInstance();
 			calendar.setTime(billEndDate);
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			if (hour == 8) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice8 = sumPrice8 + billPrice;
 				sumCustNum8 = sumCustNum8 + billCustNum;
 			} else if (hour == 9) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice9 = sumPrice9 + billPrice;
 				sumCustNum9 = sumCustNum9 + billCustNum;
 			} else if (hour == 10) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice10 = sumPrice10 + billPrice;
 				sumCustNum10 = sumCustNum10 + billCustNum;
 			} else if (hour == 11) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice11 = sumPrice11 + billPrice;
 				sumCustNum11 = sumCustNum11 + billCustNum;
 			} else if (hour == 12) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice12 = sumPrice12 + billPrice;
 				sumCustNum12 = sumCustNum12 + billCustNum;
 			} else if (hour == 13) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice13 = sumPrice13 + billPrice;
 				sumCustNum13 = sumCustNum13 + billCustNum;
 			} else if (hour == 14) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice14 = sumPrice14 + billPrice;
 				sumCustNum14 = sumCustNum14 + billCustNum;
 			} else if (hour == 15) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice15 = sumPrice15 + billPrice;
 				sumCustNum15 = sumCustNum15 + billCustNum;
 			} else if (hour == 16) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice16 = sumPrice16 + billPrice;
 				sumCustNum16 = sumCustNum16 + billCustNum;
 			} else if (hour == 17) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice17 = sumPrice17 + billPrice;
 				sumCustNum17 = sumCustNum17 + billCustNum;
 			} else if (hour == 18) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice18 = sumPrice18 + billPrice;
 				sumCustNum18 = sumCustNum18 + billCustNum;
 			} else if (hour == 19) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice19 = sumPrice19 + billPrice;
 				sumCustNum19 = sumCustNum19 + billCustNum;
 			} else if (hour == 20) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice20 = sumPrice20 + billPrice;
 				sumCustNum20 = sumCustNum20 + billCustNum;
 			} else if (hour == 21) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice21 = sumPrice21 + billPrice;
 				sumCustNum21 = sumCustNum21 + billCustNum;
 			} else if (hour == 22) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice22 = sumPrice22 + billPrice;
 				sumCustNum22 = sumCustNum22 + billCustNum;
 			} else if (hour == 23) {
-				double billPrice = bills.getPrice();
-				int billCustNum = bills.getCustNum();
+				double billPrice = bill.getPrice();
+				int billCustNum = bill.getCustNum();
 				sumPrice23 = sumPrice23 + billPrice;
 				sumCustNum23 = sumCustNum23 + billCustNum;
 			}
@@ -397,7 +418,7 @@ public class ReportService {
 		list2.add(Double.parseDouble(df.format(priceDividedByCustNum22)));
 		list2.add(Double.parseDouble(df.format(priceDividedByCustNum23)));
 
-		JSONObject obj = new JSONObject();
+		
 
 		obj.put("sumCustNumByhour", list1);
 		obj.put("avgPriceDividedByCustNumByhour", list2);
@@ -407,4 +428,6 @@ public class ReportService {
 		
 		return obj;
 	}
+	
+	
 }

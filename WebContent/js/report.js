@@ -10,18 +10,19 @@ $(function() {
 		chart : {
 			type : 'bar',
 			width: 600,
+			events : {
+				// 圖表載入後執行GetReportData這個Function
+				load : GetReportData,
+			}
 		},
 		title : {
 			text : '主餐銷售量'
 		},
 		subtitle : {
-			text : '2013-03-02'
+			text : ''
 		},
 		xAxis : {
-			categories : [ '牛排', '披薩', '義大利麵', '燉飯' ],
-			title : {
-				text : null
-			}
+			
 		},
 		yAxis : {
 			min : 0,
@@ -108,12 +109,13 @@ $(function() {
 				series : []
 			});
 });
-var chart1 = $('#container1').highcharts();
+
 
 var data1;
 var data2;
-
+var data3;
 function GetReportData() {
+	var chart1 = $('#container1').highcharts();
 	var chart2 = $('#container2').highcharts();
 	var date = $('#datepicker').val();
 	if (date != null && date.length > 0) {
@@ -129,6 +131,11 @@ function GetReportData() {
 			success : function(result) {
 				data1 = result.sumCustNumByhour;
 				data2 = result.avgPriceDividedByCustNumByhour;
+				data3 = result.mainkindName;
+				chart1.setTitle(null, {
+					text : date
+				});
+				chart1.xAxis[0].setCategories(data3);
 				chart2.setTitle(null, {
 					text : date
 				});
