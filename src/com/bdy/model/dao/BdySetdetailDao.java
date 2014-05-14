@@ -99,7 +99,6 @@ private SessionFactory sf = null;
 			tmpSetdetail.setBdyFoodkind(setdetail.getBdyFoodkind());
 			tmpSetdetail.setPrice(setdetail.getPrice());
 			
-			
 		} else {
 			System.out.println("修改失敗 : 資料不存在 (odId:"+setdetail.getSdId()+")");
 			session.close();
