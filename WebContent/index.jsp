@@ -21,6 +21,7 @@ function doLogin(){
 		$('#loginMainBox').css({display:'block'});
 		$('#loginMainBox').animate({width:"300px"},1000,function(){
 			$('form').submit();
+			self.setInterval("countLoginTime()",1000);
 		});
 	});
 }
@@ -33,6 +34,16 @@ $(function(){
 	    });
 	});
 });
+var count = 1;
+function countLoginTime(){
+	if(count<=5){
+		$('h3').text(count + " s");
+	}else{
+		$('#loginState').text("登入逾時");
+		$('h3').html("<input class='MainBtnColor' type='button' value='再試一次' onclick='location.reload();'><h5>或 繼續等待 "+count+ " s<h5>");
+	}
+	count++;
+}
 </script>
 <style>
 	body,html{
@@ -95,6 +106,8 @@ $(function(){
 		margin-top:-200px;
 		left:72%;
 	}
+	#loginState{margin-top:-10px;}
+	h5{margin-top:5px;}
 </style>
 </head>
 <body>
@@ -123,7 +136,8 @@ $(function(){
 <h4>Restaurant Management Syetem</h4>
 <img src="<c:url value='/images/BADOYAO_LogoSmall.gif'/>">
 <br><br>
-<h1>登入中...</h1>
+<h1 id="loginState">登入中...</h1>
+<h3></h3>
 </div>
 </div>
 </body>

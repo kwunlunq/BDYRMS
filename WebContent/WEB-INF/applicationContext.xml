@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- 使用自己電腦上的 資料庫 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url" value="jdbc:sqlserver://localhost:1433;database=BDY"/>
@@ -10,6 +11,20 @@
 		<property name="password" value="sa1234" />
 	</bean>
 	
+<!-- 使用Windows Azure上的 資料庫 
+jdbc:sqlserver://b7x898iibs.database.windows.net:1433;database=BDY;
+user=BDY@b7x898iibs;
+encrypt=true;
+hostNameInCertificate=*.database.windows.net;
+loginTimeout=30;
+-->
+<!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" /> -->
+<!-- 		<property name="url" value="jdbc:sqlserver://b7x898iibs.database.windows.net:1433;database=BDY;"/> -->
+<!-- 		<property name="username" value="BDY@b7x898iibs" /> -->
+<!-- 		<property name="password" value="Passw0rd***" /> -->
+<!-- 	</bean> -->
+
 <!-- 	<bean id="dataSource" -->
 <!-- 		class="org.springframework.jndi.JndiObjectFactoryBean"> -->
 <!-- 		<property name="jndiName"> -->
