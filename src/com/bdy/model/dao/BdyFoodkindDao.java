@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -24,7 +25,9 @@ public class BdyFoodkindDao {
 	@SuppressWarnings("unchecked")
 	public List<BdyFoodkind> getAllFoodkind(){
 		Session session = sf.openSession();
-		List<BdyFoodkind> result = session.createCriteria(BdyFoodkind.class).list();
+		List<BdyFoodkind> result = session.createCriteria(BdyFoodkind.class)
+				   						  .addOrder(Order.asc("seq"))
+				   						  .list();
 		session.close();
 		return result;
 	}

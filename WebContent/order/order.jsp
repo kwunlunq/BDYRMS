@@ -62,11 +62,7 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="orderarea" class="selector">
 	<ul id="ul-order">
-<!-- 		<li><a href="#mainArea">主餐</a></li> -->
-<!-- 		<li><a href="#setArea">套餐</a></li> -->
 	</ul>
-<!-- 	<div id="mainArea"></div> -->
-<!-- 	<div id="setArea"></div> -->
 </div>
 <div id="orderlist" class="selector">
 	<ul id="ul-detail">
@@ -78,9 +74,6 @@ var contextPath='<%=request.getContextPath()%>';
 
 
 <div id="ChooseSetDialog" title="選擇套餐">
-<!-- 	<input class="MainBtnColor" type="button" value="很怕套餐"> -->
-<!-- 	<input class="MainBtnColor" type="button" value="螺絲套餐"> -->
-<!-- 	<input class="MainBtnColor" type="button" value="榔頭套餐"> -->
 </div>
 <!-- END Write-->
 	</div><!-- 	id="writeCodeInThisDiv" -->

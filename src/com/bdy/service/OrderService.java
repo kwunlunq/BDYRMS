@@ -166,9 +166,9 @@ public class OrderService {
 		/*
 		 * 目標 :
 		 * {"isMain":
-		 * 		[{"牛排":[	{"fdId"="1", "fdName"="牛小排"},
-		 * 					{"fdId"="2", "fdName"="菲力牛排"}
-		 * 					{"fdId"="3", "fdName"="肋眼牛排"}]}, 
+		 * 		[{"牛排":[	{"fdId"="1", "fdName"="牛小排", "fkId=5"},
+		 * 					{"fdId"="2", "fdName"="菲力牛排", "fkId=5"}
+		 * 					{"fdId"="3", "fdName"="肋眼牛排", "fkId=5"}]}, 
  		 *  	 {"披薩":["	{"fdId"="4", "fdName"="夏威夷披薩"},
  		 *  				{"fdId"="5", "fdName"="海鮮披薩"}]}
  		 *  	]
@@ -185,12 +185,18 @@ public class OrderService {
 			System.out.println(mk.getName());
 			System.out.println("---------------");
 			int mkId = mk.getMkId();
+			int fkId = -1;
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
 			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
 				System.out.println(food.getName());
+				if (fkId == -1) {
+					fkId = food.getBdyFoodkind().getFkId();
+//					System.out.println("fkId="+fkId);
+				}
 				foodBuilder.add(Json.createObjectBuilder()
 									.add("fdId", food.getFdId())
 									.add("fdName", food.getName())
+									.add("fkId", fkId)
 									.build());
 			}
 			System.out.println("\n\n");
@@ -214,6 +220,7 @@ public class OrderService {
 				foodBuilder.add(Json.createObjectBuilder()
 									.add("fdId", food.getFdId())
 									.add("fdName", food.getName())
+									.add("fkId", fk.getFkId())
 									.build());
 			}
 			fkBuilder.add(Json.createObjectBuilder()
@@ -227,14 +234,24 @@ public class OrderService {
 		return resultObject;
 	}
 	
-	
+	public JsonArray getFoodkindJson() {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		for (BdyFoodkind fk : foodkindDao.getAllFoodkind()) {
+			aryBuilder.add(Json.createObjectBuilder()
+							   .add("fkName", fk.getName())
+							   .add("fkId", fk.getFkId())
+							   .build());
+		};
+		
+		return aryBuilder.build();
+	}
 	public JsonArray getSetJson() {
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdySet set : setDao.getAllSet()) {
 			// 名稱
 			System.out.println(set.getName());
 			
-			List<BdySetdetail> details = setdetailDao.getSetdetailBySetId(set.getSetId());
+			List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(set.getSetId());
 			
 			JsonArrayBuilder detailbuilder = Json.createArrayBuilder();
 			for (BdySetdetail detail : details) {
