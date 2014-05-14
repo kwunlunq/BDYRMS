@@ -148,7 +148,6 @@ private SessionFactory sf = null;
 							   .createAlias("bdySet", "BdySet")
 							   .add(Restrictions.eq("BdySet.setId", SetId))
 							   .createAlias("bdyFoodkind", "fk")
-//							   .add(Restrictions.eq("fk.fkId", 1))
 							   .addOrder(Order.asc("fk.seq"))
 							   .list()
 							   .iterator();
