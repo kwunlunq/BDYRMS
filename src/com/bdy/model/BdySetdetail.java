@@ -7,6 +7,7 @@ package com.bdy.model;
  */
 public class BdySetdetail implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int sdId;
 	private BdySet bdySet;
 	private BdyFoodkind bdyFoodkind;
