@@ -6,7 +6,7 @@ $(function() {
     window.onload=function(){
 		  cala();	 
 		  setInterval(cala,1000);
-		  
+		  hide();
 	};
     function cala(){
         var results=document.getElementsByName("result");
@@ -62,9 +62,19 @@ $(function() {
         }
     
     function hide(){
-    var tab=document.getElementsByName("tabFood");
-    var b = tab
-    }
+    			$.each($("table[name='tabFood']"),function(){
+    				if(($(this).find("tr").length)==1){
+    					$(this).parent().append("<h3 style='color:red'> 目前無資料 </h3>");
+    					$(this).hide();
+    				}
+    				
+//    				if($(this).hasClass("noFood")){
+//    					$(this).hide();
+//    				}
+    			});
+ 
+    			
+    		}
   });
 
 function deleteItem(id){
