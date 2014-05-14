@@ -60,7 +60,7 @@ var contextPath='<%=request.getContextPath()%>';
 		    </s:iterator>
 		 	</ul>
 			  <div id="tabs-all">
-			  <table name="tabFood" border="1">	    	 	
+			  <table  border="1">	    	 	
 						  	<s:iterator var="item" value="viewlist" status="headCheck">
 						  		<s:if test="%{#headCheck.first}">  	
 						  	<tr>
@@ -87,7 +87,7 @@ var contextPath='<%=request.getContextPath()%>';
 				</div><!-- table all -->		  	
 			 			 <s:iterator var="foodkind" value="foodKinds">
 			 			 	<div id="tabs-<s:property value="#foodkind.fkId" />">
-			 			 						<table border="1">	
+			 			 						<table name="tabFood" border="1">	
 												<tr>
 															<th>桌號</th>
 															<th>餐點名稱</th>
@@ -100,7 +100,7 @@ var contextPath='<%=request.getContextPath()%>';
 			 			 		<s:iterator var="item" value="viewlist" status="headCheck">
 			 			 							 			 		 
 											<s:if test="%{#item.foodkindID==#foodkind.fkId}">												
-										  	<tr>
+										  	<tr class="noFood">
 											<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
 											<td><s:property value="#item.orderlistname"/></td>
 											<td><s:date name="#item.orderDate" format="yyyy-MM-dd EEEE HH:mm"  /></td>
