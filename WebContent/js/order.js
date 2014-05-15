@@ -3,7 +3,7 @@ var setIds     = [];
 var setdetails = [];
 var fks        = [];
 var orderlistIndex = 0;
-
+var setCount = 1;
 
 $(function() {
 	getFoods();	// 取得所有食物
@@ -17,8 +17,37 @@ $(function() {
 
 
 function listenerInitial() {
+	$('body').on('click','#num',function(){
+		var textValue = $('#setNumberOfCust').val();
+		if($(this).val() == "clear"){
+			$('#setNumberOfCust').val("0");
+		}else if($(this).val()=="back"){
+			textValue = textValue.substring(0,textValue.length-1);
+			$('#setNumberOfCust').val(textValue);
+			if(textValue.length <= 0 || textValue=='0')
+				$('#setNumberOfCust').val("0");
+		}else{
+			if(textValue == '0')
+				textValue="";
+			$('#setNumberOfCust').val(textValue+$(this).val());
+		}
+	});
 	$('#finishDialog').dialog({
-		autoOpen: false});
+		autoOpen: false,
+		modal:true,
+		resizable: false,
+	    width:650,
+		buttons: [{
+				text: "繼續點餐",
+				click: function() {
+					$( this ).dialog( "close" );
+				}},
+				{
+				text: "送出",
+				click: function() {
+					$( this ).dialog( "close" );
+				}}]
+	});
 	$('#orderConfirm').click(confirmClick);
 	$('#orderarea').on('click','input',function(){
 		var canAdd = checkAddable($(this));
@@ -53,21 +82,93 @@ function listenerInitial() {
 	      }
 	});
 	
-	$( "#orderlist" ).delegate( "span.ui-icon-close", "click", function() {
-		 var panelId = $( this ).closest( "li" ).remove().attr("divid");
-	      $( "#" + panelId ).remove();
-	      $( "#orderlist" ).tabs( "refresh" );
+	$( "#orderlist" ).delegate( "span.ui-icon-close", "click", function(){
+			deletSetTab($(this));
+		});
+	
+	//選擇桌號與人數的Dialog
+	$('body').on('click','#setTableAndPeople',function(){
+		$('#ChooseTableAndPeopleDialog').dialog("open");
+	});
+	$("#ChooseTableAndPeopleDialog").dialog({
+		autoOpen: false,
+		modal:true,
+		width: 300,
+	    show: {
+	        effect: "clip",
+	        duration: 800
+	    },
+	    hide: {
+	        effect: "clip",
+	        duration: 800
+	    },
+		buttons: [{
+				text: "取消",
+				click: function() {
+					$('#floor').text("-");
+					$('#floor').attr("value","");
+					$('#tableNum').text("-");
+					$('#tableNum').attr("value","");
+					$('#peopleCount').text("-");
+					$('#peopleCount').attr("value","");
+					$( this ).dialog( "close" );
+				}},
+				{
+				text: "確定",
+				click: function() {
+					$('#floor').text($("#setFloor").find(":selected").text());
+					$('#floor').attr("value",$("#setFloor").find(":selected").val());
+					$('#tableNum').text($("#setTableNum").find(":selected").text());
+					$('#tableNum').attr("value",$("#setTableNum").find(":selected").val());
+					$('#peopleCount').text($("#setNumberOfCust").val());
+					$('#peopleCount').attr("value",$("#setNumberOfCust").val());
+					$( this ).dialog( "close" );
+				}}]
 	});
 }
 
+function createGarbageCan(locationId,canId){
+	var Gcan = $('<div id="garbageCan'+canId+'" class="garbageCanOriginal"></div>');
+	$('#'+locationId).append(Gcan);
+	$(Gcan).droppable({ //將垃圾桶 加入droppable事件
+		hoverClass: "garbageCanHover",
+	  	drop: function( event, ui ) {
+	  		ui.draggable.remove();
+			var foodCount = 0;
+			var thisTab = $('#ul-detail>li[divid="orderlist-'+canId+'"]>span');
+			$('#orderlist-'+canId+'>input').each(function(index,foodBtn){
+				foodCount++;
+			});
+			if(foodCount <= 0 && canId != 0){
+				deletSetTab(thisTab);
+			}
+	  	}
+	});
+}
+
+function deletSetTab(thisTab){
+	 setCount--;
+	 var panelId = $( thisTab ).closest( "li" ).remove().attr("divid");
+	 var canId = panelId.substring(panelId.length-1);
+	 $('#garbageCan'+canId).remove();
+	 $( "#" + panelId ).remove();
+     $( "#orderlist" ).tabs( "refresh" );
+}
+
 function confirmClick() {
-	$("#finishDialog").dialog("open");
+	$("#finishDialog").empty();
 	var dialog = $("#finishDialog");
 //	console.log($(this).attr("id"));
 	$.each($("div[id^='orderlist-']"), function (index, child) {
 //		console.log(index+" : "+$(this).attr("id"));
+		var setDiv = $('<div style="width:200px;float:left;"></div>');
 		if (index == 0) {
-			$(dialog).append("<h2>單點</h2>");
+			var foodCount = 0;
+			$('#orderlist-0>input').each(function(index3,content){
+				foodCount ++;
+			});
+			if(foodCount>0)
+				$(setDiv).append("<h3 style='height:10px'>單點</h3>");
 		} else {
 			var setId = $(this).attr("setid");
 			console.log("setId="+setId);
@@ -79,16 +180,15 @@ function confirmClick() {
 				}
 			}
 			var setName = setNames[aryi];
-			$(dialog).append("<h2>"+setName+"</h2>");
+			$(setDiv).append("<h3 style='height:10px'>"+setName+"</h3>");
 		}
 		
 		$.each($(this).children("input"), function (index, cchild) {
-			$(dialog).append("<h3>"+$(this).val()+"</h3>");
-				
-				
-//			console.log($(this).attr("id"));
+			$(setDiv).append("<p style='margin-left:20px'>"+$(this).val()+"</p>");
+
 			});
-//		$(dialog).append(ul);
+		$(dialog).append(setDiv);
+		$(dialog).dialog("open");
 	});
 }
 
@@ -158,13 +258,14 @@ function orderlistClick() {
 		$(this).effect("highlight");
 	}
 }
-var setCount = 1;
+
 function setOnClick() {
 	// 新的div id
 	var tagsid = "orderlist-"+ setCount;
 	// 新增新的li/div
 	$("#ul-detail").append("<li divid='"+tagsid+"'><a href='#"+ tagsid +"'>"+$(this).val()+"</a><span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>");
 	$("#orderlist").append("<div id='"+tagsid+"' setId='"+$(this).attr("setid")+"'></div>");
+	$('#tagsid').append("<h1>I'm here</h1>");
 	$("#orderlist").tabs("refresh");
 	
 	// 建立不同品項div
@@ -177,6 +278,7 @@ function setOnClick() {
 	var fdBtn = $('#'+$(this).attr("FBId"));
 	addOrderAreaBtn(tagsid, $(fdBtn).attr("fdId"), true, $(fdBtn).val(), $(fdBtn).attr("fkId"));
 	$(fdBtn).remove();
+	createGarbageCan(tagsid,setCount);//放入垃圾桶
 	
 	$("#ChooseSetDialog").dialog( "close" );
 	// 將active移到新的tab
@@ -243,6 +345,9 @@ function drawTab(result) {
 			$("#ul-order").append(li);
 		}
 	}
+	
+	$('#ul-detail').css("display","block");
+	createGarbageCan('orderlist-0',0);
 
 	$("#orderarea").tabs({ heightStyle: "fill", 
 		hide : { effect: "fade", duration: 150 }, 
@@ -254,7 +359,7 @@ function drawTab(result) {
 var FBId = 0;
 function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
 	var foodBtnId = "foodBtnId"+FBId;
-	var newOABtn = $("<input class='MainBtnColor' type='button'>");
+	var newOABtn = $("<input class='MainBtnColor FoodBtnStyle' type='button'>");
 	newOABtn.attr({
 		fdId:fdId, 
 		isMain:isMain,
@@ -262,6 +367,9 @@ function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
 		id:foodBtnId,
 		fkId: fkId
 	});
+	if(foodTag.indexOf("orderlist-") != -1 ){
+		$(newOABtn).draggable({cancel:false,revert: "invalid"});
+	}
 	$('#'+foodTag).append(newOABtn);
 	FBId++;
 }
