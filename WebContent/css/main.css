@@ -35,10 +35,10 @@ input:focus, textarea:focus, select:focus
 }
 
 #mainPageContent{
-	background-image: url("/BDYRMS/images/headerBg.jpg");
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	background-position: center;
+/* 	background-image: url("/BDYRMS/images/headerBg.jpg"); */
+/* 	background-size: 100% 100%; */
+/* 	background-repeat: no-repeat; */
+/* 	background-position: center; */
 	margin-top:2px;
 	min-width: 860px;
 	height:85%;
