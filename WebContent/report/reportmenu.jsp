@@ -58,10 +58,10 @@ var contextPath='<%=request.getContextPath()%>';
 
 						<!-- START Write -->
 						<input type="button" class="MainBtnColor" style="width:100px;" value="日營業查詢"
-							onclick="goURL('<c:url value="/report/showsingleday.jsp" />')">
+							onclick="goURL('<c:url value="/report/daydetail.jsp" />')">
 						<br>
 						<input type="button" class="MainBtnColor" style="width:100px;" value="月營業查詢"
-							onclick="goURL('<c:url value="/report/showsingleday.jsp" />')">
+							onclick="goURL('<c:url value="/report/monthdetail.jsp" />')">
 						<!-- END Write-->
 				</div>
 				<!-- 	id="writeCodeInThisDiv" -->
