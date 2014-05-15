@@ -18,12 +18,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
 public class ManageInserFoodAction extends ActionSupport implements ServletRequestAware , Preparable {
-	private int test;
 	private String foodname; 
 	private double foodPrice ;
 	private int foodQTY ;
 	private String discription ;
-	 private int foodKind;
+	private int foodKind;
 	 
 	 HttpServletRequest request;
 	 ManageService foodinsertservice;
@@ -81,7 +80,22 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 	
 	@Override
 	public String execute() throws Exception {
-		//foodinsertservice.insertFood(fdid, name, price, qty, desc, fkid)
+		int insertState = foodinsertservice.insertFood(foodname, foodPrice, foodQTY, discription, foodKind);
+		List<BdyDiscount> discount = foodinsertservice.getAllDiscount();
+		List<BdyFood> foods = foodinsertservice.getAllFood();
+		List<BdySetdetail> detail = foodinsertservice.getAllDetail();
+		request.setAttribute("insertState", insertState);
+		
+		if(foods!=null){
+			request.setAttribute("foodcount", foods.size());
+			
+		}
+		else{
+			request.setAttribute("foodcount","0");
+		}
+		request.setAttribute("resultFood", foods);
+		request.setAttribute("resultDetail", detail);
+		request.setAttribute("resultdiscount", discount);
 		return Action.SUCCESS;
 	}
 	@Override

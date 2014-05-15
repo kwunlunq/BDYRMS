@@ -58,13 +58,22 @@ max-width:110px;
 
 </style>
 <script type="text/javascript">
+// $(function(){
+// 	window.onload = function(){
+// 		insertOption();
+// 		insertSetOption();
+// 	}
+// })
+
 var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
-var judge = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>";
-var b=false;
+var judge = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
+var booleanFood=false;
+var booleanSet=false;
 if(judge!=""){
-	b=true;
+	booleanFood=true;
 }
+
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -110,7 +119,7 @@ if(judge!=""){
 		<p>食物名稱:<br><input type="text" id="insertFoodName"><s:property value="%{fieldErrors.foodname[0]}"/></p>
 		<p>食物價錢:<br><input type="text" id="insertFoodPrice" name="foodPrice"><s:property value="%{fieldErrors.foodPrice[0]}"/></p>
 		<p>庫存量    :<br><input type="text" id="insertFoodQTY"><s:property value="%{fieldErrors.foodQTY[0]}"/></p>
-		<p>說明:<br><input type="text" id="insertFoodDiscount"></p>
+		<p>說明:<br><input type="text" id="insertFoodDiscript"></p>
 		<p>種類:<br><span id="insertFoodKind"></span></p>
 		</div>
 		
@@ -131,12 +140,6 @@ if(judge!=""){
 		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<tr id="TRfood${food.fdId}">
  		<input type="hidden" value="${food.fdId }" name="fid"/> 
-<%-- 		<input type="hidden" value="${food.name }" name="fname"/> --%>
-<%-- 		<input type="hidden" value="${food.price }" name="fprice"/> --%>
-<%-- 		<input type="hidden" value="${food.qty }" name="fqty"/> --%>
-<%-- 		<input type="hidden" value="${food.descript }" name="fdesc"/> --%>
-<%-- 		<input type="hidden" value="${food.bdyFoodkind.fkId}" name="ffkind"/> --%>
-
 		
 		<c:if test="${food.fdId!=param.fid }">
 		<td id="fname${food.fdId}">${food.name}</td>
@@ -158,7 +161,11 @@ if(judge!=""){
 		</div>
 		
 		 <div id="tabs-2">
-		 <input class='MainBtnColor' type="button"  value="新增一筆資料">
+		 <a href="javascript:void(0)" id="setDialog-link" class="ui-state-default ui-corner-all" ">新增一筆套餐品項</a>
+		 <div id="setInsertDialog" title="新增套餐品項" style="display:none">
+		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
+		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
+		 </div>
 		<table border="1">		
 		<thead>
 		<tr>

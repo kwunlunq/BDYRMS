@@ -40,6 +40,10 @@
     		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
     		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
     	</action>
+    	<action name="inserSet" class="com.bdy.controller.ManageInsertSetAction">
+    		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
+    		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
+    	</action>
 	</package>
 
 </struts>

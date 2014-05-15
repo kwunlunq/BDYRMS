@@ -103,6 +103,28 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(resultInsertFood);
 			break;
+		case "insertSet":
+			List<BdyFoodkind> insertSetFood = optionservice.getAllFoodKind();
+			List<BdySet> insertSetSet = optionservice.getAllSet();
+			Collections.sort(insertSetFood,new Comparator<BdyFoodkind>() {
+
+				@Override
+				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+				}
+				
+			});
+			
+			String resultInsertSet="";
+			for(BdySet set:insertSetSet){
+				resultInsertSet += set.getSetId()+","+set.getName()+";";
+			}
+			resultInsertSet += "-";
+			for(BdyFoodkind fk:insertSetFood){
+				resultInsertSet += fk.getFkId()+","+fk.getName()+";";
+			}
+			out.print(resultInsertSet);
+			break;
 		}
 
 	}
