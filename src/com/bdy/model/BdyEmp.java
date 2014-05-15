@@ -1,6 +1,6 @@
 package com.bdy.model;
 
-// Generated 2014/4/17 �U�� 08:38:49 by Hibernate Tools 4.0.0
+// Generated 2014/5/15 �U�� 02:50:35 by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -20,6 +20,7 @@ public class BdyEmp implements java.io.Serializable {
 	private Integer salary;
 	private String phone;
 	private String empAddress;
+	private Integer resign;
 	private Set bdyOrders = new HashSet(0);
 	private Set bdyBills = new HashSet(0);
 
@@ -33,7 +34,8 @@ public class BdyEmp implements java.io.Serializable {
 
 	public BdyEmp(String empId, BdyPriority bdyPriority, String passwd,
 			String name, Character sex, Date comedate, Integer salary,
-			String phone, String empAddress, Set bdyOrders, Set bdyBills) {
+			String phone, String empAddress, Integer resign, Set bdyOrders,
+			Set bdyBills) {
 		this.empId = empId;
 		this.bdyPriority = bdyPriority;
 		this.passwd = passwd;
@@ -43,6 +45,7 @@ public class BdyEmp implements java.io.Serializable {
 		this.salary = salary;
 		this.phone = phone;
 		this.empAddress = empAddress;
+		this.resign = resign;
 		this.bdyOrders = bdyOrders;
 		this.bdyBills = bdyBills;
 	}
@@ -117,6 +120,14 @@ public class BdyEmp implements java.io.Serializable {
 
 	public void setEmpAddress(String empAddress) {
 		this.empAddress = empAddress;
+	}
+
+	public Integer getResign() {
+		return this.resign;
+	}
+
+	public void setResign(Integer resign) {
+		this.resign = resign;
 	}
 
 	public Set getBdyOrders() {

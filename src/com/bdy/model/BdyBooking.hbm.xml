@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/5/15 ?U?? 02:50:35 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyBooking" table="BDY_BOOKING">
+        <id name="bkId" type="int">
+            <column name="BK_ID" />
+            <generator class="native" />
+        </id>
+        <property name="bkName" type="serializable">
+            <column name="BK_NAME" />
+        </property>
+        <property name="bkPhone" type="string">
+            <column name="BK_PHONE" length="10" />
+        </property>
+        <property name="bkEmail" type="string">
+            <column name="BK_EMAIL" length="50" />
+        </property>
+        <property name="bkOrderdate" type="timestamp">
+            <column name="BK_ORDERDATE" length="23" />
+        </property>
+        <property name="bkEatdate" type="timestamp">
+            <column name="BK_EATDATE" length="23" />
+        </property>
+        <property name="bkContent" type="serializable">
+            <column name="BK_CONTENT" />
+        </property>
+        <property name="bkState" type="java.lang.Integer">
+            <column name="BK_STATE" />
+        </property>
+        <property name="bkNumber" type="java.lang.Integer">
+            <column name="BK_NUMBER" />
+        </property>
+        <property name="empId" type="string">
+            <column name="EMP_ID" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

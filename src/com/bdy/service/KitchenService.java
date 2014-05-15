@@ -15,11 +15,14 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 
+import com.bdy.model.BdyBilldetail;
 import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBilldetailDao;
+import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
 import com.bdy.model.dao.BdyEmpDao;
 import com.bdy.model.dao.BdyFloorDao;
@@ -27,6 +30,7 @@ import com.bdy.model.dao.BdyFoodDao;
 import com.bdy.model.dao.BdyFoodkindDao;
 import com.bdy.model.dao.BdyMainkindDao;
 import com.bdy.model.dao.BdyMakeareaDao;
+import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
 import com.bdy.model.dao.BdyPriorityDao;
@@ -50,6 +54,21 @@ public class KitchenService {
 	BdySetdetailDao setdetailDao;
 	BdyTableDao tableDao;
 	BdyMainkindDao mainkindDao;
+	
+	BdyBilldetailDao billdetailDao;
+	BdyNewsDao newsDao;
+	BdyBookingDao bookingDao;
+	
+	
+	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
+		this.billdetailDao = billdetailDao;
+	}
+	public void setNewsDao(BdyNewsDao newsDao) {
+		this.newsDao = newsDao;
+	}
+	public void setBookingDao(BdyBookingDao bookingDao) {
+		this.bookingDao = bookingDao;
+	}
 	Map<Integer,Map<Integer,Double>> sortmealMap = new LinkedHashMap<Integer,Map<Integer,Double>>();
 	public Map<Integer, Map<Integer, Double>> getMealMap() {
 		return sortmealMap;

@@ -52,6 +52,9 @@ loginTimeout=30;
 				<value>com/bdy/model/BdyTable.hbm.xml</value>
 				<value>com/bdy/model/BdyFloor.hbm.xml</value>
 				<value>com/bdy/model/BdyMainkind.hbm.xml</value>
+				<value>com/bdy/model/BdyBilldetail.hbm.xml</value>
+				<value>com/bdy/model/BdyNews.hbm.xml</value>
+				<value>com/bdy/model/BdyBooking.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -79,6 +82,9 @@ loginTimeout=30;
 	<bean id="bill" name="bill" class="com.bdy.model.BdyBill" />
 	<bean id="floor" name="floor" class="com.bdy.model.BdyFloor" />
 	<bean id="mainkind" name="mainkind" class="com.bdy.model.BdyMainkind" />
+	<bean id="billdetail" name="billdetail" class="com.bdy.model.BdyBilldetail" />
+	<bean id="news" name="news" class="com.bdy.model.BdyNews" />
+	<bean id="booking" name="booking" class="com.bdy.model.BdyBooking" />
 
 	<bean id="BdyTableDao" class="com.bdy.model.dao.BdyTableDao">
 		<property name="sessionFactory">
@@ -154,6 +160,24 @@ loginTimeout=30;
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
+	</bean>
+	
+	<bean id="BdyBillDetailDao" class="com.bdy.model.dao.BdyBilldetailDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="BdyBookingDao" class="com.bdy.model.dao.BdyBookingDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="BdyNewsDao" class="com.bdy.model.dao.BdyNewsDao">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
 	</bean>	
 	
 	<bean id="KitchenService" class="com.bdy.service.KitchenService">
@@ -198,6 +222,16 @@ loginTimeout=30;
 		</property>
 		<property name="mainkindDao">
 			<ref bean="BdyMainkindDao"/>
+		</property>
+		
+		<property name="billdetailDao">
+			<ref bean="BdyBillDetailDao"/>
+		</property>
+		<property name="newsDao">
+			<ref bean="BdyNewsDao"/>
+		</property>
+		<property name="bookingDao">
+			<ref bean="BdyBookingDao"/>
 		</property>
 	</bean>
 	
@@ -244,6 +278,15 @@ loginTimeout=30;
 	    <property name="mainkindDao">
 			<ref bean="BdyMainkindDao"/>
 		</property>
+		<property name="billdetailDao">
+			<ref bean="BdyBillDetailDao"/>
+		</property>
+		<property name="newsDao">
+			<ref bean="BdyNewsDao"/>
+		</property>
+		<property name="bookingDao">
+			<ref bean="BdyBookingDao"/>
+		</property>		
 	</bean>	
 	
 	<bean id="ManageService" class="com.bdy.service.ManageService">
@@ -289,6 +332,16 @@ loginTimeout=30;
 		<property name="mainkindDao">
 			<ref bean="BdyMainkindDao"/>
 		</property>
+		<property name="billdetailDao">
+			<ref bean="BdyBillDetailDao"/>
+		</property>
+		<property name="newsDao">
+			<ref bean="BdyNewsDao"/>
+		</property>
+		<property name="bookingDao">
+			<ref bean="BdyBookingDao"/>
+		</property>
+		
 	</bean>	
 	
 	
@@ -334,6 +387,15 @@ loginTimeout=30;
 		</property>
 		<property name="mainkindDao">
 			<ref bean="BdyMainkindDao"/>
+		</property>
+		<property name="billdetailDao">
+			<ref bean="BdyBillDetailDao"/>
+		</property>
+		<property name="newsDao">
+			<ref bean="BdyNewsDao"/>
+		</property>
+		<property name="bookingDao">
+			<ref bean="BdyBookingDao"/>
 		</property>
 	</bean>	
 	
