@@ -40,12 +40,13 @@ public class ManageDeleteSetServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<BdySetdetail> detail = deleteService.getAllDetail();
+		
 		List<BdyDiscount> discount = deleteService.getAllDiscount();
 		List<BdyFood> foods = deleteService.getAllFood();
 		String detailId = request.getParameter("detailid");
 		Integer id = Integer.parseInt(detailId);
 		deleteService.deleteSet(id);
+		List<BdySetdetail> detail = deleteService.getAllDetail();
 		request.setAttribute("pags", "1");
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);

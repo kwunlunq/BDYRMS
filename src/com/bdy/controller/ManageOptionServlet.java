@@ -2,6 +2,8 @@ package com.bdy.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -46,6 +48,15 @@ public class ManageOptionServlet extends HttpServlet {
 		case "foodinit":
 			String id = request.getParameter("id");
 			List<BdyFoodkind> rest = optionservice.getAllFoodKind();
+			Collections.sort(rest,new Comparator<BdyFoodkind>() {
+
+				@Override
+				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+					// TODO Auto-generated method stub
+					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+				}
+				
+			});
 			String foodKind = id + "-";
 			for (BdyFoodkind f : rest) {
 				foodKind += f.getFkId() + "," + f.getName() + ";";
@@ -58,6 +69,15 @@ public class ManageOptionServlet extends HttpServlet {
 			String fkid = request.getParameter("fkid");
 			List<BdyFoodkind> restFood = optionservice.getAllFoodKind();
 			List<BdySet> restSet = optionservice.getAllSet();
+			Collections.sort(restFood,new Comparator<BdyFoodkind>() {
+
+				@Override
+				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+					// TODO Auto-generated method stub
+					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+				}
+				
+			});
 			String resultSet =detailid +"-"+ sid+"-"+fkid+"-";
 			for(BdySet s : restSet){
 				resultSet += s.getSetId()+","+s.getName()+";";

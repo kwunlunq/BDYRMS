@@ -134,6 +134,20 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
+	public int insertFood(int fdid,String name,double price,int qty,String desc,int fkid){
+		BdyFood food = new BdyFood();
+		food.setFdId(fdid);
+		food.setName(name);
+		food.setPrice(price);
+		food.setQty(qty);
+		food.setDescript(desc);
+		BdyFoodkind foodkind=foodkindDao.getFoodkind(fkid);
+		food.setBdyFoodkind(foodkind);	
+		foodDao.update(food);
+		
+		int foodnum = foodDao.insert(food);
+		return foodnum;
+	}
 	public List<BdyFood> updateFood(int fdid,String name,double price,int qty,String desc,int fkid){
 		BdyFood food = new BdyFood();
 		food.setFdId(fdid);
@@ -177,4 +191,5 @@ public class ManageService {
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}
+	
 }
