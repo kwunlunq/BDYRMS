@@ -7,6 +7,32 @@ $(function(){
 	
 	$( "#tabs" ).tabs();
 
+
+	$( "#foodInsertDialog" ).dialog({
+				autoOpen: false,
+				width: 400,
+				buttons: [
+					{
+						text: "確定",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					},
+					{
+						text: "取消",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				]
+			});
+	
+	$( "#foodDialog-link" ).click(function( event ) {
+		$( "#foodInsertDialog" ).dialog( "open" );
+		event.preventDefault();
+	});
+
+
 });
 
 

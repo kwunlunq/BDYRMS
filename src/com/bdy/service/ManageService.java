@@ -9,6 +9,8 @@ import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBilldetailDao;
+import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
 import com.bdy.model.dao.BdyEmpDao;
 import com.bdy.model.dao.BdyFloorDao;
@@ -16,6 +18,7 @@ import com.bdy.model.dao.BdyFoodDao;
 import com.bdy.model.dao.BdyFoodkindDao;
 import com.bdy.model.dao.BdyMainkindDao;
 import com.bdy.model.dao.BdyMakeareaDao;
+import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
 import com.bdy.model.dao.BdyPriorityDao;
@@ -39,6 +42,21 @@ public class ManageService {
 	BdySetdetailDao setdetailDao;
 	BdyTableDao tableDao;
 	BdyMainkindDao mainkindDao;
+	BdyBilldetailDao billdetailDao;
+	BdyNewsDao newsDao;
+	BdyBookingDao bookingDao;
+	
+	
+	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
+		this.billdetailDao = billdetailDao;
+	}
+	public void setNewsDao(BdyNewsDao newsDao) {
+		this.newsDao = newsDao;
+	}
+	public void setBookingDao(BdyBookingDao bookingDao) {
+		this.bookingDao = bookingDao;
+	}
+	
 	public BdyMainkindDao getMainkindDao() {
 		return mainkindDao;
 	}
@@ -134,6 +152,20 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
+	public int insertFood(int fdid,String name,double price,int qty,String desc,int fkid){
+		BdyFood food = new BdyFood();
+		food.setFdId(fdid);
+		food.setName(name);
+		food.setPrice(price);
+		food.setQty(qty);
+		food.setDescript(desc);
+		BdyFoodkind foodkind=foodkindDao.getFoodkind(fkid);
+		food.setBdyFoodkind(foodkind);	
+		foodDao.update(food);
+		
+		int foodnum = foodDao.insert(food);
+		return foodnum;
+	}
 	public List<BdyFood> updateFood(int fdid,String name,double price,int qty,String desc,int fkid){
 		BdyFood food = new BdyFood();
 		food.setFdId(fdid);
@@ -177,4 +209,5 @@ public class ManageService {
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}
+	
 }

@@ -93,11 +93,11 @@ private SessionFactory sf = null;
 		if (iter.hasNext()) {
 			BdyOrder tmpOrder = (BdyOrder) iter.next();
 			tmpOrder.setOdId(order.getOdId());
-			tmpOrder.setBdyBills(order.getBdyBills());
-			tmpOrder.setBdyOrderlists(order.getBdyOrderlists());
 			tmpOrder.setBdyTable(order.getBdyTable());
 			tmpOrder.setBdyEmp(order.getBdyEmp());
 			tmpOrder.setOrdTime(order.getOrdTime());
+			tmpOrder.setIsCheckout(order.getIsCheckout());
+			tmpOrder.setCustNum(order.getCustNum());
 		} else {
 			System.out.println("修改失敗 : 資料不存在 (odId:"+order.getOdId()+")");
 			session.close();

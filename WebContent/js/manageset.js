@@ -24,6 +24,7 @@ function initcallbackSet(){
 			var fkOptions = data.split("-")[4].split(";");;
 			var newOption1 = document.createElement("select");
 			var newOption2 = document.createElement("select");
+			alert("fkOptions="+fkOptions[5]+"<<<>>>  fkId="+fkId)
 			var setname = document.getElementById("sname"+detailId).innerHTML;
 			var fkname = document.getElementById("fkname"+detailId).innerHTML;
 			newOption1.setAttribute("id","setselectname"+detailId);
@@ -43,13 +44,16 @@ function initcallbackSet(){
 				}
 			}
 			
+		
 			for(var j=0 ; j<fkOptions.length-1 ; j++){
+				
 				if(j==(fkId-1)){
 				var fkOption = fkOptions[j].split(",");
 				newOption2.innerHTML += "<option  value='"+fkOption[0]+"'>"+fkOption[1]+"</option>";
 				}
 			}
 			for(var j=0 ; j<fkOptions.length-1 ; j++){
+				
 				if(j!=(fkId-1)){
 				var fkOption = fkOptions[j].split(",");
 				newOption2.innerHTML += "<option  value='"+fkOption[0]+"'>"+fkOption[1]+"</option>";
@@ -76,7 +80,6 @@ function updateSet(detailId,setId,fkId){
 	
 }
 function scancel(setname,fkname,detailid,setid,fkid){
-	alert(setname+"---"+fkname+"---"+detailid)
 	document.getElementById("sname"+detailid).innerHTML=setname;
 	document.getElementById("fkname"+detailid).innerHTML=fkname;
 	$('#TRdetail'+detailid+'>td:last').html

@@ -10,46 +10,45 @@ import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+import com.bdy.model.BdyBooking;
 
-import com.bdy.model.BdyEmp;
 
-public class BdyEmpDao {
-private SessionFactory sf = null;
-	
+public class BdyBookingDao {
+	private SessionFactory sf = null;
 	public void setSessionFactory(SessionFactory sf){
 		this.sf = sf;
 	}
-	public BdyEmpDao(){
+	public BdyBookingDao() {
 		
 	}
 	@SuppressWarnings("unchecked")
-	public List<BdyEmp> getAllEmp(){
+	public List<BdyBooking> getAllBooking(){
 		Session session = sf.openSession();
-		List<BdyEmp> result = session.createCriteria(BdyEmp.class).list();
+		List<BdyBooking> result = session.createCriteria(BdyBooking.class).list();
 		session.close();
 		return result;
 	}
 	
-	public BdyEmp getEmpById(String empId) {
+	public BdyBooking getBooking(int bkId) {
 		Session session = sf.openSession();
-		Iterator iter = session.createCriteria(BdyEmp.class)
-							   .add(Restrictions.eq("empId", empId))
+		Iterator iter = session.createCriteria(BdyBooking.class)
+							   .add(Restrictions.eq("bkId", bkId))
 							   .list()
 							   .iterator();
-		BdyEmp result = null;
+		BdyBooking result = null;
 		if (iter.hasNext()) {
-			result = (BdyEmp) iter.next();
+			result = (BdyBooking) iter.next();
 		}
 		session.close();
 		return result;
 	}
 	
-	public int insert(BdyEmp emp) {
+	public int insert(BdyBooking booking) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
-		System.out.println(emp.getEmpId());
+		
 		try {
-			session.save(emp);
+			session.save(booking);
 			tx.commit();
 		} catch (ConstraintViolationException e) {
 			System.out.println("新增失敗 : 鍵值重複");
@@ -60,16 +59,17 @@ private SessionFactory sf = null;
 		return 1;
 	}
 	
-	public int deleteEmpById(String empId) {
+	public int delete(int bkId) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		Criteria criteria = session.createCriteria(BdyEmp.class);
-		Iterator iter = criteria.add(Restrictions.eq("empId", empId)).list().iterator();
+		Criteria criteria = session.createCriteria(BdyBooking.class);
+		Iterator iter = criteria.add(Restrictions.eq("bkId", bkId)).list().iterator();
 		while (iter.hasNext()) {
-			BdyEmp emp = (BdyEmp) iter.next();
-			session.delete(emp);
+			BdyBooking booking = (BdyBooking) iter.next();
+			session.delete(booking);
 		}
+		
 		
 		try {
 			tx.commit();
@@ -82,25 +82,25 @@ private SessionFactory sf = null;
 		return 1;
 	}
 	
-	public int update(BdyEmp emp) {
+	public int update(BdyBooking booking) {
 		Session session = sf.openSession();
-		Criteria criteria = session.createCriteria(BdyEmp.class);
+		Criteria criteria = session.createCriteria(BdyBooking.class);
 		Transaction tx = session.beginTransaction();
-		Iterator iter = criteria.add(Restrictions.eq("empId", emp.getEmpId())).list().iterator();
+		Iterator iter = criteria.add(Restrictions.eq("bkId", booking.getBkId())).list().iterator();
 		if (iter.hasNext()) {
-			BdyEmp tmpEmp = (BdyEmp) iter.next();
-			tmpEmp.setEmpId(emp.getEmpId());
-			tmpEmp.setPasswd(emp.getPasswd());
-			tmpEmp.setName(emp.getName());
-			tmpEmp.setSex(emp.getSex());
-			tmpEmp.setBdyPriority(emp.getBdyPriority());
-			tmpEmp.setComedate(emp.getComedate());
-			tmpEmp.setSalary(emp.getSalary());
-			tmpEmp.setPhone(emp.getPhone());
-			tmpEmp.setEmpAddress(emp.getEmpAddress());
-			tmpEmp.setResign(emp.getResign());
+			BdyBooking tmpBooking = (BdyBooking) iter.next();
+			tmpBooking.setBkId(booking.getBkId());
+			tmpBooking.setBkName(booking.getBkName());
+			tmpBooking.setBkPhone(booking.getBkPhone());
+			tmpBooking.setBkEmail(booking.getBkEmail());
+			tmpBooking.setBkOrderdate(booking.getBkOrderdate());
+			tmpBooking.setBkEatdate(booking.getBkEatdate());
+			tmpBooking.setBkContent(booking.getBkContent());
+			tmpBooking.setBkState(booking.getBkState());
+			tmpBooking.setBkNumber(booking.getBkNumber());
+			
 		} else {
-			System.out.println("修改失敗 : 資料不存在 (empId:"+emp.getEmpId()+")");
+			System.out.println("修改失敗 : 資料不存在 (bkId:"+booking.getBkId()+")");
 			session.close();
 			return 0;
 		}
@@ -116,6 +116,4 @@ private SessionFactory sf = null;
 		session.close();
 		return 1;
 	}
-	
-
 }

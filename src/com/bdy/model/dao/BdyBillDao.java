@@ -93,12 +93,12 @@ public class BdyBillDao {
 		if (iter.hasNext()) {
 			BdyBill tmpBill = (BdyBill) iter.next();
 			tmpBill.setBillId(bill.getBillId());
-			tmpBill.setBdyDiscount(bill.getBdyDiscount());
-			tmpBill.setBdyOrder(bill.getBdyOrder());
-			tmpBill.setBdyEmp(bill.getBdyEmp());
 			tmpBill.setEndDate(bill.getEndDate());
-			tmpBill.setPrice(bill.getPrice());
 			tmpBill.setCustNum(bill.getCustNum());
+			tmpBill.setBdyDiscount(bill.getBdyDiscount());
+			tmpBill.setBdyEmp(bill.getBdyEmp());
+			tmpBill.setPrice(bill.getPrice());
+			tmpBill.setFinPrice(bill.getFinPrice());
 		} else {
 			System.out
 					.println("修改失敗 : 資料不存在 (billId:" + bill.getBillId() + ")");

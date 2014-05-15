@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/5/15 ?U?? 02:50:35 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyBilldetail" table="BDY_BILLDETAIL">
+        <id name="bdId" type="int">
+            <column name="BD_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" fetch="select" lazy="false">
+            <column name="OD_ID" />
+        </many-to-one>
+        <many-to-one name="bdyBill" class="com.bdy.model.BdyBill" fetch="select" lazy="false">
+            <column name="BILL_ID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

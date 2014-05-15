@@ -32,6 +32,9 @@
         <property name="empAddress" type="string">
             <column name="EMP_ADDRESS" length="50" />
         </property>
+        <property name="resign" type="java.lang.Integer">
+            <column name="RESIGN" />
+        </property>
         <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="EMP_ID" length="10" />

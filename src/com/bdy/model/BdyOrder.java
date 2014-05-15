@@ -1,6 +1,6 @@
 package com.bdy.model;
 
-// Generated 2014/4/17 �U�� 08:38:49 by Hibernate Tools 4.0.0
+// Generated 2014/5/15 �U�� 02:50:35 by Hibernate Tools 4.0.0
 
 import java.util.Date;
 import java.util.HashSet;
@@ -15,7 +15,9 @@ public class BdyOrder implements java.io.Serializable {
 	private BdyEmp bdyEmp;
 	private BdyTable bdyTable;
 	private Date ordTime;
-	private Set bdyBills = new HashSet(0);
+	private Integer isCheckout;
+	private Integer custNum;
+	private Set bdyBilldetails = new HashSet(0);
 	private Set bdyOrderlists = new HashSet(0);
 
 	public BdyOrder() {
@@ -26,12 +28,15 @@ public class BdyOrder implements java.io.Serializable {
 	}
 
 	public BdyOrder(int odId, BdyEmp bdyEmp, BdyTable bdyTable, Date ordTime,
-			Set bdyBills, Set bdyOrderlists) {
+			Integer isCheckout, Integer custNum, Set bdyBilldetails,
+			Set bdyOrderlists) {
 		this.odId = odId;
 		this.bdyEmp = bdyEmp;
 		this.bdyTable = bdyTable;
 		this.ordTime = ordTime;
-		this.bdyBills = bdyBills;
+		this.isCheckout = isCheckout;
+		this.custNum = custNum;
+		this.bdyBilldetails = bdyBilldetails;
 		this.bdyOrderlists = bdyOrderlists;
 	}
 
@@ -67,12 +72,28 @@ public class BdyOrder implements java.io.Serializable {
 		this.ordTime = ordTime;
 	}
 
-	public Set getBdyBills() {
-		return this.bdyBills;
+	public Integer getIsCheckout() {
+		return this.isCheckout;
 	}
 
-	public void setBdyBills(Set bdyBills) {
-		this.bdyBills = bdyBills;
+	public void setIsCheckout(Integer isCheckout) {
+		this.isCheckout = isCheckout;
+	}
+
+	public Integer getCustNum() {
+		return this.custNum;
+	}
+
+	public void setCustNum(Integer custNum) {
+		this.custNum = custNum;
+	}
+
+	public Set getBdyBilldetails() {
+		return this.bdyBilldetails;
+	}
+
+	public void setBdyBilldetails(Set bdyBilldetails) {
+		this.bdyBilldetails = bdyBilldetails;
 	}
 
 	public Set getBdyOrderlists() {

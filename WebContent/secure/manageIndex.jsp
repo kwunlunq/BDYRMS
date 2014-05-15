@@ -51,6 +51,8 @@ width:95%;
 .thstyle{
 width:110px;
 max-width:110px;
+
+}
 }
 
 </style>
@@ -97,7 +99,15 @@ var pags = "${pags}";
   </ul>
   		<div id="tabs-1">
 		共${foodcount }筆 
-		<input type="button" class='MainBtnColor' onclick="myFunction()" value="新增一筆資料" />
+		<a href="#" id="foodDialog-link" class="ui-state-default ui-corner-all">新增一筆資料</a>
+		<div id="foodInsertDialog" title="新增食物" style="display:none">
+		<p>食物名稱:<input type="text" id="insertFoodName"></p>
+		<p>食物價錢:<input type="text" id="insertFoodPrice"></p>
+		<p>庫存量    :<input type="text" id="insertFoodQTY"></p>
+		<p>說明:<input type="text" id="insertFoodDiscount"></p>
+		<p>種類:<div id="insertFoodKind"></div></p>
+		</div>
+		
 		<table width="100%" border="1">
 		<thead>
 		<tr>
