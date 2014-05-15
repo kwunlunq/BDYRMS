@@ -20,8 +20,8 @@ import com.bdy.service.ReportService;
 
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = "/ReportServlet")
-public class ReportServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/DayReportServlet")
+public class DayReportServlet extends HttpServlet {
 	ReportService service;
 	public void init() throws ServletException {
 			
@@ -41,7 +41,7 @@ public class ReportServlet extends HttpServlet {
 
 		if (col == null || col.trim().length() == 0) {
 			errors.put("dateError1", "Please enter date for select");
-			request.getRequestDispatcher("/report/showsingleday.jsp").forward(request,
+			request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 					response);
 			return;
 		}
@@ -63,7 +63,7 @@ public class ReportServlet extends HttpServlet {
 
 		// 呼叫Model、根據Model執行結果導向View
 		if (errors != null && !errors.isEmpty()) {
-			request.getRequestDispatcher("/report/showsingleday.jsp").forward(request,
+			request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 					response);
 			return;
 		} else {
@@ -73,13 +73,13 @@ public class ReportServlet extends HttpServlet {
 			beans=service.getDayRevenueDetails(date);
 			if (beans == null||beans.isEmpty()) {
 				errors.put("dateError3", "No data!!");
-				request.getRequestDispatcher("/report/showsingleday.jsp").forward(request,
+				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 						response);
 				return;
 			} else {
 				
 				request.setAttribute("bills", beans);
-				request.getRequestDispatcher("/report/showsingleday.jsp").forward(request,
+				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 						response);
 			}
 		}

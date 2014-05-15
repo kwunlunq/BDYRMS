@@ -16,8 +16,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.service.ReportService;
 
-@WebServlet("/SingleDayReportServlet")
-public class SingleDayReportServlet extends HttpServlet{
+@WebServlet("/DayReportJSONServlet")
+public class DayReportJSONServlet extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -1,4 +1,19 @@
 $(function() {
+	$("#dialog").dialog({
+		autoOpen : false,
+		show : {
+			effect : "blind",
+			duration : 1000
+		},
+		hide : {
+			effect : "explode",
+			duration : 1000
+		}
+	});
+	$("body").on("click", "#odId", function() {
+		alert($(this).text());
+		$("#dialog").dialog("open");
+	});
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 	$("#datepicker").datepicker({
 		dateFormat : "yy-mm-dd",
@@ -9,9 +24,8 @@ $(function() {
 	$('#container1').highcharts({
 		chart : {
 			type : 'bar',
-			width: 600,
+			width : 600,
 			events : {
-				// 圖表載入後執行GetReportData這個Function
 				load : GetReportData,
 			}
 		},
@@ -21,9 +35,7 @@ $(function() {
 		subtitle : {
 			text : ''
 		},
-		xAxis : {
-			
-		},
+		xAxis : {},
 		yAxis : {
 			min : 0,
 			title : {
@@ -56,9 +68,8 @@ $(function() {
 			{
 				chart : {
 					zoomType : 'xy',
-					width: 600,
+					width : 600,
 					events : {
-						// 圖表載入後執行GetReportData這個Function
 						load : GetReportData,
 					}
 				},
@@ -74,7 +85,7 @@ $(function() {
 							'18-19', '19-20', '20-21', '21-22', '22-23',
 							'23-24' ]
 				} ],
-				yAxis : [ { // Primary yAxis
+				yAxis : [ {
 					min : 0,
 					labels : {
 						format : '{value} 元',
@@ -88,7 +99,7 @@ $(function() {
 							color : Highcharts.getOptions().colors[1]
 						}
 					}
-				}, { // Secondary yAxis
+				}, {
 					title : {
 						text : '',
 						style : {
@@ -109,8 +120,6 @@ $(function() {
 				series : []
 			});
 });
-
-
 var data1;
 var data2;
 var data3;
@@ -120,14 +129,12 @@ function GetReportData() {
 	var date = $('#datepicker').val();
 	if (date != null && date.length > 0) {
 		$.ajax({
-			url : contextPath + '/SingleDayReportServlet',
+			url : contextPath + '/DayReportJSONServlet',
 			type : 'POST',
 			dataType : 'JSON',
 			data : {
 				date : date
 			},
-			// 成功之後，會收到Server端返回的資料，也就是自訂的型別ReportData
-			// 有兩個屬性可以用
 			success : function(result) {
 				data1 = result.sumCustNumByhour;
 				data2 = result.avgPriceDividedByCustNumByhour;
