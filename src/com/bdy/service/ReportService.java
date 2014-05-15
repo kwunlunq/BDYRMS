@@ -4,9 +4,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 import com.bdy.model.BdyBill;
+import com.bdy.model.BdyFood;
 import com.bdy.model.BdyMainkind;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyDiscountDao;
@@ -133,6 +136,39 @@ public class ReportService {
 			mainkindList.add(mainkind.getName());
 		}
 		obj.put("mainkindName", mainkindList);
+		
+		/*
+		 *目標 :
+		 *	{
+		 *		"開胃菜":["", "", ...,""],
+		 *		"主餐數量":["", "", ..., ""]
+ 		 *  }
+ 		 *  
+		 */
+		
+		List<BdyFood> foodkindBeans1 = new ArrayList<BdyFood>();;
+		foodkindBeans1 = foodDao.getFoodsByFkId(1);
+		JSONArray foodKindList1 = new JSONArray();
+		for (BdyFood foodkind1 : foodkindBeans1) {
+			foodKindList1.add(foodkind1.getName());
+		}
+		obj.put("saladName", foodKindList1);
+		
+		List<BdyFood> foodkindBeans2 = new ArrayList<BdyFood>();;
+		foodkindBeans2 = foodDao.getFoodsByFkId(2);
+		JSONArray foodKindList2 = new JSONArray();
+		for (BdyFood foodkind2 : foodkindBeans2) {
+			foodKindList2.add(foodkind2.getName());
+		}
+		obj.put("appetizerName", foodKindList2);
+		
+		List<BdyFood> foodkindBeans3 = new ArrayList<BdyFood>();;
+		foodkindBeans3 = foodDao.getFoodsByFkId(3);
+		JSONArray foodKindList3 = new JSONArray();
+		for (BdyFood foodkind3 : foodkindBeans3) {
+			foodKindList3.add(foodkind3.getName());
+		}
+		obj.put("soupName", foodKindList3);
 		
 		/*
 		 *目標 : 
@@ -422,7 +458,7 @@ public class ReportService {
 
 		obj.put("sumCustNumByhour", list1);
 		obj.put("avgPriceDividedByCustNumByhour", list2);
-		//System.out.println(obj);
+		System.out.println(obj);
 		
 		
 		
