@@ -40,17 +40,10 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/jquery.ui.datepicker-zh-TW.js"/>"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
-<script src="<c:url value="/js/report.js"/>"></script>
-<style type="text/css">
-table,th,td,tr {
-	border-style: double;
-}
-</style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>Show Single Day Report</title>
+<title>Single Month Report Detail</title>
 </head>
 <body>
 	<div id="mainBox">
@@ -66,76 +59,18 @@ table,th,td,tr {
 				<div id="writeCodeInThisDiv">
 
 						<!-- START Write -->
-						<form action="<c:url value="/ReportServlet" />" method="get">
-							<input type="submit" class="MainBtnColor" value="查詢單日營運狀況" >請選擇日期 : <input
-								type="text" id="datepicker" name="date" value="${param.date}">${errorMsgs.dateError1}${errorMsgs.dateError2}${errorMsgs.dateError3}
-						</form>
 						<hr>
 						<div id="tabs">
 							<ul>
-								<li><a href="#tabs-1">單日收據明細</a></li>
-								<li><a href="#tabs-2">單日餐點統計</a></li>
-								<li><a href="#tabs-3">平均消費金額/來客數 分佈</a></li>
+								<li><a href="#tabs-1">單月營運報表</a></li>
+								<li><a href="#tabs-2">營收/來客數 統計</a></li>
+								<li><a href="#tabs-3">單月餐點 統計</a></li>
 							</ul>
 							<div id="tabs-1">
-								<c:if test="${not empty bills}">
-									<h3>日期 : ${param.date}</h3>
-									<h3>用餐人數 : <c:set var="totalNum" value="0"/>
-														<c:forEach var="bills" items="${bills}">
-															<c:set var="totalNum" value="${totalNum+bills.custNum}"/>
-														</c:forEach>
-														${totalNum} 人
-									</h3>
-					 				<h3>營收 : <c:set var="totalPrice" value="0"/>
-														<c:forEach var="bills" items="${bills}">
-															<c:set var="totalPrice" value="${totalPrice+bills.price}"/>
-														</c:forEach>
-														<fmt:formatNumber type="number"
-															value="${totalPrice}" maxFractionDigits="0" /> 元
-									</h3>
-									<table style="margin:0 auto">
-										<thead>
-											<tr>
-												<th>點餐單號</th>
-												<th>用餐人數</th>
-												<th>消費金額</th>
-												<th>折扣名稱</th>
-												<th>結帳金額</th>
-												<th>結帳員工</th>
-												<th>結帳時間</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="bills" items="${bills}">
-												<tr>
-													<td id="odId" style="cursor: pointer">${bills.bdyOrder.odId}</td>
-													<td>${bills.custNum}</td>
-													<td><fmt:formatNumber type="number"
-															value="${bills.price/bills.bdyDiscount.disPrice}"
-															maxFractionDigits="0" /></td>
-													<td>${bills.bdyDiscount.name}</td>
-													<td><fmt:formatNumber type="number"
-															value="${bills.price}" maxFractionDigits="0" /></td>
-													<td>${bills.bdyEmp.name}</td>
-													<td>${bills.endDate}</td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-								</c:if>
-							</div>
-							<div id="dialog" title="帳單明細">
-  								<p>
-  									這裡是帳單明細
-  								</p>
-							</div>
+							</div>	
 							<div id="tabs-2">
-								<div id="container1" style="width:600px;margin:0px auto"></div>
 							</div>
 							<div id="tabs-3" >
-								<c:if test="${not empty bills}">
-									<div id="container2" style="width:600px;margin:0px auto;"></div>
-								</c:if>
 							</div>
 						</div>
 						<!-- END Write-->

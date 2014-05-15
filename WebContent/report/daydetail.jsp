@@ -40,11 +40,46 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/jquery.ui.datepicker-zh-TW.js"/>"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
-<script src="<c:url value="/js/report.js"/>"></script>
+<script src="<c:url value="/js/daydetail.js"/>"></script>
 <style type="text/css">
 table,th,td,tr {
 	border-style: double;
 }
+.ui-tabs-vertical {
+	width: 55em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav {
+	padding: .2em .1em .2em .2em;
+	float: left;
+	width: 12em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li {
+	clear: left;
+	width: 100%;
+	border-bottom-width: 1px !important;
+	border-right-width: 0 !important;
+	margin: 0 -1px .2em 0;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li a {
+	display: block;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+	padding-bottom: 0;
+	padding-right: .1em;
+	border-right-width: 1px;
+	border-right-width: 1px;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+	padding: 1em;
+	float: right;
+	width: 40em;
+}
+
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -73,13 +108,13 @@ table,th,td,tr {
 					</form>
 					<a href="http://localhost:8080/BDYRMS/report/reportmenu.jsp">返回報表選單</a>
 					<hr>
-					<div id="tabs">
+					<div id="dayReportTabs">
 						<ul>
-							<li><a href="#tabs-1">單日收據明細</a></li>
-							<li><a href="#tabs-2">單日餐點統計</a></li>
-							<li><a href="#tabs-3">平均消費金額/來客數 分佈</a></li>
+							<li><a href="#dayReportTabs-1">單日收據明細</a></li>
+							<li><a href="#dayReportTabs-2">平均消費金額/來客數 統計</a></li>
+							<li><a href="#dayReportTabs-3">單日餐點 統計</a></li>
 						</ul>
-						<div id="tabs-1">
+						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
 								<h3>日期 : ${param.date}</h3>
 								<h3>
@@ -94,7 +129,7 @@ table,th,td,tr {
 									營收 :
 									<c:set var="totalPrice" value="0" />
 									<c:forEach var="bills" items="${bills}">
-										<c:set var="totalPrice" value="${totalPrice+bills.price}" />
+										<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
 									</c:forEach>
 									<fmt:formatNumber type="number" value="${totalPrice}"
 										maxFractionDigits="0" />
@@ -103,11 +138,11 @@ table,th,td,tr {
 								<table style="margin: 0 auto">
 									<thead>
 										<tr>
-											<th>點餐單號</th>
+											<th>帳單編號</th>
 											<th>用餐人數</th>
-											<th>消費金額</th>
+											<th>原始金額</th>
 											<th>折扣名稱</th>
-											<th>結帳金額</th>
+											<th>消費金額</th>
 											<th>結帳員工</th>
 											<th>結帳時間</th>
 										</tr>
@@ -115,14 +150,11 @@ table,th,td,tr {
 									<tbody>
 										<c:forEach var="bills" items="${bills}">
 											<tr>
-												<td id="odId" style="cursor: pointer">${bills.bdyOrder.odId}</td>
+												<td id="billId" style="cursor: pointer">${bills.billId}</td>
 												<td>${bills.custNum}</td>
-												<td><fmt:formatNumber type="number"
-														value="${bills.price/bills.bdyDiscount.disPrice}"
-														maxFractionDigits="0" /></td>
+												<td>${bills.price}</td>
 												<td>${bills.bdyDiscount.name}</td>
-												<td><fmt:formatNumber type="number"
-														value="${bills.price}" maxFractionDigits="0" /></td>
+												<td>${bills.finPrice}</td>
 												<td>${bills.bdyEmp.name}</td>
 												<td>${bills.endDate}</td>
 											</tr>
@@ -131,16 +163,43 @@ table,th,td,tr {
 								</table>
 							</c:if>
 						</div>
-						<div id="dialog" title="帳單明細">
+						<div id="billOrderDialog" title="帳單明細">
 							<p>這裡是帳單明細</p>
 						</div>
-						<div id="tabs-2">
-							<div id="container1" style="width: 600px; margin: 0px auto"></div>
-						</div>
-						<div id="tabs-3">
+						<div id="dayReportTabs-2">
 							<c:if test="${not empty bills}">
-								<div id="container2" style="width: 600px; margin: 0px auto;"></div>
+								<div id="dayOperate" style="width: 600px; margin: 0px auto;"></div>
 							</c:if>
+						</div>
+						<div id="dayReportTabs-3">
+							<div id="dayMealsCount">
+								<ul>
+									<li><a href="#dayMealsCount-1" style="width: 10em">主餐 統計</a></li>
+									<li><a href="#dayMealsCount-2" style="width: 10em">開胃菜 統計</a></li>
+									<li><a href="#dayMealsCount-3" style="width: 10em">湯品 統計</a></li>
+									<li><a href="#dayMealsCount-4" style="width: 10em">飲料 統計</a></li>
+									<li><a href="#dayMealsCount-5" style="width: 10em">甜點 統計</a></li>
+									<li><a href="#dayMealsCount-6" style="width: 10em">沙拉 統計</a></li>
+								</ul>
+								<div id="dayMealsCount-1">
+									<div id="mainMealCount" style="width: 600px; margin: 0px auto"></div>
+								</div>
+								<div id="dayMealsCount-2">
+									<div id="appetizerCount" style="width: 600px; margin: 0px auto"></div>
+								</div>
+								<div id="dayMealsCount-3">
+									<div id="soupCount" style="width: 600px; margin: 0px auto"></div>
+								</div>
+								<div id="dayMealsCount-4">
+									<div id="drinkCount" style="width: 600px; margin: 0px auto"></div>
+								</div>
+								<div id="dayMealsCount-5">
+									<div id="dessertCount" style="width: 600px; margin: 0px auto"></div>
+								</div>
+								<div id="dayMealsCount-6">
+									<div id="saladCount" style="width: 600px; margin: 0px auto"></div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<!-- END Write-->
