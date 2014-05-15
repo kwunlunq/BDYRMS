@@ -5,6 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 
@@ -59,6 +60,11 @@ max-width:110px;
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
+var judge = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>";
+var b=false;
+if(judge!=""){
+	b=true;
+}
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -99,13 +105,13 @@ var pags = "${pags}";
   </ul>
   		<div id="tabs-1">
 		共${foodcount }筆 
-		<a href="#" id="foodDialog-link" class="ui-state-default ui-corner-all">新增一筆資料</a>
+		<a href="javascript:void(0)" id="foodDialog-link" class="ui-state-default ui-corner-all" ">新增一筆資料</a>
 		<div id="foodInsertDialog" title="新增食物" style="display:none">
-		<p>食物名稱:<input type="text" id="insertFoodName"></p>
-		<p>食物價錢:<input type="text" id="insertFoodPrice"></p>
-		<p>庫存量    :<input type="text" id="insertFoodQTY"></p>
-		<p>說明:<input type="text" id="insertFoodDiscount"></p>
-		<p>種類:<div id="insertFoodKind"></div></p>
+		<p>食物名稱:<br><input type="text" id="insertFoodName"><s:property value="%{fieldErrors.foodname[0]}"/></p>
+		<p>食物價錢:<br><input type="text" id="insertFoodPrice" name="foodPrice"><s:property value="%{fieldErrors.foodPrice[0]}"/></p>
+		<p>庫存量    :<br><input type="text" id="insertFoodQTY"><s:property value="%{fieldErrors.foodQTY[0]}"/></p>
+		<p>說明:<br><input type="text" id="insertFoodDiscount"></p>
+		<p>種類:<br><span id="insertFoodKind"></span></p>
 		</div>
 		
 		<table width="100%" border="1">

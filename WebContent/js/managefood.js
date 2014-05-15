@@ -4,17 +4,20 @@ var xmlHttpInit = new XMLHttpRequest();
 
 
 $(function(){
-	
+	var obj;
+	window.onload = function(){
+		insertOption();
+	}
 	$( "#tabs" ).tabs();
-
-
-	$( "#foodInsertDialog" ).dialog({
-				autoOpen: false,
+	if(b){
+		obj = {				
+				autoOpen: true,
 				width: 400,
 				buttons: [
 					{
 						text: "確定",
 						click: function() {
+							insertFood();
 							$( this ).dialog( "close" );
 						}
 					},
@@ -25,7 +28,31 @@ $(function(){
 						}
 					}
 				]
-			});
+			}
+	}else{
+	 obj = {
+			
+			
+			autoOpen: false,
+			width: 400,
+			buttons: [
+				{
+					text: "確定",
+					click: function() {
+						insertFood();
+						$( this ).dialog( "close" );
+					}
+				},
+				{
+					text: "取消",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			]
+		}
+	}
+	$( "#foodInsertDialog" ).dialog(obj);
 	
 	$( "#foodDialog-link" ).click(function( event ) {
 		$( "#foodInsertDialog" ).dialog( "open" );
@@ -34,7 +61,40 @@ $(function(){
 
 
 });
+function insertOption(){
+	xmlHttpInit.addEventListener("readystatechange",initcallbackInsertFood,true);
+	var urlInit = contextPath + "/secure/option";
+	xmlHttpInit.open("post",urlInit,true);
+	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpInit.send("act=insertFood");
+}
+function initcallbackInsertFood(){
+	if(xmlHttpInit.readyState == 4){
+		if(xmlHttpInit.status == 200){
+			var data = xmlHttpInit.responseText;
+			var temps = data.split(";");
+			var insertOption = document.createElement("select");
+			insertOption.setAttribute("id","insetId")
+			for(var i=0; i<temps.length-1;i++){
+				var temp= temps[i].split(",");
+				 
+				insertOption.innerHTML +="<option name='insertFood' value='"+temp[0]+"'>"+temp[1]+"</option>"
+			}
+			$('#insertFoodKind').append(insertOption);
+		}
+	}
+}
 
+
+function insertFood(){
+	var foodname = document.getElementById("insertFoodName").value;
+	var foodPrice =  document.getElementById("insertFoodPrice").value;
+	var foodQTY = document.getElementById("insertFoodQTY").value;
+	var discription = document.getElementById("insertFoodDiscount").value;
+	var foodKind = document.getElementById("insetId").options[document.getElementById("insetId").selectedIndex].value;
+
+	window.location.href = contextPath+"/secure/inserFood.action?foodname="+foodname+"&foodPrice="+foodPrice+"&foodQTY=" +foodQTY+"&discription"+discription+"&foodKind="+foodKind;
+}
 
 function fcancel(fdid,fname,fprice,fqty,fdesc,ffkind) {
 	document.getElementById("fname"+fdid).innerHTML=fname;

@@ -36,6 +36,10 @@
     		<result name="success" type="redirect">/mainpage.jsp</result>
     		<result name="return" type="redirect">${dest}</result>
     	</action>
+    	<action name="inserFood" class="com.bdy.controller.ManageInserFoodAction">
+    		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
+    		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
+    	</action>
 	</package>
 
 </struts>
