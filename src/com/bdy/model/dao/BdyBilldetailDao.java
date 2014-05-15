@@ -2,7 +2,6 @@ package com.bdy.model.dao;
 
 import java.util.Iterator;
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,46 +9,47 @@ import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+import com.bdy.model.BdyBilldetail;
 
-import com.bdy.model.BdyEmp;
 
-public class BdyEmpDao {
+public class BdyBilldetailDao {
+	
 private SessionFactory sf = null;
 	
 	public void setSessionFactory(SessionFactory sf){
 		this.sf = sf;
 	}
-	public BdyEmpDao(){
+
+	public BdyBilldetailDao() {
 		
 	}
-	@SuppressWarnings("unchecked")
-	public List<BdyEmp> getAllEmp(){
+	
+	public List<BdyBilldetail> getAllBilldetail(){
 		Session session = sf.openSession();
-		List<BdyEmp> result = session.createCriteria(BdyEmp.class).list();
+		List<BdyBilldetail> result = session.createCriteria(BdyBilldetail.class).list();
 		session.close();
 		return result;
 	}
-	
-	public BdyEmp getEmpById(String empId) {
+	public BdyBilldetail getBilldetail(int bdId) {
 		Session session = sf.openSession();
-		Iterator iter = session.createCriteria(BdyEmp.class)
-							   .add(Restrictions.eq("empId", empId))
+		Iterator iter = session.createCriteria(BdyBilldetail.class)
+							   .add(Restrictions.eq("bdId", bdId))
 							   .list()
 							   .iterator();
-		BdyEmp result = null;
+		BdyBilldetail result = null;
 		if (iter.hasNext()) {
-			result = (BdyEmp) iter.next();
+			result = (BdyBilldetail) iter.next();
 		}
 		session.close();
 		return result;
 	}
 	
-	public int insert(BdyEmp emp) {
+	public int insert(BdyBilldetail billdetail) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
-		System.out.println(emp.getEmpId());
+		
 		try {
-			session.save(emp);
+			session.save(billdetail);
 			tx.commit();
 		} catch (ConstraintViolationException e) {
 			System.out.println("新增失敗 : 鍵值重複");
@@ -60,15 +60,16 @@ private SessionFactory sf = null;
 		return 1;
 	}
 	
-	public int deleteEmpById(String empId) {
+	public int delete(int bdId) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		Criteria criteria = session.createCriteria(BdyEmp.class);
-		Iterator iter = criteria.add(Restrictions.eq("empId", empId)).list().iterator();
+		Iterator iter = session.createCriteria(BdyBilldetail.class)
+							   .add(Restrictions.eq("bdId", bdId))
+							   .list().iterator();
 		while (iter.hasNext()) {
-			BdyEmp emp = (BdyEmp) iter.next();
-			session.delete(emp);
+			BdyBilldetail billdetail = (BdyBilldetail) iter.next();
+			session.delete(billdetail);
 		}
 		
 		try {
@@ -82,25 +83,19 @@ private SessionFactory sf = null;
 		return 1;
 	}
 	
-	public int update(BdyEmp emp) {
+	public int update(BdyBilldetail billdetail) {
 		Session session = sf.openSession();
-		Criteria criteria = session.createCriteria(BdyEmp.class);
+		Criteria criteria = session.createCriteria(BdyBilldetail.class);
 		Transaction tx = session.beginTransaction();
-		Iterator iter = criteria.add(Restrictions.eq("empId", emp.getEmpId())).list().iterator();
+		Iterator iter = criteria.add(Restrictions.eq("bdId", billdetail.getBdId())).list().iterator();
 		if (iter.hasNext()) {
-			BdyEmp tmpEmp = (BdyEmp) iter.next();
-			tmpEmp.setEmpId(emp.getEmpId());
-			tmpEmp.setPasswd(emp.getPasswd());
-			tmpEmp.setName(emp.getName());
-			tmpEmp.setSex(emp.getSex());
-			tmpEmp.setBdyPriority(emp.getBdyPriority());
-			tmpEmp.setComedate(emp.getComedate());
-			tmpEmp.setSalary(emp.getSalary());
-			tmpEmp.setPhone(emp.getPhone());
-			tmpEmp.setEmpAddress(emp.getEmpAddress());
-			tmpEmp.setResign(emp.getResign());
+			BdyBilldetail tmpBilldetail = (BdyBilldetail) iter.next();
+			tmpBilldetail.setBdId(billdetail.getBdId());
+			tmpBilldetail.setBdyBill(billdetail.getBdyBill());
+			tmpBilldetail.setBdyOrder(billdetail.getBdyOrder());
+			
 		} else {
-			System.out.println("修改失敗 : 資料不存在 (empId:"+emp.getEmpId()+")");
+			System.out.println("修改失敗 : 資料不存在 (bdId:"+billdetail.getBdId()+")");
 			session.close();
 			return 0;
 		}
@@ -116,6 +111,4 @@ private SessionFactory sf = null;
 		session.close();
 		return 1;
 	}
-	
-
 }

@@ -10,8 +10,7 @@
 	width:19%;
 }
 #mainMenu{
-	font-size:1.4em;
-	background:white;
+	font-size:1.1em;
 	width:95%;
 	height:40px;
 	margin:0px auto;
@@ -32,9 +31,6 @@
 	cursor: pointer;
 }
 
-
-
-
 ul {
 	list-style-type: none;
 }
@@ -54,12 +50,29 @@ li:hover{
 	color: #339;
 }
 
+.garbageCanOriginal{
+	height:120px;
+	width:110px;
+	position:absolute;
+	bottom:2px;
+	right:2px;
+	background-image: url("/BDYRMS/images/GCempty.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
+.garbageCanHover{
+	background-image: url("/BDYRMS/images/GCFull.png");
+}
 
+.FoodBtnStyle{
+	z-index:99;
+}
 
-
-
-
+#ul-detail{
+	display:none;
+}
 
 
 

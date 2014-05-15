@@ -41,7 +41,7 @@ var contextPath='<%=request.getContextPath()%>';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RSM - Welcome</title>
+<title>BDY RMS - Order</title>
 </head>
 <body>
 <div id="mainBox">
@@ -57,7 +57,10 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 <!-- START Write -->
 <div id="mainMenu">
-	桌號: 3A 人數: 125
+	<input id="setTableAndPeople" class="MainBtnColor" type="button" value='選擇桌號與人數'>
+	樓層:<span id="floor" style="margin-left:10px;margin-right:20px;">-</span>
+	桌號:<span id="tableNum" style="margin-left:10px;margin-right:20px;">-</span>
+	人數:<span id="peopleCount" style="margin-left:10px;margin-right:20px;">-</span>
 	<input id="orderConfirm" class="MainBtnColor" style='float:right' type='button' value='完成點餐'>
 </div>
 <div id="orderarea" class="selector">
@@ -75,7 +78,36 @@ var contextPath='<%=request.getContextPath()%>';
 
 <div id="ChooseSetDialog" title="選擇套餐">
 </div>
-<div id="finishDialog" title="完成點餐">
+<div id="finishDialog" title="點餐明細">
+</div>
+<div id="ChooseTableAndPeopleDialog" title="選擇桌號與人數">
+<!-- 選擇桌號與人數的Dialog -->
+樓層:
+<select id="setFloor">
+<option value="0">B1</option>
+<option value="1">1</option>
+<option value="2">2</option>
+</select>
+桌號:
+<select id="setTableNum">
+<option value="0">A1</option>
+<option value="1">A2</option>
+<option value="2">A3</option>
+</select>
+<br>
+人數:<input id="setNumberOfCust" type="text" size="13" readonly="readonly" value="0"><br>
+<input id="num" class="MainBtnColor" type="button" value="1" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="2" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="3" style="width:30%"><br>
+<input id="num" class="MainBtnColor" type="button" value="4" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="5" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="6" style="width:30%"><br>
+<input id="num" class="MainBtnColor" type="button" value="7" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="8" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="9" style="width:30%"><br>
+<input id="num" class="MainBtnColor" type="button" value="clear" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="0" style="width:30%">
+<input id="num" class="MainBtnColor" type="button" value="back" style="width:30%">
 </div>
 <!-- END Write-->
 	</div><!-- 	id="writeCodeInThisDiv" -->
