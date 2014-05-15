@@ -237,82 +237,82 @@ public class ReportService {
 			calendar.setTime(billEndDate);
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			if (hour == 8) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice8 = sumPrice8 + billPrice;
 				sumCustNum8 = sumCustNum8 + billCustNum;
 			} else if (hour == 9) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice9 = sumPrice9 + billPrice;
 				sumCustNum9 = sumCustNum9 + billCustNum;
 			} else if (hour == 10) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice10 = sumPrice10 + billPrice;
 				sumCustNum10 = sumCustNum10 + billCustNum;
 			} else if (hour == 11) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice11 = sumPrice11 + billPrice;
 				sumCustNum11 = sumCustNum11 + billCustNum;
 			} else if (hour == 12) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice12 = sumPrice12 + billPrice;
 				sumCustNum12 = sumCustNum12 + billCustNum;
 			} else if (hour == 13) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice13 = sumPrice13 + billPrice;
 				sumCustNum13 = sumCustNum13 + billCustNum;
 			} else if (hour == 14) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice14 = sumPrice14 + billPrice;
 				sumCustNum14 = sumCustNum14 + billCustNum;
 			} else if (hour == 15) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice15 = sumPrice15 + billPrice;
 				sumCustNum15 = sumCustNum15 + billCustNum;
 			} else if (hour == 16) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice16 = sumPrice16 + billPrice;
 				sumCustNum16 = sumCustNum16 + billCustNum;
 			} else if (hour == 17) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice17 = sumPrice17 + billPrice;
 				sumCustNum17 = sumCustNum17 + billCustNum;
 			} else if (hour == 18) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice18 = sumPrice18 + billPrice;
 				sumCustNum18 = sumCustNum18 + billCustNum;
 			} else if (hour == 19) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice19 = sumPrice19 + billPrice;
 				sumCustNum19 = sumCustNum19 + billCustNum;
 			} else if (hour == 20) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice20 = sumPrice20 + billPrice;
 				sumCustNum20 = sumCustNum20 + billCustNum;
 			} else if (hour == 21) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice21 = sumPrice21 + billPrice;
 				sumCustNum21 = sumCustNum21 + billCustNum;
 			} else if (hour == 22) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice22 = sumPrice22 + billPrice;
 				sumCustNum22 = sumCustNum22 + billCustNum;
 			} else if (hour == 23) {
-				double billPrice = bill.getPrice();
+				double billPrice = bill.getFinPrice();
 				int billCustNum = bill.getCustNum();
 				sumPrice23 = sumPrice23 + billPrice;
 				sumCustNum23 = sumCustNum23 + billCustNum;

@@ -10,7 +10,7 @@ $(function() {
 			duration : 1000
 		}
 	});
-	$("body").on("click", "#odId", function() {
+	$("body").on("click", "#billId", function() {
 		alert($(this).text());
 		$("#billOrderDialog").dialog("open");
 	});

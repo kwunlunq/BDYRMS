@@ -129,7 +129,7 @@ table,th,td,tr {
 									營收 :
 									<c:set var="totalPrice" value="0" />
 									<c:forEach var="bills" items="${bills}">
-										<c:set var="totalPrice" value="${totalPrice+bills.price}" />
+										<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
 									</c:forEach>
 									<fmt:formatNumber type="number" value="${totalPrice}"
 										maxFractionDigits="0" />
@@ -138,7 +138,7 @@ table,th,td,tr {
 								<table style="margin: 0 auto">
 									<thead>
 										<tr>
-											<th>點餐單號</th>
+											<th>帳單編號</th>
 											<th>用餐人數</th>
 											<th>原始金額</th>
 											<th>折扣名稱</th>
@@ -150,14 +150,11 @@ table,th,td,tr {
 									<tbody>
 										<c:forEach var="bills" items="${bills}">
 											<tr>
-												<td id="odId" style="cursor: pointer">${bills.bdyOrder.odId}</td>
+												<td id="billId" style="cursor: pointer">${bills.billId}</td>
 												<td>${bills.custNum}</td>
-												<td><fmt:formatNumber type="number"
-														value="${bills.price/bills.bdyDiscount.disPrice}"
-														maxFractionDigits="0" /></td>
+												<td>${bills.price}</td>
 												<td>${bills.bdyDiscount.name}</td>
-												<td><fmt:formatNumber type="number"
-														value="${bills.price}" maxFractionDigits="0" /></td>
+												<td>${bills.finPrice}</td>
 												<td>${bills.bdyEmp.name}</td>
 												<td>${bills.endDate}</td>
 											</tr>
