@@ -45,6 +45,7 @@ var contextPath='<%=request.getContextPath()%>';
 table,th,td,tr {
 	border-style: double;
 }
+
 .ui-tabs-vertical {
 	width: 55em;
 }
@@ -79,7 +80,6 @@ table,th,td,tr {
 	float: right;
 	width: 40em;
 }
-
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -172,34 +172,43 @@ table,th,td,tr {
 							</c:if>
 						</div>
 						<div id="dayReportTabs-3">
-							<div id="dayMealsCount">
-								<ul>
-									<li><a href="#dayMealsCount-1" style="width: 10em">主餐 統計</a></li>
-									<li><a href="#dayMealsCount-2" style="width: 10em">開胃菜 統計</a></li>
-									<li><a href="#dayMealsCount-3" style="width: 10em">湯品 統計</a></li>
-									<li><a href="#dayMealsCount-4" style="width: 10em">飲料 統計</a></li>
-									<li><a href="#dayMealsCount-5" style="width: 10em">甜點 統計</a></li>
-									<li><a href="#dayMealsCount-6" style="width: 10em">沙拉 統計</a></li>
-								</ul>
-								<div id="dayMealsCount-1">
-									<div id="mainMealCount" style="width: 600px; margin: 0px auto"></div>
+							<c:if test="${not empty bills}">
+								<div id="dayMealsCount">
+									<ul>
+										<li><a href="#dayMealsCount-1" style="width: 10em">主餐
+												統計</a></li>
+										<li><a href="#dayMealsCount-2" style="width: 10em">開胃菜
+												統計</a></li>
+										<li><a href="#dayMealsCount-3" style="width: 10em">湯品
+												統計</a></li>
+										<li><a href="#dayMealsCount-4" style="width: 10em">飲料
+												統計</a></li>
+										<li><a href="#dayMealsCount-5" style="width: 10em">甜點
+												統計</a></li>
+										<li><a href="#dayMealsCount-6" style="width: 10em">沙拉
+												統計</a></li>
+									</ul>
+									<div id="dayMealsCount-1">
+										<div id="mainMealCount" style="width: 600px; margin: 0px auto"></div>
+									</div>
+									<div id="dayMealsCount-2">
+										<div id="appetizerCount"
+											style="width: 600px; margin: 0px auto"></div>
+									</div>
+									<div id="dayMealsCount-3">
+										<div id="soupCount" style="width: 600px; margin: 0px auto"></div>
+									</div>
+									<div id="dayMealsCount-4">
+										<div id="drinkCount" style="width: 600px; margin: 0px auto"></div>
+									</div>
+									<div id="dayMealsCount-5">
+										<div id="dessertCount" style="width: 600px; margin: 0px auto"></div>
+									</div>
+									<div id="dayMealsCount-6">
+										<div id="saladCount" style="width: 600px; margin: 0px auto"></div>
+									</div>
 								</div>
-								<div id="dayMealsCount-2">
-									<div id="appetizerCount" style="width: 600px; margin: 0px auto"></div>
-								</div>
-								<div id="dayMealsCount-3">
-									<div id="soupCount" style="width: 600px; margin: 0px auto"></div>
-								</div>
-								<div id="dayMealsCount-4">
-									<div id="drinkCount" style="width: 600px; margin: 0px auto"></div>
-								</div>
-								<div id="dayMealsCount-5">
-									<div id="dessertCount" style="width: 600px; margin: 0px auto"></div>
-								</div>
-								<div id="dayMealsCount-6">
-									<div id="saladCount" style="width: 600px; margin: 0px auto"></div>
-								</div>
-							</div>
+							</c:if>
 						</div>
 					</div>
 					<!-- END Write-->

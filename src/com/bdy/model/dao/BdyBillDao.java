@@ -1,5 +1,7 @@
 package com.bdy.model.dao;
 
+
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,10 +14,11 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.bdy.model.BdyBill;
+import com.bdy.model.MonthReport;
 
 public class BdyBillDao {
 	private SessionFactory sf = null;
-
+	
 	public void setSessionFactory(SessionFactory sf) {
 		this.sf = sf;
 	}
@@ -132,5 +135,17 @@ public class BdyBillDao {
 								+ " 23:59:59'").addEntity(BdyBill.class).list();
 		session.close();
 		return bills;
+	}
+	
+	@SuppressWarnings("unchecked")//月營收清單
+	public List<MonthReport> getMonthRevenueDetailsDB(int year,int month) {
+
+		Session session = sf.openSession();
+		List<MonthReport> mReports = session
+				.createSQLQuery("select sum(CUST_NUM) as DAY_TATOL_CUST_NUM,sum(FIN_PRICE) as DAY_TATOL_FIN_PRICE,day(END_DATE) as DAY_IN_MONTH from BDY_BILL where  Year(END_DATE) = "
+						+year+" And Month(END_DATE) = "+month+ "GROUP BY day(END_DATE)")
+				.addEntity(MonthReport.class).list();
+		session.close();
+		return mReports;
 	}
 }
