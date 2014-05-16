@@ -44,6 +44,9 @@
     		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
     		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
     	</action>
+    	<action name="showEmp" class="com.bdy.controller.ManageShowEmp">
+    		<result name="success" type="dispatcher">/secure/modifyEmp.jsp</result>
+    	</action>
 	</package>
 
 </struts>

@@ -3,10 +3,12 @@ package com.bdy.service;
 import java.util.List;
 
 import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdyPriority;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.dao.BdyBillDao;
@@ -217,6 +219,14 @@ public class ManageService {
 		setd.setBdySet(set);
 		int setNum = setdetailDao.insert(setd);
 		return setNum;
+	}
+	
+	//----------------------Emp--------------------------
+	public List<BdyEmp> getAllEmps(){
+		return empDao.getAllEmp();
+	}
+	public List<BdyPriority> getAllPri(){
+		return priorityDao.getAllProiority();
 	}
 	public  List<BdyMakearea> getAllMakeArea(){
 		 List<BdyMakearea> allma = makeareaDao.getAllMakeArea();
