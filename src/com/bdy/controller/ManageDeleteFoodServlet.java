@@ -37,16 +37,26 @@ public class ManageDeleteFoodServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<BdySetdetail> detail = deleteService.getAllDetail();
-		List<BdyDiscount> discount = deleteService.getAllDiscount();
-		List<BdyFood> foods = deleteService.getAllFood();
+		
 		String did = request.getParameter("fid");
 		int id = Integer.parseInt(did);	
 	
-		deleteService.deleteFood(id);				
+		deleteService.deleteFood(id);
+		List<BdySetdetail> detail = deleteService.getAllDetail();
+		List<BdyDiscount> discount = deleteService.getAllDiscount();
+		List<BdyFood> foods = deleteService.getAllFood();
+			
+		if(foods!=null){
+			request.setAttribute("foodcount", foods.size());
+			
+		}
+		else{
+			request.setAttribute("foodcount","0");
+		}
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
+		
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
 		
 	}

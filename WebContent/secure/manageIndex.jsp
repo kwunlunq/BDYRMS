@@ -5,6 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 
@@ -57,8 +58,22 @@ max-width:110px;
 
 </style>
 <script type="text/javascript">
+// $(function(){
+// 	window.onload = function(){
+// 		insertOption();
+// 		insertSetOption();
+// 	}
+// })
+
 var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
+var judge = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
+var booleanFood=false;
+var booleanSet=false;
+if(judge!=""){
+	booleanFood=true;
+}
+
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -99,13 +114,13 @@ var pags = "${pags}";
   </ul>
   		<div id="tabs-1">
 		共${foodcount }筆 
-		<a href="#" id="foodDialog-link" class="ui-state-default ui-corner-all">新增一筆資料</a>
+		<a href="javascript:void(0)" id="foodDialog-link" class="ui-state-default ui-corner-all" ">新增一筆資料</a>
 		<div id="foodInsertDialog" title="新增食物" style="display:none">
-		<p>食物名稱:<input type="text" id="insertFoodName"></p>
-		<p>食物價錢:<input type="text" id="insertFoodPrice"></p>
-		<p>庫存量    :<input type="text" id="insertFoodQTY"></p>
-		<p>說明:<input type="text" id="insertFoodDiscount"></p>
-		<p>種類:<div id="insertFoodKind"></div></p>
+		<p>食物名稱:<br><input type="text" id="insertFoodName"><s:property value="%{fieldErrors.foodname[0]}"/></p>
+		<p>食物價錢:<br><input type="text" id="insertFoodPrice" name="foodPrice"><s:property value="%{fieldErrors.foodPrice[0]}"/></p>
+		<p>庫存量    :<br><input type="text" id="insertFoodQTY"><s:property value="%{fieldErrors.foodQTY[0]}"/></p>
+		<p>說明:<br><input type="text" id="insertFoodDiscript"></p>
+		<p>種類:<br><span id="insertFoodKind"></span></p>
 		</div>
 		
 		<table width="100%" border="1">
@@ -125,12 +140,6 @@ var pags = "${pags}";
 		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<tr id="TRfood${food.fdId}">
  		<input type="hidden" value="${food.fdId }" name="fid"/> 
-<%-- 		<input type="hidden" value="${food.name }" name="fname"/> --%>
-<%-- 		<input type="hidden" value="${food.price }" name="fprice"/> --%>
-<%-- 		<input type="hidden" value="${food.qty }" name="fqty"/> --%>
-<%-- 		<input type="hidden" value="${food.descript }" name="fdesc"/> --%>
-<%-- 		<input type="hidden" value="${food.bdyFoodkind.fkId}" name="ffkind"/> --%>
-
 		
 		<c:if test="${food.fdId!=param.fid }">
 		<td id="fname${food.fdId}">${food.name}</td>
@@ -152,7 +161,11 @@ var pags = "${pags}";
 		</div>
 		
 		 <div id="tabs-2">
-		 <input class='MainBtnColor' type="button"  value="新增一筆資料">
+		 <a href="javascript:void(0)" id="setDialog-link" class="ui-state-default ui-corner-all" ">新增一筆套餐品項</a>
+		 <div id="setInsertDialog" title="新增套餐品項" style="display:none">
+		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
+		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
+		 </div>
 		<table border="1">		
 		<thead>
 		<tr>

@@ -73,7 +73,6 @@ public class ManageOptionServlet extends HttpServlet {
 
 				@Override
 				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
-					// TODO Auto-generated method stub
 					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
 				}
 				
@@ -87,6 +86,44 @@ public class ManageOptionServlet extends HttpServlet {
 				resultSet +=f.getFkId()+","+f.getName()+";";
 			}
 			out.print(resultSet);
+			break;
+		case "insertFood":
+			List<BdyFoodkind> insertFood = optionservice.getAllFoodKind();
+			Collections.sort(insertFood,new Comparator<BdyFoodkind>(){
+
+				@Override
+				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+				}
+				
+			});
+			String resultInsertFood = "";
+			for(BdyFoodkind f:insertFood){
+				resultInsertFood += f.getFkId()+","+f.getName()+";";
+			}
+			out.print(resultInsertFood);
+			break;
+		case "insertSet":
+			List<BdyFoodkind> insertSetFood = optionservice.getAllFoodKind();
+			List<BdySet> insertSetSet = optionservice.getAllSet();
+			Collections.sort(insertSetFood,new Comparator<BdyFoodkind>() {
+
+				@Override
+				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+				}
+				
+			});
+			
+			String resultInsertSet="";
+			for(BdySet set:insertSetSet){
+				resultInsertSet += set.getSetId()+","+set.getName()+";";
+			}
+			resultInsertSet += "-";
+			for(BdyFoodkind fk:insertSetFood){
+				resultInsertSet += fk.getFkId()+","+fk.getName()+";";
+			}
+			out.print(resultInsertSet);
 			break;
 		}
 
