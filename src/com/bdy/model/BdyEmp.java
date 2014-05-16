@@ -27,6 +27,11 @@ public class BdyEmp implements java.io.Serializable {
 	public BdyEmp() {
 	}
 
+	public BdyEmp(String empId) {
+		super();
+		this.empId = empId;
+	}
+
 	public BdyEmp(String empId, String passwd) {
 		this.empId = empId;
 		this.passwd = passwd;

@@ -126,18 +126,22 @@ public class BdyFoodDao {
 	public List<BdyFood> getFoodsByFkId(int fkId) {
 		Session session = sf.openSession();
 		Criteria criteria = session.createCriteria(BdyFood.class);
-		return criteria.createAlias("bdyFoodkind", "fk")
-					   .add(Restrictions.eq("fk.fkId", fkId))
-					   .list();
+		List<BdyFood> result = criteria.createAlias("bdyFoodkind", "fk")
+				   .add(Restrictions.eq("fk.fkId", fkId))
+				   .list();
+		session.close();
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<BdyFood> getFoodsByMkId(int mkId) {
 		Session session = sf.openSession();
 		Criteria criteria = session.createCriteria(BdyFood.class);
-		return criteria.createAlias("bdyMainkind", "mk")
-					   .add(Restrictions.eq("mk.mkId", mkId))
-					   .list();
+		List<BdyFood> result = criteria.createAlias("bdyMainkind", "mk")
+				   .add(Restrictions.eq("mk.mkId", mkId))
+				   .list();
+		session.close();
+		return result;
 	}
 	
 	// ================================

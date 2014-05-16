@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.web.context.WebApplicationContext;
@@ -116,5 +117,23 @@ private SessionFactory sf = null;
 		return 1;
 	}
 	
+	/*
+	 *  新增by Kevin 
+	 *  使用已知物件 Example 查詢
+	 */
+	
+	public BdyOrder getOrderByOrder(BdyOrder order) {
+		Session session = sf.openSession();
+		Iterator iter = session.createCriteria(BdyOrder.class)
+							   .add(Example.create(order))
+							   .list()
+							   .iterator();
+		BdyOrder result = null;
+		if (iter.hasNext()) {
+			result = (BdyOrder) iter.next();
+		}
+		session.close();
+		return result;
+	}
 
 }

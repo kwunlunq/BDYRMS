@@ -3,8 +3,11 @@ package com.bdy.service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -14,12 +17,16 @@ import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bdy.model.BdyEmp;
+import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyMainkind;
+import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
+import com.bdy.model.BdyTable;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
@@ -40,6 +47,7 @@ import com.bdy.model.dao.BdyTableDao;
 
 public class OrderService {
 	private final static int MAIN_SEQ = 10;
+	private final static String DEFAULT_VALUE = "0";
 	BdyBillDao billDao;
 	BdyDiscountDao discountDao;
 	BdyEmpDao empDao;
@@ -264,6 +272,26 @@ public class OrderService {
 		
 		return aryBuilder.build();
 	}
+	public JsonArray getTableJson() {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		for (BdyFloor floor : floorDao.getAllFloor()) {
+			System.out.println(floor);
+			JsonArrayBuilder tbary = Json.createArrayBuilder();
+			for (BdyTable table: tableDao.getTableByFloor(floor.getFloorid())) {
+				tbary.add(Json.createObjectBuilder()
+							  .add("tbId", table.getTbId())
+							  .add("tbName", table.getName())
+							  .build());
+			}
+			aryBuilder.add(Json.createObjectBuilder()
+							   .add("fId", floor.getFloorid())
+							   .add("fName", floor.getName())
+							   .add("tables", tbary)
+							   .build());
+		}
+		
+		return aryBuilder.build();
+	}
 	public JsonArray getSetJson() {
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdySet set : setDao.getAllSet()) {
@@ -284,5 +312,67 @@ public class OrderService {
 			aryBuilder.add(object);
 		}
 		return aryBuilder.build();
+	}
+	
+	public void readOrderJson(JsonObject object) {
+		  System.out.println(object.toString());
+		  System.out.println("點餐單 : ");
+		  
+		  try {
+			int tbId = Integer.parseInt(object.getString("TableId", DEFAULT_VALUE));
+			System.out.println("TableId : "+tbId);
+			int custNum = Integer.parseInt(object.getString("CustNum", DEFAULT_VALUE));
+			System.out.println("CustNum : "+custNum);
+			String empId = object.getString("EmpId", "0");
+			System.out.println("EmpId : "+empId);
+			Calendar nowTime = new GregorianCalendar(Locale.TAIWAN);
+			System.out.println("OrderTime : "+nowTime.getTime());
+			
+			BdyEmp emp = empDao.getEmpById(empId);
+			BdyTable tb = tableDao.getTableById(tbId);
+			System.out.println("empid = "+emp.getEmpId());
+			System.out.println("tbid="+tb.getTbId());
+			BdyOrder order = new BdyOrder(emp, tb, nowTime.getTime(), 0, custNum);
+			orderDao.insert(order);
+			BdyOrder newOrder = orderDao.getOrderByOrder(order);
+			System.out.println("newOrderId="+newOrder.getOdId());
+			JsonArray foods = object.getJsonArray("Foods");
+			
+			for (int i = 0; i < foods.size(); i++) {
+				JsonObject food = foods.getJsonObject(i);
+				int fdId = Integer.parseInt(food.getString("fdid", DEFAULT_VALUE));
+				System.out.println("\tfdId : "+fdId);
+				
+				int fkId = foodDao.getFood(fdId).getBdyFoodkind().getFkId();
+				System.out.println("\tfkId : "+fkId);
+				int setId = Integer.parseInt(food.getString("setId", DEFAULT_VALUE));
+				System.out.println("\tsetId : "+setId);
+				
+				double fdPrice = foodDao.getFood(fdId).getPrice();
+				double setBasePrice = setdetailDao.getPriceBySetAndFk(setId, fkId);
+				System.out.println("\tprice : "+fdPrice+", "+setBasePrice);
+				double addMoney = 0;
+				if (setBasePrice!=0 && fdPrice>setBasePrice) {
+					addMoney = fdPrice - setBasePrice;
+				}
+				System.out.println("\taddMoney : "+addMoney);
+				
+				BdySet set = setDao.getSet(setId);
+				BdyFood bdyFood = foodDao.getFood(fdId);
+				BdyFoodkind foodkind = foodkindDao.getFoodkind(fkId);
+				BdyOrderlist odlist = new BdyOrderlist(newOrder, set, bdyFood, foodkind, addMoney, 0);
+				orderlistDao.insert(odlist);
+			}
+		  } catch (NullPointerException e) {
+			  System.out.println("nullPointer (param not found?)");
+			  e.printStackTrace();
+		  } catch (ClassCastException e) {
+			  System.out.println("ClassCastException (type error?)");
+			  e.printStackTrace();
+		  } catch (Exception e) {
+			  System.out.print("unknown error : ");
+			  System.out.println(e.getMessage());
+		  }
+		  
 	}
 }

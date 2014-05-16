@@ -118,8 +118,9 @@ public class BdyFoodkindDao {
 	public List<BdyFoodkind> getMainFoodkinds() {
 		Session session = sf.openSession();
 		Criteria criteria = session.createCriteria(BdyFoodkind.class);
-		
-		return criteria.add(Restrictions.eq("isMain", 1)).list();
+		List<BdyFoodkind> result = criteria.add(Restrictions.eq("isMain", 1)).list();
+		session.close();
+		return result;
 								   
 	}
 	

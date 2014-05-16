@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyTable;
 
 public class BdyTableDao {
@@ -30,6 +31,21 @@ private SessionFactory sf = null;
 	public List<BdyTable> getTableByFloor(int floor){
 		Session session = sf.openSession();
 		List<BdyTable> result = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor", floor)).list();
+		session.close();
+		return result;
+	}
+	
+
+	public BdyTable getTableById(int tableId) {
+		Session session = sf.openSession();
+		Iterator iter = session.createCriteria(BdyTable.class)
+							   .add(Restrictions.eq("tbId", tableId))
+							   .list()
+							   .iterator();
+		BdyTable result = null;
+		if (iter.hasNext()) {
+			result = (BdyTable) iter.next();
+		}
 		session.close();
 		return result;
 	}

@@ -52,10 +52,13 @@ public class TableSetServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		String action = req.getParameter("act");
 		int floor = -1;
+		if (action == null) {
+			return ;
+		}
 		switch(action)
 		{
 			case "init":
-				List<BdyFloor> rest = restDao.getRestById(1);
+				List<BdyFloor> rest = restDao.getAllFloor();
 				String floorData = "";
 				for(BdyFloor r : rest){
 					floorData += r.getFloorid() + "," + r.getName() + ";";

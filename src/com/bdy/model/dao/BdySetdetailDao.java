@@ -137,8 +137,6 @@ private SessionFactory sf = null;
 			result.add((BdySetdetail) iter.next());
 		}
 		session.close();
-		
-		
 		return result;
 	}
 	public List<BdySetdetail> getSortedSetdetailBySetId(int SetId) {
@@ -156,11 +154,25 @@ private SessionFactory sf = null;
 			result.add((BdySetdetail) iter.next());
 		}
 		session.close();
-		
-		
 		return result;
 	}
 	
+	public double getPriceBySetAndFk(int setId, int fkId) {
+		double price = 0;
+		Session session = sf.openSession();
+		Iterator iter = session.createCriteria(BdySetdetail.class)
+				   			   .createAlias("bdySet", "BdySet")
+				   			   .createAlias("bdyFoodkind", "fk")
+				   			   .add(Restrictions.eq("BdySet.setId", setId))
+							   .add(Restrictions.eq("fk.fkId", fkId))
+				   			   .list()
+				   			   .iterator();
+		if (iter.hasNext()) {
+			BdySetdetail detail = (BdySetdetail) iter.next();
+			price = detail.getPrice();
+		}
+		return price;
+	}
 	public int fkCount(int setId, int fkId) {
 		int count = 0;
 
@@ -176,7 +188,7 @@ private SessionFactory sf = null;
 		while (iter.hasNext()) {
 			count = (int)(long) iter.next();
 		}
-		
+		session.close();
 		return count;
 	}
 	

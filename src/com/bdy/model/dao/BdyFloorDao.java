@@ -15,7 +15,7 @@ private SessionFactory sf = null;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<BdyFloor> getRestById(int id){
+	public List<BdyFloor> getAllFloor(){
 		Session session = sf.openSession();
 		List<BdyFloor> result = session.createCriteria(BdyFloor.class).list();
 		session.close();

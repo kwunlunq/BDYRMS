@@ -2,14 +2,26 @@ var setNames   = [];
 var setIds     = [];
 var setdetails = [];
 var fks        = [];
+var tableoptions = [[]];
 var orderlistIndex = 0;
 var setCount = 1;
+// 要傳送的訂單所有資訊
+var currentStatus = {"FId":null,  
+					 "FName":null,
+					 "TableId":null, 
+					 "TableName":null, 
+					 "CustNum":null, 
+					 "EmpId":"A111111111", 
+					 "Foods":[]
+					 };
 
 $(function() {
 	getFoods();	// 取得所有食物
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
+	getTables();
 	listenerInitial(); // 掛載listener
+	console.log(currentStatus);
 	
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });
@@ -45,10 +57,22 @@ function listenerInitial() {
 				{
 				text: "送出",
 				click: function() {
-					$( this ).dialog( "close" );
+					sendOrder();
 				}}]
 	});
-	$('#orderConfirm').click(confirmClick);
+	$('#orderConfirm').click(function() {
+			var peopleCount = $('#peopleCount').text();
+			if (peopleCount=='-') {
+				$('#ChooseTableAndPeopleDialog').dialog("open");
+				showState("請輸入桌號及人數");
+			} else if (peopleCount=='0') {
+				$('#ChooseTableAndPeopleDialog').dialog("open");
+				showState("請輸入人數");
+			} else {
+				confirmClick();
+			}
+		}	
+	);
 	$('#orderarea').on('click','input',function(){
 		var canAdd = checkAddable($(this));
 		if (canAdd) {
@@ -123,10 +147,78 @@ function listenerInitial() {
 					$('#peopleCount').text($("#setNumberOfCust").val());
 					$('#peopleCount').attr("value",$("#setNumberOfCust").val());
 					$( this ).dialog( "close" );
+					
+					currentStatus.FId = $("#setFloor").find(":selected").val();
+					currentStatus.FName = $("#setFloor").find(":selected").text();
+					currentStatus.TableId = $("#setTableNum").find(":selected").val();
+					currentStatus.TableName = $("#setTableNum").find(":selected").text();
+					currentStatus.CustNum = $("#setNumberOfCust").val();
 				}}]
 	});
 }
 
+function sendOrder() {
+	$.ajax({
+	    url: contextPath+'/order/SendOrderServlet',
+	    type: 'POST',
+	    data: JSON.stringify(currentStatus),
+	    contentType: 'application/json; charset=utf-8',
+	    dataType: 'json',
+	    async: false,
+	    success: function(msg) {
+	    	alert("123");
+			showState(msg);
+			showState("123");
+	    }
+	});
+	showState("點餐單已送出");
+
+	setTimeout(function(){
+		window.location.reload();
+	}, 800);
+}
+
+function getTables() {
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"table"}, function(result) {
+
+		for (var i = 0; i < result.length; i++) {
+			var fId = result[i].fId;
+			var fName = result[i].fName;
+			var option = document.createElement("option");
+			$(option).attr("value", fId);
+			$(option).attr("index", i);
+			$(option).append(document.createTextNode(fName));
+			$("#setFloor").append(option);
+					
+			// 將桌子資訊做成option存入tableoptions[[]]陣列中
+			// 以便之後選擇樓層時取出
+			var tbs = result[i].tables;
+			for (var j = 0; j < tbs.length; j++) {
+				var tbName = tbs[j].tbName;
+				var option = document.createElement("option");
+				$(option).attr("value", tbs[j].tbId);
+				$(option).append(document.createTextNode(tbName));
+				tableoptions[i][j] = option;
+				$('#setTableNum').append(tableoptions[i][j]);
+			}
+		}
+
+		$("#setFloor").change(function() {
+			var selected = $(this).find(":selected");
+			$('#setTableNum').empty();
+			var index = $(this).find(":selected").attr("index");
+			// 如果選擇的樓層有桌子
+			// 將桌子options掛到選擇桌子的選單中
+			if (tableoptions.length > index) {
+				for (var i = 0; i < tableoptions[index].length; i++) {
+					$('#setTableNum').append(tableoptions[index][i]);				
+				}
+			}
+		});
+		
+	});
+}
 function createGarbageCan(locationId,canId){
 	var Gcan = $('<div id="garbageCan'+canId+'" class="garbageCanOriginal"></div>');
 	$('#'+locationId).append(Gcan);
@@ -157,11 +249,15 @@ function deletSetTab(thisTab){
 
 function confirmClick() {
 	$("#finishDialog").empty();
+	
+	
 	var dialog = $("#finishDialog");
-//	console.log($(this).attr("id"));
+	// 依序抓出每個分頁的div
+	var foods = [];
 	$.each($("div[id^='orderlist-']"), function (index, child) {
-//		console.log(index+" : "+$(this).attr("id"));
 		var setDiv = $('<div style="width:200px;float:left;"></div>');
+		var setName = null;
+		var setId = null;
 		if (index == 0) {
 			var foodCount = 0;
 			$('#orderlist-0>input').each(function(index3,content){
@@ -170,26 +266,32 @@ function confirmClick() {
 			if(foodCount>0)
 				$(setDiv).append("<h3 style='height:10px'>單點</h3>");
 		} else {
-			var setId = $(this).attr("setid");
-			console.log("setId="+setId);
-			console.log("setNames="+setNames);
+			setId = $(this).attr("setid");
 			var aryi = 0;
 			for (; aryi < setIds.length; aryi++) {
 				if (setIds[aryi] == setId) {
 					break;
 				}
 			}
-			var setName = setNames[aryi];
+			setName = setNames[aryi];
 			$(setDiv).append("<h3 style='height:10px'>"+setName+"</h3>");
 		}
 		
+		// 取出每個餐點
 		$.each($(this).children("input"), function (index, cchild) {
 			$(setDiv).append("<p style='margin-left:20px'>"+$(this).val()+"</p>");
-
+			foods.push(
+					{
+						"fdid":$(this).attr("fdid"), 
+						"fdName":$(this).val(), 
+						"setId":setId, 
+						"setName":setName }
+					);
 			});
 		$(dialog).append(setDiv);
-		$(dialog).dialog("open");
 	});
+	currentStatus.Foods = foods;
+	$(dialog).dialog("open");
 }
 
 function checkAddable(thisbtn) {
@@ -271,9 +373,7 @@ function setOnClick() {
 	// 建立不同品項div
 	var fkdiv = document.createElement("div");
 	$(fkdiv).attr("id", "fkdiv-");
-//	console.log("setid="+$(this).attr("setid"));
-//	var setid = $(this).attr("setid");
-//	console.log(setdetails[setid]);
+	
 	// 將點選要搭配套餐的主餐新增到新的div(id="orderlist-x")
 	var fdBtn = $('#'+$(this).attr("FBId"));
 	addOrderAreaBtn(tagsid, $(fdBtn).attr("fdId"), true, $(fdBtn).val(), $(fdBtn).attr("fkId"));
@@ -303,7 +403,6 @@ function getFks() {
 					fkName:result[i].fkName,
 					fkId:result[i].fkId
 			};
-//			console.log(fks[i]);
 		}
 	});
 }
@@ -356,6 +455,7 @@ function drawTab(result) {
 		hide : { effect: "fade", duration: 150 }, 
 		show : { effect: "fade", duration: 150 }});
 }
+
 var FBId = 0;
 function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
 	var foodBtnId = "foodBtnId"+FBId;
@@ -373,7 +473,5 @@ function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
 	$('#'+foodTag).append(newOABtn);
 	FBId++;
 }
-
-
 
 

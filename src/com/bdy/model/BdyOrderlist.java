@@ -22,10 +22,10 @@ public class BdyOrderlist implements java.io.Serializable {
 		this.odlistId = odlistId;
 	}
 
-	public BdyOrderlist(int odlistId, BdyOrder bdyOrder, BdySet bdySet,
-			BdyFood bdyFood, BdyFoodkind bdyFoodkind, Double addmoney,
-			Integer olState) {
-		this.odlistId = odlistId;
+
+	public BdyOrderlist(BdyOrder bdyOrder, BdySet bdySet, BdyFood bdyFood,
+			BdyFoodkind bdyFoodkind, Double addmoney, Integer olState) {
+		super();
 		this.bdyOrder = bdyOrder;
 		this.bdySet = bdySet;
 		this.bdyFood = bdyFood;

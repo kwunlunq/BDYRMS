@@ -14,6 +14,8 @@ public class BdyOrder implements java.io.Serializable {
 	private int odId;
 	private BdyEmp bdyEmp;
 	private BdyTable bdyTable;
+
+
 	private Date ordTime;
 	private Integer isCheckout;
 	private Integer custNum;
@@ -22,6 +24,17 @@ public class BdyOrder implements java.io.Serializable {
 
 	public BdyOrder() {
 	}
+	
+	public BdyOrder(BdyEmp bdyEmp, BdyTable bdyTable, Date ordTime,
+			Integer isCheckout, Integer custNum) {
+		super();
+		this.bdyEmp = bdyEmp;
+		this.bdyTable = bdyTable;
+		this.ordTime = ordTime;
+		this.isCheckout = isCheckout;
+		this.custNum = custNum;
+	}
+
 
 	public BdyOrder(int odId) {
 		this.odId = odId;

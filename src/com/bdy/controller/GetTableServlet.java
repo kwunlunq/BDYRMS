@@ -18,8 +18,8 @@ import com.bdy.service.OrderService;
 /**
  * Servlet implementation class GetMainServlet
  */
-@WebServlet("/order/GetMainServlet")
-public class GetMainServlet extends HttpServlet {
+@WebServlet("/order/getTableServlet")
+public class GetTableServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	OrderService service;
 
@@ -29,11 +29,12 @@ public class GetMainServlet extends HttpServlet {
 			WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		service = (OrderService) context.getBean("OrderService");
 	}
+	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.write(service.getMainsJSON().toString());
+		out.write(service.getTableJson().toString());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

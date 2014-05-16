@@ -84,15 +84,15 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 選擇桌號與人數的Dialog -->
 樓層:
 <select id="setFloor">
-<option value="0">B1</option>
-<option value="1">1</option>
-<option value="2">2</option>
+<!-- <option value="0">B1</option> -->
+<!-- <option value="1">1</option> -->
+<!-- <option value="2">2</option> -->
 </select>
 桌號:
 <select id="setTableNum">
-<option value="0">A1</option>
-<option value="1">A2</option>
-<option value="2">A3</option>
+<!-- <option value="0">A1</option> -->
+<!-- <option value="1">A2</option> -->
+<!-- <option value="2">A3</option> -->
 </select>
 <br>
 人數:<input id="setNumberOfCust" type="text" size="13" readonly="readonly" value="0"><br>

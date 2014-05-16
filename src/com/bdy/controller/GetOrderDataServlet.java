@@ -18,8 +18,8 @@ import com.bdy.service.OrderService;
 /**
  * Servlet implementation class GetMainServlet
  */
-@WebServlet("/order/GetMainServlet")
-public class GetMainServlet extends HttpServlet {
+@WebServlet("/order/getOrderDataServlet")
+public class GetOrderDataServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	OrderService service;
 
@@ -29,11 +29,25 @@ public class GetMainServlet extends HttpServlet {
 			WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		service = (OrderService) context.getBean("OrderService");
 	}
+	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.write(service.getMainsJSON().toString());
+		
+		String data = request.getParameter("data");
+		if (data == null) {
+			System.out.println("Param not found! (\"data\")");
+			return ;
+		}
+		switch (data) {
+		case "table" :
+			out.write(service.getTableJson().toString());
+			break;
+		default :
+			System.out.println("Wrong param!");
+			break;
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
