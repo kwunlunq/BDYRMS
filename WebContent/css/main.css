@@ -5,6 +5,11 @@ body,html {
 	background-color:gray;
 }
 
+#newsContent{
+	word-wrap: break-word; 
+	word-break: normal; 
+}
+
 input,input:focus, textarea:focus, select:focus 
 {outline:0 none;}
 

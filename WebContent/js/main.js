@@ -13,6 +13,13 @@ $(function(){
 			$('#errorContent').text("(必填)");
 		}else
 			$('#errorTitle').text("");
+		
+		if($('input[name="newsPostname"]').val().length <= 0){
+			isSend = false;
+			showState("你! 沒有登入!");
+		}else
+			$('#errorTitle').text("");
+		
 		if(isSend){
 			$('#errorTitle').text("");
 			$('#errorContent').text("");
@@ -49,7 +56,7 @@ function loadNews(){
 		for(var i in datas){
 			var newsPostdate = datas[i].newsPostdate.substring(0,19);
 			var title = $("<h3>"+datas[i].newsTitle+"["+datas[i].newsType+"]<span class='titleDate'>At "+newsPostdate+"</span></h3>");
-			var content = $("<div>"+datas[i].newsContent+"<br><span style='float:right'>by "+datas[i].newsPostname+"<input class='MainBtnColor' id='delNewsBtn' newsId='"+datas[i].newsId+"' type='button' value='刪除'><span></div>");
+			var content = $("<div id='newsContent'><pre>"+datas[i].newsContent+"</pre><br><span style='float:right'>by "+datas[i].newsPostname+"<input class='MainBtnColor' id='delNewsBtn' newsId='"+datas[i].newsId+"' type='button' value='刪除'><span></div>");
 			//<h3>使用Jquery UI 注意事項  <span class='titleDate'>(重要  20140512)</span></h3>
 			$('#mainPageAcdion').append(title);
 			$('#mainPageAcdion').append(content);
