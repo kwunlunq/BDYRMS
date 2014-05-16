@@ -61,10 +61,10 @@ public class NewsServlet extends HttpServlet {
 				System.out.println(news.getNewsPostname() +" at " + news.getNewsPostdate() + " psoted a news.");
 				System.out.println("Title: "+news.getNewsTitle()+" Type: "+news.getNewsType());
 				System.out.println("Content: "+ news.getNewsContent());
-				resp.sendRedirect("mainpage.jsp");
+				//resp.sendRedirect("mainpage.jsp");
 				break;
 			case "getAllNews":
-				List<BdyNews> newsList = newsDao.getAllNews();
+				List<BdyNews> newsList = newsDao.getAllNewsSortByDateDESC();
 				JsonArrayBuilder newsBuilder = Json.createArrayBuilder();
 				for(BdyNews newsBean : newsList){
 					newsBuilder.add(Json.createObjectBuilder()
@@ -78,6 +78,11 @@ public class NewsServlet extends HttpServlet {
 					System.out.println(newsBean.getNewsTitle()+" - "+newsBean.getNewsPostdate().toString());
 				}
 				out.write(newsBuilder.build().toString());
+				break;
+			case "delNews":
+				int newsId = Integer.parseInt(req.getParameter("newsId"));
+				newsDao.deleteNewsById(newsId);
+				//resp.sendRedirect("mainpage.jsp");
 				break;
 		}
 	}

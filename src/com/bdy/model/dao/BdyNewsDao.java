@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -27,13 +28,25 @@ public class BdyNewsDao {
 	
 	public List<BdyNews> getAllNews() {
 		Session session = sf.openSession();
+		@SuppressWarnings("unchecked")
 		List<BdyNews> result = session.createCriteria(BdyNews.class).list();
+		session.close();
+		return result;
+	}
+	
+	public List<BdyNews> getAllNewsSortByDateDESC() {
+		Session session = sf.openSession();
+		@SuppressWarnings("unchecked")
+		List<BdyNews> result = session.createCriteria(BdyNews.class)
+							   .addOrder(Order.desc("newsPostdate"))
+							   .list();
 		session.close();
 		return result;
 	}
 	
 	public BdyNews getNews(int newsId) {
 		Session session = sf.openSession();
+		@SuppressWarnings("rawtypes")
 		Iterator iter = session.createCriteria(BdyNews.class)
 				.add(Restrictions.eq("newsId", newsId)).list().iterator();
 		BdyNews result = null;
@@ -58,11 +71,12 @@ public class BdyNewsDao {
 		session.close();
 		return 1;
 	}
-	public int delete(int newsId) {
+	public int deleteNewsById(int newsId) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 
 		Criteria criteria = session.createCriteria(BdyNews.class);
+		@SuppressWarnings("rawtypes")
 		Iterator iter = criteria.add(Restrictions.eq("newsId", newsId)).list()
 				.iterator();
 		while (iter.hasNext()) {
@@ -80,10 +94,12 @@ public class BdyNewsDao {
 		session.close();
 		return 1;
 	}
+	
 	public int update(BdyNews news) {
 		Session session = sf.openSession();
 		Criteria criteria = session.createCriteria(BdyNews.class);
 		Transaction tx = session.beginTransaction();
+		@SuppressWarnings("rawtypes")
 		Iterator iter = criteria
 				.add(Restrictions.eq("newsId", news.getNewsId())).list()
 				.iterator();

@@ -9,7 +9,7 @@ input,input:focus, textarea:focus, select:focus
 {outline:0 none;}
 
 .titleDate{
-	color:red;
+	color:gray;
 	float:right;
 	font-size:0.8em;
 }
@@ -203,6 +203,7 @@ p {
 }
 
 #showstate{
+	z-index:99999999;
 	font-weight:900;
 	top:50%;
 	left:50%;
