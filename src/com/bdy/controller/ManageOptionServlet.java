@@ -18,6 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.model.dao.BdyFloorDao;
 import com.bdy.model.dao.BdyFoodDao;
@@ -47,12 +48,12 @@ public class ManageOptionServlet extends HttpServlet {
 		switch (action) {
 		case "foodinit":
 			String id = request.getParameter("id");
+			String fkId = request.getParameter("fkId");
 			List<BdyFoodkind> rest = optionservice.getAllFoodKind();
 			Collections.sort(rest,new Comparator<BdyFoodkind>() {
 
 				@Override
 				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
-					// TODO Auto-generated method stub
 					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
 				}
 				
@@ -61,6 +62,7 @@ public class ManageOptionServlet extends HttpServlet {
 			for (BdyFoodkind f : rest) {
 				foodKind += f.getFkId() + "," + f.getName() + ";";
 			}
+			foodKind += "-"+fkId;
 			out.print(foodKind);
 			break;
 		case "setinit":
@@ -102,6 +104,40 @@ public class ManageOptionServlet extends HttpServlet {
 				resultInsertFood += f.getFkId()+","+f.getName()+";";
 			}
 			out.print(resultInsertFood);
+			break;
+		case "insertSet":
+			List<BdyFoodkind> insertSetFood = optionservice.getAllFoodKind();
+			List<BdySet> insertSetSet = optionservice.getAllSet();
+			Collections.sort(insertSetFood,new Comparator<BdyFoodkind>() {
+
+				@Override
+				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+					return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+				}
+				
+			});
+			
+			String resultInsertSet="";
+			for(BdySet set:insertSetSet){
+				resultInsertSet += set.getSetId()+","+set.getName()+";";
+			}
+			resultInsertSet += "-";
+			for(BdyFoodkind fk:insertSetFood){
+				resultInsertSet += fk.getFkId()+","+fk.getName()+";";
+			}
+			out.print(resultInsertSet);
+			break;
+		case "insertFoodKind":
+			String areafkId = request.getParameter("fkId");
+			String areamaId = request.getParameter("maId");
+			
+			List<BdyMakearea> ma = optionservice.getAllMakeArea();
+			String str = "";
+			str +=areafkId+"-"+areamaId+"-";
+			for(BdyMakearea m:ma){
+				str +=m.getMaId()+","+m.getName()+";";
+			}
+			out.print(str);
 			break;
 		}
 

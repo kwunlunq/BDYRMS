@@ -1,0 +1,67 @@
+package com.bdy.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyFood;
+import com.bdy.model.BdySetdetail;
+import com.bdy.service.ManageService;
+import com.opensymphony.xwork2.Action;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
+
+public class ManageInsertSetAction extends ActionSupport implements ServletRequestAware ,Preparable{
+
+	HttpServletRequest request;
+	 ManageService setinsertservice;
+	private int setId;
+	private int foodId;
+	public int getSetId() {
+		return setId;
+	}
+	public void setSetId(int setId) {
+		this.setId = setId;
+	}
+	public int getFoodId() {
+		return foodId;
+	}
+	public void setFoodId(int foodId) {
+		this.foodId = foodId;
+	}
+	@Override
+	public String execute() throws Exception {
+		int setState = setinsertservice.insertSet(foodId, setId);
+		List<BdyDiscount> discount = setinsertservice.getAllDiscount();
+		List<BdyFood> foods = setinsertservice.getAllFood();
+		List<BdySetdetail> detail = setinsertservice.getAllDetail();
+		request.setAttribute("pags", 1);
+		request.setAttribute("setState", setState);
+		request.setAttribute("resultFood", foods);
+		request.setAttribute("resultDetail", detail);
+		request.setAttribute("resultdiscount", discount);
+		return Action.SUCCESS;
+	}
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		
+		this.request = request;
+		
+	}
+	@Override
+	public void prepare() throws Exception {
+		WebApplicationContext context = WebApplicationContextUtils
+				.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
+		setinsertservice = (ManageService)context.getBean("ManageService");
+		
+	}
+	
+	
+	
+}

@@ -1,4 +1,4 @@
-var xmlHttpInit = new XMLHttpRequest();
+var xmlHttpInitFood = new XMLHttpRequest();
 
 
 
@@ -7,9 +7,10 @@ $(function(){
 	var obj;
 	window.onload = function(){
 		insertOption();
+		insertSetOption();
 	}
 	$( "#tabs" ).tabs();
-	if(b){
+	if(booleanFood){
 		obj = {				
 				autoOpen: true,
 				width: 400,
@@ -24,6 +25,7 @@ $(function(){
 					{
 						text: "取消",
 						click: function() {
+							cancelInsertFoodOption()
 							$( this ).dialog( "close" );
 						}
 					}
@@ -46,6 +48,7 @@ $(function(){
 				{
 					text: "取消",
 					click: function() {
+						cancelInsertFoodOption()
 						$( this ).dialog( "close" );
 					}
 				}
@@ -61,18 +64,26 @@ $(function(){
 
 
 });
+function cancelInsertFoodOption(){
+	
+	document.getElementById("insertFoodName").value="";
+	document.getElementById("insertFoodPrice").value="";
+	document.getElementById("insertFoodQTY").value="";
+	document.getElementById("insertFoodDiscript").value="";
+}
+
 function insertOption(){
-	xmlHttpInit.addEventListener("readystatechange",initcallbackInsertFood,true);
+	xmlHttpInitFood.addEventListener("readystatechange",initcallbackInsertFood,true);
 	var urlInit = contextPath + "/secure/option";
-	xmlHttpInit.open("post",urlInit,true);
-	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	xmlHttpInit.send("act=insertFood");
+	xmlHttpInitFood.open("post",urlInit,true);
+	xmlHttpInitFood.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpInitFood.send("act=insertFood");
 }
 function initcallbackInsertFood(){
-	if(xmlHttpInit.readyState == 4){
-		if(xmlHttpInit.status == 200){
-			var data = xmlHttpInit.responseText;
-			var temps = data.split(";");
+	if(xmlHttpInitFood.readyState == 4){
+		if(xmlHttpInitFood.status == 200){
+			var foodData = xmlHttpInitFood.responseText;
+			var temps = foodData.split(";");
 			var insertOption = document.createElement("select");
 			insertOption.setAttribute("id","insetId")
 			for(var i=0; i<temps.length-1;i++){
@@ -81,6 +92,7 @@ function initcallbackInsertFood(){
 				insertOption.innerHTML +="<option name='insertFood' value='"+temp[0]+"'>"+temp[1]+"</option>"
 			}
 			$('#insertFoodKind').append(insertOption);
+			
 		}
 	}
 }
@@ -90,10 +102,9 @@ function insertFood(){
 	var foodname = document.getElementById("insertFoodName").value;
 	var foodPrice =  document.getElementById("insertFoodPrice").value;
 	var foodQTY = document.getElementById("insertFoodQTY").value;
-	var discription = document.getElementById("insertFoodDiscount").value;
+	var discription = document.getElementById("insertFoodDiscript").value;
 	var foodKind = document.getElementById("insetId").options[document.getElementById("insetId").selectedIndex].value;
-
-	window.location.href = contextPath+"/secure/inserFood.action?foodname="+foodname+"&foodPrice="+foodPrice+"&foodQTY=" +foodQTY+"&discription"+discription+"&foodKind="+foodKind;
+	window.location.href = contextPath+"/secure/inserFood.action?foodname="+foodname+"&foodPrice="+foodPrice+"&foodQTY=" +foodQTY+"&discription="+discription+"&foodKind="+foodKind;
 }
 
 function fcancel(fdid,fname,fprice,fqty,fdesc,ffkind) {
@@ -108,7 +119,7 @@ function fcancel(fdid,fname,fprice,fqty,fdesc,ffkind) {
 	
 	
 };
-function fupdate(fdid){
+function fupdate(fdid,fkId){
 	this.fdid= fdid;
 	var count = 0;
 	var fname = document.getElementById("fname"+fdid).innerHTML;
@@ -123,7 +134,7 @@ function fupdate(fdid){
 		$(this).html("<input type='text' size='7' value='"+str+"'>");
 		}
 		else if(count==4){
-			foodoption(fdid);
+			foodoption(fdid,fkId);
 		}
 		else
 		{
@@ -139,28 +150,39 @@ function fdeleteFood(fdid){
 		window.location.href=contextPath+"/secure/deletefood?fid="+fdid;
 	}
 }
-function foodoption(id){
-	xmlHttpInit.addEventListener("readystatechange",initcallbackFood,true);
+function foodoption(id,fkId){
+	
+	xmlHttpInitFood.addEventListener("readystatechange",initcallbackFood,true);
 	var urlInit = contextPath + "/secure/option";
-	xmlHttpInit.open("post",urlInit,true);
-	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	xmlHttpInit.send("act=foodinit&id="+id);
+	xmlHttpInitFood.open("post",urlInit,true);
+	xmlHttpInitFood.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpInitFood.send("act=foodinit&id="+id+"&fkId="+fkId);
 }
 
 function initcallbackFood(){
-	if(xmlHttpInit.readyState == 4){
-		if(xmlHttpInit.status == 200){
-			var data = xmlHttpInit.responseText;
-			var fkid = data.split("-")[0]; 
+	if(xmlHttpInitFood.readyState == 4){
+		if(xmlHttpInitFood.status == 200){
+			var data = xmlHttpInitFood.responseText;
+			var foodid = data.split("-")[0]; 
+			var fkId = data.split("-")[2];
 			var fkDatas = data.split("-")[1].split(";"); 
 			var newOption = document.createElement("select");
 			newOption.setAttribute("id","selectname"+fdid);
+		
 			for(var i=0 ;i<fkDatas.length-1;i++){
+				if(i==(fkId-1)){
 				var fkData = fkDatas[i].split(",");
-				newOption.innerHTML += "<option name='fkid' value='"+fkData[0]+"'>"+fkData[1]+"</option>";	
+				newOption.innerHTML += "<option name='fkid' value='"+fkData[0]+"'>"+fkData[1]+"</option>";
+				}
 			}
-			$('#foodk'+fkid).text("");
-			$('#foodk'+fkid).append(newOption);
+			for(var i=0 ;i<fkDatas.length-1;i++){
+				if(i!=(fkId-1)){
+				var fkData = fkDatas[i].split(",");
+				newOption.innerHTML += "<option name='fkid' value='"+fkData[0]+"'>"+fkData[1]+"</option>";
+				}
+			}
+			$('#foodk'+foodid).text("");
+			$('#foodk'+foodid).append(newOption);
 			}			
 		}
 }

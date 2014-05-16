@@ -3,9 +3,12 @@ package com.bdy.service;
 import java.util.List;
 
 import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdyPriority;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.dao.BdyBillDao;
@@ -152,9 +155,8 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
-	public int insertFood(int fdid,String name,double price,int qty,String desc,int fkid){
+	public int insertFood(String name,double price,int qty,String desc,int fkid){
 		BdyFood food = new BdyFood();
-		food.setFdId(fdid);
 		food.setName(name);
 		food.setPrice(price);
 		food.setQty(qty);
@@ -209,5 +211,25 @@ public class ManageService {
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}
+	public int insertSet(int foodId,int setId){
+		BdySetdetail setd = new BdySetdetail();
+		BdyFoodkind fk = foodkindDao.getFoodkind(foodId);
+		BdySet set = setDao.getSet(setId);
+		setd.setBdyFoodkind(fk);
+		setd.setBdySet(set);
+		int setNum = setdetailDao.insert(setd);
+		return setNum;
+	}
 	
+	//----------------------Emp--------------------------
+	public List<BdyEmp> getAllEmps(){
+		return empDao.getAllEmp();
+	}
+	public List<BdyPriority> getAllPri(){
+		return priorityDao.getAllProiority();
+	}
+	public  List<BdyMakearea> getAllMakeArea(){
+		 List<BdyMakearea> allma = makeareaDao.getAllMakeArea();
+		 return allma;		
+	}
 }

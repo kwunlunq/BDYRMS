@@ -5,6 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s"  uri="/struts-tags"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,28 +35,7 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script>
-	$(function(){
-		$(function() {
-		    $( "#datepicker" ).datepicker();
-		  });
-		$('#insertBTN').click(function(){
-			$('#insertDIV').css("display","block");
-			$('#modifyDIV').css("display","none");
-			$('#selectDIV').css("display","none");
-		});
-		$('#modifyBTN').click(function(){
-			$('#modifyDIV').css("display","block");
-			$('#insertDIV').css("display","none");
-			$('#selectDIV').css("display","none");
-		});
-		$('#selectBTN').click(function(){
-			$('#selectDIV').css("display","block");
-			$('#modifyDIV').css("display","none");
-			$('#insertDIV').css("display","none");
-		});
-	});
-</script>
+<script src="<c:url value="/js/emp.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -74,49 +54,50 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	
-<header>
-<input  id="modifyBTN"  type="button" value="修改資料" >
-<input 	id="insertBTN"  type="button" value="新增員工">
-<input  id="selectBTN"  type="button" value="查詢員工" >
-</header>
-<article>
-<div id="modifyDIV" style="display:none">
-<h3>修改資料</h3>
-</div>
-
-<div id="insertDIV" style="display:none">
-<script src="js/insert.js"></script>
-<h3>新增員工</h3>
-<form name="modify" method="post">
-<div>身分證字號<input type="text" id="id" >
-<img src="images/currect.gif" style="display:block"></div><br>
-員工密碼:0000<br>
-性別    <input type="radio" name="sex" name="male" >男
-	<input type="radio" name="sex" name="female">女<br>
-權限  :<select>
-		<option value="priority" >1</option>
-		<option value="priority" >2</option>
-		<option value="priority" >3</option></select><br>
-到職日期:<input type="text" id="datepicker"><br>
-薪資 :<input type="text" id="salary"><br>
-電話 :<input type="text" id="phone_number"><br>
-地址 :<input type="text" id="address"><br>
-<input type="button" value="確認" onclick="insert()">
-<input type="button" value="取消">
-</form>
-</div>
-
-
-
-<div id="selectDIV" style="display:none">
-<h3>查詢員工</h3>
-</div>
-</article>
-	
-	
-	
-	</div><!-- 	id="writeCodeInThisDiv" -->
+	<s:iterator var="emp" value="emps" status="headcheck" >	
+	<s:if test="%{#headcheck.first}">
+	<table>		
+		<thead>
+			<tr>
+				<td>員工ID</td>
+				<td>員工姓名</td>
+				<td>員工性別</td>
+				<td>員工職位</td>
+				<td>到職日期</td>
+				<td>年資</td>
+				<td>薪資</td>
+				<td>電話</td>
+				<td>住址</td>
+				<td>離職</td>
+				<td>修改</td>
+			</tr>
+		</thead>
+		<tbody>
+		</s:if>
+			
+			<tr id="trEmp<s:property value="#headcheck.count"/>">
+				<td><s:property value="#emp.empId" /></td>
+				<td><s:property value="#emp.name" /></td>S
+				<td><s:property value="#emp.sex" /></td>
+				<td><s:property value="#emp.bdyPriority.jobname" /></td>
+				<td><s:date name="#emp.comedate" format="yyyy-MM-dd EEEE HH:mm" /></td>
+				<td><s:date name="#emp.comedate" format="yyyy-MM-dd EEEE HH:mm" nice="true" /></td>
+				<td><s:property value="#emp.salary" /></td>
+				<td><s:property value="#emp.phone" /></td>
+				<td><s:property value="#emp.empAddress" /></td>
+				<td><s:if test="%{#emp.resign==0}">
+					在職
+					</s:if>
+					<s:if test="%{#emp.resign==1}">
+					離職
+					</s:if>
+				</td>
+				<td><input class="MainBtnColor" type="button" name="update" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" ></td>
+			</tr>	
+		</s:iterator>
+		</tbody>
+		</table>
+	</div>
 
 </div>
 </div>

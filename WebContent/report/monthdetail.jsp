@@ -40,6 +40,8 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/jquery.ui.datepicker-zh-TW.js"/>"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="<c:url value="/js/monthdetail.js"/>"></script>
+
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
@@ -59,6 +61,11 @@ var contextPath='<%=request.getContextPath()%>';
 				<div id="writeCodeInThisDiv">
 
 						<!-- START Write -->
+						<form action="<c:url value="/MonthReportServlet" />" method="get">
+							<input type="submit" class="MainBtnColor" value="查詢單月營運狀況">
+							Year : <input type="text" id="year" name="year" value=""/>
+							Month : <input type="text" id="month" name="month" value=""/>
+						</form>
 						<hr>
 						<div id="tabs">
 							<ul>
@@ -67,6 +74,26 @@ var contextPath='<%=request.getContextPath()%>';
 								<li><a href="#tabs-3">單月餐點 統計</a></li>
 							</ul>
 							<div id="tabs-1">
+								<c:if test="${not empty bills}">
+									<table style="margin: 0 auto">
+										<thead>
+											<tr>
+												<th>來客數</th>
+												<th>金額</th>
+												<th>時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="bills" items="${bills}">
+												<tr>
+													<td>${bills.dayTatolCustNum}</td>
+													<td>${bills.dayTatolFinPrice}</td>
+													<td>${bills.dayInMonth}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</c:if>
 							</div>	
 							<div id="tabs-2">
 							</div>

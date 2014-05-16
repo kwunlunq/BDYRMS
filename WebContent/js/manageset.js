@@ -1,10 +1,81 @@
 var xmlHttpInit = new XMLHttpRequest();
+
+
+
 $(function(){
+	var obj1;	
 	if(pags=="1"){
 		$( "#tabs" ).tabs( "option", "active", 1);
 		pags = 0;
 	}
+	$( "#setInsertDialog" ).dialog({		
+		
+		autoOpen: false,
+		width: 400,
+		buttons: [
+			{
+				text: "確定",
+				click: function() {
+					insertSet();
+					$( this ).dialog( "close" );
+				}
+			},
+			{
+				text: "取消",
+				click: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		]
+	});
+	
+	$( "#setDialog-link" ).click(function( event1 ) {
+		$( "#setInsertDialog" ).dialog( "open" );
+		event1.preventDefault();
+	});
+	
+	
 });
+
+function insertSet(){
+	var a = document.getElementById("setId");
+	var setId = document.getElementById("setId").options[document.getElementById("setId").selectedIndex].value;
+	var foodId = document.getElementById("foodId").options[document.getElementById("foodId").selectedIndex].value;
+	window.location.href = contextPath+"/secure/inserSet.action?setId="+setId+"&foodId="+foodId;
+}
+
+function insertSetOption(){
+	xmlHttpInit.addEventListener("readystatechange",initcallbackInsertSet,true);
+	var urlInit = contextPath + "/secure/option";
+	xmlHttpInit.open("post",urlInit,true);
+	xmlHttpInit.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpInit.send("act=insertSet");
+}
+function initcallbackInsertSet(){
+	if(xmlHttpInit.readyState == 4){
+		if(xmlHttpInit.status == 200){ 
+			var setData =xmlHttpInit.responseText;
+			var setOption1 = document.createElement("select");
+			var setOption2 = document.createElement("select");
+			setOption1.setAttribute("id", "setId");
+			setOption2.setAttribute("id", "foodId");
+			var sets = setData.split("-")[0].split(";");
+			var foods = setData.split("-")[1].split(";");
+			for(var i=0;i<sets.length-1;i++){
+				var set = sets[i].split(",");
+				setOption1.innerHTML +="<option  value='"+set[0]+"'>"+set[1]+"</option>";
+			}
+			for(var i=0;i<foods.length-1;i++){
+				var food = foods[i].split(",");
+				setOption2.innerHTML +="<option  value='"+food[0]+"'>"+food[1]+"</option>";
+			}
+			$('#insertSetName').append(setOption1);
+			$('#insertSetFoodKind').append(setOption2);
+			
+		}
+	 }
+}
+
 
 function setoption(detailid,sid,fkid){
 	xmlHttpInit.addEventListener("readystatechange",initcallbackSet,true);

@@ -8,17 +8,20 @@
             <column name="NEWS_ID" />
             <generator class="native" />
         </id>
-        <property name="newsTittle" type="serializable">
-            <column name="NEWS_TITTLE" />
+        <property name="newsTitle" type="string">
+            <column name="NEWS_TITLE" />
         </property>
-        <property name="newsContent" type="serializable">
+        <property name="newsContent" type="string">
             <column name="NEWS_CONTENT" />
         </property>
         <property name="newsPostdate" type="timestamp">
             <column name="NEWS_POSTDATE" length="23" />
         </property>
-        <property name="newsPostid" type="string">
-            <column name="NEWS_POSTID" length="30" />
+        <property name="newsPostname" type="string">
+            <column name="NEWS_POSTNAME" length="20" />
+        </property>
+        <property name="newsType" type="string">
+            <column name="NEWS_TYPE" length="20" />
         </property>
     </class>
 </hibernate-mapping>

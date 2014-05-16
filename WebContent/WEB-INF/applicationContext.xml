@@ -85,6 +85,12 @@ loginTimeout=30;
 	<bean id="billdetail" name="billdetail" class="com.bdy.model.BdyBilldetail" />
 	<bean id="news" name="news" class="com.bdy.model.BdyNews" />
 	<bean id="booking" name="booking" class="com.bdy.model.BdyBooking" />
+	
+	<bean id="MonthReportDaoJdbc" class="com.bdy.model.dao.MonthReportDaoJdbc">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
 
 	<bean id="BdyTableDao" class="com.bdy.model.dao.BdyTableDao">
 		<property name="sessionFactory">
@@ -286,6 +292,9 @@ loginTimeout=30;
 		</property>
 		<property name="bookingDao">
 			<ref bean="BdyBookingDao"/>
+		</property>
+		<property name="monthReportDao">
+			<ref bean="MonthReportDaoJdbc"/>
 		</property>		
 	</bean>	
 	

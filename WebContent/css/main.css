@@ -5,12 +5,39 @@ body,html {
 	background-color:gray;
 }
 
-input:focus, textarea:focus, select:focus 
+#newsContent{
+	word-wrap: break-word; 
+	word-break: normal; 
+}
+
+input,input:focus, textarea:focus, select:focus 
 {outline:0 none;}
 
-#mainPageAcdion{
+.titleDate{
+	color:gray;
+	float:right;
+	font-size:0.8em;
+}
+
+#mainPageAcdion,#mainPageAcdionTittle{
 	margin:0 auto;
 	width:80%;
+}
+#addNewsDIV{
+	margin:0 auto;
+	padding:22px;
+	width:75.2%;
+	border-radius:10px 10px 10px 10px;
+	border:2px dotted red;
+	background: rgb(240,249,255);
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(240,249,255,1) 0%, rgba(203,235,255,1) 47%, rgba(161,219,255,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(240,249,255,1)), color-stop(47%,rgba(203,235,255,1)), color-stop(100%,rgba(161,219,255,1)));
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(240,249,255,1) 0%,rgba(203,235,255,1) 47%,rgba(161,219,255,1) 100%);
+	background: -o-radial-gradient(center, ellipse cover,  rgba(240,249,255,1) 0%,rgba(203,235,255,1) 47%,rgba(161,219,255,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(240,249,255,1) 0%,rgba(203,235,255,1) 47%,rgba(161,219,255,1) 100%);
+	background: radial-gradient(ellipse at center,  rgba(240,249,255,1) 0%,rgba(203,235,255,1) 47%,rgba(161,219,255,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#a1dbff',GradientType=1 );
+	
 }
 
 #mainBox {
@@ -181,6 +208,7 @@ p {
 }
 
 #showstate{
+	z-index:99999999;
 	font-weight:900;
 	top:50%;
 	left:50%;
@@ -209,165 +237,3 @@ p {
 	padding:6px 9px;
 	text-shadow:0px -1px 0px #5b6178;
 }
-
-/* table,td,th { */
-/* 	border-collapse:collapse; */
-/* 	margin:0; */
-/* 	padding:0; */
-
-/* } */
-/* table { */
-/* 	border: none; */
-/* 	font-family: Garamond, Georgia, "Times New Roman", Times, serif; */
-/* } */
-
-/* table caption { */
-/* 	background-color: transparent; */
-/* 	background-image: url(http://blog.slaven.net.au/wp-content/csstables/cap_bg.gif); */
-/* 	background-repeat: repeat-x; */
-/* 	background-position: bottom left; */
-/* 	text-align:left; */
-/* 	font-size:150%; */
-/* 	text-transform:uppercase; */
-/* 	line-height: 30px; */
-/* 	letter-spacing:0px;	 */
-/* } */
-
-/* td, th{	 */
-/* 	vertical-align:top; */
-/* 	font-weight:normal;	 */
-/* } */
-
-/* thead { */
-/* 	border-left:1px solid #2293FF;	 */
-/* } */
-
-/* thead th { */
-/* 	background: #2293FF; */
-/* 	color: #FFFFFF; */
-/* 	font-size: 125%; */
-/* 	border-top:1px solid #2293FF; */
-/* 	border-right:1px solid #2293FF; */
-/* 	padding: 4px 0.4em 4px 0.4em;	 */
-/* } */
-
-/* tfoot td, tfoot th { */
-/* 	border-top:1px solid #2293FF; */
-/* 	border-right: none; */
-/* 	font-weight: bolder; */
-/* 	font-size: 110%; */
-/* 	padding: 0.4em 0.5em 0.4em 0.5em; */
-/* } */
-
-/* tbody td, tbody th { */
-/* 	background-color: #D9ECFF; */
-/* 	border-right:1px solid #2293FF; */
-/* 	font-size: 110%; */
-/* 	padding: 0.4em 0.5em 0.4em 0.5em; */
-/* } */
-
-/* tr:nth-child(odd){ */
-/* 	background-color: #BDDFFF; */
-/* } */
-
-
-/* tbody tr.odd th, tbody tr.odd td{ */
-/* 	background-color: #BDDFFF; */
-/* } */
-
-/* tbody th{	 */
-/* 	font-weight: bold;	 */
-/* 	border-left:1px solid #2293FF; */
-/* } */
-
-/* table a:link, table a:visited, table a:active {	 */
-/* 	color:#444F66; */
-/* 	background-color: transparent; */
-/* 	text-decoration: underline; */
-/* } */
-
-/* table a:hover { */
-/* 	text-decoration:none; */
-/* 	background-color: #1E90FF; */
-/* 	color: #FFFFFF; */
-/* } */
-	table, caption, tbody, tfoot, thead, tr, th, td {
-		margin:0;
-		padding:0;
-		border:0;
-		outline:0;
-		font-size:100%;
-		vertical-align:baseline;
-		background:transparent;
-	}
-
-	table {
-		overflow:hidden;
-		border:1px solid #d3d3d3;
-		background:gray;/*#fefefe*/
-		width:95%;
-		margin:5px auto;
-		-moz-border-radius:8px; /* FF1+ */
-		-webkit-border-radius:8px; /* Saf3-4 */
-		border-radius:8px;
-		-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-		-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-	}
-	
-	th, td { text-align:center; }
-	
-	th {padding-top:10px; text-shadow: 1px 1px 1px #fff; background:#e8eaeb;}
-	
-	td {border-top:1px solid #e0e0e0; border-right:1px solid #e0e0e0;}
-	
-	tr.odd-row td {background:#f6f6f6;}
-	
-	td.first, th.first {text-align:left}
-	
-	td.last {border-right:none;}
-	
-	/*
-	Background gradients are completely unnecessary but a neat effect.
-	*/
-	
-	td {
-		background: -moz-linear-gradient(100% 25% 90deg, #fefefe, #f9f9f9);
-		background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f9f9f9), to(#fefefe));
-	}
-	
-	tr.odd-row td {
-		background: -moz-linear-gradient(100% 25% 90deg, #f6f6f6, #f1f1f1);
-		background: -webkit-gradient(linear, 0% 0%, 0% 25%, from(#f1f1f1), to(#f6f6f6));
-	}
-	
-	th {
-		background: -moz-linear-gradient(100% 20% 90deg, #e8eaeb, #ededed);
-		background: -webkit-gradient(linear, 0% 0%, 0% 20%, from(#ededed), to(#e8eaeb));
-	}
-	
-	/*
-	I know this is annoying, but we need additional styling so webkit will recognize rounded corners on background elements.
-	Nice write up of this issue: http://www.onenaught.com/posts/266/css-inner-elements-breaking-border-radius
-	
-	And, since we've applied the background colors to td/th element because of IE, Gecko browsers also need it.
-	*/
-	
-	tr:first-child th.first {
-		-moz-border-radius-topleft:8px;
-		-webkit-border-top-left-radius:8px; /* Saf3-4 */
-	}
-	
-	tr:first-child th.last {
-		-moz-border-radius-topright:8px;
-		-webkit-border-top-right-radius:8px; /* Saf3-4 */
-	}
-	
-	tr:last-child td.first {
-		-moz-border-radius-bottomleft:8px;
-		-webkit-border-bottom-left-radius:8px; /* Saf3-4 */
-	}
-	
-	tr:last-child td.last {
-		-moz-border-radius-bottomright:8px;
-		-webkit-border-bottom-right-radius:8px; /* Saf3-4 */
-	}
