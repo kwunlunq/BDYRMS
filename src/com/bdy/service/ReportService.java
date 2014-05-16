@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.bdy.model.BdyBill;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyMainkind;
+import com.bdy.model.MonthReport;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
@@ -28,6 +31,7 @@ import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
 import com.bdy.model.dao.BdyTableDao;
+import com.bdy.model.dao.MonthReportDaoJdbc;
 
 public class ReportService {
 
@@ -48,7 +52,7 @@ public class ReportService {
 	BdyBilldetailDao billdetailDao;
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
-	
+	MonthReportDaoJdbc monthReportDao;
 	
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
@@ -120,6 +124,10 @@ public class ReportService {
 	public void setTableDao(BdyTableDao tableDao) {
 		this.tableDao = tableDao;
 	}
+	
+	public void setMonthReportDao(MonthReportDaoJdbc monthReportDao) {
+		this.monthReportDao = monthReportDao;
+	}
 
 	public ReportService() {
 	}
@@ -131,7 +139,7 @@ public class ReportService {
 		return beans;
 
 	}
-
+		
 	@SuppressWarnings("unchecked")
 	public JSONObject getSingleDayJSON(java.util.Date date) {
 		
@@ -481,6 +489,14 @@ public class ReportService {
 		
 		
 		return obj;
+	}
+	
+	public List<MonthReport> getMonthRevenueDetails(int year,int month) throws NamingException {
+
+		List<MonthReport> beans = new ArrayList<MonthReport>();
+		beans = monthReportDao.getMonthRevenueDetailsDB(year,month);
+		return beans;
+
 	}
 	
 	
