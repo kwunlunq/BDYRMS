@@ -53,9 +53,37 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	<div style="text-align:center"><h2>BDYRMS即時公告</h2></div>
+	<div id="mainPageAcdionTittle">
+		<h2>最新消息~
+			<span id="newsBtnBox" style="float:right">
+			<input class="MainBtnColor" id="btnAddNews" type="button" value="發佈消息">
+			</span>
+		</h2>
+	</div>
+	<div id="addNewsDIV" style="display:none">
+		<form id="addNewsForm" method="post" action="<c:url value='/news?act=postNews' />">
+			<span style="font-size:1.1em;">發佈人: ${empData.name}</span><br>
+			<div style="float:left;width:70%">
+				<span style="font-size:1.1em;">標題:</span><span style="color:red" id="errorTitle"></span>
+				<input name="newsTitle" style="width:100%;font-size:1.1em;" type="text">	
+			</div>		
+			<div style="float:left;margin-left:10px;width:28.5%">
+				<span style="font-size:1.1em;">類別:</span>
+				<select name="newsType" style="font-size:1.1em;width:100%">
+					<option value="餐廳管理">餐廳管理</option>
+					<option value="系統管理">系統管理</option>
+					<option value="其他">其他</option>
+				</select>
+			</div>
+			<div style="clear:both">
+			<span style="font-size:1.1em;">內容:</span><span style="color:red" id="errorContent"></span>
+			<textarea name="newsContent" rows="7" style="width:100%;font-size:1.1em;"></textarea>
+			</div>
+			<input name='newsPostname' type='hidden' value="${empData.name}">
+		</form>
+	</div>
 	<div id="mainPageAcdion">
-	<h3>使用Jquery UI 注意事項  <span style="color:red">(重要  20140512)</span></h3>
+	<h3>使用Jquery UI 注意事項  <span class='titleDate'>(重要  20140512)</span></h3>
 		<div>
 			Jquery UI套件都是使用 ID名稱控制物件，各位取ID名稱時注意不要使用原來Demo的名稱，<br>
 			請加上自己要使用的功能的名字來判斷，避免多人使用同一個套件時大家都取一樣的名稱而造成衝突。<br>
@@ -64,37 +92,36 @@ var contextPath='<%=request.getContextPath()%>';
 			假如同時有人使用同一個套件沒有改名稱，會發生造成衝突的可能，mainpage.jsp使用這個套件時，可修改為 id="mainPageAccordion"<br>
 			若覺得名稱太長可以酌量的使用縮寫 => mainPageAcdion or mPageAccor or mPAccordion 請自行發揮 自己看得懂為主
 		</div>
-		<h3>MainPage樣版更新小撇步  <span style="color:red">(更新 20140512)</span></h3>
+	<h3>MainPage樣版更新小撇步  <span class='titleDate'>(更新 20140512)</span></h3>
 		<div>
-Step 1. 複製一份mainpage.jsp 名稱改成自己的功能名稱<br>
-Step 2. 將複製過來的mainpage.jsp(現在是自己的了)，將&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt 裡的內容全部刪掉<br>
-Step 3. 接著把自己已經寫好的內容 複製到 剛剛刪掉的地方=>&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt<br>
-Finish. 存檔 收工!<br>
+			Step 1. 複製一份mainpage.jsp 名稱改成自己的功能名稱<br>
+			Step 2. 將複製過來的mainpage.jsp(現在是自己的了)，將&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt 裡的內容全部刪掉<br>
+			Step 3. 接著把自己已經寫好的內容 複製到 剛剛刪掉的地方=>&ltdiv id="writeCodeInThisDiv"&gt XXX &lt/div&gt<br>
+			Finish. 存檔 收工!<br>
 		</div>
 		<h3>Jquery UI Demo</h3>
 		<div>
-[<a target="_blank" href="<c:url value="/jqueryUIDemo/index.html"/>">Link</a>]<br>
-有需要使用到Jquery UI 的套件可以點Link前往後 按右鍵檢視原始碼 可以參考寫法及CSS樣式的使用方式
-以上JS及CSS相關檔案已經匯入 直接寫程式碼即可使用.....
+			[<a target="_blank" href="<c:url value="/jqueryUIDemo/index.html"/>">Link</a>]<br>
+			有需要使用到Jquery UI 的套件可以點Link前往後 按右鍵檢視原始碼 可以參考寫法及CSS樣式的使用方式
+			以上JS及CSS相關檔案已經匯入 直接寫程式碼即可使用.....
 		</div>
 		<h3>Button 有固定樣式 (長相請往左邊看)</h3>
 		<div>
-有需要使用這個樣式 請加上 class="MainBtnColor"
---注意 此樣式只有顏色 若要固定大小及字體大小 請另外寫<br>
-方法一 (直接寫style):<br>
-&nbsp&nbsp&ltinput type="button" class="MainBtnColor" style="width:100px;"&gt
-<br>
-方法二 (多寫一個Class):<br>
-&nbsp&nbsp&ltstyle&gt<br>
-&nbsp&nbsp.btnsize{<br>
-&nbsp&nbsp&nbsp&nbspwidth:100px;<br>
-&nbsp&nbsp}<br>
-&nbsp&nbsp&lt/style&gt<br>
-&nbsp&nbsp&ltinput type="button" class="MainBtnColor btnsize"&gt
+			有需要使用這個樣式 請加上 class="MainBtnColor"
+			--注意 此樣式只有顏色 若要固定大小及字體大小 請另外寫<br>
+			方法一 (直接寫style):<br>
+			&nbsp&nbsp&ltinput type="button" class="MainBtnColor" style="width:100px;"&gt
+			<br>
+			方法二 (多寫一個Class):<br>
+			&nbsp&nbsp&ltstyle&gt<br>
+			&nbsp&nbsp.btnsize{<br>
+			&nbsp&nbsp&nbsp&nbspwidth:100px;<br>
+			&nbsp&nbsp}<br>
+			&nbsp&nbsp&lt/style&gt<br>
+			&nbsp&nbsp&ltinput type="button" class="MainBtnColor btnsize"&gt
 		</div>
 	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
-
 </div>
 </div>
 <div id="footer">

@@ -47,7 +47,6 @@ public class BdyNewsDao {
 	public int insert(BdyNews news) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
-
 		try {
 			session.save(news);
 			tx.commit();
@@ -93,8 +92,8 @@ public class BdyNewsDao {
 			tmpNews.setNewsId(news.getNewsId());
 			tmpNews.setNewsPostdate(news.getNewsPostdate());
 			tmpNews.setNewsContent(news.getNewsContent());
-			tmpNews.setNewsTittle(news.getNewsTittle());
-			tmpNews.setNewsPostid(news.getNewsPostid());
+			tmpNews.setNewsTitle(news.getNewsTitle());
+			tmpNews.setNewsPostname(news.getNewsPostname());
 		} else {
 			System.out
 					.println("修改失敗 : 資料不存在 (newsId:" + news.getNewsId() + ")");
