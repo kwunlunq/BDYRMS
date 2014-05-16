@@ -5,6 +5,7 @@ import java.util.List;
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
@@ -216,5 +217,9 @@ public class ManageService {
 		setd.setBdySet(set);
 		int setNum = setdetailDao.insert(setd);
 		return setNum;
+	}
+	public  List<BdyMakearea> getAllMakeArea(){
+		 List<BdyMakearea> allma = makeareaDao.getAllMakeArea();
+		 return allma;		
 	}
 }

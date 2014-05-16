@@ -16,6 +16,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
@@ -42,9 +43,8 @@ public class ManageSortServlet extends HttpServlet {
 		List<BdyFood> food = manage.getAllFood();
 		List<BdySetdetail> detail = manage.getAllDetail();
 		List<BdyDiscount> discount = manage.getAllDiscount();
-		String act = request.getParameter("act");
-		String btn = request.getParameter("btn");
-		
+		List<BdyFoodkind> foodkind = manage.getAllFoodKind();
+		String act = request.getParameter("act");		
 		//排序價位 和 庫存star
 		if(act.equals("sort")){
 			String type = request.getParameter("type");
@@ -94,10 +94,20 @@ public class ManageSortServlet extends HttpServlet {
 		}
 		}
 		}
+		
+
+		Collections.sort(foodkind,new Comparator<BdyFoodkind>(){
+			@Override
+			public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+				
+				return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+			}
+		});
 		//排序價位 和 庫存end
 		request.setAttribute("resultFood", food);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
+		request.setAttribute("resultfoodkind", foodkind);
 		
 		if(food!=null){
 			request.setAttribute("foodcount", food.size());

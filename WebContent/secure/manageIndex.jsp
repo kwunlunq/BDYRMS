@@ -6,6 +6,7 @@
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 
@@ -84,6 +85,7 @@ if(judge!=""){
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/managefood.js"/>"></script>
 <script src="<c:url value="/js/manageset.js"/>"></script>
+<script src="<c:url value="/js/managefoodkind.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -108,12 +110,17 @@ if(judge!=""){
 <!-- START Write -->
 <div id="tabs">
   <ul>
-    <li><a href="#tabs-1"  id="modifyfood">修改食物</a></li>
-    <li><a href="#tabs-2"  id="modifypackage">修改套餐</a></li>
-    <li><a href="#tabs-3"  id="modifycount">修改折扣</a></li>
+    
+ 	<li><a href="#tabs-1"  id="modifyfood">修改食物</a></li>
+    <li><a href="#tabs-2"  id="modifypackage">修改套餐組合</a></li>
+    <li><a href="#tabs-3"  id="modifycount">修改食物類別</a></li>
+    
+    <li><a href="#tabs-4"  id="modifycount">修改折扣</a></li>
+    <li><a href="#tabs-5"  id="modifycount">修改套餐</a></li>
+    <li><a href="#tabs-6"  id="modifycount">修改製作區域</a></li>
   </ul>
   		<div id="tabs-1">
-		共${foodcount }筆 
+		共${fn:length(resultFood)}筆 
 		<a href="javascript:void(0)" id="foodDialog-link" class="ui-state-default ui-corner-all" ">新增一筆資料</a>
 		<div id="foodInsertDialog" title="新增食物" style="display:none">
 		<p>食物名稱:<br><input type="text" id="insertFoodName"><s:property value="%{fieldErrors.foodname[0]}"/></p>
@@ -126,12 +133,12 @@ if(judge!=""){
 		<table width="100%" border="1">
 		<thead>
 		<tr>
-		<th width="25%" class="thstyle">食物名稱</th>
-		<th width="10%" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/sort?act=sort&type=price' />')">食物價錢</th>
-		<th width="10%" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/sort?act=sort&type=qty' />')">庫存量</th>
-		<th width="30%" class="thstyle">說明</th>
-		<th width="10%" class="thstyle">種類</th>
-		<th width="15%" class="thstyle">功能</th>
+		<th style="width: 19%;" class="thstyle">食物名稱</th>
+		<th style="width: 8%;" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/sort?act=sort&type=price' />')">食物價錢</th>
+		<th style="width: 8%;" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/sort?act=sort&type=qty' />')">庫存量</th>
+		<th style="width: 25%;" class="thstyle">說明</th>
+		<th style="width: 12%;" class="thstyle">種類</th>
+		<th style="width: 25%;" class="thstyle">功能</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -148,7 +155,7 @@ if(judge!=""){
 		<td id="fdesc${food.fdId}">${food.descript}</td>
 		<td id="ffkind${food.fdId}"><div id="foodk${food.fdId}">${food.bdyFoodkind.name}</div></td>
 		<td id="foodbtn${food.fdId}">
-		<input class='MainBtnColor' type="button"   value="修改" onclick="fupdate(${food.fdId})">
+		<input class='MainBtnColor' type="button"   value="修改" onclick="fupdate(${food.fdId},${food.bdyFoodkind.fkId})">
 		<input class='MainBtnColor' type="button"   value="刪除" onclick="fdeleteFood(${food.fdId})">
 		</td>
 		</c:if>
@@ -166,11 +173,12 @@ if(judge!=""){
 		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
 		 </div>
-		<table border="1">		
+		<table style="width:75%; align:left" border="1">		
 		<thead>
 		<tr>
 		<th>套餐名稱</th>
 		<th>食物類別</th>
+		<th>功能</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -194,8 +202,35 @@ if(judge!=""){
 		</table>
 		</div>
 		
+		<div id="tabs-3">
+		新增一筆資料
+		<table border="1">
+		
+		<thead>
+		<tr>
+		<th>類別名稱</th>
+		<th>製作時間</th>
+		<th>製作區域</th>
+		<th>出餐時間</th>
+		<th>功能</th>
+		</tr>
+		</thead>
+		<c:forEach var = "foodkind" items="${resultfoodkind }">
+		<tr id="TRfk${foodkind.fkId }">
+		<td>${foodkind.name }</td>
+		<td>${foodkind.period }</td>
+		<td id="maId${foodkind.fkId }">${foodkind.bdyMakearea.name }</td>
+		<td>${foodkind.seq }</td>
+		<td>
+		<input class='MainBtnColor' type="button" value="修改" onclick="fkupdate(${foodkind.fkId },${foodkind.bdyMakearea.maId })">
+		<input class='MainBtnColor' type="button" value="刪除" onclick="">
+		</td>
+		</tr>
+		</c:forEach>			
+		</table>
+		</div>
 		 
-		 <div id="tabs-3">
+		 <div id="tabs-4">
 		 <input type="button" id="insert3" value="新增一筆資料">
 		 	<table border="1">
 		<thead>

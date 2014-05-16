@@ -8,51 +8,26 @@ $(function(){
 		$( "#tabs" ).tabs( "option", "active", 1);
 		pags = 0;
 	}
-	
-	if(booleanSet){
-		obj1 = {				
-				autoOpen: true,
-				width: 400,
-				buttons: [
-					{
-						text: "確定",
-						click: function() {
-							insertSet();
-							$( this ).dialog( "close" );
-						}
-					},
-					{
-						text: "取消",
-						click: function() {
-							$( this ).dialog( "close" );
-						}
-					}
-				]
-			}
-	}else{
-	 obj1 = {
-			
-			
-			autoOpen: false,
-			width: 400,
-			buttons: [
-				{
-					text: "確定",
-					click: function() {
-						insertSet();
-						$( this ).dialog( "close" );
-					}
-				},
-				{
-					text: "取消",
-					click: function() {
-						$( this ).dialog( "close" );
-					}
+	$( "#setInsertDialog" ).dialog({		
+		
+		autoOpen: false,
+		width: 400,
+		buttons: [
+			{
+				text: "確定",
+				click: function() {
+					insertSet();
+					$( this ).dialog( "close" );
 				}
-			]
-		}
-	}
-	$( "#setInsertDialog" ).dialog(obj1);
+			},
+			{
+				text: "取消",
+				click: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		]
+	});
 	
 	$( "#setDialog-link" ).click(function( event1 ) {
 		$( "#setInsertDialog" ).dialog( "open" );
@@ -79,13 +54,13 @@ function insertSetOption(){
 function initcallbackInsertSet(){
 	if(xmlHttpInit.readyState == 4){
 		if(xmlHttpInit.status == 200){ 
-			var data =xmlHttpInit.responseText;
+			var setData =xmlHttpInit.responseText;
 			var setOption1 = document.createElement("select");
 			var setOption2 = document.createElement("select");
 			setOption1.setAttribute("id", "setId");
 			setOption2.setAttribute("id", "foodId");
-			var sets = data.split("-")[0].split(";");
-			var foods = data.split("-")[1].split(";");
+			var sets = setData.split("-")[0].split(";");
+			var foods = setData.split("-")[1].split(";");
 			for(var i=0;i<sets.length-1;i++){
 				var set = sets[i].split(",");
 				setOption1.innerHTML +="<option  value='"+set[0]+"'>"+set[1]+"</option>";
