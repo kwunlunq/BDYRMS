@@ -139,12 +139,13 @@ function showState(txt){
 	stateDiv.setAttribute("id", "showstate");
 	stateDiv.appendChild(stateVal);
 	$('body').append(stateDiv);
-	$('#showstate').fadeToggle(700,function(){
+	$('#showstate').css("margin-left","-"+($('#showstate').width()/2)+"px");
+	$('#showstate').fadeToggle(600,function(){
 		setTimeout(hideState , 1200);
 	});	
 }
 function hideState(){
-	$('#showstate').fadeToggle(700,function(){
+	$('#showstate').fadeToggle(600,function(){
 		$(this).remove();
 	});
 }

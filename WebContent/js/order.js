@@ -11,11 +11,12 @@ var currentStatus = {"FId":null,
 					 "TableId":null, 
 					 "TableName":null, 
 					 "CustNum":null, 
-					 "EmpId":"A111111111", 
+					 "EmpId":null, 
 					 "Foods":[]
 					 };
 
 $(function() {
+	currentStatus.EmpId = empId;
 	getFoods();	// 取得所有食物
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
