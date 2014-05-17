@@ -130,7 +130,7 @@ if(judge!=""){
 		<p>種類:<br><span id="insertFoodKind"></span></p>
 		</div>
 		
-		<table width="100%" border="1">
+		<table id="testTable" width="100%" border="1">
 		<thead>
 		<tr>
 		<th style="width: 19%;" class="thstyle">食物名稱</th>
