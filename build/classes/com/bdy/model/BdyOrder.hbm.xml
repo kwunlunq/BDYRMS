@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/5/15 ?U?? 02:50:35 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyOrder" table="BDY_ORDER">
+        <id name="odId" type="int">
+            <column name="OD_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select" lazy="false">
+            <column name="EMP_ID" length="10" />
+        </many-to-one>
+        <many-to-one name="bdyTable" class="com.bdy.model.BdyTable" fetch="select" lazy="false">
+            <column name="TB_ID" />
+        </many-to-one>
+        <property name="ordTime" type="timestamp">
+            <column name="ORD_TIME" length="23" />
+        </property>
+        <property name="isCheckout" type="java.lang.Integer">
+            <column name="IS_CHECKOUT" />
+        </property>
+        <property name="custNum" type="java.lang.Integer">
+            <column name="CUST_NUM" />
+        </property>
+        <set name="bdyBilldetails" table="BDY_BILLDETAIL" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="OD_ID" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyBilldetail" />
+        </set>
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="OD_ID" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyOrderlist" />
+        </set>
+    </class>
+</hibernate-mapping>

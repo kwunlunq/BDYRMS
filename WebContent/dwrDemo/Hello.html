@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type='text/javascript' src='/BDYRMS/js/jquery.js'></script>
+<script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
+<script type='text/javascript' src='/BDYRMS/dwr/interface/Hello.js'></script>
+<script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
+<script type="text/javascript">
+$(function(){
+
+});
+function hello() {
+    var user = $('#user').val();
+    $('#result').text("");
+    if(user.length <= 0){
+    	alert("請輸入文字!");
+    }else{
+    	Hello.hello(user,callback);
+    	// 開頭的 Hello. 是事先寫的Class (com.bdy.dwr.test.Hello)
+    	//             定義在 dwr.xml 裡才能呼叫
+    	// 後面的 .hello 是Class裡的方法 
+    	// (user , callback) 括號裡 user 是要傳給 hello 方法的參數
+    	// callback 是 執行完Class後 要執行的javascript Function
+    }
+}
+ 
+function callback(msg) {
+	dwr.util.setValue('result', msg);
+	// 利用DWR的方法 將程式回傳回來的資料 msg 寫入 ID為result 的 DOM物件 中
+}
+</script>
+</head>
+<body>
+<input id="user" type="text" />
+<input type='button' value='顯示訊息' onclick='hello();' /> 
+<div id="result"></div>
+
+<div style="position:absolute;top:30%">
+程式概述:
+<ul>
+	<li>將文字方塊輸入的資料 利用JS傳給 後端的Hello.java</li>
+	<li>再使用 Hello.java 中的 hello(name) 的方法 return 文字給前端</li>
+</ul>
+檔案清單:
+<ul>
+	<li>src/Hello.java</li>
+	<li>WEB-INF/dwr.xml</li>
+	<li>dwrDemo/Hello.html</li>
+</ul>
+JS程式碼:
+<pre>
+function hello() {
+    var user = $('#user').val();
+    $('#result').text("");
+    if(user.length <= 0){
+    	alert("請輸入文字!");
+    }else{
+    	Hello.hello(user,callback);
+    	// 開頭的 Hello. 是事先寫的Class (com.bdy.dwr.test.Hello)
+    	//             定義在 dwr.xml 裡才能呼叫
+    	// 後面的 .hello 是Class裡的方法 
+    	// (user , callback) 括號裡 user 是要傳給 hello 方法的參數
+    	// callback 是 執行完Class後 要執行的javascript Function
+    }
+}
+ 
+function callback(msg) {
+	dwr.util.setValue('result', msg);
+	// 利用DWR的方法 將程式回傳回來的資料 msg 寫入 ID為result 的 DOM物件 中
+}
+</pre>
+</div>
+</body>
+</html>

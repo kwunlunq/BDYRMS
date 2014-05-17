@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/16 ?U?? 04:39:32 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyFloor" table="BDY_FLOOR" schema="dbo" catalog="BDY">
+        <id name="floorid" type="int">
+            <column name="F_ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" />
+        </property>
+    </class>
+</hibernate-mapping>

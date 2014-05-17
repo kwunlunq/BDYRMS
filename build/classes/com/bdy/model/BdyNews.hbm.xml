@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/5/15 ?U?? 05:00:04 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyNews" table="BDY_NEWS" >
+        <id name="newsId" type="int">
+            <column name="NEWS_ID" />
+            <generator class="native" />
+        </id>
+        <property name="newsTitle" type="string">
+            <column name="NEWS_TITLE" />
+        </property>
+        <property name="newsContent" type="string">
+            <column name="NEWS_CONTENT" />
+        </property>
+        <property name="newsPostdate" type="timestamp">
+            <column name="NEWS_POSTDATE" length="23" />
+        </property>
+        <property name="newsPostname" type="string">
+            <column name="NEWS_POSTNAME" length="20" />
+        </property>
+        <property name="newsType" type="string">
+            <column name="NEWS_TYPE" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

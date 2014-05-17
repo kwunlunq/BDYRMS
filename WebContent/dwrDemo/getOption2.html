@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type='text/javascript' src='/BDYRMS/js/jquery.js'></script>
+<script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
+<script type='text/javascript' src='/BDYRMS/dwr/interface/Bike.js'></script>
+<script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
+<script>
+function refreshYearList() {
+    Bike.getYears(populateYearList);
+}
+ 
+function populateYearList(list){
+    dwr.util.removeAllOptions("years");
+    dwr.util.addOptions("years", list);
+    refreshBikeList();
+}
+ 
+function refreshBikeList() {
+    var year = $("#years").find(":selected").text();
+    Bike.getBikes(year, populateBikeList);
+}
+ 
+function populateBikeList(list){
+	dwr.util.removeAllOptions("bikes");
+	dwr.util.addOptions("bikes", list);
+}
+</script>
+</head>
+<body onload="refreshYearList();">
+  年份：<select id="years" onchange="refreshBikeList();"></select><br/><br/>
+  型號：<select id="bikes"></select><br/>
+
+<div style="position:absolute;top:30%">
+程式概述:
+<ul>
+	<li>在網頁onload時 會執行"refreshYearList()"呼叫後端程式(Option2.java)的getYears()</li>
+	<li>後端 再將資料傳回前端 的年份</li>
+	<li>選擇&lt;select&gt;時  會執行"refreshBikeList()"呼叫後端程式(Option2.java)的getBikes()</li>
+	<li>後端 再將資料傳回前端 的型號</li>
+</ul>
+檔案清單:
+<ul>
+	<li>src/Option.java</li>
+	<li>WEB-INF/dwr.xml</li>
+	<li>dwrDemo/getBooks.html</li>
+</ul>
+JS程式碼:
+<pre>
+function refreshYearList() {
+    Bike.getYears(populateYearList);
+}
+ 
+function populateYearList(list){
+    dwr.util.removeAllOptions("years");
+    dwr.util.addOptions("years", list);
+    refreshBikeList();
+}
+ 
+function refreshBikeList() {
+    var year = $("#years").find(":selected").text();
+    Bike.getBikes(year, populateBikeList);
+}
+ 
+function populateBikeList(list){
+	dwr.util.removeAllOptions("bikes");
+	dwr.util.addOptions("bikes", list);
+}
+</pre>
+</div>
+</html>

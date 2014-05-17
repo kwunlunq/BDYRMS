@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+動作已完成的步驟 可以前往檔案的路徑 查看檔案內容!
+<ul>
+	<li>Step 1</li>
+		<ul>
+			<li>下載 DWR.jar 放在 WEB-INF/lib 目錄底下  (此動作已完成)</li>
+		</ul>
+	<li>Step 2</li>
+		<ul>
+			<li>下載 commons-logging.jar 放在 WEB-INF/lib 目錄底下  (因之前Hibernate or Struts 有使用到 此動作本身已完成)</li>
+		</ul>
+	<li>Step 3</li>
+		<ul>
+			<li>在 WEB-INF目錄底下 產生 dwr.xml 檔案 [與web.xml 同樣地方]  (此動作已完成)</li>
+		</ul>
+	<li>Step 4</li>
+		<ul>
+			<li>必須加入 DWR servlet 以及 Mapping 到 web.xml (如下)  (此動作已完成)
+<pre>
+&lt;servlet&gt;
+	&lt;display-name&gt;DWR Servlet&lt;/display-name&gt;
+	&lt;servlet-name&gt;dwr-invoker&lt;/servlet-name&gt;
+	&lt;servlet-class&gt;org.directwebremoting.servlet.DwrServlet&lt;/servlet-class&gt;
+	&lt;init-param&gt;
+		&lt;param-name&gt;debug&lt;/param-name&gt;
+		&lt;param-value&gt;true&lt;/param-value&gt;
+	&lt;/init-param&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+	&lt;servlet-name&gt;dwr-invoker&lt;/servlet-name&gt;
+	&lt;url-pattern&gt;/dwr/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</pre>
+			</li>
+		</ul>
+	<li>Step 5</li>
+		<ul>
+			<li>以上設定均參考官網 若有問題請至官網查詢 或詢問我<br>尚有些檔案是程式執行時會自動產生 將會在以下範例中做解說</li>
+		</ul>
+</ul>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+下列步驟  以範例  Hello World! 為例 其他範例的步驟大同小異
+<ul>
+	<li>Step 1</li>
+		<ul>
+			<li>視情況 產生 Class 檔 將想得到的資料回傳(return)<br>
+				javascript可直接呼叫程式並得到return的資料
+<pre>
+package XXX.OOO;
+ 
+public class Hello {
+  public String hello(String name) {
+      return "哈囉！" + name + "！您的第一個DWR！";
+    }
+}			
+</pre>
+			</li>	
+		</ul>
+	<li>Step 2</li>
+		<ul>
+			<li>至dwr.xml 將剛剛的Class檔 Mapping 使 Javascript可以呼叫到程式
+<pre>
+&lt;dwr&gt;
+	&lt;allow&gt;
+		&lt;create creator="new" javascript="Hello"&gt;
+			&lt;param name="class" value="XXX.OOO.Hello" /&gt;
+		&lt;/create&gt;
+	&lt;/allow&gt;
+&lt;/dwr&gt;
+</pre>
+			
+	</li>
+		</ul>
+	<li>Step 3</li>
+		<ul>
+			<li>建立前端網頁 並撰寫 Javascript 直接呼叫寫好的Class獲得想要的結果</li>
+<pre>
+function hello() {
+    var user = $('#user').val();
+    $('#result').text("");
+    if(user.length <= 0){
+    	alert("請輸入文字!");
+    }else{
+    	Hello.hello(user,callback);
+    	// 開頭的 Hello. 是事先寫的Class (com.bdy.dwr.test.Hello)
+    	//             定義在 dwr.xml 裡才能呼叫
+    	// 後面的 .hello 是Class裡的方法 
+    	// (user , callback) 括號裡 user 是要傳給 hello 方法的參數
+    	// callback 是 執行完Class後 要執行的javascript Function
+    }
+}
+ 
+function callback(msg) {
+	dwr.util.setValue('result', msg);
+    // 利用DWR的方法 將程式回傳回來的資料 msg 寫入 ID為result 的 DOM物件 中
+}
+
+&lt;input id="user" type="text" /&gt;
+
+&lt;input type='button' value='哈囉' onclick='hello();' /&gt; 
+ 
+&lt;div id="result"&gt;&lt;/div&gt;
+</pre>
+		</ul>
+</ul>
+</body>
+</html>

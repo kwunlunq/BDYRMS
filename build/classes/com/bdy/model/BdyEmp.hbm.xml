@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/4/17 ?U?? 08:38:49 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyEmp" table="BDY_EMP">
+        <id name="empId" type="string">
+            <column name="EMP_ID" length="10" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="bdyPriority" class="com.bdy.model.BdyPriority" lazy="false" fetch="select">
+            <column name="PRI_ID" />
+        </many-to-one>
+        <property name="passwd" type="string">
+            <column name="PASSWD" length="20" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="20" />
+        </property>
+        <property name="sex" type="java.lang.Character">
+            <column name="SEX" length="1" />
+        </property>
+        <property name="comedate" type="timestamp">
+            <column name="COMEDATE" length="23" />
+        </property>
+        <property name="salary" type="java.lang.Integer">
+            <column name="SALARY" />
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="10" />
+        </property>
+        <property name="empAddress" type="string">
+            <column name="EMP_ADDRESS" length="50" />
+        </property>
+        <property name="resign" type="java.lang.Integer">
+            <column name="RESIGN" />
+        </property>
+        <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="EMP_ID" length="10" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyOrder" />
+        </set>
+        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="EMP_ID" length="10" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyBill" />
+        </set>
+    </class>
+</hibernate-mapping>
