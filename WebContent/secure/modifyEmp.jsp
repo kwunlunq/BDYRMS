@@ -36,6 +36,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/emp.js"/>"></script>
+
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -53,7 +54,7 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 
-	<div id="writeCodeInThisDiv">
+	<div id="writeCodeInThisDiv"> <s:property value="%{fieldErrors['emp.empId']}"/>
 	<s:iterator var="emp" value="emps" status="headcheck" >	
 	<s:if test="%{#headcheck.first}">
 	<table>		
@@ -74,8 +75,8 @@ var contextPath='<%=request.getContextPath()%>';
 		</thead>
 		<tbody>
 		</s:if>
-			
-			<tr id="trEmp<s:property value="#headcheck.count"/>">
+			<form id="modifyEmpForm<s:property value='#headcheck.count'/>" action="<c:url value="/secure/updateEmp.action" />" method="post">
+			<tr id="trEmp<s:property value="#headcheck.count"/>">		
 				<td><s:property value="#emp.empId" /></td>
 				<td><s:property value="#emp.name" /></td>
 				<td><s:property value="#emp.sex" /></td>
@@ -92,8 +93,9 @@ var contextPath='<%=request.getContextPath()%>';
 					離職
 					</s:if>
 				</td>
-				<td><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>,this)" ></td>			
-			</tr>				
+				<td><input type="hidden" name="empId" value="<s:property value='#emp.empId' />"><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" /></td>							
+			</tr>
+			</form>									
 		</s:iterator>
 		</tbody>
 		</table>
@@ -106,6 +108,11 @@ var contextPath='<%=request.getContextPath()%>';
 		 list="prior"  
 
 		 />
+<s:property value="%{fieldErrors['emp.empId']}"/>
+<s:property value="%{fieldErrors['emp.name']}"/>
+<s:property value="%{fieldErrors['emp.comedate']}"/>
+<s:property value="%{fieldErrors['emp.phone']}"/>
+<s:property value="%{fieldErrors['emp.empAddress']}"/>
 </div>
 </div>
 <div id="footer">

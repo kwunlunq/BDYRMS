@@ -246,4 +246,13 @@ public class ManageService {
 		 List<BdyMakearea> allma = makeareaDao.getAllMakeArea();
 		 return allma;		
 	}
+	public BdyEmp findEmpById(String empId){
+		return empDao.getEmpById(empId);
+	}
+	public int updateEmp(BdyEmp emp,String empId){
+		return empDao.updateEmp(emp, empId);
+	}
+	public int updateEmps(BdyEmp emp){
+		return empDao.update(emp);
+	}
 }
