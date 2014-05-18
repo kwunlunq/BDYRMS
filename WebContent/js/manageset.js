@@ -2,12 +2,17 @@ var xmlHttpInit = new XMLHttpRequest();
 
 
 
-$(function(){
-	var obj1;	
+$(function(){	
 	if(pags=="1"){
 		$( "#tabs" ).tabs( "option", "active", 1);
 		pags = 0;
 	}
+//	else if(pags=="2"){
+//		$( "#tabs" ).tabs( "option", "active", 2);
+//		pags = 0;
+//	}
+	
+	var obj1;	
 	$( "#setInsertDialog" ).dialog({		
 		
 		autoOpen: false,

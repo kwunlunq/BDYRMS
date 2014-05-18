@@ -11,6 +11,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 import com.opensymphony.xwork2.Action;
@@ -41,11 +42,14 @@ public class ManageInsertSetAction extends ActionSupport implements ServletReque
 		List<BdyDiscount> discount = setinsertservice.getAllDiscount();
 		List<BdyFood> foods = setinsertservice.getAllFood();
 		List<BdySetdetail> detail = setinsertservice.getAllDetail();
+		List<BdyFoodkind> foodkind = setinsertservice.getAllFoodKind();
+
 		request.setAttribute("pags", 1);
 		request.setAttribute("setState", setState);
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
+		request.setAttribute("resultfoodkind", foodkind);
 		return Action.SUCCESS;
 	}
 	@Override

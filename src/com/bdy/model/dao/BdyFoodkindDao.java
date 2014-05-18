@@ -89,6 +89,7 @@ public class BdyFoodkindDao {
 			tmpFoodkind.setFkId(foodkind.getFkId());
 			tmpFoodkind.setName(foodkind.getName());
 			tmpFoodkind.setPeriod(foodkind.getPeriod());
+			tmpFoodkind.setSeq(foodkind.getSeq());
 			tmpFoodkind.setBdyMakearea(foodkind.getBdyMakearea());
 			
 		} else {

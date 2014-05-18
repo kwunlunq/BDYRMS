@@ -14,6 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
@@ -43,6 +44,8 @@ public class ManageDeleteSetServlet extends HttpServlet {
 		
 		List<BdyDiscount> discount = deleteService.getAllDiscount();
 		List<BdyFood> foods = deleteService.getAllFood();
+		List<BdyFoodkind> foodkind = deleteService.getAllFoodKind();
+
 		String detailId = request.getParameter("detailid");
 		Integer id = Integer.parseInt(detailId);
 		deleteService.deleteSet(id);
@@ -51,6 +54,7 @@ public class ManageDeleteSetServlet extends HttpServlet {
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
+		request.setAttribute("resultfoodkind", foodkind);
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
 	}
 

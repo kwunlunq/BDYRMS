@@ -199,5 +199,5 @@ function fconfirm(fdid){
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind){
 	window.location.href=contextPath+"/secure/updatefood?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
-	//showState("修改完成");
+	
 }
