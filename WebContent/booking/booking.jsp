@@ -53,7 +53,7 @@ $(function() {
         "paging": false,
         "stateSave": true,
     });
-    
+    hideLoading();
 } );
 </script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
@@ -63,6 +63,8 @@ $(function() {
 <title>BDY RMS - Welcome</title>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />

@@ -27,14 +27,15 @@
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 </script>
-<script src="<c:url value="/js/jquery.js"/>"></script>
+<%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
+<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-
+<script src="<c:url value="/js/mainpage.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -42,6 +43,8 @@ var contextPath='<%=request.getContextPath()%>';
 <title>BDY RMS - Welcome</title>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
@@ -72,7 +75,7 @@ var contextPath='<%=request.getContextPath()%>';
 				<select name="newsType" style="font-size:1.1em;width:100%">
 					<option value="餐廳管理">餐廳管理</option>
 					<option value="系統管理">系統管理</option>
-					<option value="其他">其他</option>
+					<option value="其　　他">其　　他</option>
 				</select>
 			</div>
 			<div style="clear:both">

@@ -45,6 +45,8 @@ var empId='${empData.empId}';
 <title>BDY RMS - Order</title>
 </head>
 <body>
+<div id="loadingControl"></div>
+<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />

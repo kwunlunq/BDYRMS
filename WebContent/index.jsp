@@ -11,7 +11,6 @@ var contextPath='<%=request.getContextPath()%>';
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
-<script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <script>
@@ -66,7 +65,11 @@ function countLoginTime(){
 		font-size:1.2em;
 		text-align: center;
 		margin-top:3px;
-		margin-bottom:3px;
+		margin-bottom:3px;]
+		outline:0 none;
+	}
+	input:focus, textarea:focus, select:focus {
+		outline:0 none;
 	}
 	input[type='text']{
 		text-transform:uppercase;
@@ -137,7 +140,7 @@ function countLoginTime(){
 <img src="<c:url value='/images/BADOYAO_LogoSmall.gif'/>">
 <br><br>
 <h1 id="loginState">登入中...</h1>
-<h3></h3>
+<img src="<c:url value='/images/loading.gif'/>" />
 </div>
 </div>
 </body>

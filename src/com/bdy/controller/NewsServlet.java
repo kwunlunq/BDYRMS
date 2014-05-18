@@ -75,14 +75,12 @@ public class NewsServlet extends HttpServlet {
 							.add("newsPostdate", newsBean.getNewsPostdate().toString())
 							.add("newsPostname", newsBean.getNewsPostname())
 							.build());
-					System.out.println(newsBean.getNewsTitle()+" - "+newsBean.getNewsPostdate().toString());
 				}
 				out.write(newsBuilder.build().toString());
 				break;
 			case "delNews":
 				int newsId = Integer.parseInt(req.getParameter("newsId"));
 				newsDao.deleteNewsById(newsId);
-				//resp.sendRedirect("mainpage.jsp");
 				break;
 		}
 	}
