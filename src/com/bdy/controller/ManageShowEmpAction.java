@@ -13,12 +13,12 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
-public class ManageShowEmp extends ActionSupport implements Preparable {
+public class ManageShowEmpAction extends ActionSupport implements Preparable {
 	
 	private static final long serialVersionUID = 1L;
 	private List<BdyEmp> emps ;
     private List <BdyPriority> prior;
-    
+    ManageService service;
 	public List<BdyPriority> getPrior() {
 		return prior;
 	}
@@ -43,7 +43,8 @@ public class ManageShowEmp extends ActionSupport implements Preparable {
 		this.emps = emps;
 	}
 	
-	ManageService service;
+	
+	
 	@Override
 	public void prepare() throws Exception {
 		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
