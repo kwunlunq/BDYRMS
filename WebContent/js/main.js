@@ -154,7 +154,7 @@ function hideState(){
 function showLoading(){
 	$('#loading').remove();
 	var loadingDiv = document.createElement("div");
-	var loadingVal = "<image src='"+contextPath+"/images/loading.gif'>";
+	var loadingVal = "<img src='"+contextPath+"/images/loading.gif'>";
 	loadingDiv.setAttribute("id", "loading");
 	$(loadingDiv).html(loadingVal);
 	$('body').append(loadingDiv);

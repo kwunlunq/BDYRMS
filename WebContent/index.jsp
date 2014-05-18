@@ -140,7 +140,7 @@ function countLoginTime(){
 <img src="<c:url value='/images/BADOYAO_LogoSmall.gif'/>">
 <br><br>
 <h1 id="loginState">登入中...</h1>
-<image src="<c:url value='/images/loading.gif'/>">
+<img src="<c:url value='/images/loading.gif'/>" />
 </div>
 </div>
 </body>
