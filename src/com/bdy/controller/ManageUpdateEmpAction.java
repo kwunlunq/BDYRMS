@@ -23,8 +23,17 @@ public class ManageUpdateEmpAction extends ActionSupport implements Preparable {
 	private BdyEmp emp;//------多對一映射
 	private List<BdyEmp> emps ;
     private List <BdyPriority> prior;
+    private String empId;
     
-    
+
+	public String getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
+
 	public List<BdyEmp> getEmps() {
 		return emps;
 	}
@@ -52,18 +61,45 @@ public class ManageUpdateEmpAction extends ActionSupport implements Preparable {
 	public void prepare() throws Exception {
 		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
 		service=(ManageService)context.getBean("ManageService");
+		emps=service.getAllEmps();
+		prior = service.getAllPri();
 		
 	}
 	@Override
 	public void validate() {
-		emps=service.getAllEmps();
-		prior = service.getAllPri();
+		
+		if(emp.getEmpId()==null||emp.getEmpId().length()==0){
+			this.addFieldError("emp.empId", this.getText("emp.empId.required"));
+		}
+		if(emp.getName()==null||emp.getName().length()==0){
+			this.addFieldError("emp.name", this.getText("emp.name.required"));
+		}
+		if(emp.getComedate()==null){
+			this.addFieldError("emp.comedate", this.getText("emp.comedate.required"));
+		}
+		if(emp.getPhone()==null||emp.getPhone().length()==0){
+			this.addFieldError("emp.phone", this.getText("emp.phone.required"));
+		}
+		if(emp.getEmpAddress()==null||emp.getEmpAddress().length()==0){
+			this.addFieldError("emp.empAddress", this.getText("emp.empAddress.required"));
+		}
 	}
-	
+	BdyEmp empTemp;
 	@Override
 	public String execute() throws Exception {
-		System.out.println(emp.getComedate());
-		emps=service.getAllEmps();
+	 empTemp=service.findEmpById(empId.trim());
+	 empTemp.setEmpId(emp.getEmpId());
+	 empTemp.setName(emp.getName());
+	 empTemp.setSex(emp.getSex());
+	 empTemp.setComedate(emp.getComedate());
+	 empTemp.setEmpAddress(emp.getEmpAddress());
+	 empTemp.getBdyPriority().setPriId(emp.getBdyPriority().getPriId());
+	 empTemp.setPhone(emp.getPhone());
+	 empTemp.setResign(emp.getResign());
+	 empTemp.setSalary(emp.getSalary());
+	 service.updateEmp(empTemp,empId);
+//	 service.updateEmps(empTemp);
+	 	emps=service.getAllEmps();
 		prior = service.getAllPri();
 		return Action.SUCCESS;
 	}

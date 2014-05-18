@@ -54,7 +54,7 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 
-	<div id="writeCodeInThisDiv">
+	<div id="writeCodeInThisDiv"> <s:property value="%{fieldErrors['emp.empId']}"/>
 	<s:iterator var="emp" value="emps" status="headcheck" >	
 	<s:if test="%{#headcheck.first}">
 	<table>		
@@ -93,7 +93,7 @@ var contextPath='<%=request.getContextPath()%>';
 					離職
 					</s:if>
 				</td>
-				<td><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" /></td>							
+				<td><input type="hidden" name="empId" value="<s:property value='#emp.empId' />"><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" /></td>							
 			</tr>
 			</form>									
 		</s:iterator>
@@ -108,12 +108,11 @@ var contextPath='<%=request.getContextPath()%>';
 		 list="prior"  
 
 		 />
-		 <input type="button" value="看一下資料" onclick="showDate()" />
-		 <script>
-		 	function showDate(){
-		 		console.log(console.log($("input[name$=empId]").val()));
-		 	};
-		 </script>
+<s:property value="%{fieldErrors['emp.empId']}"/>
+<s:property value="%{fieldErrors['emp.name']}"/>
+<s:property value="%{fieldErrors['emp.comedate']}"/>
+<s:property value="%{fieldErrors['emp.phone']}"/>
+<s:property value="%{fieldErrors['emp.empAddress']}"/>
 </div>
 </div>
 <div id="footer">

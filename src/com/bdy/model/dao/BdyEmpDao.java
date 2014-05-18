@@ -116,6 +116,40 @@ private SessionFactory sf = null;
 		session.close();
 		return 1;
 	}
+	public int updateEmp(BdyEmp emp,String empId) {
+		Session session = sf.openSession();
+		Criteria criteria = session.createCriteria(BdyEmp.class);
+		Transaction tx = session.beginTransaction();
+		Iterator iter = criteria.add(Restrictions.eq("empId",empId)).list().iterator();
+		if (iter.hasNext()) {
+			BdyEmp tmpEmp = (BdyEmp) iter.next();
+			tmpEmp.setEmpId(emp.getEmpId());
+			tmpEmp.setPasswd(emp.getPasswd());
+			tmpEmp.setName(emp.getName());
+			tmpEmp.setSex(emp.getSex());
+			tmpEmp.setBdyPriority(emp.getBdyPriority());
+			tmpEmp.setComedate(emp.getComedate());
+			tmpEmp.setSalary(emp.getSalary());
+			tmpEmp.setPhone(emp.getPhone());
+			tmpEmp.setEmpAddress(emp.getEmpAddress());
+			tmpEmp.setResign(emp.getResign());
+		} else {
+			System.out.println("修改失敗 : 資料不存在 (empId:"+emp.getEmpId()+")");
+			session.close();
+			return 0;
+		}
+		
+		try {
+			tx.commit();
+		} catch (StaleStateException e) {
+			System.out.println("修改失敗 : 資料不存在 ( " + e.getMessage()+" )");
+			session.close();
+			return 0;
+		}
+		
+		session.close();
+		return 1;
+	}
 	
 
 }

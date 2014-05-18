@@ -48,6 +48,7 @@
     		<result name="success" type="dispatcher">/secure/modifyEmp.jsp</result>
     	</action>
     	<action name="updateEmp" class="com.bdy.controller.ManageUpdateEmpAction">
+    		<result name="input" type="dispatcher">/secure/modifyEmp.jsp</result>
     		<result name="success" type="dispatcher">/secure/modifyEmp.jsp</result>
     	</action>
 	</package>
