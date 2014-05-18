@@ -47,6 +47,9 @@
     	<action name="showEmp" class="com.bdy.controller.ManageShowEmpAction">
     		<result name="success" type="dispatcher">/secure/modifyEmp.jsp</result>
     	</action>
+    	<action name="updateEmp" class="com.bdy.controller.ManageUpdateEmpAction">
+    		<result name="success" type="dispatcher">/secure/modifyEmp.jsp</result>
+    	</action>
 	</package>
 
 </struts>
