@@ -35,7 +35,7 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-
+<script src="<c:url value="/js/mainpage.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -74,7 +74,7 @@ var contextPath='<%=request.getContextPath()%>';
 				<select name="newsType" style="font-size:1.1em;width:100%">
 					<option value="餐廳管理">餐廳管理</option>
 					<option value="系統管理">系統管理</option>
-					<option value="其他">其他</option>
+					<option value="　其他　">　其他　</option>
 				</select>
 			</div>
 			<div style="clear:both">

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <p><span class="topItem">:工作人員:</span></p>
-<p><span class="topItem">${empData.name}</span></p>
+<p><span id="empName">${empData.name}</span></p>
 <div><img id="functionLogo" src="<c:url value="/images/function.jpg"/>"></div>
 <div id="functionTXT">功能選單</div>
 <input class="MainBtnColor asideBtn" type="button" value="公告" onclick="goURL('<c:url value="/mainpage.jsp" />')"><br>
