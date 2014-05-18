@@ -64,7 +64,7 @@ var contextPath='<%=request.getContextPath()%>';
 				<td>員工性別</td>
 				<td>員工職位</td>
 				<td>到職日期</td>
-				<td>年資</td>
+<!-- 				<td>年資</td> -->
 				<td>薪資</td>
 				<td>電話</td>
 				<td>住址</td>
@@ -77,11 +77,11 @@ var contextPath='<%=request.getContextPath()%>';
 			
 			<tr id="trEmp<s:property value="#headcheck.count"/>">
 				<td><s:property value="#emp.empId" /></td>
-				<td><s:property value="#emp.name" /></td>S
+				<td><s:property value="#emp.name" /></td>
 				<td><s:property value="#emp.sex" /></td>
 				<td><s:property value="#emp.bdyPriority.jobname" /></td>
-				<td><s:date name="#emp.comedate" format="yyyy-MM-dd EEEE HH:mm" /></td>
-				<td><s:date name="#emp.comedate" format="yyyy-MM-dd EEEE HH:mm" nice="true" /></td>
+				<td><s:date name="#emp.comedate" format="yyyy-MM-dd" /></td>
+<%-- 				<td><s:date name="#emp.comedate" format="yyyy-MM-dd" nice="true" /></td> --%>
 				<td><s:property value="#emp.salary" /></td>
 				<td><s:property value="#emp.phone" /></td>
 				<td><s:property value="#emp.empAddress" /></td>
@@ -92,13 +92,20 @@ var contextPath='<%=request.getContextPath()%>';
 					離職
 					</s:if>
 				</td>
-				<td><input class="MainBtnColor" type="button" name="update" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" ></td>
-			</tr>	
+				<td><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>,this)" ></td>			
+			</tr>				
 		</s:iterator>
 		</tbody>
 		</table>
 	</div>
+		<s:select
+		value="pri" 
+		name="mySelect"
+		listKey="%{priId}"
+		listValue="%{jobname}"
+		 list="prior"  
 
+		 />
 </div>
 </div>
 <div id="footer">
