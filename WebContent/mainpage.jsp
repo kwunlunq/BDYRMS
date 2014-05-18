@@ -27,7 +27,8 @@
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 </script>
-<script src="<c:url value="/js/jquery.js"/>"></script>
+<%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
+<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
@@ -40,6 +41,7 @@ var contextPath='<%=request.getContextPath()%>';
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
 <title>BDY RMS - Welcome</title>
+<script>$(function(){hideLoading();});</script>
 </head>
 <body>
 <div id="mainBox">

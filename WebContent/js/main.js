@@ -1,4 +1,5 @@
 $(function(){
+	showLoading();
 	loadNews();
 	$('#addNewsForm').trigger("reset");
 	$('body').on('click','#doAddNews',function(){
@@ -16,7 +17,7 @@ $(function(){
 		
 		if($('input[name="newsPostname"]').val().length <= 0){
 			isSend = false;
-			showState("你! 沒有登入!");
+			showState("請先登入");
 		}else
 			$('#errorTitle').text("");
 		
@@ -146,6 +147,22 @@ function showState(txt){
 }
 function hideState(){
 	$('#showstate').fadeToggle(600,function(){
+		$(this).remove();
+	});
+}
+
+function showLoading(){
+	$('#loading').remove();
+	var loadingDiv = document.createElement("div");
+	var loadingVal = "<image src='"+contextPath+"/images/loading.gif'>";
+	loadingDiv.setAttribute("id", "loading");
+	$(loadingDiv).html(loadingVal);
+	$('body').append(loadingDiv);
+	$('#loading').css("margin-left","-"+($('#loading').width()/2)+"px");
+	$('#loading').fadeToggle(600);	
+}
+function hideLoading(){
+	$('#loading').fadeToggle(600,function(){
 		$(this).remove();
 	});
 }
