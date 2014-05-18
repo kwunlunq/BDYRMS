@@ -1,8 +1,6 @@
-$(function(){
-	showLoading();
-	window.onresize = resizeWindow;
-	window.onload = resizeWindow;
-});
+
+window.onresize = resizeWindow;
+window.onload = resizeWindow;
 
 function resizeWindow(){
 	var mainContentWidth = $('#mainPageContent').width();
@@ -31,18 +29,32 @@ function hideState(){
 	});
 }
 
-function showLoading(){
-	$('#loading').remove();
-	var loadingDiv = document.createElement("div");
-	var loadingVal = "<img src='"+contextPath+"/images/loading.gif'>";
-	loadingDiv.setAttribute("id", "loading");
-	$(loadingDiv).html(loadingVal);
-	$('body').append(loadingDiv);
-	$('#loading').css("margin-left","-"+($('#loading').width()/2)+"px");
-	$('#loading').fadeToggle(600);	
-}
+//function showLoading(){
+//	$('#loading').remove();
+//	$('#loadingControl').remove();
+//	var allScreenDiv = document.createElement("div");
+//	$(allScreenDiv).css({
+//	      "background-color": "black",
+//	      "opacity":"0.5",
+//	      "width":"100%",
+//	      "height":"100%",
+//	      "left":"0px",
+//	      "top":"0px",
+//	      "position":"absolute"
+//	    });
+//	var loadingDiv = document.createElement("div");
+//	var loadingVal = "<img src='"+contextPath+"/images/loading.gif'>";
+//	loadingDiv.setAttribute("id", "loading");
+//	allScreenDiv.setAttribute("id", "loadingControl");
+//	$(loadingDiv).html(loadingVal);
+//	$('body').append(allScreenDiv);
+//	$('body').append(loadingDiv);
+//	$('#loading').css("margin-left","-"+($('#loading').width()/2)+"px");
+//	$('#loading').fadeToggle(200);	
+//}
 function hideLoading(){
-	$('#loading').fadeToggle(600,function(){
+	$('#loading,#loadingControl').fadeToggle(800,function(){
+		$('#loadingControl').remove();
 		$(this).remove();
 	});
 }

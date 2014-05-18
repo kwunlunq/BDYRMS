@@ -265,8 +265,17 @@ p {
 	top:50%;
 	left:50%;
 	position:absolute;
-	display:none;
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
 	border-radius:6px;
+}
+#loadingControl{
+	background-color:black;
+	opacity:0.5;
+	z-index:99999998;
+	width:100%;
+	height:100%;
+	top:0px;
+	left:0px;
+	position:absolute;
 }

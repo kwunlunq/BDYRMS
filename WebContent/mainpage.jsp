@@ -41,9 +41,10 @@ var contextPath='<%=request.getContextPath()%>';
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
 <title>BDY RMS - Welcome</title>
-<script>$(function(){hideLoading();});</script>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
@@ -74,7 +75,7 @@ var contextPath='<%=request.getContextPath()%>';
 				<select name="newsType" style="font-size:1.1em;width:100%">
 					<option value="餐廳管理">餐廳管理</option>
 					<option value="系統管理">系統管理</option>
-					<option value="　其他　">　其他　</option>
+					<option value="其　　他">其　　他</option>
 				</select>
 			</div>
 			<div style="clear:both">

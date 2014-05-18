@@ -23,7 +23,6 @@ $(function() {
 	getTables();
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
-	
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });
 });
@@ -455,6 +454,7 @@ function drawTab(result) {
 	$("#orderlist").tabs({ heightStyle: "fill", 
 		hide : { effect: "fade", duration: 150 }, 
 		show : { effect: "fade", duration: 150 }});
+	hideLoading();
 }
 
 var FBId = 0;

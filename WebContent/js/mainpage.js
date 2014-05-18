@@ -1,5 +1,4 @@
 $(function(){
-	loadNews();
 	$('#addNewsForm').trigger("reset");
 	$('body').on('click','#doAddNews',function(){
 		var isSend = true;
@@ -32,6 +31,7 @@ $(function(){
 		      activeHeader: "ui-icon-minusthick"
 		    };
 	$( "#mainPageAcdion" ).accordion({
+		active: 1,
 		collapsible: true,
 		heightStyle: "content",
 		icons : icons
@@ -44,6 +44,8 @@ $(function(){
 	$('body').on('click','#delNewsBtn',function(){
 		delNews($(this));
 	});
+	loadNews();
+	hideLoading();
 });
 
 function loadNews(){
@@ -60,6 +62,7 @@ function loadNews(){
 			$('#mainPageAcdion').append(content);
 		}
 		$( "#mainPageAcdion" ).accordion( "refresh" );
+		$( "#mainPageAcdion" ).accordion({active: 0});
 	});
 }
 
