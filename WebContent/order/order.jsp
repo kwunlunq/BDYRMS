@@ -38,6 +38,9 @@ var empId='${empData.empId}';
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/ordermain.css"/>"> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/order.css"/>">
 <script src="<c:url value="/js/order.js"/>"></script>
+<script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
+<script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
+<script type='text/javascript' src='/BDYRMS/dwr/interface/Service.js'></script>
 <!-- 自己的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 

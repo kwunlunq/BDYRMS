@@ -265,4 +265,7 @@ public class ManageService {
 	public int updateEmps(BdyEmp emp){
 		return empDao.update(emp);
 	}
+	public int insertEmp(BdyEmp emp){
+		return empDao.insert(emp);
+	}
 }

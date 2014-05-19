@@ -44,6 +44,18 @@ public class GetOrderDataServlet extends HttpServlet {
 		case "table" :
 			out.write(service.getTableJson().toString());
 			break;
+		case "food" :
+			out.write(service.getFoodsJSON().toString());
+			break;
+		case "fk" :
+			out.write(service.getFoodkindJson().toString());
+			break;
+		case "set" :
+			out.write(service.getSetJson().toString());
+			break;
+		case "main" :
+			out.write(service.getMainsJSON().toString());
+			break;
 		default :
 			System.out.println("Wrong param!");
 			break;

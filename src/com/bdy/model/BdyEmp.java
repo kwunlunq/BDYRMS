@@ -11,16 +11,16 @@ import java.util.Set;
  */
 public class BdyEmp implements java.io.Serializable {
 
-	private String empId;
-	private BdyPriority bdyPriority;
-	private String passwd;
-	private String name;
+	private String empId;//
+	private BdyPriority bdyPriority;//
+	private String passwd;//
+	private String name;//
 	private Character sex;
-	private Date comedate;
-	private Integer salary;
-	private String phone;
+	private Date comedate;//
+	private Integer salary;//
+	private String phone;//
 	private String empAddress;
-	private Integer resign;
+	private Integer resign;//
 	private Set bdyOrders = new HashSet(0);
 	private Set bdyBills = new HashSet(0);
 

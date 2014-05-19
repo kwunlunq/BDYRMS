@@ -51,18 +51,9 @@
     		<result name="input" type="dispatcher">/secure/modifyEmp.jsp</result>
     		<result name="success" type="dispatcher">/secure/modifyEmp.jsp</result>
     	</action>
-<<<<<<< HEAD
     	<action name="inserFoodKind" class="com.bdy.controller.ManageInsertFoodKindAction">
     		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
     		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
-=======
-    	<action name="priorEmp" class="com.bdy.controller.ManageEmpSelectAction">
-    		<result name="success" type="redirect">/secure/insertNewEmp.jsp</result>
-    	</action>
-    	<action name="insertEmp" class="com.bdy.controller.ManageInsertEmpAction">
-    		<result name="success">/secure/insertNewEmp.jsp</result>
-    		<result name="input">/secure/insertNewEmp.jsp</result>
->>>>>>> 735e4db17a1b75b84903010f5a2a5143bc43ffbb
     	</action>
 	</package>
 
