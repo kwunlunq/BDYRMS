@@ -11,6 +11,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 import com.opensymphony.xwork2.Action;
@@ -63,9 +64,11 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 		List<BdyDiscount> discount = foodinsertservice.getAllDiscount();
 		List<BdyFood> foods = foodinsertservice.getAllFood();
 		List<BdySetdetail> detail = foodinsertservice.getAllDetail();
+		List<BdyFoodkind> foodkind = foodinsertservice.getAllFoodKind();
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
+		request.setAttribute("resultfoodkind", foodkind);
 		if(foodname==null||foodname.trim().length()==0){
 			this.addFieldError("foodname", this.getText("foodname.required"));
 		}
@@ -84,6 +87,7 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 		List<BdyDiscount> discount = foodinsertservice.getAllDiscount();
 		List<BdyFood> foods = foodinsertservice.getAllFood();
 		List<BdySetdetail> detail = foodinsertservice.getAllDetail();
+		List<BdyFoodkind> foodkind = foodinsertservice.getAllFoodKind();
 		request.setAttribute("insertState", insertState);
 		
 		if(foods!=null){
@@ -96,6 +100,7 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
+		request.setAttribute("resultfoodkind", foodkind);
 		return Action.SUCCESS;
 	}
 	@Override

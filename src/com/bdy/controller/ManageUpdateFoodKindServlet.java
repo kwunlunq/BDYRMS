@@ -17,18 +17,20 @@ import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
-@WebServlet("/secure/deletefood")
-public class ManageDeleteFoodServlet extends HttpServlet {
-	
+@WebServlet("/secure/updatefoodkind")
+public class ManageUpdateFoodKindServlet extends HttpServlet {
 
-	ManageService deleteService;
+	
+	ManageService service;
+	
 	@Override
 	public void init() throws ServletException {
 		WebApplicationContext context = WebApplicationContextUtils
 				.getRequiredWebApplicationContext(this.getServletContext());
-		deleteService = (ManageService)context.getBean("ManageService");
+		service = (ManageService)context.getBean("ManageService");
 	}
 
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -38,31 +40,28 @@ public class ManageDeleteFoodServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<BdySetdetail> detail = service.getAllDetail();
+		List<BdyDiscount> discount = service.getAllDiscount();
+		List<BdyFood> foods = service.getAllFood();
 		
-		String did = request.getParameter("fid");
-		int id = Integer.parseInt(did);	
-	
-		deleteService.deleteFood(id);
-		List<BdySetdetail> detail = deleteService.getAllDetail();
-		List<BdyDiscount> discount = deleteService.getAllDiscount();
-		List<BdyFood> foods = deleteService.getAllFood();
-		List<BdyFoodkind> foodkind = deleteService.getAllFoodKind();
-
-			
-		if(foods!=null){
-			request.setAttribute("foodcount", foods.size());
-			
-		}
-		else{
-			request.setAttribute("foodcount","0");
-		}
+		String fkId = request.getParameter("fkId");
+		String fkname = request.getParameter("fkname");
+		String fkperiod = request.getParameter("fkperiod");
+		String fkma = request.getParameter("fkma");
+		String fkseq = request.getParameter("fkseq");		
+		int id = Integer.parseInt(fkId);
+		Double period = Double.parseDouble(fkperiod);
+		int ma = Integer.parseInt(fkma);
+		int seq = Integer.parseInt(fkseq);
+		
+		List<BdyFoodkind> foodkind = service.updateFoodKind(id,fkname, period, ma, seq);
+		request.setAttribute("pags", "2");
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
 		request.setAttribute("resultfoodkind", foodkind);
-		
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
-		
 	}
 
+	
 }

@@ -217,11 +217,11 @@ if(judge!=""){
 		</thead>
 		<c:forEach var = "foodkind" items="${resultfoodkind }">
 		<tr id="TRfk${foodkind.fkId }">
-		<td>${foodkind.name }</td>
-		<td>${foodkind.period }</td>
+		<td id="foodkindname${foodkind.fkId }">${foodkind.name }</td>
+		<td id="foodkindperiod${foodkind.fkId }">${foodkind.period }</td>
 		<td id="maId${foodkind.fkId }">${foodkind.bdyMakearea.name }</td>
-		<td>${foodkind.seq }</td>
-		<td>
+		<td id="foodkindseq${foodkind.fkId }">${foodkind.seq }</td>
+		<td id="">
 		<input class='MainBtnColor' type="button" value="修改" onclick="fkupdate(${foodkind.fkId },${foodkind.bdyMakearea.maId })">
 		<input class='MainBtnColor' type="button" value="刪除" onclick="">
 		</td>

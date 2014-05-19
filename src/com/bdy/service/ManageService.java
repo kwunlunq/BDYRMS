@@ -221,6 +221,20 @@ public class ManageService {
 		return setNum;
 	}
 	
+	public List<BdyFoodkind> updateFoodKind(int fkId,String fkname,Double fkperiod,int fkma,int fkseq){
+		BdyFoodkind foodkind = new BdyFoodkind();
+		foodkind.setFkId(fkId);
+		foodkind.setName(fkname);
+		foodkind.setPeriod(fkperiod);
+		foodkind.setSeq(fkseq);
+		BdyMakearea ma = new BdyMakearea();
+		ma.setMaId(fkma);
+		foodkind.setBdyMakearea(ma);
+		foodkindDao.update(foodkind);
+		List<BdyFoodkind> bean = foodkindDao.getAllFoodkind();
+		return bean;
+	}
+	
 	//----------------------Emp--------------------------
 	public List<BdyEmp> getAllEmps(){
 		return empDao.getAllEmp();
