@@ -37,6 +37,19 @@
       <param-name>debug</param-name>
       <param-value>true</param-value>
     </init-param>
+    
+<!--     +++ -->
+    <init-param>
+    	<param-name>crossDomainSessionSecurity</param-name>
+    	<param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>activeReverseAjaxEnabled</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+<!--   +++ -->
+  
   </servlet>
   <servlet-mapping>
     <servlet-name>dwr-invoker</servlet-name>

@@ -28,15 +28,16 @@
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 </script>
-<script src="<c:url value="/js/jquery.js"/>"></script>
+<%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
+<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script src="<c:url value="/js/emp.js"/>"></script>
-
+<script src="<c:url value="/js/mainpage.js"/>"></script>
+<script src="<c:url value="/js/insertEmp.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -44,6 +45,8 @@ var contextPath='<%=request.getContextPath()%>';
 <title>BDY RMS - Welcome</title>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
@@ -54,67 +57,36 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 
-	<div id="writeCodeInThisDiv"> <s:property value="%{fieldErrors['emp.empId']}"/>
-	<s:iterator var="emp" value="emps" status="headcheck" >	
-	<s:if test="%{#headcheck.first}">
-	<table border="1">		
-		<thead>
-			<tr>
-				<td>員工ID</td>
-				<td>員工姓名</td>
-				<td>員工性別</td>
-				<td>員工職位</td>
-				<td>到職日期</td>
-<!-- 				<td>年資</td> -->
-				<td>薪資</td>
-				<td>電話</td>
-				<td>住址</td>
-				<td>離職</td>
-				<td>修改</td>
-			</tr>
-		</thead>
-		<tbody>
-		</s:if>
-			<form id="modifyEmpForm<s:property value='#headcheck.count'/>" action="<c:url value="/secure/updateEmp.action" />" method="post">
-			<tr id="trEmp<s:property value="#headcheck.count"/>">		
-				<td><s:property value="#emp.empId" /></td>
-				<td><s:property value="#emp.name" /></td>
-				<td><s:property value="#emp.sex" /></td>
-				<td><s:property value="#emp.bdyPriority.jobname" /></td>
-				<td><s:date name="#emp.comedate" format="yyyy-MM-dd" /></td>
-<%-- 				<td><s:date name="#emp.comedate" format="yyyy-MM-dd" nice="true" /></td> --%>
-				<td><s:property value="#emp.salary" /></td>
-				<td><s:property value="#emp.phone" /></td>
-				<td><s:property value="#emp.empAddress" /></td>
-				<td><s:if test="%{#emp.resign==0}">
-					在職
-					</s:if>
-					<s:if test="%{#emp.resign==1}">
-					離職
-					</s:if>
-				</td>
-				<td><input type="hidden" name="empId" value="<s:property value='#emp.empId' />"><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" /></td>							
-			</tr>
-			</form>									
-		</s:iterator>
-		</tbody>
-		</table>
-		<s:property value="%{fieldErrors['emp.empId'][0]}"/>
-		<s:property value="%{fieldErrors['emp.name'][0]}"/>
-		<s:property value="%{fieldErrors['emp.comedate'][0]}"/>
-		<s:property value="%{fieldErrors['emp.phone'][0]}"/>
-		<s:property value="%{fieldErrors['emp.empAddress'][0]}"/>
-		<a href="<c:url value="/secure/priorEmp.action" />">新增新進員工</a>
-	</div>
-		<s:select
-		value="pri" 
-		name="mySelect"
-		listKey="%{priId}"
-		listValue="%{jobname}"
-		 list="prior"  
-
-		 />
-
+		
+		
+		
+		
+	<div id="writeCodeInThisDiv">
+		<fieldset>
+			<legend>新增員工</legend>
+		<form action="<c:url value="/secure/insertEmp.action" />" method="post">
+			姓名:<input type="text" name="emp.name" size="10"  placeholder="guest" autofocus autocomplete="off" value="${param['emp.name']}"><s:property value="%{fieldErrors['emp.name'][0]}"/><br>
+			密碼:<input type="password" name="emp.passwd" value="${param['emp.passwd']}" tabindex="1"><br>
+			性別:<input type="radio" name="emp.sex" value="M">男
+				<input type="radio" name="emp.sex" value="W">女<br>
+			身分證字號:<input type="text" name="emp.empId" tabindex="2" value="${param['emp.id']}" pattern="[a-zA-Z]{1}[1-2]{1}\d{8}" accesskey="1"><s:property value="%{fieldErrors['emp.empId'][0]}"/><br>
+			職位:<s:select
+					value="pri" 
+					name="emp.bdyPriority.priId"
+					listKey="%{priId}"
+					listValue="%{jobname}"
+					 list="#session['prior']"/><br>
+			到職日期:<input type="text" name="emp.comedate" value="${param['emp.comedate']}" id="datepicker"><s:property value="%{fieldErrors['emp.comedate'][0]}"/><br>
+			薪資<input type="text" name="emp.salary" value="${param['emp.salary']}"><br>
+			電話<input type="text" name="emp.phone" value="${param['emp.phone']}"><s:property value="%{fieldErrors['emp.phone'][0]}"/><br>
+			住址<input type="text" name="emp.empAddress" value="${param['emp.empAddress']}"><s:property value="%{fieldErrors['emp.empAddress'][0]}"/><br>
+				<input type="hidden" name="emp.resign" value="0">					 			
+			<input type="submit" value="送出">
+			<input type="reset" value="清除">
+			</form>
+			</fieldset>
+			<a href="<c:url value="/secure/showEmp.action" />">回員工資料表</a>
+	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>
 <div id="footer">

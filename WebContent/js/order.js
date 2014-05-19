@@ -16,11 +16,13 @@ var currentStatus = {"FId":null,
 					 };
 
 $(function() {
+	dwr.engine.setActiveReverseAjax(true);
 	currentStatus.EmpId = empId;
 	getFoods();	// 取得所有食物
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
 	getTables();
+	
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
 	// 解決IE緩存問題
@@ -57,6 +59,7 @@ function listenerInitial() {
 				{
 				text: "送出",
 				click: function() {
+					Service.update({value:"有人點餐"});
 					sendOrder();
 				}}]
 	});
@@ -414,8 +417,8 @@ function setOnClick() {
 }
 
 function getSets() {
-	var url = contextPath+"/order/getSetServlet";
-	$.getJSON(url, function(result) {
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"set"}, function(result) {
 		for (var i = 0; i < result.length; i++) {
 			setIds[i] = result[i].id;
 			setNames[i] = result[i].name;
@@ -424,8 +427,8 @@ function getSets() {
 	});
 }
 function getFks() {
-	var url = contextPath+"/order/getFoodkindServlet";
-	$.getJSON(url, function(result) {
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"fk"}, function(result) {
 		for (var i = 0; i < result.length; i++) {
 			fks[i] = {
 					fkName:result[i].fkName,
@@ -436,8 +439,8 @@ function getFks() {
 }
 
 function getFoods() {
-	var url = contextPath+"/order/getAllFoodsServlet";
-	$.getJSON(url, function(result) {
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"food"}, function(result) {
 		drawTab(result);
 	});
 }

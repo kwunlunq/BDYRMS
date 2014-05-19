@@ -47,6 +47,9 @@ public class ManageDeleteFoodKindServlet extends HttpServlet {
 			request.setAttribute("resultdiscount", discount);
 			request.setAttribute("resultfoodkind", foodkind);
 			System.out.println("run this success");
+			//String path = request.getContextPath();
+			//response.sendRedirect(path+"/secure/sort?act=show");
+			
 			request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
 	}
 

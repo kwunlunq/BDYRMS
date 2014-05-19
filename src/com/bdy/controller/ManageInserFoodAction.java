@@ -70,7 +70,7 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 		request.setAttribute("resultdiscount", discount);
 		request.setAttribute("resultfoodkind", foodkind);
 		if(foodname==null||foodname.trim().length()==0){
-			this.addFieldError("foodname", this.getText("foodname.required"));
+			this.addFieldError("foodname", this.getText("foodName.required"));
 		}
 		if(foodPrice==0){
 			this.addFieldError("foodPrice", this.getText("foodPrice.required"));

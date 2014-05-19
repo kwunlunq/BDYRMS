@@ -204,18 +204,18 @@ public class OrderService {
  		 *  }
  		 *  
 		 */
-		
+		System.out.println("Geting foods...");
 		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
-		System.out.println("mk Array : ");
+//		System.out.println("mk Array : ");
 		for (BdyMainkind mk : mainkindDao.getAllMainkind()) {
-			System.out.println(mk.getName());
-			System.out.println(mk.getName());
-			System.out.println("---------------");
+//			System.out.println(mk.getName());
+//			System.out.println(mk.getName());
+//			System.out.println("---------------");
 			int mkId = mk.getMkId();
 			int fkId = -1;
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
 			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
-				System.out.println(food.getName());
+//				System.out.println(food.getName());
 				if (fkId == -1) {
 					fkId = food.getBdyFoodkind().getFkId();
 //					System.out.println("fkId="+fkId);
@@ -226,12 +226,12 @@ public class OrderService {
 									.add("fkId", fkId)
 									.build());
 			}
-			System.out.println("\n\n");
+//			System.out.println("\n\n");
 			mkBuilder.add(Json.createObjectBuilder()
 					 		  .add(mk.getName(), foodBuilder));
 		}
 		
-		System.out.println("fk Array :");
+//		System.out.println("fk Array :");
 		
 		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
 		List<BdyFoodkind> fks = foodkindDao.getAllFoodkind();
@@ -243,7 +243,7 @@ public class OrderService {
 			}
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
 			for (BdyFood food : foods) {
-				System.out.println(food.getName());
+//				System.out.println(food.getName());
 				foodBuilder.add(Json.createObjectBuilder()
 									.add("fdId", food.getFdId())
 									.add("fdName", food.getName())
@@ -258,10 +258,12 @@ public class OrderService {
 				Json.createObjectBuilder().add("isMain", mkBuilder.build())
 								  		  .add("notMain", fkBuilder.build())
 								  		  .build();
+//		System.out.println("Complete.");
 		return resultObject;
 	}
 	
 	public JsonArray getFoodkindJson() {
+		System.out.println("Geting fks...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdyFoodkind fk : foodkindDao.getAllFoodkind()) {
 			aryBuilder.add(Json.createObjectBuilder()
@@ -269,13 +271,15 @@ public class OrderService {
 							   .add("fkId", fk.getFkId())
 							   .build());
 		};
-		
+
+//		System.out.println("Complete.");
 		return aryBuilder.build();
 	}
 	public JsonArray getTableJson() {
+		System.out.println("Geting table...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdyFloor floor : floorDao.getAllFloor()) {
-			System.out.println(floor);
+//			System.out.println(floor);
 			JsonArrayBuilder tbary = Json.createArrayBuilder();
 			for (BdyTable table: tableDao.getTableByFloor(floor.getFloorid())) {
 				tbary.add(Json.createObjectBuilder()
@@ -293,10 +297,11 @@ public class OrderService {
 		return aryBuilder.build();
 	}
 	public JsonArray getSetJson() {
+		System.out.println("Geting set...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdySet set : setDao.getAllSet()) {
 			// 名稱
-			System.out.println(set.getName());
+//			System.out.println(set.getName());
 			
 			List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(set.getSetId());
 			
@@ -315,8 +320,8 @@ public class OrderService {
 	}
 	
 	public void readOrderJson(JsonObject object) {
-		  System.out.println(object.toString());
-		  System.out.println("點餐單 : ");
+			System.out.println("Processing order...");
+			long start = System.currentTimeMillis();
 		  
 		  try {
 			int tbId = Integer.parseInt(object.getString("TableId", DEFAULT_VALUE));
@@ -333,6 +338,7 @@ public class OrderService {
 			System.out.println("empid = "+emp.getEmpId());
 			System.out.println("tbid="+tb.getTbId());
 			BdyOrder order = new BdyOrder(emp, tb, nowTime.getTime(), 0, custNum);
+//			BdyOrder order = new BdyOrder(new BdyEmp(empId), new BdyTable(tbId), nowTime.getTime(), 0, custNum);
 			orderDao.insert(order);
 			BdyOrder newOrder = orderDao.getOrderByOrder(order);
 			System.out.println("newOrderId="+newOrder.getOdId());
@@ -373,6 +379,8 @@ public class OrderService {
 			  System.out.print("unknown error : ");
 			  System.out.println(e.getMessage());
 		  }
+		  long interval = System.currentTimeMillis() - start;
+		  System.out.println("Complete("+interval/1000.0+"s)");
 		  
 	}
 }
