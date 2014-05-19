@@ -10,7 +10,7 @@ var b = false;
 function empUpdate(empId){	
 	if(b==true){
 		if(this.empId==empId){//同一層
-		console.log($("input[name$=Id]").val());
+//		console.log($("input[name$=Id]").val());
 		$("#modifyEmpForm"+empId).append($("#trEmp"+empId));
 		$("#modifyEmpForm"+empId).submit();
 		}else{

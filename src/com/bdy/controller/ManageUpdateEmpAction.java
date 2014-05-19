@@ -88,7 +88,7 @@ public class ManageUpdateEmpAction extends ActionSupport implements Preparable {
 	@Override
 	public String execute() throws Exception {
 	 empTemp=service.findEmpById(empId.trim());
-	 empTemp.setEmpId(emp.getEmpId());
+//	 empTemp.setEmpId(emp.getEmpId());
 	 empTemp.setName(emp.getName());
 	 empTemp.setSex(emp.getSex());
 	 empTemp.setComedate(emp.getComedate());
@@ -97,8 +97,8 @@ public class ManageUpdateEmpAction extends ActionSupport implements Preparable {
 	 empTemp.setPhone(emp.getPhone());
 	 empTemp.setResign(emp.getResign());
 	 empTemp.setSalary(emp.getSalary());
-	 service.updateEmp(empTemp,empId);
-//	 service.updateEmps(empTemp);
+//	 service.updateEmp(empTemp,empId);
+	 service.updateEmps(empTemp);
 	 	emps=service.getAllEmps();
 		prior = service.getAllPri();
 		return Action.SUCCESS;

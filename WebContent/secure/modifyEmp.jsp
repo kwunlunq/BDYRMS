@@ -99,6 +99,11 @@ var contextPath='<%=request.getContextPath()%>';
 		</s:iterator>
 		</tbody>
 		</table>
+		<s:property value="%{fieldErrors['emp.empId'][0]}"/>
+		<s:property value="%{fieldErrors['emp.name'][0]}"/>
+		<s:property value="%{fieldErrors['emp.comedate'][0]}"/>
+		<s:property value="%{fieldErrors['emp.phone'][0]}"/>
+		<s:property value="%{fieldErrors['emp.empAddress'][0]}"/>
 	</div>
 		<s:select
 		value="pri" 
@@ -108,11 +113,7 @@ var contextPath='<%=request.getContextPath()%>';
 		 list="prior"  
 
 		 />
-<s:property value="%{fieldErrors['emp.empId']}"/>
-<s:property value="%{fieldErrors['emp.name']}"/>
-<s:property value="%{fieldErrors['emp.comedate']}"/>
-<s:property value="%{fieldErrors['emp.phone']}"/>
-<s:property value="%{fieldErrors['emp.empAddress']}"/>
+
 </div>
 </div>
 <div id="footer">
