@@ -76,11 +76,12 @@ function listenerInitial() {
 	$('#orderarea').on('click','input',function(){
 		var canAdd = checkAddable($(this));
 		if (canAdd) {
-			addOrderAreaBtn('orderlist-'+orderlistIndex,
+			addOrderAreaBtn("fkdiv-"+$(this).attr("fkId"),
 							$(this).attr("fdId"),
 							$(this).attr("isMain"),
 							$(this).val(), 
-							$(this).attr("fkId"));
+							$(this).attr("fkId"),
+							$("#orderlist").tabs("option", "active"));
 		}
 	});
 
@@ -278,7 +279,7 @@ function confirmClick() {
 		}
 		
 		// 取出每個餐點
-		$.each($(this).children("input"), function (index, cchild) {
+		$.each($(this).find("input"), function (index, cchild) {
 			$(setDiv).append("<p style='margin-left:20px'>"+$(this).val()+"</p>");
 			foods.push(
 					{
@@ -297,7 +298,12 @@ function confirmClick() {
 function checkAddable(thisbtn) {
 	var active = $("#orderlist").tabs("option", "active");
 	if (active == 0) {
-		return true;
+		addOrderAreaBtn('orderlist-'+active,
+				$(thisbtn).attr("fdId"),
+				$(thisbtn).attr("isMain"),
+				$(thisbtn).val(), 
+				$(thisbtn).attr("fkId"));
+		return false;
 	}
 	
 	console.log("=====================");
@@ -321,7 +327,7 @@ function checkAddable(thisbtn) {
 	}
 	console.log("detailCount="+detailCount);
 	var childCount = 0;
-	$.each($(div).children("input"), function( index, childBtn ) {
+	$.each($(div).find("input"), function( index, childBtn ) {
 		if (parseInt($(childBtn).attr("fkid")) ==thisFk) {
 			  console.log($(childBtn).val());
 			  childCount ++;
@@ -367,16 +373,37 @@ function setOnClick() {
 	// 新增新的li/div
 	$("#ul-detail").append("<li divid='"+tagsid+"'><a href='#"+ tagsid +"'>"+$(this).val()+"</a><span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>");
 	$("#orderlist").append("<div id='"+tagsid+"' setId='"+$(this).attr("setid")+"'></div>");
-	$('#tagsid').append("<h1>I'm here</h1>");
 	$("#orderlist").tabs("refresh");
-	
 	// 建立不同品項div
-	var fkdiv = document.createElement("div");
-	$(fkdiv).attr("id", "fkdiv-");
-	
+	var setid = $(this).attr("setid");
+	var aryi = 0;
+	for (; aryi < setIds.length; aryi++) {
+		if (setIds[aryi] == setid) {
+			break;
+		};
+	}
+	var fkDetail = setdetails[aryi];
+	var fkCanOrderCount = [];
+	for(var i=0 ; i<fkDetail.length;i++){
+		fkCanOrderCount[fkDetail[i]] = 0;
+	}
+	for(var i=0 ; i<fkDetail.length;i++){
+		fkCanOrderCount[fkDetail[i]]++;
+	}
+	for(var i=0 ; i<fkDetail.length;i++){
+		var fkdiv = document.createElement("div");
+		$(fkdiv).attr("id", "fkdiv-"+fkDetail[i]);
+		for(var j=0;j<fks.length;j++){
+			if(fks[j].fkId == fkDetail[i]){
+				$(fkdiv).html(fks[j].fkName + " count: " + fkCanOrderCount[fkDetail[i]]);
+			}
+		}
+		$(fkdiv).css({"border":"1px solid black","width":"80%","height":"50px"});
+		$('#'+tagsid).append(fkdiv);	
+	}
 	// 將點選要搭配套餐的主餐新增到新的div(id="orderlist-x")
 	var fdBtn = $('#'+$(this).attr("FBId"));
-	addOrderAreaBtn(tagsid, $(fdBtn).attr("fdId"), true, $(fdBtn).val(), $(fdBtn).attr("fkId"));
+	addOrderAreaBtn("fkdiv-"+$(fdBtn).attr("fkId"), $(fdBtn).attr("fdId"), true, $(fdBtn).val(), $(fdBtn).attr("fkId"),setCount);
 	$(fdBtn).remove();
 	createGarbageCan(tagsid,setCount);//放入垃圾桶
 	
@@ -385,6 +412,7 @@ function setOnClick() {
 	$("#orderlist").tabs( "option", "active", setCount);
 	setCount++;
 }
+
 function getSets() {
 	var url = contextPath+"/order/getSetServlet";
 	$.getJSON(url, function(result) {
@@ -458,7 +486,7 @@ function drawTab(result) {
 }
 
 var FBId = 0;
-function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
+function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId,orderlistActive) {
 	var foodBtnId = "foodBtnId"+FBId;
 	var newOABtn = $("<input class='MainBtnColor FoodBtnStyle' type='button'>");
 	newOABtn.attr({
@@ -468,10 +496,14 @@ function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId) {
 		id:foodBtnId,
 		fkId: fkId
 	});
-	if(foodTag.indexOf("orderlist-") != -1 ){
+	if(foodTag.indexOf("fkdiv-") != -1 || foodTag.indexOf("orderlist-") != -1 ){
 		$(newOABtn).draggable({cancel:false,revert: "invalid"});
 	}
-	$('#'+foodTag).append(newOABtn);
+	if(orderlistActive == -1 || orderlistActive == null){
+		$('#'+foodTag).append(newOABtn);
+	}else{
+		$('#orderlist-'+orderlistActive).find('#'+foodTag).append(newOABtn);
+	}
 	FBId++;
 }
 
