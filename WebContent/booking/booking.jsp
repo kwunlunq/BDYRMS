@@ -30,9 +30,10 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
-<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
+
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
+<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables_themeroller.min.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables.min.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->

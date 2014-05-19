@@ -68,6 +68,8 @@ max-width:110px;
 
 var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
+var order='${param.sort}';
+var del='${param.del}';
 var judge = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
 var booleanFood=false;
 var booleanSet=false;
@@ -79,6 +81,9 @@ if(judge!=""){
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
+<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables_themeroller.min.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables.min.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
@@ -130,22 +135,27 @@ if(judge!=""){
 		<p>種類:<br><span id="insertFoodKind"></span></p>
 		</div>
 		
-		<table id="testTable" width="100%" border="1">
+		<table id="testTable">
 		<thead>
 		<tr>
-		<th style="width: 19%;" class="thstyle">食物名稱</th>
-		<th style="width: 8%;" class="point thstyle" id="foodPrice" onclick="goURL('<c:url value='/secure/sort?act=sort&type=price' />')">食物價錢</th>
-		<th style="width: 8%;" class="point thstyle" id="foodQty" onclick="goURL('<c:url value='/secure/sort?act=sort&type=qty' />')">庫存量</th>
-		<th style="width: 25%;" class="thstyle">說明</th>
-		<th style="width: 12%;" class="thstyle">種類</th>
-		<th style="width: 25%;" class="thstyle">功能</th>
+		<th>食物名稱</th>
+		<th>食物價錢</th>
+		<th>庫存量</th>
+		<th>說明</th>
+		<th>種類</th>
+		<th>功能</th>
 		</tr>
 		</thead>
 		<tbody>
 		<c:forEach var="food" items="${resultFood }">
 		
 		<form action="<c:url value='/secure/Delete'/>" method="post">
+		<c:if test="${food.fdId==param.fdid }">
+		<tr style="background-color:red" id="TRfood${food.fdId}">
+		</c:if>
+		<c:if test="${food.fdId!=param.fdid }">
 		<tr id="TRfood${food.fdId}">
+		</c:if>
  		<input type="hidden" value="${food.fdId }" name="fid"/> 
 		
 		<c:if test="${food.fdId!=param.fid }">

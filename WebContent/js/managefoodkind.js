@@ -38,7 +38,8 @@ function insertFoodKind(){
 	var period = document.getElementById("insertFoodKindPeriod").value;
 	var ma = document.getElementById("insertFoodKindMa").options[document.getElementById("insertFoodKindMa").selectedIndex].value;;
 	var seq = document.getElementById("insertFoodKindSEQ").value;
-	window.location.href = contextPath+"/secure/inserFoodKind.action"
+	window.location.href = contextPath+"/secure/inserFoodKind.action?name="+name+"&period="
+	+period+"&ma="+ma+"&seq="+seq;
 }
 
 function insertFoodKindOption(){
