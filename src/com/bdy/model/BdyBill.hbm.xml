@@ -11,7 +11,7 @@
         <many-to-one name="bdyDiscount" class="com.bdy.model.BdyDiscount" fetch="select" lazy="false">
             <column name="DIS_ID" />
         </many-to-one>
-        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select" lazy="false">
+        <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select" lazy="false" cascade="save-update">
             <column name="EMP_ID" length="10" />
         </many-to-one>
         <property name="endDate" type="timestamp">

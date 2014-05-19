@@ -14,7 +14,7 @@
         <property name="prio" type="java.lang.Integer">
             <column name="PRIO" />
         </property>
-        <set name="bdyEmps" table="BDY_EMP" inverse="true" lazy="false" fetch="select">
+        <set name="bdyEmps" table="BDY_EMP" inverse="true" lazy="false" fetch="select" cascade="save-update">
             <key>
                 <column name="PRI_ID" />
             </key>
