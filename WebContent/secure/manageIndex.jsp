@@ -203,7 +203,13 @@ if(judge!=""){
 		</div>
 		
 		<div id="tabs-3">
-		新增一筆資料
+		<a href="javascript:void(0)" id="foodKindDialog-link" class="ui-state-default ui-corner-all" ">新增一樣類別</a>
+		<div id="foodKindInsertDialog" title="新增類別" style="display:none">
+		<p>類別名稱:<br><input type="text" id="insertFoodKindName"></p>
+		<p>製作時間:<br><input type="text" size="2" id="insertFoodKindPeriod"></p>
+		<p>製作區域:<br><span id="insertSetFoodKindMa"></span></p>
+		<p>出餐順序:<br><input type="text" size="2" id="insertFoodKindSEQ"></p>
+		</div>
 		<table border="1">
 		
 		<thead>
@@ -211,7 +217,7 @@ if(judge!=""){
 		<th>類別名稱</th>
 		<th>製作時間</th>
 		<th>製作區域</th>
-		<th>出餐時間</th>
+		<th>出餐順序</th>
 		<th>功能</th>
 		</tr>
 		</thead>
@@ -223,7 +229,7 @@ if(judge!=""){
 		<td id="foodkindseq${foodkind.fkId }">${foodkind.seq }</td>
 		<td id="">
 		<input class='MainBtnColor' type="button" value="修改" onclick="fkupdate(${foodkind.fkId },${foodkind.bdyMakearea.maId })">
-		<input class='MainBtnColor' type="button" value="刪除" onclick="">
+		<input class='MainBtnColor' type="button" value="刪除" onclick="fkdelete(${foodkind.fkId })">
 		</td>
 		</tr>
 		</c:forEach>			

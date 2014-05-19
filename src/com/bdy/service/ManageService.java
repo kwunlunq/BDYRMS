@@ -220,6 +220,11 @@ public class ManageService {
 		int setNum = setdetailDao.insert(setd);
 		return setNum;
 	}
+	public int deleteFoodKind(int fkId){
+		int  foodKindState= foodkindDao.delete(fkId);
+		return foodKindState;
+	}
+	
 	
 	public List<BdyFoodkind> updateFoodKind(int fkId,String fkname,Double fkperiod,int fkma,int fkseq){
 		BdyFoodkind foodkind = new BdyFoodkind();

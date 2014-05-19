@@ -8,6 +8,7 @@ $(function(){
 	window.onload = function(){
 		insertOption();
 		insertSetOption();
+		insertFoodKindOption();
 	}
 	$( "#tabs" ).tabs();
 	if(booleanFood){

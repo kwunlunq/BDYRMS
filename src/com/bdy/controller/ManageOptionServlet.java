@@ -127,7 +127,7 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(resultInsertSet);
 			break;
-		case "insertFoodKind":
+		case "foodKindInit":
 			String areafkId = request.getParameter("fkId");
 			String areamaId = request.getParameter("maId");
 			
@@ -138,6 +138,14 @@ public class ManageOptionServlet extends HttpServlet {
 				str +=m.getMaId()+","+m.getName()+";";
 			}
 			out.print(str);
+			break;
+		case "insertFoodKind":
+			List<BdyMakearea> insertma = optionservice.getAllMakeArea();
+			String resultFoodKind = "";
+			for(BdyMakearea m:insertma){
+				resultFoodKind += m.getMaId()+","+m.getName()+";";
+			}
+			out.print(resultFoodKind);
 			break;
 		}
 
