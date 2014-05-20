@@ -22,13 +22,23 @@ $(function() {
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
 	getTables();
-	
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
+	$( "#orderarea" ).tabs( "refresh" );
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });
 });
 
+function getCookie(cname) {
+var name = cname + "=";
+var ca = document.cookie.split(';');
+for(var i=0; i<ca.length; i++) 
+  {
+  var c = ca[i].trim();
+  if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+return "";
+}
 
 function listenerInitial() {
 	$('body').on('click','#num',function(){
@@ -185,46 +195,64 @@ function sendOrder() {
 	}, 800);
 }
 
-function getTables() {
-	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"table"}, function(result) {
+function cookieDecorder( str ) {
+    return decodeURIComponent(str.replace(/\g\s/,' '));
+}
 
-		for (var i = 0; i < result.length; i++) {
-			var fId = result[i].fId;
-			var fName = result[i].fName;
+function getTables() {
+	var tables = getCookie("tables");
+	if (tables != "") {
+		var result = cookieDecorder(tables);
+		var obj = $.parseJSON( result );
+		console.log(obj);
+		getTablesCallback(obj);
+	} else {
+		var url = contextPath+"/order/getOrderDataServlet";
+		$.getJSON(url, {"data":"table"}, function(result) {
+			
+			getTablesCallback(result);
+
+		});
+	}
+}
+
+function getTablesCallback(result) {
+
+	for (var i = 0; i < result.length; i++) {
+		var fId = result[i].fId;
+		var fName = result[i].fName;
+		var option = document.createElement("option");
+		$(option).attr("value", fId);
+		$(option).attr("index", i);
+		$(option).append(document.createTextNode(fName));
+		$("#setFloor").append(option);
+				
+		// 將桌子資訊做成option存入tableoptions[[]]陣列中
+		// 以便之後選擇樓層時取出
+		var tbs = result[i].tables;
+		for (var j = 0; j < tbs.length; j++) {
+			var tbName = tbs[j].tbName;
 			var option = document.createElement("option");
-			$(option).attr("value", fId);
-			$(option).attr("index", i);
-			$(option).append(document.createTextNode(fName));
-			$("#setFloor").append(option);
-					
-			// 將桌子資訊做成option存入tableoptions[[]]陣列中
-			// 以便之後選擇樓層時取出
-			var tbs = result[i].tables;
-			for (var j = 0; j < tbs.length; j++) {
-				var tbName = tbs[j].tbName;
-				var option = document.createElement("option");
-				$(option).attr("value", tbs[j].tbId);
-				$(option).append(document.createTextNode(tbName));
-				tableoptions[i][j] = option;
-				$('#setTableNum').append(tableoptions[i][j]);
+			$(option).attr("value", tbs[j].tbId);
+			$(option).append(document.createTextNode(tbName));
+			tableoptions[i][j] = option;
+			$('#setTableNum').append(tableoptions[i][j]);
+		}
+	}
+
+	$("#setFloor").change(function() {
+		var selected = $(this).find(":selected");
+		$('#setTableNum').empty();
+		var index = $(this).find(":selected").attr("index");
+		// 如果選擇的樓層有桌子
+		// 將桌子options掛到選擇桌子的選單中
+		if (tableoptions.length > index) {
+			for (var i = 0; i < tableoptions[index].length; i++) {
+				$('#setTableNum').append(tableoptions[index][i]);				
 			}
 		}
-
-		$("#setFloor").change(function() {
-			var selected = $(this).find(":selected");
-			$('#setTableNum').empty();
-			var index = $(this).find(":selected").attr("index");
-			// 如果選擇的樓層有桌子
-			// 將桌子options掛到選擇桌子的選單中
-			if (tableoptions.length > index) {
-				for (var i = 0; i < tableoptions[index].length; i++) {
-					$('#setTableNum').append(tableoptions[index][i]);				
-				}
-			}
-		});
-		
 	});
+	
 }
 function createGarbageCan(locationId,canId){
 	var Gcan = $('<div id="garbageCan'+canId+'" class="garbageCanOriginal"></div>');
@@ -441,32 +469,67 @@ function setOnClick() {
 }
 
 function getSets() {
-	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"set"}, function(result) {
-		for (var i = 0; i < result.length; i++) {
-			setIds[i] = result[i].id;
-			setNames[i] = result[i].name;
-			setdetails[i] = result[i].detail;
-		}
-	});
+	var set = getCookie("sets");
+	if (set != "") {
+		var result = cookieDecorder(set);
+		var obj = $.parseJSON( result );
+		console.log(obj);
+		getSetCallback(obj);
+	} else {
+		var url = contextPath+"/order/getOrderDataServlet";
+		$.getJSON(url, {"data":"set"}, function(result) {
+			getSetCallback(result);
+		});
+	}
+}
+
+function getSetCallback(result) {
+	for (var i = 0; i < result.length; i++) {
+		setIds[i] = result[i].id;
+		setNames[i] = result[i].name;
+		setdetails[i] = result[i].detail;
+	}
 }
 function getFks() {
-	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"fk"}, function(result) {
-		for (var i = 0; i < result.length; i++) {
-			fks[i] = {
-					fkName:result[i].fkName,
-					fkId:result[i].fkId
-			};
-		}
-	});
+	var fkscookie = getCookie("fks");
+	if (fkscookie != "") {
+		var result = cookieDecorder(fkscookie);
+		var obj = $.parseJSON( result );
+		console.log(obj);
+		getFksCallback(obj);
+	} else {
+		var url = contextPath+"/order/getOrderDataServlet";
+		$.getJSON(url, {"data":"fk"}, function(result) {
+			getFksCallback(result);
+		});
+	}
+}
+
+function getFksCallback(result) {
+	for (var i = 0; i < result.length; i++) {
+		fks[i] = {
+				fkName:result[i].fkName,
+				fkId:result[i].fkId
+		};
+	}
 }
 
 function getFoods() {
-	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"food"}, function(result) {
-		drawTab(result);
-	});
+	var food = getCookie("foods");
+//	if (false) {
+	if (food != "") {
+		var result = cookieDecorder(food);
+		var obj = $.parseJSON( result );
+		console.log("food:");
+		console.log(obj);
+		drawTab(obj);
+	} else {
+		var url = contextPath+"/order/getOrderDataServlet";
+		$.getJSON(url, {"data":"food"}, function(result) {
+			drawTab(result);
+			console.log(result);
+		});
+	}
 }
 function drawTab(result) {
 	var mains = result.isMain;

@@ -2,6 +2,7 @@ package com.bdy.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.codec.Encoder;
+import org.apache.tomcat.util.codec.EncoderException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -22,8 +25,9 @@ import com.bdy.service.OrderService;
  * Servlet implementation class GetMainServlet
  */
 @WebServlet("/order/getOrderDataServlet")
-public class GetOrderDataServlet extends HttpServlet {
+public class GetOrderDataServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+
 	OrderService service;
 
 	@Override
@@ -50,62 +54,49 @@ public class GetOrderDataServlet extends HttpServlet {
 		switch (data) {
 		case "table" :
 //			out.write(service.getTableJson().toString());
-			tables = findCookie("tables", request);
-			if (tables == null) { // 沒有在cookie中, 向資料庫查詢
-				tables = service.getSetJson().toString();
+//			tables = findCookie("tables", request);
+//			if (tables == null) { // 沒有在cookie中, 向資料庫查詢
+//				System.out.println("tables not found");
+				tables = service.getTableJson().toString();
 				makeCookie("tables", tables, response);
-			}
+//			}
+			System.out.println(tables);
 			out.write(tables);
 			break;
 		case "food" :
-			foods = findCookie("foods", request);
-			if (foods == null) { // 沒有在cookie中, 向資料庫查詢
+//			foods = findCookie("foods", request);
+//			if (foods == null) { // 沒有在cookie中, 向資料庫查詢
+//				System.out.println("foods not found");
 				foods = service.getFoodsJSON().toString();
 				makeCookie("foods", foods, response);
-			}
+//			}
+			System.out.println(foods);
 			out.write(foods);
 			break;
 		case "fk" :
 //			out.write(service.getFoodkindJson().toString());
-			fks = findCookie("fks", request);
-			if (fks == null) { // 沒有在cookie中, 向資料庫查詢
+//			fks = findCookie("fks", request);
+//			if (fks == null) { // 沒有在cookie中, 向資料庫查詢
+//				System.out.println("fks not found");
 				fks = service.getFoodkindJson().toString();
 				makeCookie("fks", fks, response);
-			}
+//			}
+			System.out.println(fks);
 			out.write(fks);
 			break;
 		case "set" :
 //			out.write(service.getSetJson().toString());
-			sets = findCookie("sets", request);
-			if (sets == null) { // 沒有在cookie中, 向資料庫查詢
+//			sets = findCookie("sets", request);
+//			if (sets == null) { // 沒有在cookie中, 向資料庫查詢
+//				System.out.println("sets not found");
 				sets = service.getSetJson().toString();
 				makeCookie("sets", sets, response);
-			}
+//			}
+			System.out.println(sets);
 			out.write(sets);
 			break;
 		case "main" :
 			out.write(service.getMainsJSON().toString());
-			break;
-		case "session" :
-			HttpSession session = request.getSession();
-			System.out.println("123");
-			if (session.getAttribute("test")!=null) {
-				System.out.println("exist");
-			};
-			session.setAttribute("test", "123");
-			
-			break;
-		case "cookie" :
-			System.out.println("making cookie");
-			// food
-			foods = service.getFoodsJSON().toString();
-			foods = Base64Coder.encodeString(foods); 
-			
-			Cookie cookie = new Cookie("foods",foods);
-			cookie.setMaxAge(3*60*60); //3 hour
-			response.addCookie(cookie);
-	 
-			out.println("Cookies created");
 			break;
 		default :
 			System.out.println("Wrong param!");
@@ -123,13 +114,20 @@ public class GetOrderDataServlet extends HttpServlet {
 				result = Base64Coder.decodeString(result);  //进行Base64解码
 			}
 		}
-		System.out.println(name+" in cookie : ");
-		System.out.println(result);
-		System.out.println("--------------");
+//		System.out.println(name+" in cookie : ");
+//		System.out.println(result);
+//		System.out.println("----------");
 		return result;
 	}
+	@SuppressWarnings("deprecation")
 	public void makeCookie(String name, String value, HttpServletResponse response) {
-		value = Base64Coder.encodeString(value); 
+		try {
+			value = java.net.URLEncoder.encode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		System.out.println("URL MODE => " +value);
+		//value = Base64Coder.encodeString(value); 
 		
 		// 建立cookie
 		Cookie cookie = new Cookie(name,value);

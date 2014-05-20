@@ -41,6 +41,8 @@ var empId='${empData.empId}';
 <script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
 <script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
 <script type='text/javascript' src='/BDYRMS/dwr/interface/Service.js'></script>
+<script src="<c:url value="/js/utf.js"/>"></script>
+<script src="<c:url value="/js/base64.js"/>"></script>
 <!-- 自己的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
