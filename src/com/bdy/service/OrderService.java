@@ -206,19 +206,13 @@ public class OrderService {
 		 */
 		System.out.println("Geting foods...");
 		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
-//		System.out.println("mk Array : ");
 		for (BdyMainkind mk : mainkindDao.getAllMainkind()) {
-//			System.out.println(mk.getName());
-//			System.out.println(mk.getName());
-//			System.out.println("---------------");
 			int mkId = mk.getMkId();
 			int fkId = -1;
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
 			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
-//				System.out.println(food.getName());
 				if (fkId == -1) {
 					fkId = food.getBdyFoodkind().getFkId();
-//					System.out.println("fkId="+fkId);
 				}
 				foodBuilder.add(Json.createObjectBuilder()
 									.add("fdId", food.getFdId())
@@ -226,12 +220,9 @@ public class OrderService {
 									.add("fkId", fkId)
 									.build());
 			}
-//			System.out.println("\n\n");
 			mkBuilder.add(Json.createObjectBuilder()
 					 		  .add(mk.getName(), foodBuilder));
 		}
-		
-//		System.out.println("fk Array :");
 		
 		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
 		List<BdyFoodkind> fks = foodkindDao.getAllFoodkind();
@@ -243,7 +234,6 @@ public class OrderService {
 			}
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
 			for (BdyFood food : foods) {
-//				System.out.println(food.getName());
 				foodBuilder.add(Json.createObjectBuilder()
 									.add("fdId", food.getFdId())
 									.add("fdName", food.getName())
@@ -258,7 +248,6 @@ public class OrderService {
 				Json.createObjectBuilder().add("isMain", mkBuilder.build())
 								  		  .add("notMain", fkBuilder.build())
 								  		  .build();
-//		System.out.println("Complete.");
 		return resultObject;
 	}
 	
@@ -272,14 +261,12 @@ public class OrderService {
 							   .build());
 		};
 
-//		System.out.println("Complete.");
 		return aryBuilder.build();
 	}
 	public JsonArray getTableJson() {
 		System.out.println("Geting table...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdyFloor floor : floorDao.getAllFloor()) {
-//			System.out.println(floor);
 			JsonArrayBuilder tbary = Json.createArrayBuilder();
 			for (BdyTable table: tableDao.getTableByFloor(floor.getFloorid())) {
 				tbary.add(Json.createObjectBuilder()
@@ -300,9 +287,6 @@ public class OrderService {
 		System.out.println("Geting set...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		for (BdySet set : setDao.getAllSet()) {
-			// 名稱
-//			System.out.println(set.getName());
-			
 			List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(set.getSetId());
 			
 			JsonArrayBuilder detailbuilder = Json.createArrayBuilder();
@@ -324,12 +308,16 @@ public class OrderService {
 			long start = System.currentTimeMillis();
 		  
 		  try {
+			// tbid
 			int tbId = Integer.parseInt(object.getString("TableId", DEFAULT_VALUE));
 			System.out.println("TableId : "+tbId);
+			// custNum
 			int custNum = Integer.parseInt(object.getString("CustNum", DEFAULT_VALUE));
 			System.out.println("CustNum : "+custNum);
+			// empId
 			String empId = object.getString("EmpId", "0");
 			System.out.println("EmpId : "+empId);
+			// orderTime
 			Calendar nowTime = new GregorianCalendar(Locale.TAIWAN);
 			System.out.println("OrderTime : "+nowTime.getTime());
 			
@@ -338,37 +326,60 @@ public class OrderService {
 			System.out.println("empid = "+emp.getEmpId());
 			System.out.println("tbid="+tb.getTbId());
 			BdyOrder order = new BdyOrder(emp, tb, nowTime.getTime(), 0, custNum);
-//			BdyOrder order = new BdyOrder(new BdyEmp(empId), new BdyTable(tbId), nowTime.getTime(), 0, custNum);
 			orderDao.insert(order);
 			BdyOrder newOrder = orderDao.getOrderByOrder(order);
 			System.out.println("newOrderId="+newOrder.getOdId());
 			JsonArray foods = object.getJsonArray("Foods");
 			
-			for (int i = 0; i < foods.size(); i++) {
+			int lastSetId = 0;
+			List<BdySetdetail> bdySetdetails = setdetailDao.getAllSetdetail();
+			BdySet bdySet = null;
+			int size = foods.size();
+			List<BdyOrderlist> lists = new ArrayList<BdyOrderlist>();
+			for (int i = 0; i < size; i++) {
 				JsonObject food = foods.getJsonObject(i);
 				int fdId = Integer.parseInt(food.getString("fdid", DEFAULT_VALUE));
 				System.out.println("\tfdId : "+fdId);
 				
-				int fkId = foodDao.getFood(fdId).getBdyFoodkind().getFkId();
+				// 1.food
+				BdyFood bdyFood = foodDao.getFood(fdId);
+				int fkId = bdyFood.getBdyFoodkind().getFkId();
 				System.out.println("\tfkId : "+fkId);
 				int setId = Integer.parseInt(food.getString("setId", DEFAULT_VALUE));
-				System.out.println("\tsetId : "+setId);
 				
-				double fdPrice = foodDao.getFood(fdId).getPrice();
-				double setBasePrice = setdetailDao.getPriceBySetAndFk(setId, fkId);
+				// 2.set
+				if (lastSetId != setId) {
+					System.out.println("set change");
+					bdySet = setDao.getSet(setId);
+				}
+				
+				System.out.println("\tsetId : "+setId);
+				double fdPrice = bdyFood.getPrice();
+				double setBasePrice = 0;
+				for (BdySetdetail detail : bdySetdetails) {
+					if (detail.getBdyFoodkind().getFkId() == fkId) {
+						setBasePrice = detail.getPrice();
+					}
+				}
+				if (setBasePrice == 0) {
+					System.out.println("Error : setBasePrice not found!");
+				}
+				
 				System.out.println("\tprice : "+fdPrice+", "+setBasePrice);
 				double addMoney = 0;
 				if (setBasePrice!=0 && fdPrice>setBasePrice) {
 					addMoney = fdPrice - setBasePrice;
 				}
 				System.out.println("\taddMoney : "+addMoney);
+				BdyFoodkind foodkind = bdyFood.getBdyFoodkind();
 				
-				BdySet set = setDao.getSet(setId);
-				BdyFood bdyFood = foodDao.getFood(fdId);
-				BdyFoodkind foodkind = foodkindDao.getFoodkind(fkId);
-				BdyOrderlist odlist = new BdyOrderlist(newOrder, set, bdyFood, foodkind, addMoney, 0);
-				orderlistDao.insert(odlist);
+				// 一筆OrderList完成, 加進lists中
+				BdyOrderlist odlist = new BdyOrderlist(newOrder, bdySet, bdyFood, foodkind, addMoney, 0);
+				lists.add(odlist);
+				System.out.println("\t-------");
 			}
+			// 將lists批次寫入資料庫
+			orderlistDao.batchInsert(lists);
 		  } catch (NullPointerException e) {
 			  System.out.println("nullPointer (param not found?)");
 			  e.printStackTrace();
@@ -379,6 +390,7 @@ public class OrderService {
 			  System.out.print("unknown error : ");
 			  System.out.println(e.getMessage());
 		  }
+
 		  long interval = System.currentTimeMillis() - start;
 		  System.out.println("Complete("+interval/1000.0+"s)");
 		  
