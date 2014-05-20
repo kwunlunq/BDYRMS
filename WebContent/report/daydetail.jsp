@@ -101,12 +101,11 @@ table,th,td,tr {
 				<div id="writeCodeInThisDiv">
 
 					<!-- START Write -->
-					<form action="<c:url value="/DayReportServlet" />" method="get">
+					<form action="<c:url value="/report/DayReportServlet" />" method="get">
 						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">請選擇日期
 						: <input type="text" id="datepicker" name="date"
-							value="${param.date}">${errorMsgs.dateError1}${errorMsgs.dateError2}${errorMsgs.dateError3}
+							value="${param.date}">${errorMsgs.dateError}
 					</form>
-					<a href="http://localhost:8080/BDYRMS/report/reportmenu.jsp">返回報表選單</a>
 					<hr>
 					<div id="dayReportTabs">
 						<ul>
@@ -131,9 +130,7 @@ table,th,td,tr {
 									<c:forEach var="bills" items="${bills}">
 										<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
 									</c:forEach>
-									<fmt:formatNumber type="number" value="${totalPrice}"
-										maxFractionDigits="0" />
-									元
+									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
 								</h3>
 								<table style="margin: 0 auto">
 									<thead>
@@ -152,9 +149,9 @@ table,th,td,tr {
 											<tr>
 												<td id="billId" style="cursor: pointer">${bills.billId}</td>
 												<td>${bills.custNum}</td>
-												<td>${bills.price}</td>
+												<td><fmt:formatNumber value="${bills.price}" maxFractionDigits="0"/></td>
 												<td>${bills.bdyDiscount.name}</td>
-												<td>${bills.finPrice}</td>
+												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
 												<td>${bills.bdyEmp.name}</td>
 												<td>${bills.endDate}</td>
 											</tr>
@@ -162,6 +159,9 @@ table,th,td,tr {
 									</tbody>
 								</table>
 							</c:if>
+							<div style="text-align:center">
+								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							</div>
 						</div>
 						<div id="billOrderDialog" title="帳單明細">
 							<p>這裡是帳單明細</p>
@@ -170,6 +170,9 @@ table,th,td,tr {
 							<c:if test="${not empty bills}">
 								<div id="dayOperate" style="width: 600px; margin: 0px auto;"></div>
 							</c:if>
+							<div style="text-align:center">
+								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							</div>
 						</div>
 						<div id="dayReportTabs-3">
 							<c:if test="${not empty bills}">
@@ -209,6 +212,9 @@ table,th,td,tr {
 									</div>
 								</div>
 							</c:if>
+							<div style="text-align:center">
+								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							</div>
 						</div>
 					</div>
 					<!-- END Write-->

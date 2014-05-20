@@ -71,15 +71,17 @@ public class ManageInsertFoodKindAction extends ActionSupport implements Servlet
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
 		request.setAttribute("resultfoodkind", foodkind);
+		System.out.println(period);
 		if(name==null||name.trim().length()==0){
-			this.addFieldError("foodname", this.getText("fkname.required"));
+			this.addFieldError("fkName", this.getText("fkname.required"));
 		}
-		if(period==0){
-			this.addFieldError("fkperiod",this.getText("fkperiod.required"));
+		if(period==null){
+			this.addFieldError("fkPeriod",this.getText("fkperiod.required"));
 		}
 		if(seq==0){
-			this.addFieldError("fkperiod",this.getText("seq.required"));
+			this.addFieldError("fkSEQ",this.getText("seq.required"));
 		}
+		request.setAttribute("pags", "2");
 	}
 	
 	@Override
@@ -97,6 +99,7 @@ public class ManageInsertFoodKindAction extends ActionSupport implements Servlet
 		List<BdyFood> foods = service.getAllFood();
 		List<BdySetdetail> detail = service.getAllDetail();
 		List<BdyFoodkind> foodkind = service.getAllFoodKind();
+		request.setAttribute("pags", "2");
 		request.setAttribute("fkState", fkState);
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);

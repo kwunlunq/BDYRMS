@@ -41,12 +41,13 @@ public class ManageDeleteFoodKindServlet extends HttpServlet {
 			List<BdyFood> foods = service.getAllFood();
 			List<BdyFoodkind> foodkind = service.getAllFoodKind();
 			
+			request.setAttribute("pags", "2");
 			request.setAttribute("fkState", fkState);
 			request.setAttribute("resultFood", foods);
 			request.setAttribute("resultDetail", detail);
 			request.setAttribute("resultdiscount", discount);
 			request.setAttribute("resultfoodkind", foodkind);
-			System.out.println("run this success");
+			System.out.println("run fkdelete success");
 			//String path = request.getContextPath();
 			//response.sendRedirect(path+"/secure/sort?act=show");
 			

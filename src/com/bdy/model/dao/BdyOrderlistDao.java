@@ -44,6 +44,22 @@ private SessionFactory sf = null;
 		return result;
 	}
 	
+	public int batchInsert(List<BdyOrderlist> lists) {
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		for (BdyOrderlist list : lists) {
+			session.save(list);
+		}
+		try {
+			tx.commit();
+		} catch (ConstraintViolationException e) {
+			System.out.println("新增失敗 : 鍵值重複");
+			session.close();
+			return 0;
+		}
+		session.close();
+		return 1;
+	}
 	public int insert(BdyOrderlist orderlist) {
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();

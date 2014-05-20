@@ -41,7 +41,11 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="<c:url value="/js/monthdetail.js"/>"></script>
-
+<style type="text/css">
+table,th,td,tr {
+	border-style: double;
+}
+</style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
@@ -60,47 +64,93 @@ var contextPath='<%=request.getContextPath()%>';
 
 				<div id="writeCodeInThisDiv">
 
-						<!-- START Write -->
-						<form action="<c:url value="/MonthReportServlet" />" method="get">
-							<input type="submit" class="MainBtnColor" value="查詢單月營運狀況">
-							Year : <input type="text" id="year" name="year" value=""/>
-							Month : <input type="text" id="month" name="month" value=""/>
-						</form>
-						<hr>
-						<div id="tabs">
-							<ul>
-								<li><a href="#tabs-1">單月營運報表</a></li>
-								<li><a href="#tabs-2">營收/來客數 統計</a></li>
-								<li><a href="#tabs-3">單月餐點 統計</a></li>
-							</ul>
-							<div id="tabs-1">
-								<c:if test="${not empty bills}">
-									<table style="margin: 0 auto">
-										<thead>
-											<tr>
-												<th>來客數</th>
-												<th>金額</th>
-												<th>時間</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="bills" items="${bills}">
-												<tr>
-													<td>${bills.dayTatolCustNum}</td>
-													<td>${bills.dayTatolFinPrice}</td>
-													<td>${bills.dayInMonth}</td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
+					<!-- START Write -->
+					<form action="<c:url value="/report/MonthReportServlet" />" method="get">
+						<input type="submit" class="MainBtnColor" value="查詢單月營運狀況">
+						<select name="year" id="year">
+							<c:forEach var="i" begin="1990" end="2040">
+								<c:if test="${param.year==i}">
+									<option value="${i}" selected="selected">${i}</option>
 								</c:if>
-							</div>	
-							<div id="tabs-2">
-							</div>
-							<div id="tabs-3" >
+							<c:if test="${param.month!=i}">
+								<option value="${i}">${i}</option>
+							</c:if>								
+							</c:forEach>
+						</select> 年 <select name="month" id="month">
+							<c:forEach var="j" begin="1" end="12">
+							<c:if test="${param.month==j}">
+								<option value="${j}" selected="selected">${j}</option>
+							</c:if>
+							<c:if test="${param.month!=j}">
+								<option value="${j}">${j}</option>
+							</c:if>
+							</c:forEach>
+						</select> 月     ${errorMsgs.dateError}
+					</form>
+					<hr>
+					<div id="tabs">
+						<ul>
+							<li><a href="#tabs-1">單月營運報表</a></li>
+							<li><a href="#tabs-2">營收/來客數 統計</a></li>
+							<li><a href="#tabs-3">單月餐點 統計</a></li>
+						</ul>
+						<div id="tabs-1">
+							<c:if test="${not empty bills}">
+								<h3>${param.year}年${param.month}月報表</h3>
+								<h3>
+									用餐人數 :
+									<c:set var="totalNum" value="0" />
+									<c:forEach var="bills" items="${bills}">
+										<c:set var="totalNum" value="${totalNum+bills.dayTatolCustNum}" />
+									</c:forEach>
+									${totalNum} 人
+								</h3>
+								<h3>
+									月營收 :
+									<c:set var="totalPrice" value="0" />
+									<c:forEach var="bills" items="${bills}">
+										<c:set var="totalPrice" value="${totalPrice+bills.dayTatolFinPrice}" />
+									</c:forEach>
+									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
+								</h3>
+								<table style="margin: 0 auto">
+									<thead>
+										<tr>
+											<th>日期</th>
+											<th>來客數</th>
+											<th>金額</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="bills" items="${bills}">
+											<tr>
+												<td>${param.year}-${param.month}-${bills.dayInMonth}</td>
+												<td>${bills.dayTatolCustNum}</td>
+												<td><fmt:formatNumber value="${bills.dayTatolFinPrice}" maxFractionDigits="0"/></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</c:if>
+							<div style="text-align:center">
+								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 							</div>
 						</div>
-						<!-- END Write-->
+						<div id="tabs-2">
+							<c:if test="${not empty bills}">
+								<div id="monthOperate" style="width: 600px; margin: 0px auto;"></div>
+							</c:if>
+							<div style="text-align:center">
+								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							</div>
+						</div>
+						<div id="tabs-3">
+							<div style="text-align:center">
+								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							</div>
+						</div>
+					</div>
+					<!-- END Write-->
 				</div>
 				<!-- 	id="writeCodeInThisDiv" -->
 			</div>
