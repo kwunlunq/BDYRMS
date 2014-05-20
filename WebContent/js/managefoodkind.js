@@ -5,27 +5,50 @@ $(function(){
 		$( "#tabs" ).tabs( "option", "active", 2);
 		pags = 0;
 	}
-	 
-	 $( "#foodKindInsertDialog" ).dialog({		
-			
-			autoOpen: false,
-			width: 400,
-			buttons: [
-				{
-					text: "確定",
-					click: function() {
-						insertFoodKind();
-						$( this ).dialog( "close" );
-					}
-				},
-				{
-					text: "取消",
-					click: function() {
-						$( this ).dialog( "close" );
-					}
+	 var objfk;
+	 if(booleanFoodKind){
+		 objfk = {		
+					
+					autoOpen: true,
+					width: 400,
+					buttons: [
+						{
+							text: "確定",
+							click: function() {
+								insertFoodKind();
+								$( this ).dialog( "close" );
+							}
+						},
+						{
+							text: "取消",
+							click: function() {
+								$( this ).dialog( "close" );
+							}
+						}
+					]
 				}
-			]
-		});
+	 }else{	 
+		 objfk = {
+				autoOpen: false,
+				width: 400,
+				buttons: [
+					{
+						text: "確定",
+						click: function() {
+							insertFoodKind();
+							$( this ).dialog( "close" );
+						}
+					},
+					{
+						text: "取消",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				]			
+	 }
+	 }
+	 $( "#foodKindInsertDialog" ).dialog(objfk);
 	 
 	 $( "#foodKindDialog-link" ).click(function( event2 ) {
 			$( "#foodKindInsertDialog" ).dialog( "open" );

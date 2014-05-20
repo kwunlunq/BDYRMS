@@ -79,6 +79,7 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
             this.addFieldError("foodQTY",
             		this.getText("foodQTY.required"));
 		}
+		
 	}
 	
 	@Override
