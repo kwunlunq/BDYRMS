@@ -1,27 +1,20 @@
 package com.bdy.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.NamingException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.bdy.model.MonthReport;
 import com.bdy.service.ReportService;
 
-@SuppressWarnings("serial")
-@WebServlet(urlPatterns = "/report/MonthReportServlet")
-public class MonthReportServlet extends HttpServlet {
+@WebServlet("/report/MonthReportJSONServlet")
+public class MonthReportJSONServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 
 	ReportService service;
 
@@ -41,14 +34,8 @@ public class MonthReportServlet extends HttpServlet {
 		String col2 = request.getParameter("month");
 
 		// 驗證資料
-		Map<String, String> errors = new HashMap<String, String>();
-		request.setAttribute("errorMsgs", errors);
-
-		if (col1 == null || col2 == null || col1.trim().length() == 0|| col2.trim().length() == 0) {
-			errors.put("dateError", "Please select a year and a month");
-			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
-					request, response);
-			return;
+		if (col1 == null || col2 == null || col1.trim().length() == 0
+				|| col2.trim().length() == 0) {
 		}
 
 		// 轉換資料
@@ -58,30 +45,12 @@ public class MonthReportServlet extends HttpServlet {
 			year = Integer.parseInt(col1);
 			month = Integer.parseInt(col2);
 		} catch (NumberFormatException e1) {
-			errors.put("dateError", "Year and month must be integer");
-			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
-					request, response);
-			return;
 		}
-		
 
 		// 將資料導入頁面
-		List<MonthReport> beans = new ArrayList<MonthReport>();
-
-		try {
-			beans = service.getMonthRevenueDetails(year, month);
-		} catch (NamingException e) {
-		}
-		if (beans == null || beans.isEmpty()) {
-			errors.put("dateError", "No data!!");
-			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
-					request, response);
-			return;
-		} else {
-			request.setAttribute("bills", beans);
-			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
-					request, response);
-		}
+		PrintWriter out = response.getWriter();
+		out.write(service.getSingleMonthJSON(year, month).toJSONString());
+		
 	}
 
 	@Override
@@ -89,6 +58,5 @@ public class MonthReportServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		this.doGet(request, response);
 	}
-
 
 }

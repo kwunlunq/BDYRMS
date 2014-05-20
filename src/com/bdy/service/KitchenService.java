@@ -290,7 +290,7 @@ public class KitchenService {
 			jsonArrayBuilder.add(
                     Json.createObjectBuilder()
                     .add("桌號",notOutMealitem.getTableID())
-                    .add("點單時間", notOutMealitem.getOrderDate().toString())
+                    .add("點單時間",sdf.format(notOutMealitem.getOrderDate()))
                     .add("食物名稱", notOutMealitem.getOrderlistname())
                     .add("出餐時間",notOutMealitem.toString())
                     );
@@ -316,5 +316,40 @@ public class KitchenService {
 		
 	});
 		return temps;
+	}
+	
+	public JsonArray getNotOutOrderlistsJsonArray(){
+		List<KitchenView> outMeals= getNotOutOrderlistsObject();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+		for(KitchenView notOutMealitem:outMeals){
+			jsonArrayBuilder.add(
+                    Json.createObjectBuilder()
+                    .add("桌號",notOutMealitem.getTableID())
+                    .add("點單明細編號",notOutMealitem.getOrderlistID())
+                    .add("食物名稱", notOutMealitem.getOrderlistname())
+                    .add("點單時間", sdf.format(notOutMealitem.getOrderDate()))                 
+                    .add("實際出餐時間",sdf.format(notOutMealitem.getOutMealTime()))
+                    .add("食物種類",notOutMealitem.getFoodkindID())
+                    .add("出餐點", notOutMealitem.getOutMealTime().getTime())
+                    );
+		}
+		JsonArray jsonArray = jsonArrayBuilder.build();
+		return jsonArray;
+	}
+	
+	public JsonArray getFoodKindsJsonArrsy(){
+		List<BdyFoodkind> foodkinds= getFoodKinds();
+		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+		for(BdyFoodkind temp:foodkinds){
+			jsonArrayBuilder.add(
+					Json.createObjectBuilder()
+					.add("種類編號",temp.getFkId())
+					.add("種類名稱",temp.getName())
+					.add("製作區域",temp.getBdyMakearea().getName())
+					);
+		}
+		JsonArray jsonArray = jsonArrayBuilder.build();
+		return jsonArray;
 	}
 }

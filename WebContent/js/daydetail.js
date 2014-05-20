@@ -334,7 +334,7 @@ function GetReportData() {
 	var date = $('#datepicker').val();
 	if (date != null && date.length > 0) {
 		$.ajax({
-			url : contextPath + '/DayReportJSONServlet',
+			url : contextPath + '/report/DayReportJSONServlet',
 			type : 'POST',
 			dataType : 'JSON',
 			data : {
