@@ -112,7 +112,7 @@ $(function() {
 		},
 		series : [ {
 			name : '數量',
-			data : [ 107, 51, 235, 203 ]
+			data : []
 		} ]
 	});
 	$('#appetizerCount').highcharts({
@@ -152,7 +152,7 @@ $(function() {
 		},
 		series : [ {
 			name : '數量',
-			data : [ 20 ]
+			data : []
 		} ]
 	});
 	$('#soupCount').highcharts({
@@ -192,7 +192,7 @@ $(function() {
 		},
 		series : [ {
 			name : '數量',
-			data : [ 17, 35]
+			data : []
 		} ]
 	});
 	$('#drinkCount').highcharts({
@@ -232,7 +232,7 @@ $(function() {
 		},
 		series : [ {
 			name : '數量',
-			data : [ 107, 51, 235, 203 ]
+			data : []
 		} ]
 	});
 	$('#dessertCount').highcharts({
@@ -272,7 +272,7 @@ $(function() {
 		},
 		series : [ {
 			name : '數量',
-			data : [ 107, 51, 235, 203 ]
+			data : []
 		} ]
 	});
 	$('#saladCount').highcharts({
@@ -315,7 +315,7 @@ $(function() {
 		},
 		series : [ {
 			name : '數量',
-			data : [ 20, 35, 23 ]
+			data : []
 		} ]
 	});
 });

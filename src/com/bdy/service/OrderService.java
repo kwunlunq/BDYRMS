@@ -206,7 +206,8 @@ public class OrderService {
 		 */
 		System.out.println("Geting foods...");
 		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
-		for (BdyMainkind mk : mainkindDao.getAllMainkind()) {
+		List<BdyMainkind> mks =  mainkindDao.getAllMainkind();
+		for (BdyMainkind mk : mks) {
 			int mkId = mk.getMkId();
 			int fkId = -1;
 			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
@@ -254,7 +255,8 @@ public class OrderService {
 	public JsonArray getFoodkindJson() {
 		System.out.println("Geting fks...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
-		for (BdyFoodkind fk : foodkindDao.getAllFoodkind()) {
+		List<BdyFoodkind> fks = foodkindDao.getAllFoodkind();
+		for (BdyFoodkind fk : fks) {
 			aryBuilder.add(Json.createObjectBuilder()
 							   .add("fkName", fk.getName())
 							   .add("fkId", fk.getFkId())
@@ -266,9 +268,11 @@ public class OrderService {
 	public JsonArray getTableJson() {
 		System.out.println("Geting table...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
-		for (BdyFloor floor : floorDao.getAllFloor()) {
+		List<BdyFloor> floors = floorDao.getAllFloor();
+		for (BdyFloor floor : floors) {
 			JsonArrayBuilder tbary = Json.createArrayBuilder();
-			for (BdyTable table: tableDao.getTableByFloor(floor.getFloorid())) {
+			List<BdyTable> tables = tableDao.getTableByFloor(floor.getFloorid());
+			for (BdyTable table: tables) {
 				tbary.add(Json.createObjectBuilder()
 							  .add("tbId", table.getTbId())
 							  .add("tbName", table.getName())
@@ -286,7 +290,8 @@ public class OrderService {
 	public JsonArray getSetJson() {
 		System.out.println("Geting set...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
-		for (BdySet set : setDao.getAllSet()) {
+		List<BdySet> sets = setDao.getAllSet();
+		for (BdySet set : sets) {
 			List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(set.getSetId());
 			
 			JsonArrayBuilder detailbuilder = Json.createArrayBuilder();

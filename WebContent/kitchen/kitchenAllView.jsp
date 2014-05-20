@@ -73,7 +73,7 @@ var contextPath='<%=request.getContextPath()%>';
 		 	 	</div>
 		 	 </s:iterator>
 		</div>
-		
+		<input type="button" value="載入新訂單" onclick="ckeckOrder()">
 	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
