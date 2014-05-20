@@ -294,10 +294,9 @@ public int deleteSetInside(int setId){
 	int setState = setDao.delete(setId);
 	return setState;
 }
-public List<BdyMakearea> insideInsertMA(String name,int num){
+public List<BdyMakearea> insideInsertMA(String name){
 	BdyMakearea ma = new BdyMakearea();
 	ma.setName(name);
-	ma.setMaId(num);
 	makeareaDao.insert(ma);
 	List<BdyMakearea> bean = makeareaDao.getAllMakeArea();
 	return bean;

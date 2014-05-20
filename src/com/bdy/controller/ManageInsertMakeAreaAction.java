@@ -22,7 +22,6 @@ public class ManageInsertMakeAreaAction extends ActionSupport implements Servlet
 	HttpServletRequest request;
 	
 	private String maName;
-	private Integer  maNum;
 	List<BdyDiscount> disc;
 	List<BdySet> set;
 	List<BdyMakearea> ma;
@@ -35,14 +34,6 @@ public class ManageInsertMakeAreaAction extends ActionSupport implements Servlet
 
 	public void setMaName(String maName) {
 		this.maName = maName;
-	}
-
-	public Integer getMaNum() {
-		return maNum;
-	}
-
-	public void setMaNum(Integer maNum) {
-		this.maNum = maNum;
 	}
 
 	public List<BdyDiscount> getDisc() {
@@ -74,14 +65,11 @@ public class ManageInsertMakeAreaAction extends ActionSupport implements Servlet
 		if(maName==null||maName.trim().length()==0){
 			this.addFieldError("maName",this.getText("ma.maName.required"));
 		}
-		if(maNum==null||maNum==0){
-			this.addFieldError("maNum",this.getText("ma.maNum.required"));
-		}
 	}
 	
 	@Override
 	public String execute() throws Exception {
-		service.insideInsertMA(maName, maNum);
+		service.insideInsertMA(maName);
 		disc = service.getAllDiscount();
 		set = service.getAllSet();
 		ma= service.getAllMakeArea();
