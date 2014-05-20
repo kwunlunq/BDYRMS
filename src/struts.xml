@@ -16,7 +16,7 @@
 			<result name="success">/kitchen/kitchenAllView.jsp</result>
 		</action>
 		<action name="outMeal" class="com.bdy.controller.OutMealAction">
-			<result name="success">/kitchen/kitchenView.jsp</result>
+			<result name="success" type="redirect">/kitchen/kitchenView.action</result>
 		</action>
 		<action name="kitchenAllmeal" class="com.bdy.controller.GetAllOutMealAction" method="myJSONOutMeal">
 		</action>
