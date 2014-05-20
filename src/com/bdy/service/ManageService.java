@@ -268,4 +268,55 @@ public class ManageService {
 	public int insertEmp(BdyEmp emp){
 		return empDao.insert(emp);
 	}
+//------------------------ManageInside----------------------------------
+public List<BdyDiscount> insideInsertDiscount(String name,Double price){
+	BdyDiscount dis = new BdyDiscount();
+	dis.setName(name);
+	dis.setDisPrice(price);
+	discountDao.insert(dis);
+	List<BdyDiscount> bean = discountDao.getAllDiscount();
+	return bean;
 }
+public int deleteDisc(int disId){
+	int disState = discountDao.delete(disId);
+	return disState;
+}
+
+public List<BdySet> insideInsertSet(String name , Double price ){
+	BdySet set = new BdySet();
+	set.setName(name);
+	set.setPrice(price);
+	setDao.insert(set);
+	List<BdySet> bean = setDao.getAllSet();
+	return bean;
+}
+public int deleteSetInside(int setId){
+	int setState = setDao.delete(setId);
+	return setState;
+}
+public List<BdyMakearea> insideInsertMA(String name,int num){
+	BdyMakearea ma = new BdyMakearea();
+	ma.setName(name);
+	ma.setMaId(num);
+	makeareaDao.insert(ma);
+	List<BdyMakearea> bean = makeareaDao.getAllMakeArea();
+	return bean;
+}
+public int deleteMA(int maId){
+	int maState = makeareaDao.deleteMakeareaById(maId);
+	return maState;
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

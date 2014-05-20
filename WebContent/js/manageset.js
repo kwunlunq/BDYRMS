@@ -100,7 +100,6 @@ function initcallbackSet(){
 			var fkOptions = data.split("-")[4].split(";");;
 			var newOption1 = document.createElement("select");
 			var newOption2 = document.createElement("select");
-			alert("fkOptions="+fkOptions[5]+"<<<>>>  fkId="+fkId)
 			var setname = document.getElementById("sname"+detailId).innerHTML;
 			var fkname = document.getElementById("fkname"+detailId).innerHTML;
 			newOption1.setAttribute("id","setselectname"+detailId);

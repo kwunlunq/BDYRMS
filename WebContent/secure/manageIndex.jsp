@@ -123,10 +123,7 @@ if(judgeFoodKind!=""){
  	<li><a href="#tabs-1"  id="modifyfood">修改食物</a></li>
     <li><a href="#tabs-2"  id="modifypackage">修改套餐組合</a></li>
     <li><a href="#tabs-3"  id="modifycount">修改食物類別</a></li>
-    
-    <li><a href="#tabs-4"  id="modifycount">修改折扣</a></li>
-    <li><a href="#tabs-5"  id="modifycount">修改套餐</a></li>
-    <li><a href="#tabs-6"  id="modifycount">修改製作區域</a></li>
+
   </ul>
   		<div id="tabs-1">
 		共${fn:length(resultFood)}筆 
@@ -249,28 +246,7 @@ if(judgeFoodKind!=""){
 		</c:forEach>			
 		</table>
 		</div>
-		 
-		 <div id="tabs-4">
-		 <input type="button" id="insert3" value="新增一筆資料">
-		 	<table border="1">
-		<thead>
-		<tr>
-		<th>折扣名稱</th>
-		<th>則扣優惠</th>
-		</tr>
-		</thead>
-		<tbody>
-		<c:forEach var="discount" items="${resultdiscount }">
-		<tr>
-		<td>${discount.name}</td>
-		<td>${discount.disPrice}</td>		
-		<td><input type="button" id="update2" value="修改"></td>
-		<td><input type="button" id="delete2" value="刪除"></td>
-		</tr>
-		</c:forEach>
-		</tbody>
-		</table>
-		 </div>
+		
  
 	</div><!-- 	id="writeCodeInThisDiv" -->
 

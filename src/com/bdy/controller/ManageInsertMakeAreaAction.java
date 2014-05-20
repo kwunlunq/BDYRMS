@@ -13,21 +13,38 @@ import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.service.ManageService;
-import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
-public class ManageInsertSetAction extends ActionSupport implements Preparable , ServletRequestAware{
+public class ManageInsertMakeAreaAction extends ActionSupport implements ServletRequestAware , Preparable{
 
-	private String setName;
-	private Double setPrice;
-	List<BdyDiscount> disc;
-	List<BdySet> set;
-	List<BdyMakearea> ma;
 	ManageService service;
 	HttpServletRequest request;
 	
+	private String maName;
+	private Integer  maNum;
+	List<BdyDiscount> disc;
+	List<BdySet> set;
+	List<BdyMakearea> ma;
 	
+	
+	
+	public String getMaName() {
+		return maName;
+	}
+
+	public void setMaName(String maName) {
+		this.maName = maName;
+	}
+
+	public Integer getMaNum() {
+		return maNum;
+	}
+
+	public void setMaNum(Integer maNum) {
+		this.maNum = maNum;
+	}
+
 	public List<BdyDiscount> getDisc() {
 		return disc;
 	}
@@ -52,40 +69,23 @@ public class ManageInsertSetAction extends ActionSupport implements Preparable ,
 		this.ma = ma;
 	}
 
-	public String getSetName() {
-		return setName;
-	}
-
-	public void setSetName(String setName) {
-		this.setName = setName;
-	}
-
-	public Double getSetPrice() {
-		return setPrice;
-	}
-
-	public void setSetPrice(Double setPrice) {
-		this.setPrice = setPrice;
-	}
-
 	@Override
 	public void validate() {
-		if(setName==null||setName.trim().length()==0){
-			this.addFieldError("setName",this.getText("set.setName.required"));
+		if(maName==null||maName.trim().length()==0){
+			this.addFieldError("maName",this.getText("ma.maName.required"));
 		}
-		if(setPrice==null||setPrice==0){
-			this.addFieldError("setPrice",this.getText("set.setPrice.required"));
+		if(maNum==null||maNum==0){
+			this.addFieldError("maNum",this.getText("ma.maNum.required"));
 		}
-		
 	}
 	
 	@Override
 	public String execute() throws Exception {
-		service.insideInsertSet(setName, setPrice);
+		service.insideInsertMA(maName, maNum);
 		disc = service.getAllDiscount();
 		set = service.getAllSet();
 		ma= service.getAllMakeArea();
-		return Action.SUCCESS;
+		return super.execute();
 	}
 
 	@Override

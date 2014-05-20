@@ -5,6 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,11 +37,12 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/mainpage.js"/>"></script>
+<script src="<c:url value="/js/manageInside.js"/>"></script> 
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RMS - Welcome</title>
+<title>BDY RMS - InsertNewSet</title>
 </head>
 <body>
 	<div id="loadingControl"></div>
@@ -56,10 +58,13 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	
-	<input type="button" value="修改折扣">
-	<input type="button" value="修改套餐">
-	<input type="button" value="修改製作區域">
+	<form action="<c:url value="/secure/insertSet.action" />"   method="post">
+	<p>套餐名稱 :<input name="setName" type="text" value="${param.setName }"><s:property value="%{fieldErrors['setName'][0]}"/></p>
+	<p>套餐價位 :<input name="setPrice" type="text" value="${param.setPrice }"><s:property value="%{fieldErrors['setPrice'][0]}"/></p>
+	<input class='MainBtnColor' type="submit" value="確認">
+	<input class='MainBtnColor' type="button" value="取消" onclick="cancelSet()">
+	</form>
+		<a href="<c:url value="/secure/inside"/>">回內場管理</a>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>

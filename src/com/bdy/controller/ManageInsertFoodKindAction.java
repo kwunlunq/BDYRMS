@@ -71,11 +71,10 @@ public class ManageInsertFoodKindAction extends ActionSupport implements Servlet
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
 		request.setAttribute("resultfoodkind", foodkind);
-		System.out.println(period);
 		if(name==null||name.trim().length()==0){
 			this.addFieldError("fkName", this.getText("fkname.required"));
 		}
-		if(period==null){
+		if(period==null||period==0){
 			this.addFieldError("fkPeriod",this.getText("fkperiod.required"));
 		}
 		if(seq==0){

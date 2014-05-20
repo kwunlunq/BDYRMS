@@ -42,7 +42,7 @@
     		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
     		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
     	</action>
-    	<action name="inserSet" class="com.bdy.controller.ManageInsertSetAction">
+    	<action name="inserSet" class="com.bdy.controller.ManageInsertSetDetailAction">
     		<result name="input" type="dispatcher">/secure/manageIndex.jsp</result>
     		<result name="success" type="dispatcher">/secure/manageIndex.jsp</result>
     	</action>
@@ -63,6 +63,18 @@
     	<action name="insertEmp" class="com.bdy.controller.ManageInsertEmpAction">
     		<result name="success">/secure/insertNewEmp.jsp</result>
     		<result name="input">/secure/insertNewEmp.jsp</result>
+    	</action>
+    	<action name="insertDiscount" class="com.bdy.controller.ManageInsertDiscountAction">
+    		<result name="success">/secure/manageInside.jsp</result>
+    		<result name="input">/secure/insertNewDiscount.jsp</result>
+    	</action>
+    	<action name="insertSet" class="com.bdy.controller.ManageInsertSetAction">
+    		<result name="success">/secure/manageInside.jsp</result>
+    		<result name="input">/secure/insertNewSet.jsp</result>
+    	</action>
+    	<action name="insertMakeArea" class="com.bdy.controller.ManageInsertMakeAreaAction">
+    		<result name="success">/secure/manageInside.jsp</result>
+    		<result name="input">/secure/insertNewMA.jsp</result>
     	</action>
 	</package>
 

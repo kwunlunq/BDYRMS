@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.catalina.manager.ManagerServlet;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.springframework.web.context.WebApplicationContext;
@@ -17,16 +18,15 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
-public class ManageInsertSetAction extends ActionSupport implements Preparable , ServletRequestAware{
-
-	private String setName;
-	private Double setPrice;
+public class ManageInsertDiscountAction extends ActionSupport implements Preparable,ServletRequestAware {
+	private String disName;
+	private Double disNum;
 	List<BdyDiscount> disc;
 	List<BdySet> set;
 	List<BdyMakearea> ma;
 	ManageService service;
-	HttpServletRequest request;
 	
+	HttpServletRequest request;
 	
 	public List<BdyDiscount> getDisc() {
 		return disc;
@@ -52,36 +52,38 @@ public class ManageInsertSetAction extends ActionSupport implements Preparable ,
 		this.ma = ma;
 	}
 
-	public String getSetName() {
-		return setName;
+	public String getDisName() {
+		return disName;
 	}
 
-	public void setSetName(String setName) {
-		this.setName = setName;
+	public void setDisName(String disName) {
+		this.disName = disName;
 	}
 
-	public Double getSetPrice() {
-		return setPrice;
+	public Double getDisNum() {
+		return disNum;
 	}
 
-	public void setSetPrice(Double setPrice) {
-		this.setPrice = setPrice;
+	public void setDisNum(Double disNum) {
+		this.disNum = disNum;
 	}
 
 	@Override
 	public void validate() {
-		if(setName==null||setName.trim().length()==0){
-			this.addFieldError("setName",this.getText("set.setName.required"));
+		
+		if(disName==null||disName.trim().length()==0){
+			this.addFieldError("disName", this.getText("dis.disName.required"));
 		}
-		if(setPrice==null||setPrice==0){
-			this.addFieldError("setPrice",this.getText("set.setPrice.required"));
+		if(disNum==null||disNum==0){
+			this.addFieldError("disNum", this.getText("dis.disNum.required"));
 		}
 		
 	}
 	
 	@Override
 	public String execute() throws Exception {
-		service.insideInsertSet(setName, setPrice);
+		
+		service.insideInsertDiscount(disName, disNum);
 		disc = service.getAllDiscount();
 		set = service.getAllSet();
 		ma= service.getAllMakeArea();
@@ -92,15 +94,11 @@ public class ManageInsertSetAction extends ActionSupport implements Preparable ,
 	public void prepare() throws Exception {
 		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
 		service = (ManageService)context.getBean("ManageService");
-		
 	}
 
 	@Override
 	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
 		
-	}
-
-	
-
+	}	
 }
