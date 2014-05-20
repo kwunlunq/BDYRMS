@@ -20,7 +20,7 @@ import com.bdy.service.ReportService;
 
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns = "/DayReportServlet")
+@WebServlet(urlPatterns = "/report/DayReportServlet")
 public class DayReportServlet extends HttpServlet {
 	ReportService service;
 	public void init() throws ServletException {
@@ -40,7 +40,7 @@ public class DayReportServlet extends HttpServlet {
 		request.setAttribute("errorMsgs", errors);
 
 		if (col == null || col.trim().length() == 0) {
-			errors.put("dateError1", "Please enter date for select");
+			errors.put("dateError", "Please enter date for select");
 			request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 					response);
 			return;
@@ -53,14 +53,13 @@ public class DayReportServlet extends HttpServlet {
 		try {
 			date = sdf.parse(col);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			date = new java.util.Date(0);
+				errors.put("dateError", "Date must be a date of YYYY-MM-DD");
+				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
+						response);
+				return;
 		}
 
-		if (date.equals(new java.util.Date(0))) {
-			errors.put("dateError2", "Date must be a date of YYYY-MM-DD");
-		}
-
+	
 		// 呼叫Model、根據Model執行結果導向View
 		if (errors != null && !errors.isEmpty()) {
 			request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
@@ -72,7 +71,7 @@ public class DayReportServlet extends HttpServlet {
 			List<BdyBill> beans = new ArrayList<BdyBill>();
 			beans=service.getDayRevenueDetails(date);
 			if (beans == null||beans.isEmpty()) {
-				errors.put("dateError3", "No data!!");
+				errors.put("dateError", "No data!!");
 				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 						response);
 				return;
