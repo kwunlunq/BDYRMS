@@ -86,12 +86,11 @@ loginTimeout=30;
 	<bean id="news" name="news" class="com.bdy.model.BdyNews" />
 	<bean id="booking" name="booking" class="com.bdy.model.BdyBooking" />
 	
-	<bean id="MonthReportDaoJdbc" class="com.bdy.model.dao.MonthReportDaoJdbc">
+	<bean id="ReportDaoJdbc" class="com.bdy.model.dao.ReportDaoJdbc">
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
 	</bean>
-
 	<bean id="BdyTableDao" class="com.bdy.model.dao.BdyTableDao">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -293,9 +292,9 @@ loginTimeout=30;
 		<property name="bookingDao">
 			<ref bean="BdyBookingDao"/>
 		</property>
-		<property name="monthReportDao">
-			<ref bean="MonthReportDaoJdbc"/>
-		</property>		
+		<property name="reportDao">
+			<ref bean="ReportDaoJdbc"/>
+		</property>
 	</bean>	
 	
 	<bean id="ManageService" class="com.bdy.service.ManageService">

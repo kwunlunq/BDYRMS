@@ -11,8 +11,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.bdy.model.BdyBill;
-import com.bdy.model.BdyFood;
-import com.bdy.model.BdyMainkind;
+import com.bdy.model.BdyFoodkind;
+import com.bdy.model.DayFoodAmountReport;
 import com.bdy.model.MonthReport;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
@@ -31,7 +31,7 @@ import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
 import com.bdy.model.dao.BdyTableDao;
-import com.bdy.model.dao.MonthReportDaoJdbc;
+import com.bdy.model.dao.ReportDaoJdbc;
 
 public class ReportService {
 
@@ -52,21 +52,18 @@ public class ReportService {
 	BdyBilldetailDao billdetailDao;
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
-	MonthReportDaoJdbc monthReportDao;
-	
+	ReportDaoJdbc reportDao;
+
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
 	}
+
 	public void setNewsDao(BdyNewsDao newsDao) {
 		this.newsDao = newsDao;
 	}
+
 	public void setBookingDao(BdyBookingDao bookingDao) {
 		this.bookingDao = bookingDao;
-	}
-
-
-	public BdyMainkindDao getMainkindDao() {
-		return mainkindDao;
 	}
 
 	public void setMainkindDao(BdyMainkindDao mainkindDao) {
@@ -124,9 +121,9 @@ public class ReportService {
 	public void setTableDao(BdyTableDao tableDao) {
 		this.tableDao = tableDao;
 	}
-	
-	public void setMonthReportDao(MonthReportDaoJdbc monthReportDao) {
-		this.monthReportDao = monthReportDao;
+
+	public void setReportDao(ReportDaoJdbc reportDao) {
+		this.reportDao = reportDao;
 	}
 
 	public ReportService() {
@@ -139,98 +136,66 @@ public class ReportService {
 		return beans;
 
 	}
-		
+
 	@SuppressWarnings("unchecked")
 	public JSONObject getSingleDayJSON(java.util.Date date) {
-		
+
 		JSONObject obj = new JSONObject();
+
 		/*
-		 *目標 :
-		 *	{
-		 *		"主餐名稱":["牛排", "披薩", ...,"燉飯"],
-		 *		"主餐數量":["", "", ..., ""]
- 		 *  }
- 		 *  
+		 * 目標 : { "i類":[{"foodAmount":["", "", ...,""]},{"foodName":["", "",...,""]}] }
 		 */
-		
-		
-		
-		List<BdyMainkind> mainkindBeans = new ArrayList<BdyMainkind>();;
-		mainkindBeans = mainkindDao.getAllMainkind();
-		JSONArray mainkindList = new JSONArray();
-		for (BdyMainkind mainkind : mainkindBeans) {
-			mainkindList.add(mainkind.getName());
+
+		List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
+		foodkindBeans = foodkindDao.getAllFoodkind();
+		for (int i = 1; i <= foodkindBeans.size(); i++) {
+			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
+			foodAmounts = reportDao.getDayFoodAmount(date, i);
+			JSONArray foodAmountList = new JSONArray();
+			JSONArray foodNameList = new JSONArray();
+			for (DayFoodAmountReport foodAmount : foodAmounts) {
+				foodAmountList.add(foodAmount.getAmount());
+				foodNameList.add(foodAmount.getName());
+			}
+			JSONObject foodkindObj = new JSONObject();
+			JSONArray foodkind = new JSONArray();
+			foodkindObj.put("foodAmount", foodAmountList);
+			foodkindObj.put("foodName", foodNameList);
+			foodkind.add(foodkindObj);
+			obj.put(i, foodkind);
 		}
-		obj.put("mainkindName", mainkindList);
-		
+
 		/*
-		 *目標 :
-		 *	{
-		 *		"開胃菜":["", "", ...,""],
-		 *		"主餐數量":["", "", ..., ""]
- 		 *  }
- 		 *  
+		 * 目標 : { "來客數":["", "", "", "", "", ..., ""], "平均消費金額":["", "", "", "",
+		 * ..., ""] }
 		 */
-		
-		List<BdyFood> foodkindBeans1 = new ArrayList<BdyFood>();;
-		foodkindBeans1 = foodDao.getFoodsByFkId(1);
-		JSONArray foodKindList1 = new JSONArray();
-		for (BdyFood foodkind1 : foodkindBeans1) {
-			foodKindList1.add(foodkind1.getName());
-		}
-		obj.put("saladName", foodKindList1);
-		
-		List<BdyFood> foodkindBeans2 = new ArrayList<BdyFood>();;
-		foodkindBeans2 = foodDao.getFoodsByFkId(2);
-		JSONArray foodKindList2 = new JSONArray();
-		for (BdyFood foodkind2 : foodkindBeans2) {
-			foodKindList2.add(foodkind2.getName());
-		}
-		obj.put("appetizerName", foodKindList2);
-		
-		List<BdyFood> foodkindBeans3 = new ArrayList<BdyFood>();;
-		foodkindBeans3 = foodDao.getFoodsByFkId(3);
-		JSONArray foodKindList3 = new JSONArray();
-		for (BdyFood foodkind3 : foodkindBeans3) {
-			foodKindList3.add(foodkind3.getName());
-		}
-		obj.put("soupName", foodKindList3);
-		
-		/*
-		 *目標 : 
-		 *	{ 
-		 * 		"來客數":["", "", "", "", "", ..., ""], 
-		 *		"平均消費金額":["", "", "", "", ..., ""] 
-		 *	}
-		 */		
-		
+
 		List<BdyBill> billBeans = new ArrayList<BdyBill>();
 		billBeans = billDao.getDayRevenueDetailsDB(date);
 
-		
 		JSONArray list1 = new JSONArray();
 		JSONArray list2 = new JSONArray();
-		
+
 		DecimalFormat df = new DecimalFormat(".00");
-		
-		for (int i=8;i<24;i++){
-			double billPrice=0;
-			int billCustNum=0;
+
+		for (int i = 8; i < 24; i++) {
+			double billPrice = 0;
+			int billCustNum = 0;
 			for (BdyBill bill : billBeans) {
 				java.util.Date billEndDate = bill.getEndDate();
 				java.util.Calendar calendar = java.util.Calendar.getInstance();
 				calendar.setTime(billEndDate);
 				int hour = calendar.get(Calendar.HOUR_OF_DAY);
-				if(i==hour){
-					billPrice = billPrice+bill.getFinPrice();
-					billCustNum = billCustNum+bill.getCustNum();
+				if (i == hour) {
+					billPrice = billPrice + bill.getFinPrice();
+					billCustNum = billCustNum + bill.getCustNum();
 				}
 			}
 			list1.add(billPrice);
-			if(billPrice==0){
+			if (billPrice == 0) {
 				list2.add(0);
-			}else{
-				list2.add(Double.parseDouble(df.format(billPrice/billCustNum)));
+			} else {
+				list2.add(Double.parseDouble(df.format(billPrice / billCustNum)));
 			}
 		}
 
@@ -239,61 +204,58 @@ public class ReportService {
 		System.out.println(obj);
 		return obj;
 	}
-	
-	public List<MonthReport> getMonthRevenueDetails(int year,int month) throws NamingException {
+
+	public List<MonthReport> getMonthRevenueDetails(int year, int month)
+			throws NamingException {
 
 		List<MonthReport> beans = new ArrayList<MonthReport>();
-		beans = monthReportDao.getMonthRevenueDetailsDB(year,month);
+		beans = reportDao.getMonthRevenueDetailsDB(year, month);
 		return beans;
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public JSONObject getSingleMonthJSON(int year,int month){
-		
+	public JSONObject getSingleMonthJSON(int year, int month) {
+
 		List<MonthReport> beans = new ArrayList<MonthReport>();
-		beans = monthReportDao.getMonthRevenueDetailsDB(year,month);
-		
+		beans = reportDao.getMonthRevenueDetailsDB(year, month);
+
 		java.util.Calendar calendar = java.util.Calendar.getInstance();
 		calendar.set(Calendar.YEAR, year);
-		calendar.set(Calendar.MONTH, month-1);
+		calendar.set(Calendar.MONTH, month - 1);
 		int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
 		/*
-		 *目標 :
-		 *	{
-		 *		"單日來客數":["", "", ...,""],
-		 *		"單日營收":["", "", ..., ""],
-		 *		"日期":[1,2,...,]
- 		 *  }
- 		 *  
+		 * 目標 : { "單日來客數":["", "", ...,""], "單日營收":["", "", ..., ""],
+		 * "日期":[1,2,...,] }
 		 */
-		
+
 		JSONArray dayInMonthList = new JSONArray();
 		JSONArray dayTatolCustNumList = new JSONArray();
 		JSONArray dayTatolFinPriceList = new JSONArray();
-		
-		for(int i=1;i<=maxDay;i++){
-			for(MonthReport monthreport : beans){
-				if(monthreport.getDayInMonth()==i){
+
+		for (int i = 1; i <= maxDay; i++) {
+			for (MonthReport monthreport : beans) {
+				if (monthreport.getDayInMonth() == i) {
 					dayInMonthList.add(monthreport.getDayInMonth());
 					dayTatolCustNumList.add(monthreport.getDayTatolCustNum());
 					dayTatolFinPriceList.add(monthreport.getDayTatolFinPrice());
 				}
 			}
-			if(dayInMonthList.size()!=i){
+			if (dayInMonthList.size() != i) {
 				dayInMonthList.add(i);
 				dayTatolCustNumList.add(0);
 				dayTatolFinPriceList.add(0);
 			}
 		}
-		
+
 		JSONObject obj = new JSONObject();
 
 		obj.put("dayInMonth", dayInMonthList);
 		obj.put("dayTatolCustNum", dayTatolCustNumList);
 		obj.put("dayTatolFinPrice", dayTatolFinPriceList);
-		
-		System.out.println(obj);
+
+		//System.out.println(obj);
 		return obj;
 	}
 }

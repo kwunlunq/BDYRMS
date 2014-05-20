@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -39,14 +42,18 @@ public class GetAllOutMealAction extends ActionSupport implements Preparable,Ser
 	}
 	
 	public void myJSONOutMeal() throws IOException{
-		response.setContentType("html/application;charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
 		PrintWriter out =response.getWriter();
 		JsonArray notOutMeals=service.getNotOutOrderlistsJsonArray();
-		out.write(notOutMeals.toString());
+		JsonArray foodKindArray = service.getFoodKindsJsonArrsy();
+		
+		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+		jsonArrayBuilder.add( Json.createObjectBuilder().add("allmeall",notOutMeals).build())
+						.add(Json.createObjectBuilder().add("foodkind",foodKindArray).build());
+						
+//		out.write(notOutMeals.toString());
+		out.write(jsonArrayBuilder.build().toString());
+		
+	
 	}
-
-	
-
-	
-	
 }
