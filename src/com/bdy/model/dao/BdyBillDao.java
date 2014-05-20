@@ -1,7 +1,5 @@
 package com.bdy.model.dao;
 
-
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +16,7 @@ import com.bdy.model.MonthReport;
 
 public class BdyBillDao {
 	private SessionFactory sf = null;
-	
+
 	public void setSessionFactory(SessionFactory sf) {
 		this.sf = sf;
 	}
@@ -122,8 +120,9 @@ public class BdyBillDao {
 	}
 
 	/*--------------------------以下為報表與資料庫作查詢-------------------------*/
-	
-	@SuppressWarnings("unchecked")//日營收清單
+
+	@SuppressWarnings("unchecked")
+	// 日營收清單
 	public List<BdyBill> getDayRevenueDetailsDB(java.util.Date endDate) {
 
 		java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
@@ -137,15 +136,4 @@ public class BdyBillDao {
 		return bills;
 	}
 	
-	@SuppressWarnings("unchecked")//月營收清單
-	public List<MonthReport> getMonthRevenueDetailsDB(int year,int month) {
-
-		Session session = sf.openSession();
-		List<MonthReport> mReports = session
-				.createSQLQuery("select sum(CUST_NUM) as DAY_TATOL_CUST_NUM,sum(FIN_PRICE) as DAY_TATOL_FIN_PRICE,day(END_DATE) as DAY_IN_MONTH from BDY_BILL where  Year(END_DATE) = "
-						+year+" And Month(END_DATE) = "+month+ "GROUP BY day(END_DATE)")
-				.addEntity(MonthReport.class).list();
-		session.close();
-		return mReports;
-	}
 }

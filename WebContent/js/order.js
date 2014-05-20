@@ -85,6 +85,9 @@ function listenerInitial() {
 							$(this).val(), 
 							$(this).attr("fkId"),
 							$("#orderlist").tabs("option", "active"));
+		}else{
+			if($("#orderlist").tabs("option", "active") != 0)
+				$(this).effect("highlight");
 		}
 	});
 
@@ -111,7 +114,7 @@ function listenerInitial() {
 	});
 	
 	$( "#orderlist" ).delegate( "span.ui-icon-close", "click", function(){
-			deletSetTab($(this));
+			deletSetTab($(this).closest( "li" ));
 		});
 	
 	//選擇桌號與人數的Dialog
@@ -229,14 +232,31 @@ function createGarbageCan(locationId,canId){
 	$(Gcan).droppable({ //將垃圾桶 加入droppable事件
 		hoverClass: "garbageCanHover",
 	  	drop: function( event, ui ) {
+	  		var fkid = ui.draggable.attr("fkid");
 	  		ui.draggable.remove();
 			var foodCount = 0;
-			var thisTab = $('#ul-detail>li[divid="orderlist-'+canId+'"]>span');
-			$('#orderlist-'+canId+'>input').each(function(index,foodBtn){
+			var thisTab = $('#ul-detail>li[divid="orderlist-'+canId+'"]');
+			$('#orderlist-'+canId).find('input').each(function(index,foodBtn){
 				foodCount++;
 			});
 			if(foodCount <= 0 && canId != 0){
 				deletSetTab(thisTab);
+			}
+			if(canId != 0){
+				var fkCountSpan = document.createElement("span");
+				$(fkCountSpan).attr("id", "fkCountSpan-"+fkid);
+				$(fkCountSpan).css({
+					"border-radius":"10px",
+					"margin-top":"5px",
+					"margin-bottom":"-12px",
+					"margin-right":"2px",
+					"margin-left":"2px",
+					"border":"1px dotted darkblue",
+					"width":"19%",
+					"height":"70%",
+					"display":"inline-block",
+				});
+				$('#orderlist-'+canId).find('#fkdiv-'+fkid).append(fkCountSpan);
 			}
 	  	}
 	});
@@ -244,7 +264,7 @@ function createGarbageCan(locationId,canId){
 
 function deletSetTab(thisTab){
 	 setCount--;
-	 var panelId = $( thisTab ).closest( "li" ).remove().attr("divid");
+	 var panelId = $( thisTab ).remove().attr("divid");
 	 var canId = panelId.substring(panelId.length-1);
 	 $('#garbageCan'+canId).remove();
 	 $( "#" + panelId ).remove();
@@ -377,7 +397,7 @@ function setOnClick() {
 	$("#ul-detail").append("<li divid='"+tagsid+"'><a href='#"+ tagsid +"'>"+$(this).val()+"</a><span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>");
 	$("#orderlist").append("<div id='"+tagsid+"' setId='"+$(this).attr("setid")+"'></div>");
 	$("#orderlist").tabs("refresh");
-	// 建立不同品項div
+	
 	var setid = $(this).attr("setid");
 	var aryi = 0;
 	for (; aryi < setIds.length; aryi++) {
@@ -386,29 +406,33 @@ function setOnClick() {
 		};
 	}
 	var fkDetail = setdetails[aryi];
-	var fkCanOrderCount = [];
 	for(var i=0 ; i<fkDetail.length;i++){
-		fkCanOrderCount[fkDetail[i]] = 0;
-	}
-	for(var i=0 ; i<fkDetail.length;i++){
-		fkCanOrderCount[fkDetail[i]]++;
-	}
-	for(var i=0 ; i<fkDetail.length;i++){
-		var fkdiv = document.createElement("div");
-		$(fkdiv).attr("id", "fkdiv-"+fkDetail[i]);
-		for(var j=0;j<fks.length;j++){
-			if(fks[j].fkId == fkDetail[i]){
-				$(fkdiv).html(fks[j].fkName + " count: " + fkCanOrderCount[fkDetail[i]]);
+		if($('#'+tagsid).find('#fkdiv-'+fkDetail[i]).length<=0){
+			var fkdiv = document.createElement("div");
+			$(fkdiv).attr("id", "fkdiv-"+fkDetail[i]);
+			$(fkdiv).css({
+				"margin-top":"5px",
+				"height":"50px",
+				"border-bottom":"2px solid black",
+				"padding-left":"5px",
+				"padding-right":"5px",
+			});
+			for(var j=0;j<fks.length;j++){
+				if(fks[j].fkId == fkDetail[i]){
+					$(fkdiv).append("<p style='display:inline-block;width:100px;'>"+fks[j].fkName+"</span>");
+				}
 			}
+			$('#'+tagsid).append(fkdiv);
 		}
-		$(fkdiv).css({"border":"1px solid black","width":"80%","height":"50px"});
-		$('#'+tagsid).append(fkdiv);	
 	}
-	// 將點選要搭配套餐的主餐新增到新的div(id="orderlist-x")
+	
+	// 將點選要搭配套餐的主餐新增到新的div中所對應的食物類別DIV(id="fkdiv-x")
 	var fdBtn = $('#'+$(this).attr("FBId"));
 	addOrderAreaBtn("fkdiv-"+$(fdBtn).attr("fkId"), $(fdBtn).attr("fdId"), true, $(fdBtn).val(), $(fdBtn).attr("fkId"),setCount);
 	$(fdBtn).remove();
 	createGarbageCan(tagsid,setCount);//放入垃圾桶
+	
+	addCanOrderCountSpan($(this),tagsid,$(fdBtn).attr("fkId"));
 	
 	$("#ChooseSetDialog").dialog( "close" );
 	// 將active移到新的tab
@@ -505,9 +529,76 @@ function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId,orderlistActive) {
 	if(orderlistActive == -1 || orderlistActive == null){
 		$('#'+foodTag).append(newOABtn);
 	}else{
+		var CanOrderCountSpan_Count = $('#orderlist-'+orderlistActive).find('#fkdiv-'+fkId).find('span').length;
+		if(CanOrderCountSpan_Count > 0){
+			$('#orderlist-'+orderlistActive).find('#fkdiv-'+fkId).find('span[id^="fkCountSpan-"]').remove();
+		}
 		$('#orderlist-'+orderlistActive).find('#'+foodTag).append(newOABtn);
+		for(var i=0;i<CanOrderCountSpan_Count-1;i++){
+			var fkCountSpan = document.createElement("span");
+			$(fkCountSpan).attr("id", "fkCountSpan-"+fkId);
+			$(fkCountSpan).css({
+				"border-radius":"10px",
+				"margin-top":"5px",
+				"margin-bottom":"-12px",
+				"margin-right":"2px",
+				"margin-left":"2px",
+				"border":"1px dotted darkblue",
+				"width":"19%",
+				"height":"70%",
+				"display":"inline-block",
+			});
+			$('#orderlist-'+orderlistActive).find('#fkdiv-'+fkId).append(fkCountSpan);
+		}
 	}
 	FBId++;
+}
+
+function addCanOrderCountSpan(SetBtn,tagsid,firstFkId){
+	// 建立不同品項div
+	var setid = $(SetBtn).attr("setid");
+	var aryi = 0;
+	for (; aryi < setIds.length; aryi++) {
+		if (setIds[aryi] == setid) {
+			break;
+		};
+	}
+	var fkDetail = setdetails[aryi];
+	var fkCanOrderCount = [];
+	for(var i=0 ; i<fkDetail.length;i++){
+		fkCanOrderCount[fkDetail[i]] = 0;
+	}
+	for(var i=0 ; i<fkDetail.length;i++){
+		fkCanOrderCount[fkDetail[i]]++;
+	}
+	fkCanOrderCount[firstFkId]--;
+	//$(fkdiv).append("<span style='display:inline-block;width:100px;'>"+fks[j].fkName+"</span>");
+	for(var i=0 ; i<fkDetail.length;i++){
+		var fkdiv = $('#'+tagsid).find('#fkdiv-'+fkDetail[i]);	
+		if($(fkdiv).find('#fkCountSpan-'+fkDetail[i]).length<=0){
+			for(var j=0;j<fks.length;j++){
+				if(fks[j].fkId == fkDetail[i]){
+					for(var k=0;k<fkCanOrderCount[fkDetail[i]];k++){
+						var fkCountSpan = document.createElement("span");
+						$(fkCountSpan).attr("id", "fkCountSpan-"+fkDetail[i]);
+						//var fkCountDiv = $("<div>"+fks[j].fkName+"</div>");
+						$(fkCountSpan).css({
+							"border-radius":"10px",
+							"margin-top":"5px",
+							"margin-bottom":"-12px",
+							"margin-right":"2px",
+							"margin-left":"2px",
+							"border":"1px dotted darkblue",
+							"width":"19%",
+							"height":"70%",
+							"display":"inline-block",
+						});
+						$('#'+tagsid).find(fkdiv).append(fkCountSpan);
+					}
+				}
+			}
+		}
+	}
 }
 
 

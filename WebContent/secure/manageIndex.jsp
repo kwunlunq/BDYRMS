@@ -70,11 +70,15 @@ var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
 var order='${param.sort}';
 var del='${param.del}';
-var judge = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
+var judgeSet = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
+var judgeFoodKind = "<s:property value="%{fieldErrors.fkName[0]}"/>"+"<s:property value="%{fieldErrors.fkPeriod[0]}"/>"+"<s:property value="%{fieldErrors.fkSEQ[0]}"/>";
 var booleanFood=false;
-var booleanSet=false;
-if(judge!=""){
+var booleanFoodKind=false;
+if(judgeSet!=""){
 	booleanFood=true;
+}
+if(judgeFoodKind!=""){
+	booleanFoodKind=true;
 }
 
 </script>
@@ -151,7 +155,7 @@ if(judge!=""){
 		
 		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<c:if test="${food.fdId==param.fdid }">
-		<tr style="background-color:red" id="TRfood${food.fdId}">
+		<tr style="background-color:firebrick" id="TRfood${food.fdId}">
 		</c:if>
 		<c:if test="${food.fdId!=param.fdid }">
 		<tr id="TRfood${food.fdId}">
@@ -183,7 +187,7 @@ if(judge!=""){
 		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
 		 </div>
-		<table style="width:75%; align:left" border="1">		
+		<table style="width:50%; align:left" border="1">		
 		<thead>
 		<tr>
 		<th>套餐名稱</th>
@@ -215,10 +219,10 @@ if(judge!=""){
 		<div id="tabs-3">
 		<a href="javascript:void(0)" id="foodKindDialog-link" class="ui-state-default ui-corner-all" ">新增一樣類別</a>
 		<div id="foodKindInsertDialog" title="新增類別" style="display:none">
-		<p>類別名稱:<br><input type="text" id="insertFoodKindName"></p>
-		<p>製作時間:<br><input type="text" size="2" id="insertFoodKindPeriod"></p>
+		<p>類別名稱:<br><input type="text" id="insertFoodKindName"><s:property value="%{fieldErrors.fkName[0]}"/></p>
+		<p>製作時間:<br><input type="text" size="2" id="insertFoodKindPeriod"><s:property value="%{fieldErrors.fkPeriod[0]}"/></p>
 		<p>製作區域:<br><span id="insertSetFoodKindMa"></span></p>
-		<p>出餐順序:<br><input type="text" size="2" id="insertFoodKindSEQ"></p>
+		<p>出餐順序:<br><input type="text" size="2" id="insertFoodKindSEQ"><s:property value="%{fieldErrors.fkSEQ[0]}"/></p>
 		</div>
 		<table border="1">
 		
