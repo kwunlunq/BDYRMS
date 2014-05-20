@@ -20,7 +20,7 @@ public class TestServlet extends javax.servlet.http.HttpServlet implements javax
    
    ServerContext wctx = ServerContextFactory.get(this.getServletContext());
    for (int i = 0; i < 10; i++) {
-     service.update();
+     service.update(null);
      System.out.println(i);
      try {
        Thread.sleep(1000);
