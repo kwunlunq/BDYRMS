@@ -1,9 +1,8 @@
 $(function(){
 		$(document).ready(
 		function(){
-			$('#mySelect').hide();	
-		}		
-		);
+			$('#mySelect').hide();});
+		$("a, button" ).button();
 });
 var empId;
 var b = false;

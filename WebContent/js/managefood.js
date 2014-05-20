@@ -1,14 +1,23 @@
 var xmlHttpInitFood = new XMLHttpRequest();
 
-
-
-
 $(function(){
-	var obj;
-	window.onload = function(){
-		insertOption();
-		insertSetOption();
+	var orders = order.split(",");
+	if(del=="1"){
+		showState("刪除成功");
 	}
+	insertOption();
+	insertSetOption();
+	insertFoodKindOption();
+//	$('#testTable').DataTable({
+//	    "jQueryUI": true,
+//	    "scrollY": ($('#aside').height()-275),
+//	    "scrollCollapse": true,
+//	    "paging": false,
+//	    "stateSave": true,
+//	    "order": [[ orders[0], orders[1] ]]
+//	});
+	var obj;
+		
 	$( "#tabs" ).tabs();
 	if(booleanFood){
 		obj = {				
@@ -189,15 +198,21 @@ function initcallbackFood(){
 
 function fconfirm(fdid){
 //	alert("fconfirm function");
+	var order = getOrder();
 	var fname = document.getElementById("fname"+fdid).firstChild.value;
 	var fprice = document.getElementById("fprice"+fdid).firstChild.value;
 	var fqty = document.getElementById("fqty"+fdid).firstChild.value;
 	var fdesc = document.getElementById("fdesc"+fdid).firstChild.value;
 	var ffkind = document.getElementById("selectname"+fdid).options[document.getElementById("selectname"+fdid).selectedIndex].value;
-	updateFood(fdid,fname,fprice,fqty,fdesc,ffkind);
+	updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,order);
 }
 
-function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind){
-	window.location.href=contextPath+"/secure/updatefood?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind;
+function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,order){
+	window.location.href=contextPath+"/secure/updatefood?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind+"&sort="+order;
 	
+}
+
+function getOrder(){
+	var order = $('#testTable').DataTable().order();
+	return order[0];
 }

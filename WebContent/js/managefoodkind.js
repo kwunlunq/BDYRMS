@@ -5,8 +5,67 @@ $(function(){
 		$( "#tabs" ).tabs( "option", "active", 2);
 		pags = 0;
 	}
+	 
+	 $( "#foodKindInsertDialog" ).dialog({		
+			
+			autoOpen: false,
+			width: 400,
+			buttons: [
+				{
+					text: "確定",
+					click: function() {
+						insertFoodKind();
+						$( this ).dialog( "close" );
+					}
+				},
+				{
+					text: "取消",
+					click: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			]
+		});
+	 
+	 $( "#foodKindDialog-link" ).click(function( event2 ) {
+			$( "#foodKindInsertDialog" ).dialog( "open" );
+			event2.preventDefault();
+		});
 })
 
+function insertFoodKind(){
+	var name = document.getElementById("insertFoodKindName").value;
+	var period = document.getElementById("insertFoodKindPeriod").value;
+	var ma = document.getElementById("insertFoodKindMa").options[document.getElementById("insertFoodKindMa").selectedIndex].value;;
+	var seq = document.getElementById("insertFoodKindSEQ").value;
+	window.location.href = contextPath+"/secure/inserFoodKind.action?name="+name+"&period="
+	+period+"&ma="+ma+"&seq="+seq;
+}
+
+function insertFoodKindOption(){
+	xmlHttpInitFoodKind.addEventListener("readystatechange",initcallbackInsertFoodKind,true);
+	var urlInit = contextPath + "/secure/option";
+	xmlHttpInitFoodKind.open("post",urlInit,true);
+	xmlHttpInitFoodKind.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttpInitFoodKind.send("act=insertFoodKind");
+	
+}
+
+function initcallbackInsertFoodKind(){
+	if(xmlHttpInitFoodKind.readyState == 4){
+		if(xmlHttpInitFoodKind.status == 200){
+			var data = xmlHttpInitFoodKind.responseText;
+			var mas = data.split(";");
+			var fkSelect = document.createElement("select");
+			fkSelect.setAttribute("id","insertFoodKindMa");
+			for(var i=0;i<mas.length-1;i++){
+				var ma = mas[i].split(",");
+				fkSelect.innerHTML += "<option value='"+ma[0]+"'>"+ma[1]+"</option>";
+			}
+			$('#insertSetFoodKindMa').append(fkSelect);
+		}
+	}
+}
 
 function fkupdate(fkId,maId){
 	var count = 0;
@@ -37,7 +96,7 @@ function fkcancel(fkname,fkperiod,fkma,fkseq,fkId,maId){
 	document.getElementById("foodkindseq"+fkId).innerHTML=fkseq;
 	$('#TRfk'+fkId+'>td:last').html
 	("<input class='MainBtnColor' type='button' value='修改' onclick='fkupdate("+fkId+","+maId+
-			")'><input class='MainBtnColor' type='button' value='刪除' onclick=''>");
+			")'><input class='MainBtnColor' type='button' value='刪除' onclick='fdeleteFood("+fkId+")'>");
 }
 function fkconfirm(fkId){
 	var fkname = document.getElementById("foodkindname"+fkId).firstChild.value;
@@ -56,7 +115,7 @@ function foodkindOption(fkId,maId){
 	var urlInit = contextPath + "/secure/option";
 	xmlHttpInitFoodKind.open("post",urlInit,true);
 	xmlHttpInitFoodKind.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	xmlHttpInitFoodKind.send("act=insertFoodKind&fkId="+fkId+"&maId="+maId);
+	xmlHttpInitFoodKind.send("act=foodKindInit&fkId="+fkId+"&maId="+maId);
 }
 
 function initcallbackUpdateFoodKind(){
@@ -85,7 +144,12 @@ function initcallbackUpdateFoodKind(){
 		}
 	}
 }
-
+function fkdelete(fkId){
+	var b = window.confirm("確定刪除");
+	if(b){
+		window.location.href = contextPath+"/secure/deletefoodkind?fkId="+fkId;
+	}
+}
 
 
 

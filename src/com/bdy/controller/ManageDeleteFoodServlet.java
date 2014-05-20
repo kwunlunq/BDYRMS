@@ -42,7 +42,7 @@ public class ManageDeleteFoodServlet extends HttpServlet {
 		String did = request.getParameter("fid");
 		int id = Integer.parseInt(did);	
 	
-		deleteService.deleteFood(id);
+		int foodState = deleteService.deleteFood(id);
 		List<BdySetdetail> detail = deleteService.getAllDetail();
 		List<BdyDiscount> discount = deleteService.getAllDiscount();
 		List<BdyFood> foods = deleteService.getAllFood();
@@ -62,6 +62,8 @@ public class ManageDeleteFoodServlet extends HttpServlet {
 		request.setAttribute("resultfoodkind", foodkind);
 		
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
+		//String path = request.getContextPath();
+		//response.sendRedirect(path+"/secure/sort?act=show&del="+foodState);
 		
 	}
 

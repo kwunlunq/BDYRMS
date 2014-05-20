@@ -5,7 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="s"  uri="/struts-tags"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,22 +28,25 @@
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
 </script>
-<script src="<c:url value="/js/jquery.js"/>"></script>
+<%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
+<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script src="<c:url value="/js/emp.js"/>"></script>
-
+<script src="<c:url value="/js/kitchenViewAjax.js"/>"></script>
+<script src="<c:url value="/js/mainpage.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RMS - Welcome</title>
+<title>kitchen View</title>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 <div id="mainBox">
 <div id="header">
 <jsp:include page="/mainpage/header.jsp" />
@@ -54,67 +57,25 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 
-	<div id="writeCodeInThisDiv"> <s:property value="%{fieldErrors['emp.empId']}"/>
-	<s:iterator var="emp" value="emps" status="headcheck" >	
-	<s:if test="%{#headcheck.first}">
-	<table border="1">		
-		<thead>
-			<tr>
-				<td>員工ID</td>
-				<td>員工姓名</td>
-				<td>員工性別</td>
-				<td>員工職位</td>
-				<td>到職日期</td>
-<!-- 				<td>年資</td> -->
-				<td>薪資</td>
-				<td>電話</td>
-				<td>住址</td>
-				<td>離職</td>
-				<td>修改</td>
-			</tr>
-		</thead>
-		<tbody>
-		</s:if>
-			<form id="modifyEmpForm<s:property value='#headcheck.count'/>" action="<c:url value="/secure/updateEmp.action" />" method="post">
-			<tr id="trEmp<s:property value="#headcheck.count"/>">		
-				<td><s:property value="#emp.empId" /></td>
-				<td><s:property value="#emp.name" /></td>
-				<td><s:property value="#emp.sex" /></td>
-				<td><s:property value="#emp.bdyPriority.jobname" /></td>
-				<td><s:date name="#emp.comedate" format="yyyy-MM-dd" /></td>
-<%-- 				<td><s:date name="#emp.comedate" format="yyyy-MM-dd" nice="true" /></td> --%>
-				<td><s:property value="#emp.salary" /></td>
-				<td><s:property value="#emp.phone" /></td>
-				<td><s:property value="#emp.empAddress" /></td>
-				<td><s:if test="%{#emp.resign==0}">
-					在職
-					</s:if>
-					<s:if test="%{#emp.resign==1}">
-					離職
-					</s:if>
-				</td>
-				<td><input type="hidden" name="empId" value="<s:property value='#emp.empId' />"><input class="MainBtnColor" type="button" id="update<s:property value='#headcheck.count'/>" name="update<s:property value='#headcheck.count'/>" value="修改" onclick="empUpdate(<s:property value='#headcheck.count'/>)" /></td>							
-			</tr>
-			</form>									
-		</s:iterator>
-		</tbody>
-		</table>
-		<s:property value="%{fieldErrors['emp.empId'][0]}"/>
-		<s:property value="%{fieldErrors['emp.name'][0]}"/>
-		<s:property value="%{fieldErrors['emp.comedate'][0]}"/>
-		<s:property value="%{fieldErrors['emp.phone'][0]}"/>
-		<s:property value="%{fieldErrors['emp.empAddress'][0]}"/>
-		<a href="<c:url value="/secure/priorEmp.action" />">新增新進員工</a>
+	<div id="writeCodeInThisDiv">
+	<div id="div1">
+		<div id="tabs">
+			 <ul>
+		    <li><a href="#tabs-all">出餐總覽品項</a></li>
+		    <s:iterator var="foodkind" value="foodKinds">
+		    	<li><a href="#tabs-<s:property value='#foodkind.fkId' />"><s:property value="#foodkind.name" />區</a></li>
+		    </s:iterator>
+		 	</ul>
+		 	<div id="tabs-all">
+		 	</div>
+		 	 <s:iterator var="foodkind" value="foodKinds">
+		 	 	<div id="tabs-<s:property value="#foodkind.fkId" />">
+		 	 	</div>
+		 	 </s:iterator>
+		</div>
+		
 	</div>
-		<s:select
-		value="pri" 
-		name="mySelect"
-		listKey="%{priId}"
-		listValue="%{jobname}"
-		 list="prior"  
-
-		 />
-
+	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>
 <div id="footer">

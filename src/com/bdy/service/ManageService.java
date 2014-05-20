@@ -183,8 +183,9 @@ public class ManageService {
 		bean = foodDao.getAllFood();
 		return bean;
 	}
-	public void deleteFood(int id){
-		foodDao.delete(id);
+	public int deleteFood(int id){
+		int foodState = foodDao.delete(id);
+		return foodState;
 	}
 	public List<BdyFoodkind> getAllFoodKind(){
 		List<BdyFoodkind> resultFoodKind = foodkindDao.getAllFoodkind();
@@ -220,6 +221,11 @@ public class ManageService {
 		int setNum = setdetailDao.insert(setd);
 		return setNum;
 	}
+	public int deleteFoodKind(int fkId){
+		int  foodKindState= foodkindDao.delete(fkId);
+		return foodKindState;
+	}
+	
 	
 	public List<BdyFoodkind> updateFoodKind(int fkId,String fkname,Double fkperiod,int fkma,int fkseq){
 		BdyFoodkind foodkind = new BdyFoodkind();
@@ -233,6 +239,10 @@ public class ManageService {
 		foodkindDao.update(foodkind);
 		List<BdyFoodkind> bean = foodkindDao.getAllFoodkind();
 		return bean;
+	}
+	public int insertFoodKind(BdyFoodkind fk){
+		int fkState = foodkindDao.insert(fk);
+		return fkState;
 	}
 	
 	//----------------------Emp--------------------------
@@ -254,5 +264,8 @@ public class ManageService {
 	}
 	public int updateEmps(BdyEmp emp){
 		return empDao.update(emp);
+	}
+	public int insertEmp(BdyEmp emp){
+		return empDao.insert(emp);
 	}
 }
