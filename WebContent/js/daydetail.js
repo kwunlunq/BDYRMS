@@ -10,8 +10,8 @@ $(function() {
 			duration : 1000
 		}
 	});
-	$("body").on("click", "#billId", function() {
-		alert($(this).text());
+	$("body").on("click", "#showdetail", function() {
+		alert($(this).attr("billId"));
 		$("#billOrderDialog").dialog("open");
 	});
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
@@ -21,13 +21,15 @@ $(function() {
 		changeYear : true
 	});
 	$("#dayReportTabs").tabs();
-	$( "#dayMealsCount" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    $( "#dayMealsCount li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+	$("#dayMealsCount").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+	$("#dayMealsCount li").removeClass("ui-corner-top").addClass(
+			"ui-corner-left");
 	$('#dayOperate').highcharts(
 			{
 				chart : {
 					zoomType : 'xy',
-					width : 600,
+					height: 500,
+					width : 960,
 				},
 				title : {
 					text : '平均消費金額/來客數 統計'
@@ -75,263 +77,101 @@ $(function() {
 				},
 				series : []
 			});
-	$('#mainMealCount').highcharts({
-		chart : {
-			type : 'bar',
-			width : 600,
-		},
-		title : {
-			text : '主餐銷售量 統計'
-		},
-		subtitle : {
-			text : ''
-		},
-		xAxis : {},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '份',
-				align : 'high'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		tooltip : {
-			valueSuffix : '份'
-		},
-		plotOptions : {
-			bar : {
-				dataLabels : {
-					enabled : true
-				}
-			}
-		},
-		credits : {
-			enabled : false
-		},
-		series : [ {
-			name : '數量',
-			data : []
-		} ]
-	});
-	$('#appetizerCount').highcharts({
-		chart : {
-			type : 'bar',
-			width : 600,
-		},
-		title : {
-			text : '開胃菜銷售量 統計'
-		},
-		subtitle : {
-			text : ''
-		},
-		xAxis : {},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '份',
-				align : 'high'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		tooltip : {
-			valueSuffix : '份'
-		},
-		plotOptions : {
-			bar : {
-				dataLabels : {
-					enabled : true
-				}
-			}
-		},
-		credits : {
-			enabled : false
-		},
-		series : [ {
-			name : '數量',
-			data : []
-		} ]
-	});
-	$('#soupCount').highcharts({
-		chart : {
-			type : 'bar',
-			width : 600,
-		},
-		title : {
-			text : '湯品銷售量 統計'
-		},
-		subtitle : {
-			text : ''
-		},
-		xAxis : {},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '份',
-				align : 'high'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		tooltip : {
-			valueSuffix : '份'
-		},
-		plotOptions : {
-			bar : {
-				dataLabels : {
-					enabled : true
-				}
-			}
-		},
-		credits : {
-			enabled : false
-		},
-		series : [ {
-			name : '數量',
-			data : []
-		} ]
-	});
-	$('#drinkCount').highcharts({
-		chart : {
-			type : 'bar',
-			width : 600,
-		},
-		title : {
-			text : '飲料銷售量 統計'
-		},
-		subtitle : {
-			text : ''
-		},
-		xAxis : {},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '份',
-				align : 'high'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		tooltip : {
-			valueSuffix : '份'
-		},
-		plotOptions : {
-			bar : {
-				dataLabels : {
-					enabled : true
-				}
-			}
-		},
-		credits : {
-			enabled : false
-		},
-		series : [ {
-			name : '數量',
-			data : []
-		} ]
-	});
-	$('#dessertCount').highcharts({
-		chart : {
-			type : 'bar',
-			width : 600,
-		},
-		title : {
-			text : '甜點銷售量 統計'
-		},
-		subtitle : {
-			text : ''
-		},
-		xAxis : {},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '份',
-				align : 'high'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		tooltip : {
-			valueSuffix : '份'
-		},
-		plotOptions : {
-			bar : {
-				dataLabels : {
-					enabled : true
-				}
-			}
-		},
-		credits : {
-			enabled : false
-		},
-		series : [ {
-			name : '數量',
-			data : []
-		} ]
-	});
-	$('#saladCount').highcharts({
-		chart : {
-			type : 'bar',
-			width : 600,
-			events : {
-				load : GetReportData
-			}
-		},
-		title : {
-			text : '沙拉銷售量 統計'
-		},
-		subtitle : {
-			text : ''
-		},
-		xAxis : {},
-		yAxis : {
-			min : 0,
-			title : {
-				text : '份',
-				align : 'high'
-			},
-			labels : {
-				overflow : 'justify'
-			}
-		},
-		tooltip : {
-			valueSuffix : '份'
-		},
-		plotOptions : {
-			bar : {
-				dataLabels : {
-					enabled : true
-				}
-			}
-		},
-		credits : {
-			enabled : false
-		},
-		series : [ {
-			name : '數量',
-			data : []
-		} ]
-	});
+	for (var i = 0; i < ids.length; i++) {
+		if (i == ids.length - 1) {
+			$('#mealsCount-' + ids[i]).highcharts({
+				chart : {
+					type: 'column',
+					height: 460,
+					width : 700,
+					events : {
+						load : GetReportData
+					}
+				},
+				title : {
+					margin:50
+				},
+				subtitle : {
+					y:40
+				},
+				xAxis : {},
+				yAxis : {
+					min : 0,
+					title : {
+						text : '',
+					},
+					labels : {
+						overflow : 'justify'
+					}
+				},
+				tooltip : {
+					valueSuffix : '份'
+				},
+				plotOptions : {
+					bar : {
+						dataLabels : {
+							enabled : true
+						}
+					}
+				},
+				credits : {
+					enabled : false
+				},
+				series : []
+			});
+		} else {
+			$('#mealsCount-' + ids[i]).highcharts({
+				chart : {
+					type: 'column',
+					height: 460,
+					width : 700,
+				},
+				title : {
+					margin:50
+				},
+				subtitle : {
+					y:40
+				},
+				xAxis : {},
+				yAxis : {
+					min : 0,
+					title : {
+						text : '',
+					},
+					labels : {
+						overflow : 'justify'
+					}
+				},
+				tooltip : {
+					valueSuffix : '份'
+				},
+				plotOptions : {
+					bar : {
+						dataLabels : {
+							enabled : true
+						}
+					}
+				},
+				credits : {
+					enabled : false
+				},
+				series : []
+			});
+		}
+	};
 });
 var numData;
 var priceData;
-var mainKindNameData;
-var appetizerNameData;
-var soupNameData;
-var saladNameData;
+var foodkindName;
+var mealsCount = [];
+var foodAmountDate = [];
+var foodNameDate =[];
 function GetReportData() {
 	var dayOperateChart = $('#dayOperate').highcharts();
-	var mainMealChart = $('#mainMealCount').highcharts();
-	var appetizerChart = $('#appetizerCount').highcharts();
-	var soupChart = $('#soupCount').highcharts();
-	var saladChart = $('#saladCount').highcharts();
 	var date = $('#datepicker').val();
+	for(var i=0;i<ids.length;i++){
+		mealsCount[ids[i]] = $('#mealsCount-'+ids[i]).highcharts();
+	}
 	if (date != null && date.length > 0) {
 		$.ajax({
 			url : contextPath + '/report/DayReportJSONServlet',
@@ -343,10 +183,20 @@ function GetReportData() {
 			success : function(result) {
 				numData = result.sumCustNumByhour;
 				priceData = result.avgPriceDividedByCustNumByhour;
-				mainKindNameData = result.mainkindName;
-				appetizerNameData = result.appetizerName;
-				soupNameData = result.soupName;
-				saladNameData = result.saladName;
+				foodkindName = result.foodkindName;
+				for(var i=0;i<ids.length;i++){
+					foodAmountDate[ids[i]] = result[ids[i]][0].foodAmount;
+					foodNameDate[ids[i]] = result[ids[i]][0].foodName;
+					mealsCount[ids[i]].xAxis[0].setCategories(foodNameDate[ids[i]]);
+					mealsCount[ids[i]].setTitle({ text: foodkindName[i] + "類" });
+					mealsCount[ids[i]].setTitle(null, {
+						text : date
+					});
+					mealsCount[ids[i]].addSeries({
+						name : '數量',
+						data : foodAmountDate[ids[i]],
+					});
+				}
 				dayOperateChart.setTitle(null, {
 					text : date
 				});
@@ -367,22 +217,6 @@ function GetReportData() {
 						valueSuffix : ' 元'
 					}
 				});
-				mainMealChart.setTitle(null, {
-					text : date
-				});
-				mainMealChart.xAxis[0].setCategories(mainKindNameData);
-				appetizerChart.setTitle(null, {
-					text : date
-				});
-				appetizerChart.xAxis[0].setCategories(appetizerNameData);
-				soupChart.setTitle(null, {
-					text : date
-				});
-				soupChart.xAxis[0].setCategories(soupNameData);
-				saladChart.setTitle(null, {
-					text : date
-				});
-				saladChart.xAxis[0].setCategories(saladNameData);
 			},
 			cache : false
 		});

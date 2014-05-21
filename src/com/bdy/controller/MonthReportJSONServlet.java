@@ -28,11 +28,10 @@ public class MonthReportJSONServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		response.setContentType("text/plain;charset=UTF-8");
 		// 接收資料
 		String col1 = request.getParameter("year");
 		String col2 = request.getParameter("month");
-
 		// 驗證資料
 		if (col1 == null || col2 == null || col1.trim().length() == 0
 				|| col2.trim().length() == 0) {
@@ -48,7 +47,7 @@ public class MonthReportJSONServlet extends HttpServlet {
 		}
 
 		// 將資料導入頁面
-		PrintWriter out = response.getWriter();
+		PrintWriter out = response.getWriter();	
 		out.write(service.getSingleMonthJSON(year, month).toJSONString());
 		
 	}

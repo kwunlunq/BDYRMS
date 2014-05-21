@@ -27,6 +27,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var ids = [];
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -44,6 +45,40 @@ var contextPath='<%=request.getContextPath()%>';
 <style type="text/css">
 table,th,td,tr {
 	border-style: double;
+}
+.ui-tabs-vertical {
+	width: 55em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav {
+	padding: .2em .1em .2em .2em;
+	float: left;
+	width: 12em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li {
+	clear: left;
+	width: 100%;
+	border-bottom-width: 1px !important;
+	border-right-width: 0 !important;
+	margin: 0 -1px .2em 0;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li a {
+	display: block;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+	padding-bottom: 0;
+	padding-right: .1em;
+	border-right-width: 1px;
+	border-right-width: 1px;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+	padding: 1em;
+	float: right;
+	width: 40em;
 }
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
@@ -88,25 +123,23 @@ table,th,td,tr {
 						</select> 月     ${errorMsgs.dateError}
 					</form>
 					<hr>
-					<div id="tabs">
+					<div id="monthReportTabs">
 						<ul>
-							<li><a href="#tabs-1">單月營運報表</a></li>
-							<li><a href="#tabs-2">營收/來客數 統計</a></li>
-							<li><a href="#tabs-3">單月餐點 統計</a></li>
+							<li><a href="#monthReportTabs-1">單月營運報表</a></li>
+							<li><a href="#monthReportTabs-2">營收/來客數 統計</a></li>
+							<li><a href="#monthReportTabs-3">單月餐點 統計</a></li>
 						</ul>
-						<div id="tabs-1">
+						<div id="monthReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3>${param.year}年${param.month}月報表</h3>
-								<h3>
-									用餐人數 :
+								<h3 style="text-align:center">
+									${param.year}年${param.month}月報表 | 
+									單月來客數 :
 									<c:set var="totalNum" value="0" />
 									<c:forEach var="bills" items="${bills}">
 										<c:set var="totalNum" value="${totalNum+bills.dayTatolCustNum}" />
 									</c:forEach>
-									${totalNum} 人
-								</h3>
-								<h3>
-									月營收 :
+									${totalNum} 人 | 
+									單月營收 : 
 									<c:set var="totalPrice" value="0" />
 									<c:forEach var="bills" items="${bills}">
 										<c:set var="totalPrice" value="${totalPrice+bills.dayTatolFinPrice}" />
@@ -136,15 +169,30 @@ table,th,td,tr {
 								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 							</div>
 						</div>
-						<div id="tabs-2">
+						<div id="monthReportTabs-2">
 							<c:if test="${not empty bills}">
-								<div id="monthOperate" style="width: 600px; margin: 0px auto;"></div>
+								<div id="monthOperate" style="width: 960px;height: 500px; margin: 0px auto;"></div>
 							</c:if>
 							<div style="text-align:center">
 								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 							</div>
 						</div>
-						<div id="tabs-3">
+						<div id="monthReportTabs-3">
+							<c:if test="${not empty bills}">
+								<div id="monthMealsCount">
+									<ul>
+										<c:forEach var="foodkinds" items="${foodkinds}">
+											<li><a href="#monthMealsCount-${foodkinds.fkId}" style="width: 10em">${foodkinds.name}類</a></li>
+										</c:forEach>
+									</ul>
+									<c:forEach var="foodkinds" items="${foodkinds}" varStatus="theCount">
+									<script type="text/javascript">ids['${theCount.index}'] = '${foodkinds.fkId}';</script>
+										<div id="monthMealsCount-${foodkinds.fkId}">
+											<div id="mealsCount-${foodkinds.fkId}" style="width: 700px;height: 460px; margin: 0px auto"></div>
+										</div>
+									</c:forEach>
+								</div>
+							</c:if>
 							<div style="text-align:center">
 								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 							</div>

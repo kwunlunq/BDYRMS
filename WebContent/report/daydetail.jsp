@@ -6,6 +6,7 @@
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,6 +28,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var ids = [];
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -109,23 +111,21 @@ table,th,td,tr {
 					<hr>
 					<div id="dayReportTabs">
 						<ul>
-							<li><a href="#dayReportTabs-1">單日收據明細</a></li>
+							<li><a href="#dayReportTabs-1">單日收據清單</a></li>
 							<li><a href="#dayReportTabs-2">平均消費金額/來客數 統計</a></li>
 							<li><a href="#dayReportTabs-3">單日餐點 統計</a></li>
 						</ul>
 						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3>日期 : ${param.date}</h3>
-								<h3>
-									用餐人數 :
+								<h3 style="text-align:center">
+									日期 :${param.date} |
+									單日來客數 : 
 									<c:set var="totalNum" value="0" />
 									<c:forEach var="bills" items="${bills}">
 										<c:set var="totalNum" value="${totalNum+bills.custNum}" />
 									</c:forEach>
-									${totalNum} 人
-								</h3>
-								<h3>
-									營收 :
+									${totalNum} 人 |
+									單日營收 : 
 									<c:set var="totalPrice" value="0" />
 									<c:forEach var="bills" items="${bills}">
 										<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
@@ -142,18 +142,20 @@ table,th,td,tr {
 											<th>消費金額</th>
 											<th>結帳員工</th>
 											<th>結帳時間</th>
+											<th>明細</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach var="bills" items="${bills}">
 											<tr>
-												<td id="billId" style="cursor: pointer">${bills.billId}</td>
+												<td >${bills.billId}</td>
 												<td>${bills.custNum}</td>
 												<td><fmt:formatNumber value="${bills.price}" maxFractionDigits="0"/></td>
 												<td>${bills.bdyDiscount.name}</td>
 												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
 												<td>${bills.bdyEmp.name}</td>
 												<td>${bills.endDate}</td>
+												<td id="showdetail" billId="${bills.billId}" style="cursor: pointer">顯示明細</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -168,7 +170,7 @@ table,th,td,tr {
 						</div>
 						<div id="dayReportTabs-2">
 							<c:if test="${not empty bills}">
-								<div id="dayOperate" style="width: 600px; margin: 0px auto;"></div>
+								<div id="dayOperate" style="width: 960px ;height: 500px; margin: 0px auto;"></div>
 							</c:if>
 							<div style="text-align:center">
 								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
@@ -178,38 +180,16 @@ table,th,td,tr {
 							<c:if test="${not empty bills}">
 								<div id="dayMealsCount">
 									<ul>
-										<li><a href="#dayMealsCount-1" style="width: 10em">主餐
-												統計</a></li>
-										<li><a href="#dayMealsCount-2" style="width: 10em">開胃菜
-												統計</a></li>
-										<li><a href="#dayMealsCount-3" style="width: 10em">湯品
-												統計</a></li>
-										<li><a href="#dayMealsCount-4" style="width: 10em">飲料
-												統計</a></li>
-										<li><a href="#dayMealsCount-5" style="width: 10em">甜點
-												統計</a></li>
-										<li><a href="#dayMealsCount-6" style="width: 10em">沙拉
-												統計</a></li>
+										<c:forEach var="foodkinds" items="${foodkinds}">
+											<li><a href="#dayMealsCount-${foodkinds.fkId}" style="width: 10em">${foodkinds.name}類</a></li>
+										</c:forEach>
 									</ul>
-									<div id="dayMealsCount-1">
-										<div id="mainMealCount" style="width: 600px; margin: 0px auto"></div>
-									</div>
-									<div id="dayMealsCount-2">
-										<div id="appetizerCount"
-											style="width: 600px; margin: 0px auto"></div>
-									</div>
-									<div id="dayMealsCount-3">
-										<div id="soupCount" style="width: 600px; margin: 0px auto"></div>
-									</div>
-									<div id="dayMealsCount-4">
-										<div id="drinkCount" style="width: 600px; margin: 0px auto"></div>
-									</div>
-									<div id="dayMealsCount-5">
-										<div id="dessertCount" style="width: 600px; margin: 0px auto"></div>
-									</div>
-									<div id="dayMealsCount-6">
-										<div id="saladCount" style="width: 600px; margin: 0px auto"></div>
-									</div>
+									<c:forEach var="foodkinds" items="${foodkinds}" varStatus="theCount">
+									<script type="text/javascript">ids['${theCount.index}'] = '${foodkinds.fkId}';</script>
+										<div id="dayMealsCount-${foodkinds.fkId}">
+											<div id="mealsCount-${foodkinds.fkId}" style="width: 700px;height: 460px; margin: 0px auto"></div>
+										</div>
+									</c:forEach>
 								</div>
 							</c:if>
 							<div style="text-align:center">
@@ -222,6 +202,7 @@ table,th,td,tr {
 				<!-- 	id="writeCodeInThisDiv" -->
 			</div>
 		</div>
+		
 		<div id="footer">
 			<jsp:include page="/mainpage/footer.jsp" />
 		</div>

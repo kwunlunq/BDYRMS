@@ -9,3 +9,8 @@
 	
 	$.getJSON(url, {"data":"fk"});
 	
+
+	$.getJSON(url, {"data":"sessionFood"});
+	$.getJSON(url, {"data":"sessionSet"});
+	$.getJSON(url, {"data":"sessionEmp", "empId":empId});
+	$.getJSON(url, {"data":"sessionTable"});
