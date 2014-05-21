@@ -6,8 +6,8 @@
 <div><img id="functionLogo" src="<c:url value="/images/function.jpg"/>"></div>
 <div id="functionTXT">功能選單</div>
 <input class="MainBtnColor asideBtn" type="button" value="公告" onclick="goURL('<c:url value="/mainpage.jsp" />')"><br>
+<input class="MainBtnColor asideBtn" type="button" value="現場" onclick="goURL('<c:url value="table/opentable.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="訂位" onclick="goURL('<c:url value="/booking/booking.jsp" />')"><br>
-<input class="MainBtnColor asideBtn" type="button" value="現場動態"><br>
 <input class="MainBtnColor asideBtn" type="button" value="結帳" onclick="goURL('<c:url value="/checkout/checkTable.action" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="點餐" onclick="goURL('<c:url value="/order/order.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="餐桌擺設" onclick="goURL('<c:url value="/table/tableset.jsp" />')"><br>

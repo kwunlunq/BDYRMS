@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="<c:url value="/images/BDYLogoHeadIcon.png"/>" />
 <title>BDY RMS - Login</title>
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';

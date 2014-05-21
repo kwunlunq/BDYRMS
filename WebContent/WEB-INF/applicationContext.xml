@@ -407,4 +407,13 @@ loginTimeout=30;
 		</property>
 	</bean>	
 	
+	<bean id="TableService" class="com.bdy.service.TableService">
+		<property name="floorDao">
+			<ref bean="BdyFloorDao"/>
+		</property>
+		<property name="tableDao">
+			<ref bean="BdyTableDao"/>
+		</property>
+	</bean>	
+	
 </beans>

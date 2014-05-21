@@ -28,3 +28,8 @@
 	height:90%;
 	border: 1px solid black;
 }
+
+#changeFloor{
+   font-size: 0.8em;
+   padding:5px;
+}

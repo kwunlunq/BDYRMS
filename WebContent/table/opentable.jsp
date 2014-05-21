@@ -36,7 +36,8 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
-<script src="<c:url value="/js/mainpage.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/TableSet.css"/>">
+<script src="<c:url value="/js/opentable.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -55,39 +56,13 @@ var contextPath='<%=request.getContextPath()%>';
 <jsp:include page="/mainpage/aside.jsp" />
 </div>
 <div id="article">
-
 	<div id="writeCodeInThisDiv">
-	<div id="mainPageAcdionTittle">
-		<h2>最新消息~
-			<span id="newsBtnBox" style="float:right">
-			<input class="MainBtnColor" id="btnAddNews" type="button" value="發佈消息">
-			</span>
-		</h2>
-	</div>
-	<div id="addNewsDIV" style="display:none">
-		<form id="addNewsForm" method="post" action="<c:url value='/news?act=postNews' />">
-			<span style="font-size:1.1em;">發佈人: ${empData.name}</span><br>
-			<div style="float:left;width:70%">
-				<span style="font-size:1.1em;">標題:</span><span style="color:red" id="errorTitle"></span>
-				<input name="newsTitle" style="width:100%;font-size:1.1em;" type="text">	
-			</div>		
-			<div style="float:left;margin-left:10px;width:28.5%">
-				<span style="font-size:1.1em;">類別:</span>
-				<select name="newsType" style="font-size:1.1em;width:100%">
-					<option value="餐廳管理">餐廳管理</option>
-					<option value="系統管理">系統管理</option>
-					<option value="其　　他">其　　他</option>
-				</select>
-			</div>
-			<div style="clear:both">
-			<span style="font-size:1.1em;">內容:</span><span style="color:red" id="errorContent"></span>
-			<textarea name="newsContent" rows="7" style="width:100%;font-size:1.1em;"></textarea>
-			</div>
-			<input name='newsPostname' type='hidden' value="${empData.name}">
-		</form>
-	</div>
-	<div id="mainPageAcdion">
-	</div>
+		<div style="margin: 0px auto; width: 95%; height: 100%">
+			<div id="selectFloor">
+				<span style="font-size:1.3em">樓層:</span>
+			 </div>
+			<div id="picTB"></div>
+		</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>
