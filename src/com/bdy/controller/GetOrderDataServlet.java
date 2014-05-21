@@ -10,14 +10,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.codec.Encoder;
-import org.apache.tomcat.util.codec.EncoderException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import biz.source_code.base64Coder.Base64Coder;
 
 import com.bdy.service.OrderService;
 
@@ -111,7 +107,7 @@ public class GetOrderDataServlet extends HttpServlet{
 			if (name.equals(cookies[i].getName())) {
 				result = cookies[i].getValue();
 				//得到cookie的值后必须，进行Base64解码，因为前次生成cookie时，value是经过Base64编码。
-				result = Base64Coder.decodeString(result);  //进行Base64解码
+//				result = Base64Coder.decodeString(result);  //进行Base64解码
 			}
 		}
 //		System.out.println(name+" in cookie : ");
