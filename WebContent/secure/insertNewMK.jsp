@@ -5,6 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -41,16 +42,7 @@ var contextPath='<%=request.getContextPath()%>';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RMS - Welcome</title>
-<style>
-.setCol{
- 	text-align:center;			
-	float:left;
-	width:24%;
-	height:100%;
-	border-left:1px solid blue;
-}
-</style>
+<title>BDY RMS - InsertNewMK</title>
 </head>
 <body>
 	<div id="loadingControl"></div>
@@ -66,95 +58,13 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
+	<form action="<c:url value="/secure/insertMainKind.action" />"   method="post">
 	
-	
-	
-	
-	
-	<div class="setCol">
-	<a href="<c:url value="/secure/insertNewDiscount.jsp" />">新增折扣</a>
-	<table border="1" align="center">
-	<thead>
-	<tr>
-	<th>折扣名稱</th>
-	<th>折扣優惠</th>
-	<th>功能</th>
-	<tr>
-	</thead>
-	<tbody>
-	<c:forEach var="disc" items="${disc }">
-	<tr>
-	<td>${disc.name }</td>
-	<td>${disc.disPrice }</td>
-	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteDis(${disc.disId})"></td>
-	</tr>
-	</c:forEach>
-	</tbody>
-	</table>
-	</div>
-	
-	<div class="setCol">
-	<a href="<c:url value="/secure/insertNewSet.jsp" />">新增套餐</a>
-	<table border="1" align="center">
-	<thead>
-	<tr>
-	<th>套餐名稱名稱</th>
-	<th>套餐價位</th>
-	<th>功能</th>
-	<tr>
-	</thead>
-	<tbody>
-	<c:forEach var="set" items="${set }">
-	<tr>
-	<td>${set.name }</td>
-	<td>${set.price }</td>
-	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteSet(${set.setId})"></td>
-	</tr>
-	</c:forEach>
-	</tbody>
-	</table>
-	</div>
-	
-	<div class="setCol">
-	<a href="<c:url value="/secure/insertNewMA.jsp" />">新增製作區域</a>
-	<table border="1" align="center">
-	<thead>
-	<tr>
-	<th>製作區域名稱</th>
-	<th>功能</th>
-	<tr>
-	</thead>
-	<tbody>
-	<c:forEach var="ma" items="${ma }">
-	<tr>
-	<td>${ma.name }</td>
-	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteMA(${ma.maId})"></td>
-	</tr>
-	</c:forEach>
-	</tbody>
-	</table>
-	</div>
-	
-	<div class="setCol">
-	<a href="<c:url value="/secure/insertNewMK.jsp" />">新增主餐種類</a>
-	<table border="1" align="center">
-	<thead>
-	<tr>
-	<th>主餐種類</th>
-	<th>功能</th>
-	<tr>
-	</thead>
-	<tbody>
-	<c:forEach var="mk" items="${mk }">
-	<tr>
-	<td>${mk.name }</td>
-	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteMK(${mk.mkId})"></td>
-	</tr>
-	</c:forEach>
-	</tbody>
-	</table>
-	</div>
-	
+	<p >主餐種類名稱 :<input name="mkName" type="text" value="${param.mkName }"><s:property value="%{fieldErrors['mkName'][0]}"/></p>
+	<input class='MainBtnColor' type="submit" value="確認">
+	<input class='MainBtnColor' type="button" value="取消" onclick="cancelMK()">
+	</form>
+		<a href="<c:url value="/secure/inside"/>">回內場管理</a>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>

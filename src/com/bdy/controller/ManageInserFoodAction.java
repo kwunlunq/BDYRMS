@@ -24,9 +24,18 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 	private int foodQTY ;
 	private String discription ;
 	private int foodKind;
+	private int foodMK;
 	 
 	 HttpServletRequest request;
 	 ManageService foodinsertservice;
+	 
+	 
+	public int getFoodMK() {
+		return foodMK;
+	}
+	public void setFoodMK(int foodMK) {
+		this.foodMK = foodMK;
+	}
 	public String getFoodname() {
 		return foodname;
 	}
@@ -84,7 +93,7 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 	
 	@Override
 	public String execute() throws Exception {
-		int insertState = foodinsertservice.insertFood(foodname, foodPrice, foodQTY, discription, foodKind);
+		int insertState = foodinsertservice.insertFood(foodname, foodPrice, foodQTY, discription, foodKind,foodMK);
 		List<BdyDiscount> discount = foodinsertservice.getAllDiscount();
 		List<BdyFood> foods = foodinsertservice.getAllFood();
 		List<BdySetdetail> detail = foodinsertservice.getAllDetail();
