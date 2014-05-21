@@ -1,40 +1,14 @@
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
 
 <dwr>
-	<allow>
-		<create creator="new" javascript="Hello">
-			<param name="class" value="com.bdy.dwr.test.Hello" />
-		</create>
-		
-		<create creator="new" javascript="book" scope="application">
-			<param name="class" value="com.bdy.dwr.test.book" />
-		</create>
-		
-		<create creator="new" javascript="OPT">
-        	<param name="class" value="com.bdy.dwr.test.Option"/>
-        </create>
-        
-        <create creator="new" javascript="Bike" scope="application">
-        	<param name="class" value="com.bdy.dwr.test.Option2"/>
-	    </create>
-	    
-		<create creator="new" javascript="Chat">
-			<param name="class" value="com.bdy.dwr.test.chat" />
-		</create>
-		<convert converter="bean" match="com.bdy.dwr.test.Message" /> 
-		
-		
+	<allow>		
    		<create creator="new" javascript="Service" scope="application">
      		<param name="class" value="utils.Service" />
   		</create>
    		<convert converter="bean" match="utils.Data" />
-   		
-   		
 <!--    		<create creator="new" javascript="Service" scope="application"> -->
 <!--      		<param name="class" value="utils.Service" /> -->
 <!--   		</create> -->
 <!--    		<convert converter="bean" match="utils.Data" /> -->
-   
-   
 	</allow>
 </dwr>
