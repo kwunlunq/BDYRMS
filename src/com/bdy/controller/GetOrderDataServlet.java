@@ -3,6 +3,7 @@ package com.bdy.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,11 +11,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 
+
+
+
+import com.bdy.model.BdyEmp;
+import com.bdy.model.BdyFood;
+import com.bdy.model.BdySet;
+import com.bdy.model.BdyTable;
 import com.bdy.service.OrderService;
 
 /**
@@ -34,6 +43,7 @@ public class GetOrderDataServlet extends HttpServlet{
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
@@ -43,6 +53,7 @@ public class GetOrderDataServlet extends HttpServlet{
 		String tables = null;
 		String fks = null;
 		String data = request.getParameter("data");
+		String empId = request.getParameter("empId");
 		if (data == null) {
 			System.out.println("Param not found! (\"data\")");
 			return ;
@@ -94,6 +105,58 @@ public class GetOrderDataServlet extends HttpServlet{
 		case "main" :
 			out.write(service.getMainsJSON().toString());
 			break;
+		case "sessionFood" :
+			HttpSession session = request.getSession();
+			
+
+			HashMap<Integer, BdyFood> sessionfood = (HashMap<Integer, BdyFood>) session.getAttribute("foods");
+			if (sessionfood==null || sessionfood.size()==0) {
+				System.out.println("Session Miss : Food");
+				session.setAttribute("foods", service.getAllFood());
+			} else {
+				System.out.println("Session Hit : Food");
+			}
+			System.out.println("Session Complete : Food");
+			break;
+		case "sessionSet" :
+			session = request.getSession();
+
+			HashMap<Integer, BdySet> sessionset = (HashMap<Integer, BdySet>) session.getAttribute("sets");
+			if (sessionset==null || sessionset.size()==0) {
+				System.out.println("Session Miss : Set");
+				session.setAttribute("sets", service.getAllSet());
+			} else {
+				System.out.println("Session Hit : Set");
+			}
+			System.out.println("Session Complete : Set");
+			break;
+		case "sessionEmp" :
+			session = request.getSession();
+			
+
+			BdyEmp sessionemp = (BdyEmp) session.getAttribute("emp");
+			if (sessionemp==null) {
+				System.out.println("Session Miss : Emp");
+				session.setAttribute("emp", service.getEmp(empId));
+			} else {
+				System.out.println("Session Hit : Emp");
+			}
+			
+			System.out.println("Session Complete : Emp");
+			break;
+		case "sessionTable" :
+			session = request.getSession();
+
+			HashMap<Integer, BdyTable> sessiontable = (HashMap<Integer, BdyTable>) session.getAttribute("tables");
+			
+			if (sessiontable==null || sessiontable.size()==0) {
+				System.out.println("Session Miss : Table");
+				session.setAttribute("tables", service.getAllTable());
+			} else {
+				System.out.println("Session Hit : Table");
+			}
+			System.out.println("Session Complete : Table");
+			break;
 		default :
 			System.out.println("Wrong param!");
 			break;
@@ -115,7 +178,6 @@ public class GetOrderDataServlet extends HttpServlet{
 //		System.out.println("----------");
 		return result;
 	}
-	@SuppressWarnings("deprecation")
 	public void makeCookie(String name, String value, HttpServletResponse response) {
 		try {
 			value = java.net.URLEncoder.encode(value, "UTF-8");

@@ -18,12 +18,18 @@ var currentStatus = {"FId":null,
 $(function() {
 	dwr.engine.setActiveReverseAjax(true);
 	currentStatus.EmpId = empId;
+	if (empId==null || empId=="") {
+		alert("請先登入!");
+		window.location.href=contextPath+"/index.jsp?backurl="+window.location.href;
+	}
 	getFoods();	// 取得所有食物
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
 	getTables();
+	readDataToSession(empId);
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
+	// 解決按鈕被腰斬問題
 	$( "#orderarea" ).tabs( "refresh" );
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });
@@ -40,6 +46,13 @@ for(var i=0; i<ca.length; i++)
 return "";
 }
 
+function readDataToSession() {
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"sessionFood"});
+	$.getJSON(url, {"data":"sessionSet"});
+	$.getJSON(url, {"data":"sessionEmp", "empId":empId});
+	$.getJSON(url, {"data":"sessionTable"});
+}
 function listenerInitial() {
 	$('body').on('click','#num',function(){
 		var textValue = $('#setNumberOfCust').val();
@@ -95,6 +108,7 @@ function listenerInitial() {
 							$(this).val(), 
 							$(this).attr("fkId"),
 							$("#orderlist").tabs("option", "active"));
+			$( "#orderlist" ).tabs( "refresh" );
 		}else{
 			if($("#orderlist").tabs("option", "active") != 0)
 				$(this).effect("highlight");
@@ -354,6 +368,7 @@ function checkAddable(thisbtn) {
 				$(thisbtn).attr("isMain"),
 				$(thisbtn).val(), 
 				$(thisbtn).attr("fkId"));
+		$( "#orderlist" ).tabs( "refresh" );
 		return false;
 	}
 	
@@ -615,6 +630,8 @@ function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId,orderlistActive) {
 		}
 	}
 	FBId++;
+//	this refresh cause error!
+//	$( "#orderarea" ).tabs( "refresh" );
 }
 
 function addCanOrderCountSpan(SetBtn,tagsid,firstFkId){
