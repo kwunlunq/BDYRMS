@@ -20,8 +20,8 @@ loginTimeout=30;
 -->
 <!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
 <!-- 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" /> -->
-<!-- 		<property name="url" value="jdbc:sqlserver://zjvln9r7yv.database.windows.net:1433;database=BDY;"/> -->
-<!-- 		<property name="username" value="starbooksuser@zjvln9r7yv" /> -->
+<!-- 		<property name="url" value="jdbc:sqlserver://ki0jz29214.database.windows.net:1433;database=BDY;"/> -->
+<!-- 		<property name="username" value="BDY@ki0jz29214" /> -->
 <!-- 		<property name="password" value="Passw0rd***" /> -->
 <!-- 	</bean> -->
 

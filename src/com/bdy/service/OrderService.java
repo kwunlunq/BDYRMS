@@ -5,9 +5,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -189,6 +191,34 @@ public class OrderService {
 		return mkBuilder.build();
 	}
 	
+	public HashMap<Integer, BdyFood> getAllFood() {
+		HashMap<Integer, BdyFood> foods = new HashMap<Integer, BdyFood>();
+		List<BdyFood> foodlist = foodDao.getAllFood();
+		for (BdyFood fd : foodlist) {
+			foods.put(fd.getFdId(), fd);
+		}
+		return foods;
+	}
+	public HashMap<Integer, BdySet> getAllSet() {
+		HashMap<Integer, BdySet> sets = new HashMap<Integer, BdySet>();
+		List<BdySet> setlist = setDao.getAllSet();
+		for (BdySet set : setlist) {
+			sets.put(set.getSetId(), set);
+		}
+		return sets;
+	}
+	public BdyEmp getEmp(String empId) {
+		BdyEmp emp = empDao.getEmpById(empId);
+		return emp;
+	}
+	public HashMap<Integer, BdyTable> getAllTable() {
+		HashMap<Integer, BdyTable> tables = new HashMap<Integer, BdyTable>();
+		List<BdyTable> tablelist = tableDao.getAllTable();
+		for (BdyTable table : tablelist) {
+			tables.put(table.getTbId(), table);
+		}
+		return tables;
+	}
 	public JsonObject getFoodsJSON() {
 		/*
 		 * 目標 :
@@ -308,7 +338,9 @@ public class OrderService {
 		return aryBuilder.build();
 	}
 	
-	public void readOrderJson(JsonObject object) {
+	public void readOrderJson(JsonObject object, HashMap<Integer, BdyFood> fdMap,
+			HashMap<Integer, BdySet> setMap, HashMap<Integer, BdyTable> tableMap, 
+			BdyEmp bdyEmp) {
 			System.out.println("Processing order...");
 			long start = System.currentTimeMillis();
 		  
@@ -326,8 +358,22 @@ public class OrderService {
 			Calendar nowTime = new GregorianCalendar(Locale.TAIWAN);
 			System.out.println("OrderTime : "+nowTime.getTime());
 			
-			BdyEmp emp = empDao.getEmpById(empId);
-			BdyTable tb = tableDao.getTableById(tbId);
+			// 1.emp
+			BdyEmp emp;
+			if (bdyEmp!=null) {
+				emp = bdyEmp;
+			} else {
+				System.out.println("EMP not found in session");
+				emp = empDao.getEmpById(empId);
+			}
+			// 2.tb
+			BdyTable tb;
+			if (tableMap!=null && tableMap.size()!=0) {
+				tb = tableMap.get(tbId);
+			} else {
+				System.out.println("TB not found in session");
+				tb = tableDao.getTableById(tbId);
+			}
 			System.out.println("empid = "+emp.getEmpId());
 			System.out.println("tbid="+tb.getTbId());
 			BdyOrder order = new BdyOrder(emp, tb, nowTime.getTime(), 0, custNum);
@@ -346,8 +392,15 @@ public class OrderService {
 				int fdId = Integer.parseInt(food.getString("fdid", DEFAULT_VALUE));
 				System.out.println("\tfdId : "+fdId);
 				
+				
+				BdyFood bdyFood;
 				// 1.food
-				BdyFood bdyFood = foodDao.getFood(fdId);
+				if (fdMap == null || fdMap.size()==0) {
+					System.out.println("food not found in session");
+					bdyFood = foodDao.getFood(fdId);
+				}else {
+					bdyFood = fdMap.get(fdId);
+				}
 				int fkId = bdyFood.getBdyFoodkind().getFkId();
 				System.out.println("\tfkId : "+fkId);
 				int setId = Integer.parseInt(food.getString("setId", DEFAULT_VALUE));
@@ -355,7 +408,12 @@ public class OrderService {
 				// 2.set
 				if (lastSetId != setId) {
 					System.out.println("set change");
-					bdySet = setDao.getSet(setId);
+					if (setMap == null || setMap.size()==0) {
+						System.out.println("set not found in session");
+						bdySet = setDao.getSet(setId);
+					} else {
+						bdySet = setMap.get(setId);
+					}
 				}
 				
 				System.out.println("\tsetId : "+setId);

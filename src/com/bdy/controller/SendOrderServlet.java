@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 import javax.json.Json;
@@ -15,10 +16,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bdy.model.BdyEmp;
+import com.bdy.model.BdyFood;
+import com.bdy.model.BdySet;
+import com.bdy.model.BdyTable;
 import com.bdy.service.OrderService;
 
 /**
@@ -43,12 +49,18 @@ public class SendOrderServlet extends HttpServlet {
 		out.write("success!");
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JsonReader jsonReader = Json.createReader(request.getReader());
 		JsonObject object = jsonReader.readObject();
 		jsonReader.close();
-		  
-		service.readOrderJson(object);
+		HttpSession session = request.getSession();
+		HashMap<Integer, BdyFood> foods = (HashMap<Integer, BdyFood>) session.getAttribute("foods");
+		HashMap<Integer, BdySet> sets = (HashMap<Integer, BdySet>) session.getAttribute("sets");
+		HashMap<Integer, BdyTable> tables = (HashMap<Integer, BdyTable>) session.getAttribute("tables");
+		BdyEmp emp = (BdyEmp) session.getAttribute("emp");
+		
+		service.readOrderJson(object, foods, sets, tables, emp);
 		  
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
