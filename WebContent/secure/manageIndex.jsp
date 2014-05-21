@@ -28,7 +28,10 @@
 -->
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <style>
-
+.sort{
+text-decoration: underline;
+cursor: pointer;
+}
 #top{
 		/*margin-left:10%;*/ 
    		margin-top:10px;
@@ -136,12 +139,12 @@ if(judgeFoodKind!=""){
 		<p>種類:<br><span id="insertFoodKind"></span></p>
 		</div>
 		
-		<table id="testTable">
+		<table id="testTable" border="1">
 		<thead>
 		<tr>
 		<th>食物名稱</th>
-		<th>食物價錢</th>
-		<th>庫存量</th>
+		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=price" />')">食物價錢</div></th>
+		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=qty" />')">庫存量</div></th>
 		<th>說明</th>
 		<th>種類</th>
 		<th>功能</th>

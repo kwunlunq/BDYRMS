@@ -77,5 +77,13 @@
     		<result name="input">/secure/insertNewMA.jsp</result>
     	</action>
 	</package>
-
+	<package name="checkOutBill" namespace="/checkout" extends="struts-default">
+		<action name="checkTable" class="com.bdy.controller.CheckTableAction">
+		<result name="success">/checkout/checkOutIndex.jsp</result>
+		</action>
+		<action name="checkDetail" class="com.bdy.controller.CheckDetailAction">
+		<result name="success">/checkout/checkOutDetail.jsp</result>
+		</action>
+		
+	</package>
 </struts>

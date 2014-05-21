@@ -1,16 +1,21 @@
 package com.bdy.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyMakearea;
+import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdyPriority;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
+import com.bdy.model.BdyTable;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
@@ -305,8 +310,52 @@ public int deleteMA(int maId){
 	int maState = makeareaDao.deleteMakeareaById(maId);
 	return maState;
 }
-
-
+//---------------------------CheckOut-------------------------------------------
+public  List<BdyTable> getUseTable(){
+	List<BdyTable> usingTabls = new ArrayList<BdyTable>();
+	List<BdyTable> alltable = tableDao.getAllTable();
+	for(BdyTable temp:alltable){
+		if(temp.getTableState().equals(new Integer(1))){
+			usingTabls.add(temp);
+		}
+	}
+	return usingTabls;
+}
+public Set<BdyOrder> getOrdersByTableId(int tableId){
+	Set<BdyOrder> orders = new HashSet<BdyOrder>();
+	List<BdyOrder> allOrder = orderDao.getAllOrder();
+	for(BdyOrder temp:allOrder){
+		if(temp.getBdyTable().getTbId()==tableId && temp.getIsCheckout().equals(new Integer(0))){
+			orders.add(temp);
+		}
+	}
+	return orders;
+	
+}
+	public Double getPrice(Set<BdyOrder> orders){
+		Double singlePrice=0.0;
+		Double mealPrice=0.0;
+		for(BdyOrder order:orders){
+		Set<BdyOrderlist> orderlists=order.getBdyOrderlists();
+		for(BdyOrderlist orderlist:orderlists){
+			if(orderlist.getBdySet()==null){
+				singlePrice +=orderlist.getBdyFood().getPrice();
+			}
+		 }
+		}
+		for(BdyOrder order:orders){
+			Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
+			for(BdyOrderlist  orderlist:orderlists){
+				if(orderlist.getBdyFood().getBdyMainkind()!=null && orderlist.getBdySet()!=null){
+					
+					mealPrice +=orderlist.getBdyFood().getPrice()+orderlist.getBdySet().getPrice(); 
+				}
+			}
+		}
+		return singlePrice+mealPrice;
+		
+	}
+	
 }
 
 
