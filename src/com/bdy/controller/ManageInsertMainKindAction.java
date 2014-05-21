@@ -18,87 +18,85 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
-public class ManageInsertSetAction extends ActionSupport implements Preparable , ServletRequestAware{
+public class ManageInsertMainKindAction extends ActionSupport implements Preparable, ServletRequestAware{
 
-	private String setName;
-	private Double setPrice;
-	List<BdyDiscount> disc;
-	List<BdySet> set;
-	List<BdyMakearea> ma;
-	List<BdyMainkind> mk ;
 	ManageService service;
 	HttpServletRequest request;
 	
+	private String mkName;
+	List<BdyDiscount> disc;
+	List<BdySet> set;
+	List<BdyMakearea> ma;
+	List<BdyMainkind> mk ;	
 	
-	public List<BdyMainkind> getMk() {
-		return mk;
+	public String getMkName() {
+		return mkName;
 	}
 
-	public void setMk(List<BdyMainkind> mk) {
-		this.mk = mk;
+
+	public void setMkName(String mkName) {
+		this.mkName = mkName;
 	}
+
 
 	public List<BdyDiscount> getDisc() {
 		return disc;
 	}
 
+
 	public void setDisc(List<BdyDiscount> disc) {
 		this.disc = disc;
 	}
+
 
 	public List<BdySet> getSet() {
 		return set;
 	}
 
+
 	public void setSet(List<BdySet> set) {
 		this.set = set;
 	}
+
 
 	public List<BdyMakearea> getMa() {
 		return ma;
 	}
 
+
 	public void setMa(List<BdyMakearea> ma) {
 		this.ma = ma;
 	}
 
-	public String getSetName() {
-		return setName;
+
+	public List<BdyMainkind> getMk() {
+		return mk;
 	}
 
-	public void setSetName(String setName) {
-		this.setName = setName;
+
+	public void setMk(List<BdyMainkind> mk) {
+		this.mk = mk;
 	}
 
-	public Double getSetPrice() {
-		return setPrice;
-	}
-
-	public void setSetPrice(Double setPrice) {
-		this.setPrice = setPrice;
-	}
 
 	@Override
 	public void validate() {
-		if(setName==null||setName.trim().length()==0){
-			this.addFieldError("setName",this.getText("set.setName.required"));
+		if(mkName==null||mkName.trim().length()==0){
+			this.addFieldError("mkName",this.getText("mk.mkName.required"));
 		}
-		if(setPrice==null||setPrice==0){
-			this.addFieldError("setPrice",this.getText("set.setPrice.required"));
-		}
-		
 	}
+	
 	
 	@Override
 	public String execute() throws Exception {
-		service.insideInsertSet(setName, setPrice);
+		service.insideInsertMK(mkName);
 		disc = service.getAllDiscount();
 		set = service.getAllSet();
 		ma= service.getAllMakeArea();
 		mk=service.getAllMainKind();
 		return Action.SUCCESS;
 	}
-
+	
 	@Override
 	public void prepare() throws Exception {
 		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletActionContext.getServletContext());
@@ -114,4 +112,5 @@ public class ManageInsertSetAction extends ActionSupport implements Preparable ,
 
 	
 
+	
 }

@@ -34,3 +34,25 @@ function deleteMA(maId){
 	window.location.href= contextPath+"/secure/deleteMA?maId="+maId;
 	}
 }
+function cancelMK(){
+	document.getElementsByName("mkName")[0].value="";
+}
+
+function deleteMK(mkId){
+	var b = window.confirm("確定刪除");
+	if(b){
+	window.location.href= contextPath+"/secure/deleteMK?mkId="+mkId;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
