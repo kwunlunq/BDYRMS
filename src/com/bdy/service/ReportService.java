@@ -3,6 +3,8 @@ package com.bdy.service;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -137,32 +139,60 @@ public class ReportService {
 
 	}
 
+	public List<BdyFoodkind> getAllFoodkind() {
+		List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
+		foodkindBeans = foodkindDao.getAllFoodkind();
+		return foodkindBeans;
+	}
+
 	@SuppressWarnings("unchecked")
 	public JSONObject getSingleDayJSON(java.util.Date date) {
 
 		JSONObject obj = new JSONObject();
 
 		/*
-		 * 目標 : { "i類":[{"foodAmount":["", "", ...,""]},{"foodName":["", "",...,""]}] }
+		 * 目標 : { "食物種類名稱":["", "", "", "", "", ..., ""]}
 		 */
 
 		List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
 		foodkindBeans = foodkindDao.getAllFoodkind();
+		Collections.sort(foodkindBeans, new Comparator<BdyFoodkind>() {
+			@Override
+			public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+				return new Integer(o1.getFkId()).compareTo(o2.getFkId());
+			}
+		});
+		JSONArray foodkindName = new JSONArray();
+		for (BdyFoodkind foodkinds : foodkindBeans) {
+			foodkindName.add(foodkinds.getName());
+		}
+		obj.put("foodkindName", foodkindName);
+
+		/*
+		 * 目標 : { "i類":[{"foodAmount":["", "", ...,""]},{"foodName":["",
+		 * "",...,""]}] }
+		 */
+
 		for (int i = 1; i <= foodkindBeans.size(); i++) {
 			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
 			foodAmounts = reportDao.getDayFoodAmount(date, i);
 			JSONArray foodAmountList = new JSONArray();
 			JSONArray foodNameList = new JSONArray();
-			for (DayFoodAmountReport foodAmount : foodAmounts) {
-				foodAmountList.add(foodAmount.getAmount());
-				foodNameList.add(foodAmount.getName());
+			if (foodAmounts == null || foodAmounts.isEmpty()) {
+				foodAmountList.add(0);
+				foodNameList.add("沒有賣出");
+			} else {
+				for (DayFoodAmountReport foodAmount : foodAmounts) {
+					foodAmountList.add(foodAmount.getAmount());
+					foodNameList.add(foodAmount.getName());
+				}
 			}
 			JSONObject foodkindObj = new JSONObject();
 			JSONArray foodkind = new JSONArray();
 			foodkindObj.put("foodAmount", foodAmountList);
 			foodkindObj.put("foodName", foodNameList);
 			foodkind.add(foodkindObj);
-			obj.put(i, foodkind);
+			obj.put(foodkindBeans.get(i - 1).getFkId(), foodkind);
 		}
 
 		/*
@@ -172,12 +202,9 @@ public class ReportService {
 
 		List<BdyBill> billBeans = new ArrayList<BdyBill>();
 		billBeans = billDao.getDayRevenueDetailsDB(date);
-
 		JSONArray list1 = new JSONArray();
 		JSONArray list2 = new JSONArray();
-
 		DecimalFormat df = new DecimalFormat(".00");
-
 		for (int i = 8; i < 24; i++) {
 			double billPrice = 0;
 			int billCustNum = 0;
@@ -191,7 +218,7 @@ public class ReportService {
 					billCustNum = billCustNum + bill.getCustNum();
 				}
 			}
-			list1.add(billPrice);
+			list1.add(billCustNum);
 			if (billPrice == 0) {
 				list2.add(0);
 			} else {
@@ -201,7 +228,7 @@ public class ReportService {
 
 		obj.put("sumCustNumByhour", list1);
 		obj.put("avgPriceDividedByCustNumByhour", list2);
-		System.out.println(obj);
+		// System.out.println(obj);
 		return obj;
 	}
 
@@ -217,6 +244,58 @@ public class ReportService {
 	@SuppressWarnings("unchecked")
 	public JSONObject getSingleMonthJSON(int year, int month) {
 
+		JSONObject obj = new JSONObject();
+
+		/*
+		 * 目標 : { "食物種類名稱":["", "", "", "", "", ..., ""]}
+		 */
+
+		List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
+		foodkindBeans = foodkindDao.getAllFoodkind();
+		Collections.sort(foodkindBeans, new Comparator<BdyFoodkind>() {
+			@Override
+			public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+				return new Integer(o1.getFkId()).compareTo(o2.getFkId());
+			}
+		});
+		JSONArray foodkindName = new JSONArray();
+		for (BdyFoodkind foodkinds : foodkindBeans) {
+			foodkindName.add(foodkinds.getName());
+		}
+		obj.put("foodkindName", foodkindName);
+		
+		/*
+		 * 目標 : { "i類":[{"foodAmount":["", "", ...,""]},{"foodName":["",
+		 * "",...,""]}] }
+		 */
+
+		for (int i = 1; i <= foodkindBeans.size(); i++) {
+			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
+			foodAmounts = reportDao.getMonthFoodAmount(year,month, i);
+			JSONArray foodAmountList = new JSONArray();
+			JSONArray foodNameList = new JSONArray();
+			if (foodAmounts == null || foodAmounts.isEmpty()) {
+				foodAmountList.add(0);
+				foodNameList.add("沒有賣出");
+			} else {
+				for (DayFoodAmountReport foodAmount : foodAmounts) {
+					foodAmountList.add(foodAmount.getAmount());
+					foodNameList.add(foodAmount.getName());
+				}
+			}
+			JSONObject foodkindObj = new JSONObject();
+			JSONArray foodkind = new JSONArray();
+			foodkindObj.put("foodAmount", foodAmountList);
+			foodkindObj.put("foodName", foodNameList);
+			foodkind.add(foodkindObj);
+			obj.put(foodkindBeans.get(i - 1).getFkId(), foodkind);
+		}
+		
+		/*
+		 * 目標 : { "單日來客數":["", "", ...,""], "單日營收":["", "", ..., ""],
+		 * "日期":[1,2,...,] }
+		 */
+		
 		List<MonthReport> beans = new ArrayList<MonthReport>();
 		beans = reportDao.getMonthRevenueDetailsDB(year, month);
 
@@ -224,11 +303,6 @@ public class ReportService {
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH, month - 1);
 		int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-		/*
-		 * 目標 : { "單日來客數":["", "", ...,""], "單日營收":["", "", ..., ""],
-		 * "日期":[1,2,...,] }
-		 */
 
 		JSONArray dayInMonthList = new JSONArray();
 		JSONArray dayTatolCustNumList = new JSONArray();
@@ -248,14 +322,11 @@ public class ReportService {
 				dayTatolFinPriceList.add(0);
 			}
 		}
-
-		JSONObject obj = new JSONObject();
-
 		obj.put("dayInMonth", dayInMonthList);
 		obj.put("dayTatolCustNum", dayTatolCustNumList);
 		obj.put("dayTatolFinPrice", dayTatolFinPriceList);
 
-		//System.out.println(obj);
+		System.out.println(obj);
 		return obj;
 	}
 }

@@ -4,17 +4,23 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.bdy.model.BdyBill;
+import com.bdy.model.BdyFoodkind;
 import com.bdy.service.ReportService;
 
 
@@ -76,7 +82,15 @@ public class DayReportServlet extends HttpServlet {
 						response);
 				return;
 			} else {
-				
+				List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
+				foodkindBeans=service.getAllFoodkind();
+				Collections.sort(foodkindBeans,new Comparator<BdyFoodkind>(){
+					@Override
+					public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+						return new Integer(o1.getFkId()).compareTo(o2.getFkId());
+					}
+				});
+				request.setAttribute("foodkinds", foodkindBeans);
 				request.setAttribute("bills", beans);
 				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 						response);
