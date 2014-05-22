@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.NamingException;
 
@@ -13,7 +15,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.bdy.model.BdyBill;
+import com.bdy.model.BdyBilldetail;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyOrderlist;
 import com.bdy.model.DayFoodAmountReport;
 import com.bdy.model.MonthReport;
 import com.bdy.model.dao.BdyBillDao;
@@ -327,6 +331,26 @@ public class ReportService {
 		obj.put("dayTatolFinPrice", dayTatolFinPriceList);
 
 		System.out.println(obj);
+		return obj;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONObject getOrderDetailByBillIdJSON(int billId) {
+		JSONObject obj = new JSONObject();
+		JSONArray foodName = new JSONArray();
+		JSONArray foodPrice = new JSONArray();
+		Set<BdyBilldetail> bills = new HashSet<BdyBilldetail>();
+		bills = billDao.getOrder(billId).getBdyBilldetails();
+		for(BdyBilldetail billdetail : bills){
+			Set<BdyOrderlist> Orderlists = new HashSet<BdyOrderlist>();
+			Orderlists=billdetail.getBdyOrder().getBdyOrderlists();
+			for(BdyOrderlist orderlist:Orderlists){
+				foodName.add(orderlist.getBdyFood().getName());
+				foodPrice.add(orderlist.getBdyFood().getPrice());
+			}
+		}
+		obj.put("foodName", foodName);
+		obj.put("foodPrice", foodPrice);
 		return obj;
 	}
 }

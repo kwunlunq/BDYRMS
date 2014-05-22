@@ -134,6 +134,7 @@ $(function() {
 			});
 		}
 	};
+	hideLoading();
 });
 var numData;
 var priceData;
