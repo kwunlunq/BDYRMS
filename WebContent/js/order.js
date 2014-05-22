@@ -262,6 +262,7 @@ function getTablesCallback(result) {
 			var option = document.createElement("option");
 			$(option).attr("value", tbs[j].tbId);
 			$(option).append(document.createTextNode(tbName));
+			console.log(option);
 			tableoptions[i][j] = option;
 			$('#setTableNum').append(tableoptions[i][j]);
 		};

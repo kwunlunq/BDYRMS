@@ -91,6 +91,16 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 	newTbDiv.setAttribute("id",tbId);
 	
 	$('#picTB').append(newTbDiv);
+	$(newTbDiv).click(function(){
+		divTBclick($(this));
+	});	
+}
+
+function divTBclick(divTB){
+	var dialogTB = $("<div title='桌號："+$(divTB).attr("tbName")+" 容納人數："+$(divTB).attr("tbSize")+"'></div>");
+	$(dialogTB).append("<input id='openTable' class='MainBtnColor' type='button' value='開桌'>");
+	$(dialogTB).append("<input id='closeTable' class='MainBtnColor' type='button' value='徹桌'>");
+	$(dialogTB).dialog();
 }
 
 $(function(){
