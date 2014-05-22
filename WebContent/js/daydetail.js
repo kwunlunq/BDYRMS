@@ -1,4 +1,14 @@
 $(function() {
+	$('table').DataTable({
+	    	"jQueryUI": true,
+	    	"scrollY": ($('#writeCodeInThisDiv').height() - 300),
+	        "scrollCollapse": true,
+	        "paging": false,
+	        "stateSave": true,
+	        "aoColumnDefs": [
+	                         { aTargets: [7], bSortable: false }
+	        ],
+	});
 	$("#billOrderDialog").dialog({
 		autoOpen : false,
 		show : {
@@ -7,13 +17,34 @@ $(function() {
 		},
 		hide : {
 			effect : "explode",
-			duration : 1000
+			duration : 200
 		}
 	});
-	$("body").on("click", "#showdetail", function() {
-		alert($(this).attr("billId"));
-		$("#billOrderDialog").dialog("open");
-	});
+	$("body").on(
+			"click",
+			"#showdetail",
+			function() {
+				$("#billOrderDialog").dialog("open");
+				var billId = $(this).attr("billId");
+				$.ajax({
+					url : contextPath + '/report/OrderDetailJSONServlet',
+					type : 'POST',
+					data : {
+						"billId" : billId
+					},
+					dataType : 'json',
+					success : function(orderdetails) {
+						var foodName = orderdetails.foodName;
+						var foodPrice = orderdetails.foodPrice;
+						$('#billOrderDialog').empty();
+						for ( var i = 0; i < foodName.length; i++) {
+							$('#billOrderDialog').append(
+									"<a>" + foodName[i] + foodPrice[i] + "元"
+											+ "</a><br>");
+						}
+					}
+				});
+			});
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 	$("#datepicker").datepicker({
 		dateFormat : "yy-mm-dd",
@@ -28,7 +59,7 @@ $(function() {
 			{
 				chart : {
 					zoomType : 'xy',
-					height: 500,
+					height : 500,
 					width : 960,
 				},
 				title : {
@@ -77,22 +108,22 @@ $(function() {
 				},
 				series : []
 			});
-	for (var i = 0; i < ids.length; i++) {
+	for ( var i = 0; i < ids.length; i++) {
 		if (i == ids.length - 1) {
 			$('#mealsCount-' + ids[i]).highcharts({
 				chart : {
-					type: 'column',
-					height: 460,
+					type : 'column',
+					height : 460,
 					width : 700,
 					events : {
 						load : GetReportData
 					}
 				},
 				title : {
-					margin:50
+					margin : 50
 				},
 				subtitle : {
-					y:40
+					y : 40
 				},
 				xAxis : {},
 				yAxis : {
@@ -122,15 +153,15 @@ $(function() {
 		} else {
 			$('#mealsCount-' + ids[i]).highcharts({
 				chart : {
-					type: 'column',
-					height: 460,
+					type : 'column',
+					height : 460,
 					width : 700,
 				},
 				title : {
-					margin:50
+					margin : 50
 				},
 				subtitle : {
-					y:40
+					y : 40
 				},
 				xAxis : {},
 				yAxis : {
@@ -159,18 +190,19 @@ $(function() {
 			});
 		}
 	};
+	hideLoading();
 });
 var numData;
 var priceData;
 var foodkindName;
 var mealsCount = [];
 var foodAmountDate = [];
-var foodNameDate =[];
+var foodNameDate = [];
 function GetReportData() {
 	var dayOperateChart = $('#dayOperate').highcharts();
 	var date = $('#datepicker').val();
-	for(var i=0;i<ids.length;i++){
-		mealsCount[ids[i]] = $('#mealsCount-'+ids[i]).highcharts();
+	for ( var i = 0; i < ids.length; i++) {
+		mealsCount[ids[i]] = $('#mealsCount-' + ids[i]).highcharts();
 	}
 	if (date != null && date.length > 0) {
 		$.ajax({
@@ -184,11 +216,14 @@ function GetReportData() {
 				numData = result.sumCustNumByhour;
 				priceData = result.avgPriceDividedByCustNumByhour;
 				foodkindName = result.foodkindName;
-				for(var i=0;i<ids.length;i++){
+				for ( var i = 0; i < ids.length; i++) {
 					foodAmountDate[ids[i]] = result[ids[i]][0].foodAmount;
 					foodNameDate[ids[i]] = result[ids[i]][0].foodName;
-					mealsCount[ids[i]].xAxis[0].setCategories(foodNameDate[ids[i]]);
-					mealsCount[ids[i]].setTitle({ text: foodkindName[i] + "類" });
+					mealsCount[ids[i]].xAxis[0]
+							.setCategories(foodNameDate[ids[i]]);
+					mealsCount[ids[i]].setTitle({
+						text : foodkindName[i] + "類"
+					});
 					mealsCount[ids[i]].setTitle(null, {
 						text : date
 					});

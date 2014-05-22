@@ -87,6 +87,8 @@ table,th,td,tr {
 <title>Single Month Report Detail</title>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 	<div id="mainBox">
 		<div id="header">
 			<jsp:include page="/mainpage/header.jsp" />
@@ -121,6 +123,9 @@ table,th,td,tr {
 							</c:if>
 							</c:forEach>
 						</select> 月     ${errorMsgs.dateError}
+						<span style="display:inline-block;float:right;margin-top:10px;">
+							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+						</span>
 					</form>
 					<hr>
 					<div id="monthReportTabs">
@@ -165,17 +170,11 @@ table,th,td,tr {
 									</tbody>
 								</table>
 							</c:if>
-							<div style="text-align:center">
-								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
-							</div>
 						</div>
 						<div id="monthReportTabs-2">
 							<c:if test="${not empty bills}">
 								<div id="monthOperate" style="width: 960px;height: 500px; margin: 0px auto;"></div>
 							</c:if>
-							<div style="text-align:center">
-								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
-							</div>
 						</div>
 						<div id="monthReportTabs-3">
 							<c:if test="${not empty bills}">
@@ -193,9 +192,6 @@ table,th,td,tr {
 									</c:forEach>
 								</div>
 							</c:if>
-							<div style="text-align:center">
-								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
-							</div>
 						</div>
 					</div>
 					<!-- END Write-->

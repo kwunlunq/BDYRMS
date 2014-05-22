@@ -57,11 +57,14 @@ var contextPath='<%=request.getContextPath()%>';
 				<div id="writeCodeInThisDiv">
 
 						<!-- START Write -->
-						<input type="button" class="MainBtnColor" style="width:100px;" value="日營業查詢"
-							onclick="goURL('<c:url value="/report/daydetail.jsp" />')">
-						<br>
-						<input type="button" class="MainBtnColor" style="width:100px;" value="月營業查詢"
-							onclick="goURL('<c:url value="/report/monthdetail.jsp" />')">
+						<div style="text-align:center; margin-top: 150px ">
+							<input type="button" class="MainBtnColor" style="font-size:32pt; width:300px; height:150px" value="日營業查詢"
+								onclick="goURL('<c:url value="/report/daydetail.jsp" />')">
+							<br>
+							<br>
+							<input type="button" class="MainBtnColor" style="font-size:32pt; width:300px; height:150px" value="月營業查詢"
+								onclick="goURL('<c:url value="/report/monthdetail.jsp" />')">
+						</div>
 						<!-- END Write-->
 				</div>
 				<!-- 	id="writeCodeInThisDiv" -->
