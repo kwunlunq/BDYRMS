@@ -61,7 +61,7 @@ public class ManageOptionServlet extends HttpServlet {
 			});
 			String foodKind = id + "-";
 			for (BdyFoodkind f : rest) {
-				foodKind += f.getFkId() + "," + f.getName() + ";";
+				foodKind += f.getFkId() + "," + f.getName() +"," +f.getIsMain()+";";
 			}
 			foodKind += "-"+fkId;
 			out.print(foodKind);
@@ -102,7 +102,7 @@ public class ManageOptionServlet extends HttpServlet {
 			});
 			String resultInsertFood = "";
 			for(BdyFoodkind f:insertFood){
-				resultInsertFood += f.getFkId()+","+f.getName()+";";
+				resultInsertFood += f.getFkId()+","+f.getName()+","+f.getIsMain()+";";
 			}
 			out.print(resultInsertFood);
 			break;

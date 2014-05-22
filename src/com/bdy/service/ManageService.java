@@ -185,8 +185,10 @@ public class ManageService {
 		food.setDescript(desc);
 		BdyFoodkind foodkind=foodkindDao.getFoodkind(fkid);
 		food.setBdyFoodkind(foodkind);	
+		if(fmk!=0){
 		BdyMainkind ma = mainkindDao.getMainkind(fmk);
 		food.setBdyMainkind(ma);
+		}
 		foodDao.update(food);
 		
 		List<BdyFood> bean = null;
