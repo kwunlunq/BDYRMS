@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.bdy.model.BdyBill;
+import com.bdy.model.BdyBilldetail;
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFood;
@@ -16,6 +18,7 @@ import com.bdy.model.BdyPriority;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
+import com.bdy.model.CheckOut;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
@@ -355,6 +358,48 @@ public Set<BdyOrder> getOrdersByTableId(int tableId){
 		return singlePrice+mealPrice;
 		
 	}
+	
+	
+	public void insertBill(CheckOut check){
+		BdyBill bill = new BdyBill();
+		bill.setEndDate(check.getEndDate());
+		bill.setCustNum(check.getCustNum());
+		bill.setBdyDiscount(check.getDiscount());
+		bill.setBdyEmp(check.getEmp());
+		bill.setPrice(check.getPrice());
+		bill.setFinPrice((double)check.getFinalPrice());
+		billDao.insert(bill);
+		
+		int index=0;
+		for(BdyBill temp:billDao.getAllBill()){
+			if(temp.getBillId()>index){
+				index=temp.getBillId();
+			}
+		}
+		BdyBill tempBill = billDao.getBill(index);
+		for(BdyOrder orders:check.getOrders()){
+			BdyBilldetail detail = new BdyBilldetail();
+			detail.setBdyBill(tempBill);
+			detail.setBdyOrder(orders);		
+			billdetailDao.insert(detail);
+		}
+		
+		BdyTable table = tableDao.getTableById(check.getTabId());
+		table.setTableState(0);
+		tableDao.updateTable(table);
+		
+		for(BdyOrder order:check.getOrders()){
+			int ordId=order.getOdId();
+			BdyOrder temp = orderDao.getOrder(ordId);
+			temp.setIsCheckout(1);
+			orderDao.upDateOrder(temp);
+		}
+		
+	}
+	public BdyDiscount getDiscountById(int discountId){
+		return discountDao.getDiscount(discountId);
+	}
+	
 	
 }
 

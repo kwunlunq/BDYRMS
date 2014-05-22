@@ -132,4 +132,11 @@ private SessionFactory sf = null;
 		session.close();
 		return result;
 	}
+	
+	public void upDateOrder(BdyOrder order){
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		session.saveOrUpdate(order);
+		tx.commit();
+	} 
 }

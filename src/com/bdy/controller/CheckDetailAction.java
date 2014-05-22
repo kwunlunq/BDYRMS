@@ -11,14 +11,31 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyOrder;
+import com.bdy.model.BdyPriority;
 import com.bdy.model.CheckOut;
 import com.bdy.service.ManageService;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
 public class CheckDetailAction extends ActionSupport implements Preparable,SessionAware {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer tabId;
+	private List<BdyDiscount> discounts;
+	
+	
+	public List<BdyDiscount> getDiscounts() {
+		return discounts;
+	}
+
+
+	public void setDiscounts(List<BdyDiscount> discounts) {
+		this.discounts = discounts;
+	}
 
 
 	ManageService service;
@@ -35,7 +52,7 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 
 	@Override
 	public String execute() throws Exception {
-			
+		discounts = service.getAllDiscount();
 		CheckOut checkout = new CheckOut();
 		checkout.setTabId(tabId);
 		Set<BdyOrder> orders = service.getOrdersByTableId(tabId);

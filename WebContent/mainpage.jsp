@@ -88,6 +88,7 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="mainPageAcdion">
 	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
+	
 </div>
 </div>
 <div id="footer">

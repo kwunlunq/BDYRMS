@@ -14,14 +14,16 @@ public class BdyOrder implements java.io.Serializable {
 	private int odId;
 	private BdyEmp bdyEmp;
 	private BdyTable bdyTable;
-
-
 	private Date ordTime;
 	private Integer isCheckout;
 	private Integer custNum;
 	private Set bdyBilldetails = new HashSet(0);
 	private Set bdyOrderlists = new HashSet(0);
 
+	
+	
+	
+	
 	public BdyOrder() {
 	}
 	

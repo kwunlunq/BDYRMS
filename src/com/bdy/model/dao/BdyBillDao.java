@@ -33,7 +33,7 @@ public class BdyBillDao {
 		return result;
 	}
 
-	public BdyBill getOrder(int billId) {
+	public BdyBill getBill(int billId) {
 		Session session = sf.openSession();
 		Iterator iter = session.createCriteria(BdyBill.class)
 				.add(Restrictions.eq("billId", billId)).list().iterator();

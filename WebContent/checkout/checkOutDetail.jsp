@@ -58,18 +58,47 @@ var contextPath='<%=request.getContextPath()%>';
 
 	<div id="writeCodeInThisDiv">
 		<c:forEach var="orders" items="${checkout.orders}">
-		<c:forEach var="orderlist" items="${orders.bdyOrderlists }">
-		<c:if test="${not empty orderlist.bdyFood.bdyMainkind }">
-		套餐${orderlist.bdySet.name}:主餐${orderlist.bdyFood.name }:套餐價位:${orderlist.bdySet.price}
-		</c:if>
+			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			
+				<c:if test="${not empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet }">
+					<details>
+					<summary>套餐-->${orderlist.bdySet.name}</summary>
+					<p>主餐:${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}</p>
+					<p>套餐價位:${orderlist.bdySet.price}</p>
+					</details>
+				</c:if>			
+			</c:forEach>
 		</c:forEach>
+		<details>
+			<summary>單點 </summary>	
+		<c:forEach var="orders" items="${checkout.orders}">
+			<c:forEach var="orderlist" items="${orders.bdyOrderlists}">
+					
+				<c:if test="${empty orderlist.bdySet}">
+					${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}<br>
+				</c:if>
+				
+			</c:forEach>
 		</c:forEach>
-	
 		
-		<tr><td>總金額:</td><td>${checkout.price }</td><tr>
-<!-- 		<table> -->
-<!-- 		<tr><td></td></tr> -->
-<!-- 		</table> -->
+		</details>	
+		
+		
+	
+	總金額:<span id="price">${checkout.price}</span>優惠方案:<s:select
+ 									value="dis"  
+ 									name="dis" 
+									listKey="%{disId}" 
+				 					listValue="%{name}" 
+									list="discounts"/> 
+		
+		<input type="button" value="結帳" onclick="checkout()">
+		<script>
+		function checkout(){
+		var disId=document.getElementById("dis").options[document.getElementById("dis").selectedIndex].value;
+		window.location=contextPath+"/checkout/checkBill.action?disId="+disId;
+		}
+		</script>
+		
 		
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>

@@ -84,6 +84,8 @@
 		<action name="checkDetail" class="com.bdy.controller.CheckDetailAction">
 		<result name="success">/checkout/checkOutDetail.jsp</result>
 		</action>
-		
+		<action name="checkBill" class="com.bdy.controller.CheckOutBillAction">
+		<result name="success" type="redirect">/checkout/checkTable.action</result>
+		</action>
 	</package>
 </struts>
