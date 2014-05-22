@@ -1,13 +1,14 @@
 $(function() {
 	$('table').DataTable({
-	    	"jQueryUI": true,
-	    	"scrollY": ($('#writeCodeInThisDiv').height() - 300),
-	        "scrollCollapse": true,
-	        "paging": false,
-	        "stateSave": true,
-	        "aoColumnDefs": [
-	                         { aTargets: [7], bSortable: false }
-	        ],
+		"jQueryUI" : true,
+		"scrollY" : ($('#writeCodeInThisDiv').height() - 290),
+		"scrollCollapse" : true,
+		"paging" : false,
+		"stateSave" : true,
+		"aoColumnDefs" : [ {
+			aTargets : [ 7 ],
+			bSortable : false
+		} ],
 	});
 	$("#billOrderDialog").dialog({
 		autoOpen : false,
@@ -20,31 +21,43 @@ $(function() {
 			duration : 200
 		}
 	});
-	$("body").on(
-			"click",
-			"#showdetail",
-			function() {
-				$("#billOrderDialog").dialog("open");
-				var billId = $(this).attr("billId");
-				$.ajax({
-					url : contextPath + '/report/OrderDetailJSONServlet',
-					type : 'POST',
-					data : {
-						"billId" : billId
-					},
-					dataType : 'json',
-					success : function(orderdetails) {
-						var foodName = orderdetails.foodName;
-						var foodPrice = orderdetails.foodPrice;
-						$('#billOrderDialog').empty();
-						for ( var i = 0; i < foodName.length; i++) {
-							$('#billOrderDialog').append(
-									"<a>" + foodName[i] + foodPrice[i] + "元"
-											+ "</a><br>");
-						}
-					}
-				});
-			});
+	$("body").on("click", "#showdetail", function() {
+		$("#billOrderDialog").dialog("open");
+		var billId = $(this).attr("billId");
+		$.ajax({
+			url : contextPath + '/report/OrderDetailJSONServlet',
+			type : 'POST',
+			data : {
+				"billId" : billId
+			},
+			dataType : 'json',
+			success : function(orderdetails) {
+				var foodName = orderdetails.foodName;
+				var foodPrice = orderdetails.foodPrice;
+				$('#billOrderDialog').empty();
+				var table = $("<table></table>");
+				var tr = $("<tr></tr>");
+				var th = $("<th></th>");
+				$(th).append("品名");
+				$(tr).append(th);
+				var th = $("<th></th>");
+				$(th).append("單價");
+				$(tr).append(th);
+				$(table).append(tr);
+				for ( var i = 0; i < foodName.length; i++) {
+					var tr = $("<tr></tr>");
+					var td = $("<td></td>");
+					$(td).append(foodName[i]);
+					$(tr).append(td);
+					var td = $("<td></td>");
+					$(td).append(foodPrice[i]);
+					$(tr).append(td);
+					$(table).append(tr);
+				};
+				$('#billOrderDialog').append(table);
+			}
+		});
+	});
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 	$("#datepicker").datepicker({
 		dateFormat : "yy-mm-dd",
@@ -189,7 +202,8 @@ $(function() {
 				series : []
 			});
 		}
-	};
+	}
+	;
 	hideLoading();
 });
 var numData;
