@@ -11,7 +11,7 @@ $(function(){
 	insertOption();
 	insertSetOption();
 	insertFoodKindOption();
-	insertOptionMK();
+	//insertOptionMK();
 //	$('#testTable').DataTable({
 //	    "jQueryUI": true,
 //	    "scrollY": ($('#aside').height()-275),
@@ -74,7 +74,23 @@ $(function(){
 		$( "#foodInsertDialog" ).dialog( "open" );
 		event.preventDefault();
 	});
-
+//	[id^=selectname]
+//	$( "select" ).change(function () {
+//	   alert("run this")
+//	    var mkSelectid = $( "select option:selected" )[0].text();
+//	    alert(mkSelectid);
+//	  });
+	
+//	$('div[id^=foodk').on('change', function (e) {
+//	    var optionSelected = $("option:selected", this).text();
+//	    var a = $(this).prepend().val();
+//	    alert(optionSelected);
+//	    if(true){
+//	    	foodmkOption(fdId,mkId);
+//	    }
+//	});
+	
+	
 
 });
 function cancelInsertFoodOption(){
@@ -86,12 +102,14 @@ function cancelInsertFoodOption(){
 }
 
 function insertOptionMK(){
+	
 	xmlHttpInitInsertMK.addEventListener("readystatechange",initcallbackInsertMK,true);
 	var urlInit = contextPath + "/secure/option";
 	xmlHttpInitInsertMK.open("post",urlInit,true);
 	xmlHttpInitInsertMK.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xmlHttpInitInsertMK.send("act=insertMK");
 }
+
 
 function initcallbackInsertMK(){
 	if(xmlHttpInitInsertMK.readyState == 4){
@@ -105,6 +123,7 @@ function initcallbackInsertMK(){
 				insertOptionMK.innerHTML +="<option value='"+temp[0]+"'>"+temp[1]+"</option>";
 			}
 			$('#insertMK').append(insertOptionMK);
+			$('#divMK').css("display","block");
 		}
 	}
 }
@@ -115,13 +134,19 @@ function insertOption(){
 	xmlHttpInitFood.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xmlHttpInitFood.send("act=insertFood");
 }
+var changeInsertMk="";
 function initcallbackInsertFood(){
 	if(xmlHttpInitFood.readyState == 4){
 		if(xmlHttpInitFood.status == 200){
 			var foodData = xmlHttpInitFood.responseText;
 			var temps = foodData.split(";");
 			var insertOption = document.createElement("select");
-			insertOption.setAttribute("id","insetId")
+			for(var i=0;i<temps.length-1;i++){
+				changeInsertMk += temps[i].split(",")[2]+":";
+			}
+			
+			insertOption.setAttribute("onchange", "mkInsertChange()");
+			insertOption.setAttribute("id","insetId");
 			for(var i=0; i<temps.length-1;i++){
 				var temp= temps[i].split(",");
 				 
@@ -133,6 +158,17 @@ function initcallbackInsertFood(){
 	}
 }
 
+function mkInsertChange(){
+	var val=document.getElementById("insetId").value;
+	var isMain = changeInsertMk.split(":");
+	if(isMain[val-1]==1){
+		insertOptionMK();
+	}else{
+		$('#insertMK').empty();
+		$('#divMK').css("display","none");
+	}
+}
+
 
 function insertFood(){
 	var foodname = document.getElementById("insertFoodName").value;
@@ -140,8 +176,13 @@ function insertFood(){
 	var foodQTY = document.getElementById("insertFoodQTY").value;
 	var discription = document.getElementById("insertFoodDiscript").value;
 	var foodKind = document.getElementById("insetId").options[document.getElementById("insetId").selectedIndex].value;
-	var foodMK = document.getElementById("OptionMK").options[document.getElementById("OptionMK").selectedIndex].value;
+	var foodMK="";
 	
+	try {
+		foodMK = document.getElementById("OptionMK").options[document
+				.getElementById("OptionMK").selectedIndex].value;
+	} catch (e) {
+	}
 	window.location.href = contextPath+"/secure/inserFood.action?foodname="+foodname+"&foodPrice="+foodPrice+"&foodQTY=" +foodQTY+"&discription="+discription+"&foodKind="+foodKind+"&foodMK="+foodMK;
 }
 
@@ -181,7 +222,7 @@ function fupdate(fdid,fkId,mkId){
 		}
 		else
 		{
-			$(this).html("<input class='MainBtnColor' type='button'  value='確定' onclick='fconfirm("+fdid+")'>" +
+			$(this).html("<input class='MainBtnColor' type='button'  value='確定' onclick='fconfirm("+fdid+","+mkId+")'>" +
 					" <input class='MainBtnColor' type='button'  value='取消' onclick='fcancel("+fdid+","+fkId+","+mkId+",\""+fname+"\","+fprice+","+fqty+",\""+fdesc+"\",\""+ffkind+"\",\""+fmk+"\")'>");
 		}
 		count++;
@@ -194,6 +235,7 @@ function foodmkOption(fdId,mkId){
 	xmlHttpInitMK.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xmlHttpInitMK.send("act=foodMK&fdId="+fdId+"&mkId="+mkId);
 }
+
 function initcallbackMK(){
 	if(xmlHttpInitMK.readyState == 4){
 		if(xmlHttpInitMK.status == 200){
@@ -204,20 +246,21 @@ function initcallbackMK(){
 			var mkOption = document.createElement("select");
 			mkOption.setAttribute("id", "mkOptionId"+fdId);
 			for(var i=0;i<mkDatas.length-1;i++){
-				if(i==(mkId-1)){
+				if(mkDatas[i][0]==mkId){
 				var data = mkDatas[i].split(",");
 				mkOption.innerHTML +="<option value='"+data[0]+"'>"+data[1]+"</option>";
 				}
 			}
 			for(var i=0;i<mkDatas.length-1;i++){
-				if(i!=(mkId-1)){
+				if(mkDatas[i][0]!=mkId){
 				var data = mkDatas[i].split(",");
 				mkOption.innerHTML +="<option value='"+data[0]+"'>"+data[1]+"</option>";
 				}
 			}
 			$('#foodmk'+fdId).text("");
+			if(mkId!=0){
 			$('#foodmk'+fdId).append(mkOption);
-			
+		}
 		}
 	}
 }
@@ -236,7 +279,7 @@ function foodoption(id,fkId){
 	xmlHttpInitFK.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	xmlHttpInitFK.send("act=foodinit&id="+id+"&fkId="+fkId);
 }
-
+var mainKind="";
 function initcallbackFood(){
 	if(xmlHttpInitFK.readyState == 4){
 		if(xmlHttpInitFK.status == 200){
@@ -245,18 +288,23 @@ function initcallbackFood(){
 			var fkId = data.split("-")[2];
 			var fkDatas = data.split("-")[1].split(";"); 
 			var newOption = document.createElement("select");
-			newOption.setAttribute("id","selectname"+fdid);
+			newOption.setAttribute("id","selectname"+foodid);
+			newOption.setAttribute("onchange","mKchange("+foodid+","+fkId+")");
 		
 			for(var i=0 ;i<fkDatas.length-1;i++){
-				if(i==(fkId-1)){
+				mainKind +=fkDatas[i].split(",")[2]+":";
+			}			
+			
+			for(var i=0 ;i<fkDatas.length-1;i++){
+				if(fkDatas[i][0]==fkId){
 				var fkData = fkDatas[i].split(",");
-				newOption.innerHTML += "<option name='fkid' value='"+fkData[0]+"'>"+fkData[1]+"</option>";
+				newOption.innerHTML += "<option name='fkid' isMain="+fkData[2]+" value='"+fkData[0]+"'>"+fkData[1]+"</option>";
 				}
 			}
 			for(var i=0 ;i<fkDatas.length-1;i++){
-				if(i!=(fkId-1)){
+				if(fkDatas[i][0]!=fkId){
 				var fkData = fkDatas[i].split(",");
-				newOption.innerHTML += "<option name='fkid' value='"+fkData[0]+"'>"+fkData[1]+"</option>";
+				newOption.innerHTML += "<option name='fkid' isMain="+fkData[2]+" value='"+fkData[0]+"'>"+fkData[1]+"</option>";
 				}
 			}
 			$('#foodk'+foodid).text("");
@@ -265,16 +313,22 @@ function initcallbackFood(){
 		}
 }
 
-function fconfirm(fdid){
-	var order = getOrder();
+function fconfirm(fdid,mkId){
+	//var order = getOrder();
 	var fname = document.getElementById("fname"+fdid).firstChild.value;
 	var fprice = document.getElementById("fprice"+fdid).firstChild.value;
 	var fqty = document.getElementById("fqty"+fdid).firstChild.value;
 	var fdesc = document.getElementById("fdesc"+fdid).firstChild.value;
 	var ffkind = document.getElementById("selectname"+fdid).options[document.getElementById("selectname"+fdid).selectedIndex].value;
-	var fmk = document.getElementById("mkOptionId"+fdid).options[document.getElementById("mkOptionId"+fdid).selectedIndex].value;
 
-	updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,order,fmk);
+	var fmk = 0;
+	
+	try {
+		fmk = document.getElementById("mkOptionId" + fdid).options[document
+				.getElementById("mkOptionId" + fdid).selectedIndex].value;
+	} catch (e) {
+	}
+	updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,0,fmk);
 }
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,order,fmk){
@@ -286,3 +340,16 @@ function getOrder(){
 	var order = $('#testTable').DataTable().order();
 	return order[0];
 }
+
+function mKchange(fdId,fkId){
+	var val=document.getElementById("selectname"+fdId).value;
+	var mkk = mainKind.split(":");
+	if(mkk[(val-1)]==1){
+		foodmkOption(fdId,1);
+	}else{
+		$('#foodmk'+fdId).empty();
+	}
+}
+
+
+

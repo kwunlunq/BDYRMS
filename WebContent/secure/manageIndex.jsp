@@ -73,6 +73,7 @@ var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
 var order='${param.sort}';
 var del='${param.del}';
+var mkId = '$'
 var judgeSet = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
 var judgeFoodKind = "<s:property value="%{fieldErrors.fkName[0]}"/>"+"<s:property value="%{fieldErrors.fkPeriod[0]}"/>"+"<s:property value="%{fieldErrors.fkSEQ[0]}"/>";
 var booleanFood=false;
@@ -137,7 +138,7 @@ if(judgeFoodKind!=""){
 		<p>庫存量    :<br><input type="text" id="insertFoodQTY"><s:property value="%{fieldErrors.foodQTY[0]}"/></p>
 		<p>說明:<br><input type="text" id="insertFoodDiscript"></p>
 		<p>種類:<span id="insertFoodKind"></span></p>
-		<div id="divMK" style="display: block"><p>主餐種類:<span id="insertMK"></span></p></div>
+		<div id="divMK" style="display: none"><p>主餐種類:<span id="insertMK"></span></p></div>
 		</div>
 		
 		<table id="testTable" border="1">
@@ -173,7 +174,7 @@ if(judgeFoodKind!=""){
 		<td id="fmk${food.fdId}"><div id="foodmk${food.fdId}">${food.bdyMainkind.name}</div></td>
 		<td id="foodbtn${food.fdId}">
 		<c:if test="${empty food.bdyMainkind.mkId}">
-			<input class='MainBtnColor' type="button"   value="修改" onclick="fupdate(${food.fdId},${food.bdyFoodkind.fkId})">
+			<input class='MainBtnColor' type="button"   value="修改" onclick="fupdate(${food.fdId},${food.bdyFoodkind.fkId},0)">
 		</c:if>
 		<c:if test="${not empty food.bdyMainkind.mkId}">
 		 	<input class='MainBtnColor' type="button"   value="修改" onclick="fupdate(${food.fdId},${food.bdyFoodkind.fkId},${food.bdyMainkind.mkId})">
