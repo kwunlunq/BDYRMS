@@ -340,7 +340,7 @@ public class ReportService {
 		JSONArray foodName = new JSONArray();
 		JSONArray foodPrice = new JSONArray();
 		Set<BdyBilldetail> bills = new HashSet<BdyBilldetail>();
-		bills = billDao.getOrder(billId).getBdyBilldetails();
+		bills = billDao.getBill(billId).getBdyBilldetails();
 		for(BdyBilldetail billdetail : bills){
 			Set<BdyOrderlist> Orderlists = new HashSet<BdyOrderlist>();
 			Orderlists=billdetail.getBdyOrder().getBdyOrderlists();
