@@ -46,7 +46,7 @@ var contextPath='<%=request.getContextPath()%>';
 .setCol{
  	text-align:center;			
 	float:left;
-	width:33%;
+	width:24%;
 	height:100%;
 	border-left:1px solid blue;
 }
@@ -129,6 +129,26 @@ var contextPath='<%=request.getContextPath()%>';
 	<tr>
 	<td>${ma.name }</td>
 	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteMA(${ma.maId})"></td>
+	</tr>
+	</c:forEach>
+	</tbody>
+	</table>
+	</div>
+	
+	<div class="setCol">
+	<a href="<c:url value="/secure/insertNewMK.jsp" />">新增主餐種類</a>
+	<table border="1" align="center">
+	<thead>
+	<tr>
+	<th>主餐種類</th>
+	<th>功能</th>
+	<tr>
+	</thead>
+	<tbody>
+	<c:forEach var="mk" items="${mk }">
+	<tr>
+	<td>${mk.name }</td>
+	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteMK(${mk.mkId})"></td>
 	</tr>
 	</c:forEach>
 	</tbody>

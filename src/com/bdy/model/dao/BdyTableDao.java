@@ -38,6 +38,7 @@ private SessionFactory sf = null;
 
 	public BdyTable getTableById(int tableId) {
 		Session session = sf.openSession();
+		@SuppressWarnings("rawtypes")
 		Iterator iter = session.createCriteria(BdyTable.class)
 							   .add(Restrictions.eq("tbId", tableId))
 							   .list()
@@ -70,6 +71,7 @@ private SessionFactory sf = null;
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor", floor));
+		@SuppressWarnings("rawtypes")
 		Iterator tables = criteria.list().iterator();
 		while (tables.hasNext()) {
 			BdyTable table = (BdyTable) tables.next();
@@ -84,6 +86,7 @@ private SessionFactory sf = null;
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		Criteria criteria = session.createCriteria(BdyTable.class).add(Restrictions.eq("tbId", tbid));
+		@SuppressWarnings("rawtypes")
 		Iterator tables = criteria.list().iterator();
 		while (tables.hasNext()) {
 			BdyTable table = (BdyTable) tables.next();

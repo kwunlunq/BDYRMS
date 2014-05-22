@@ -14,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.service.ManageService;
@@ -44,6 +45,8 @@ public class ManageDeleteDiscountServlet extends HttpServlet {
 		List<BdyDiscount> disc = service.getAllDiscount();
 		List<BdySet> set = service.getAllSet();
 		List<BdyMakearea> ma= service.getAllMakeArea();
+		List<BdyMainkind> mk = service.getAllMainKind();
+		request.setAttribute("mk", mk);
 		request.setAttribute("disState", disState);
 		request.setAttribute("disc", disc);
 		request.setAttribute("set", set);

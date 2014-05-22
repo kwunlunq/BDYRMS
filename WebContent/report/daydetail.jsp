@@ -43,9 +43,13 @@ var ids = [];
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="<c:url value="/js/daydetail.js"/>"></script>
+<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables_themeroller.min.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables.min.css"/>">
 <style type="text/css">
-table,th,td,tr {
-	border-style: double;
+table{
+	font-size:0.85em;
+	text-align:center;
 }
 
 .ui-tabs-vertical {
@@ -82,6 +86,9 @@ table,th,td,tr {
 	float: right;
 	width: 40em;
 }
+.DataTables_sort_icon { 
+	display:none;
+}
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -90,6 +97,8 @@ table,th,td,tr {
 <title>Single Day Report Detail</title>
 </head>
 <body>
+	<div id="loadingControl"></div>
+	<div id="loading" style=""><img src="<c:url value="/images/loading.gif"/>"></div>
 	<div id="mainBox">
 		<div id="header">
 			<jsp:include page="/mainpage/header.jsp" />
@@ -107,6 +116,9 @@ table,th,td,tr {
 						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">請選擇日期
 						: <input type="text" id="datepicker" name="date"
 							value="${param.date}">${errorMsgs.dateError}
+						<span style="display:inline-block;float:right;margin-top:10px;">
+							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+						</span>
 					</form>
 					<hr>
 					<div id="dayReportTabs">
@@ -117,8 +129,8 @@ table,th,td,tr {
 						</ul>
 						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3 style="text-align:center">
-									日期 :${param.date} |
+								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:99">
+									日期 : ${param.date} |
 									單日來客數 : 
 									<c:set var="totalNum" value="0" />
 									<c:forEach var="bills" items="${bills}">
@@ -132,7 +144,7 @@ table,th,td,tr {
 									</c:forEach>
 									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
 								</h3>
-								<table style="margin: 0 auto">
+								<table id="bills" style="margin: 0 auto">
 									<thead>
 										<tr>
 											<th>帳單編號</th>
@@ -161,20 +173,13 @@ table,th,td,tr {
 									</tbody>
 								</table>
 							</c:if>
-							<div style="text-align:center">
-								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
-							</div>
 						</div>
-						<div id="billOrderDialog" title="帳單明細">
-							<p>這裡是帳單明細</p>
+						<div id="billOrderDialog" title="點餐單明細">
 						</div>
 						<div id="dayReportTabs-2">
 							<c:if test="${not empty bills}">
 								<div id="dayOperate" style="width: 960px ;height: 500px; margin: 0px auto;"></div>
 							</c:if>
-							<div style="text-align:center">
-								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
-							</div>
 						</div>
 						<div id="dayReportTabs-3">
 							<c:if test="${not empty bills}">
@@ -192,9 +197,6 @@ table,th,td,tr {
 									</c:forEach>
 								</div>
 							</c:if>
-							<div style="text-align:center">
-								<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
-							</div>
 						</div>
 					</div>
 					<!-- END Write-->

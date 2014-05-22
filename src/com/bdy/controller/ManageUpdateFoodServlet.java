@@ -48,14 +48,16 @@ public class ManageUpdateFoodServlet extends HttpServlet {
 		String fqty = request.getParameter("fqty");
 		String fdesc = request.getParameter("fdesc");
 		String ffkid = request.getParameter("ffkind");
-
+		String fmk = request.getParameter("fmk");
+				
+		
 		Double price = Double.parseDouble(fprice);
 		Integer qty = Integer.parseInt(fqty);
 		Integer fkid = Integer.parseInt(ffkid);
 		Integer fdid = Integer.parseInt(ffdid);
+		Integer mk = Integer.parseInt(fmk);
 		
-
-		foodservice.updateFood(fdid,fname, price, qty, fdesc, fkid);
+		foodservice.updateFood(fdid,fname, price, qty, fdesc, fkid,mk);
 		List<BdyFood> foods = foodservice.getAllFood();
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);

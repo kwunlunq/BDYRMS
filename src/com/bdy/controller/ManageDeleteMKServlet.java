@@ -17,16 +17,17 @@ import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.service.ManageService;
-@WebServlet("/secure/inside")
-public class ManageShowInsideServlet extends HttpServlet {
+@WebServlet("/secure/deleteMK")
+public class ManageDeleteMKServlet extends HttpServlet {
 
 	ManageService service;
 	@Override
 	public void init() throws ServletException {
-		WebApplicationContext context = WebApplicationContextUtils
-				.getRequiredWebApplicationContext(this.getServletContext());
+		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		service = (ManageService)context.getBean("ManageService");
+				
 	}
+
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -37,20 +38,22 @@ public class ManageShowInsideServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String mkId = request.getParameter("mkId");
+		int id  = Integer.parseInt(mkId);
+		int mkState = service.deleteMK(id);
 		List<BdyDiscount> disc = service.getAllDiscount();
 		List<BdySet> set = service.getAllSet();
 		List<BdyMakearea> ma= service.getAllMakeArea();
 		List<BdyMainkind> mk = service.getAllMainKind();
-		
+		request.setAttribute("mk", mk);
+		request.setAttribute("disState", mkState);
 		request.setAttribute("disc", disc);
 		request.setAttribute("set", set);
 		request.setAttribute("ma", ma);
-		request.setAttribute("mk", mk);
 		
 		request.getRequestDispatcher("/secure/manageInside.jsp").forward(request, response);
 		
+		
 	}
-
 	
-
 }

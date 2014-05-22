@@ -18,6 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.model.dao.BdyFloorDao;
@@ -60,7 +61,7 @@ public class ManageOptionServlet extends HttpServlet {
 			});
 			String foodKind = id + "-";
 			for (BdyFoodkind f : rest) {
-				foodKind += f.getFkId() + "," + f.getName() + ";";
+				foodKind += f.getFkId() + "," + f.getName() +"," +f.getIsMain()+";";
 			}
 			foodKind += "-"+fkId;
 			out.print(foodKind);
@@ -101,7 +102,7 @@ public class ManageOptionServlet extends HttpServlet {
 			});
 			String resultInsertFood = "";
 			for(BdyFoodkind f:insertFood){
-				resultInsertFood += f.getFkId()+","+f.getName()+";";
+				resultInsertFood += f.getFkId()+","+f.getName()+","+f.getIsMain()+";";
 			}
 			out.print(resultInsertFood);
 			break;
@@ -146,6 +147,43 @@ public class ManageOptionServlet extends HttpServlet {
 				resultFoodKind += m.getMaId()+","+m.getName()+";";
 			}
 			out.print(resultFoodKind);
+			break;
+		//.......MK
+		case "foodMK":
+			String fdId = request.getParameter("fdId");
+			String mkId = request.getParameter("mkId");
+			List<BdyMainkind> mk = optionservice.getAllMainKind();
+			Collections.sort(mk,new Comparator<BdyMainkind>(){
+
+				@Override
+				public int compare(BdyMainkind m1, BdyMainkind m2) {
+					
+					return new Integer(m1.getMkId()).compareTo(new Integer(m2.getMkId()));
+				}
+				
+			});
+			String resultMK = fdId+"-"+mkId+"-";
+			for(BdyMainkind m:mk){
+				resultMK +=m.getMkId()+","+m.getName()+";";
+			}
+			out.print(resultMK);
+			break;
+		case "insertMK":
+			List<BdyMainkind> mkInsert = optionservice.getAllMainKind();
+			Collections.sort(mkInsert,new Comparator<BdyMainkind>(){
+
+				@Override
+				public int compare(BdyMainkind m1, BdyMainkind m2) {
+					
+					return new Integer(m1.getMkId()).compareTo(new Integer(m2.getMkId()));
+				}
+				
+			});
+			String resutlInsertMK = "";
+			for(BdyMainkind m:mkInsert){
+				resutlInsertMK += m.getMkId()+","+m.getName()+";";
+			}
+			out.print(resutlInsertMK);
 			break;
 		}
 

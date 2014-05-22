@@ -11,6 +11,7 @@ import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyOrderlist;
@@ -163,7 +164,7 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
-	public int insertFood(String name,double price,int qty,String desc,int fkid){
+	public int insertFood(String name,double price,int qty,String desc,int fkid,int foodMK){
 		BdyFood food = new BdyFood();
 		food.setName(name);
 		food.setPrice(price);
@@ -171,12 +172,14 @@ public class ManageService {
 		food.setDescript(desc);
 		BdyFoodkind foodkind=foodkindDao.getFoodkind(fkid);
 		food.setBdyFoodkind(foodkind);	
+		BdyMainkind ma = mainkindDao.getMainkind(foodMK);
+		food.setBdyMainkind(ma);
 		foodDao.update(food);
 		
 		int foodnum = foodDao.insert(food);
 		return foodnum;
 	}
-	public List<BdyFood> updateFood(int fdid,String name,double price,int qty,String desc,int fkid){
+	public List<BdyFood> updateFood(int fdid,String name,double price,int qty,String desc,int fkid,int fmk){
 		BdyFood food = new BdyFood();
 		food.setFdId(fdid);
 		food.setName(name);
@@ -185,6 +188,10 @@ public class ManageService {
 		food.setDescript(desc);
 		BdyFoodkind foodkind=foodkindDao.getFoodkind(fkid);
 		food.setBdyFoodkind(foodkind);	
+		if(fmk!=0){
+		BdyMainkind ma = mainkindDao.getMainkind(fmk);
+		food.setBdyMainkind(ma);
+		}
 		foodDao.update(food);
 		
 		List<BdyFood> bean = null;
@@ -276,6 +283,10 @@ public class ManageService {
 	public int insertEmp(BdyEmp emp){
 		return empDao.insert(emp);
 	}
+	public List<BdyMainkind> getAllMainKind(){
+		List<BdyMainkind> ma = mainkindDao.getAllMainkind();
+		return ma;
+	}
 //------------------------ManageInside----------------------------------
 public List<BdyDiscount> insideInsertDiscount(String name,Double price){
 	BdyDiscount dis = new BdyDiscount();
@@ -312,6 +323,17 @@ public List<BdyMakearea> insideInsertMA(String name){
 public int deleteMA(int maId){
 	int maState = makeareaDao.deleteMakeareaById(maId);
 	return maState;
+}
+public List<BdyMainkind> insideInsertMK(String name){
+	BdyMainkind mk = new BdyMainkind();
+	mk.setName(name);
+	mainkindDao.insert(mk);
+	List<BdyMainkind> bean = mainkindDao.getAllMainkind();
+	return bean;
+}
+public int deleteMK(int mkId){
+	int mkState = mainkindDao.delete(mkId);
+	return mkState;
 }
 //---------------------------CheckOut-------------------------------------------
 public  List<BdyTable> getUseTable(){

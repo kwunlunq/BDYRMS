@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
+<link rel="shortcut icon" href="<c:url value="/images/BDYLogoHeadIcon.png"/>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 27~29行JavaScript程式碼 作用等同於 ＜c:url＞的功能 
 	   如果有掛載JS檔案 且 利用JavaScript產生有包含路徑讀取專案內其他文件或檔案的時候
@@ -54,18 +55,18 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 	<div id="writeCodeInThisDiv">
 		<div style="margin: 0px auto; width: 95%; height: 100%">
-			<div style="height: 30px; width: 100%;">
+			<div style="width: 100%;font-size:1.2em">
 				現在樓層:
-				<select id="changeFloor">
+				<select id="changeFloor" class="MainBtnColor">
 				</select>
-				<input type="button" id="addTB" value="新增桌子">
-				<input type="button" id="reset" value="重新讀取">
+				<input class="MainBtnColor" type="button" id="addTB" value="新增桌子">
+				<input class="MainBtnColor" type="button" id="reset" value="重新讀取">
 			</div>
 			<div id="picTB"></div>
 			<div id="floorBTN">
-			<input type="button" id="addFloor" value="新增樓層">
-			<input type="button" id="delFloor" value="刪除樓層">
-			<input type="button" id="saveFloor" value="儲存樓層">
+			<input class="MainBtnColor" type="button" id="addFloor" value="新增樓層">
+			<input class="MainBtnColor" type="button" id="delFloor" value="刪除樓層">
+			<input class="MainBtnColor" type="button" id="saveFloor" value="儲存樓層">
 			</div>
 		</div>
 	</div>

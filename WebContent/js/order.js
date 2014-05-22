@@ -14,7 +14,6 @@ var currentStatus = {"FId":null,
 					 "EmpId":null, 
 					 "Foods":[]
 					 };
-
 $(function() {
 	dwr.engine.setActiveReverseAjax(true);
 	currentStatus.EmpId = empId;
@@ -88,16 +87,30 @@ function listenerInitial() {
 	});
 	$('#orderConfirm').click(function() {
 			var peopleCount = $('#peopleCount').text();
+			var setleft = $('span[id^=fkCountSpan-]').length;
+			// 判斷桌號人數
 			if (peopleCount=='-') {
 				$('#ChooseTableAndPeopleDialog').dialog("open");
 				showState("請輸入桌號及人數");
 			} else if (peopleCount=='0') {
 				$('#ChooseTableAndPeopleDialog').dialog("open");
 				showState("請輸入人數");
+			// 判斷套餐內容還有沒點的
+			} else if (setleft != 0) {
+				var divid = "";
+					$.each($('span[id^=fkCountSpan-]'), function (index, obj) {
+						$.each($(obj).parents('div[id^="orderlist-"]'), function (index2, obj2) {
+							divid=$(obj2).attr("id");
+							return false;
+						});
+						return false;
+					});
+				showState("還有餐點未選");
+				$("#orderlist").tabs( "option", "active", IdToActive(divid));
 			} else {
 				confirmClick();
-			}
-		}	
+			};
+		}
 	);
 	$('#orderarea').on('click','input',function(){
 		var canAdd = checkAddable($(this));
@@ -107,7 +120,7 @@ function listenerInitial() {
 							$(this).attr("isMain"),
 							$(this).val(), 
 							$(this).attr("fkId"),
-							$("#orderlist").tabs("option", "active"));
+							activeToId($("#orderlist").tabs("option", "active")));
 			$( "#orderlist" ).tabs( "refresh" );
 		}else{
 			if($("#orderlist").tabs("option", "active") != 0)
@@ -218,7 +231,7 @@ function getTables() {
 	if (tables != "") {
 		var result = cookieDecorder(tables);
 		var obj = $.parseJSON( result );
-		console.log(obj);
+//		console.log(obj);
 		getTablesCallback(obj);
 	} else {
 		var url = contextPath+"/order/getOrderDataServlet";
@@ -227,7 +240,7 @@ function getTables() {
 			getTablesCallback(result);
 
 		});
-	}
+	};
 }
 
 function getTablesCallback(result) {
@@ -249,9 +262,10 @@ function getTablesCallback(result) {
 			var option = document.createElement("option");
 			$(option).attr("value", tbs[j].tbId);
 			$(option).append(document.createTextNode(tbName));
+			console.log(option);
 			tableoptions[i][j] = option;
 			$('#setTableNum').append(tableoptions[i][j]);
-		}
+		};
 	}
 
 	$("#setFloor").change(function() {
@@ -263,8 +277,8 @@ function getTablesCallback(result) {
 		if (tableoptions.length > index) {
 			for (var i = 0; i < tableoptions[index].length; i++) {
 				$('#setTableNum').append(tableoptions[index][i]);				
-			}
-		}
+			};
+		};
 	});
 	
 }
@@ -299,18 +313,41 @@ function createGarbageCan(locationId,canId){
 					"display":"inline-block",
 				});
 				$('#orderlist-'+canId).find('#fkdiv-'+fkid).append(fkCountSpan);
-			}
+			};
 	  	}
 	});
 }
 
 function deletSetTab(thisTab){
-	 setCount--;
+//	 setCount--;
 	 var panelId = $( thisTab ).remove().attr("divid");
 	 var canId = panelId.substring(panelId.length-1);
+	 console.log("panelId, canId = "+panelId+","+canId);
+	 var index = parseInt(canId);
+	 
+
+	 
+	 console.log(index);
 	 $('#garbageCan'+canId).remove();
 	 $( "#" + panelId ).remove();
      $( "#orderlist" ).tabs( "refresh" );
+     
+     
+//	 $.each($('div[id^="orderlist-"')
+//	 var obj = $('div[id^="orderlist-"]');
+//	 for (var i = 0; i < obj.length; i++) {
+//		 console.log($(obj[i]).attr("id"));
+//		 var oldId = $(obj[i]).attr("id");
+//		 var oldIdx = parseInt(oldId.substring(oldId.length-1));
+//		 console.log(oldIdx);
+//		 if (oldIdx > index) {
+//			 var newId = oldId.substring(0, oldId.length-1) + (oldIdx-1);
+//			 console.log(newId);
+//			 
+//			 $(obj[i]).attr("id", newId);
+//			 
+//		 }
+//	 }
 }
 
 function confirmClick() {
@@ -337,7 +374,7 @@ function confirmClick() {
 			for (; aryi < setIds.length; aryi++) {
 				if (setIds[aryi] == setId) {
 					break;
-				}
+				};
 			}
 			setName = setNames[aryi];
 			$(setDiv).append("<h3 style='height:10px'>"+setName+"</h3>");
@@ -373,7 +410,18 @@ function checkAddable(thisbtn) {
 	}
 	
 	console.log("=====================");
-	var div = $("#orderlist-"+active);
+	
+//	var obj = $('div[id^="orderlist-"]');
+//	var divid ="";
+//	console.log("active="+active);
+//	for (var i = 0; i <= active; i++) {
+//		divid = $(obj[i]).attr("id");
+//	}
+//	console.log("divid="+divid);
+//	console.log(divid.substring(divid.length-1));
+//	
+//	var div = $('#'+divid);
+	var div = $("#orderlist-"+activeToId(active));
 	var thisFk = $(thisbtn).attr("fkid");
 	console.log("this.fkid="+thisFk);
 	var setid = div.attr("setid");
@@ -381,7 +429,7 @@ function checkAddable(thisbtn) {
 	for (; aryi < setIds.length; aryi++) {
 		if (setIds[aryi] == setid) {
 			break;
-		}
+		};
 	}
 	var detail = setdetails[aryi];
 	console.log("detail="+setdetails[aryi]);
@@ -389,7 +437,7 @@ function checkAddable(thisbtn) {
 	for (var i = 0; i < detail.length; i++) {
 		if (detail[i]==thisFk) {
 			detailCount++;
-		}
+		};
 	}
 	console.log("detailCount="+detailCount);
 	var childCount = 0;
@@ -410,6 +458,28 @@ function checkAddable(thisbtn) {
 	return false;
 }
 
+function activeToId(active) {
+	var obj = $('div[id^="orderlist-"]');
+//	var divid ="";
+//	console.log("active="+active);
+//	for (var i = 0; i <= active; i++) {
+//		divid = $(obj[i]).attr("id");
+//	}
+	divid = $(obj[active]).attr("id");
+//	console.log("divid="+divid);
+//	console.log(divid.substring(divid.length-1));
+	
+	return parseInt(divid.substring(divid.length-1));
+}
+
+function IdToActive(divid) {
+	var obj = $('div[id^="orderlist-"]');
+	for (var i = 0; i < obj.length; i++) {
+		if (divid == $(obj[i]).attr("id")) {
+			return i;
+		}
+	}
+}
 
 function orderlistClick() {
 	$("#ChooseSetDialog").empty();
@@ -428,9 +498,9 @@ function orderlistClick() {
 			$("#ChooseSetDialog").append(btn);
 		}
 		$("#ChooseSetDialog").dialog( "open" );
-	}else{
+	} else{
 		$(this).effect("highlight");
-	}
+	};
 }
 
 function setOnClick() {
@@ -463,10 +533,10 @@ function setOnClick() {
 			for(var j=0;j<fks.length;j++){
 				if(fks[j].fkId == fkDetail[i]){
 					$(fkdiv).append("<p style='display:inline-block;width:100px;'>"+fks[j].fkName+"</span>");
-				}
+				};
 			}
 			$('#'+tagsid).append(fkdiv);
-		}
+		};
 	}
 	
 	// 將點選要搭配套餐的主餐新增到新的div中所對應的食物類別DIV(id="fkdiv-x")
@@ -479,7 +549,10 @@ function setOnClick() {
 	
 	$("#ChooseSetDialog").dialog( "close" );
 	// 將active移到新的tab
-	$("#orderlist").tabs( "option", "active", setCount);
+	var obj = $('div[id^="orderlist-"]');
+//	$("#orderlist").tabs( "option", "active", setCount);
+	console.log(obj.length);
+	$("#orderlist").tabs( "option", "active", obj.length-1);
 	setCount++;
 }
 
@@ -488,14 +561,14 @@ function getSets() {
 	if (set != "") {
 		var result = cookieDecorder(set);
 		var obj = $.parseJSON( result );
-		console.log(obj);
+//		console.log(obj);
 		getSetCallback(obj);
 	} else {
 		var url = contextPath+"/order/getOrderDataServlet";
 		$.getJSON(url, {"data":"set"}, function(result) {
 			getSetCallback(result);
 		});
-	}
+	};
 }
 
 function getSetCallback(result) {
@@ -503,21 +576,21 @@ function getSetCallback(result) {
 		setIds[i] = result[i].id;
 		setNames[i] = result[i].name;
 		setdetails[i] = result[i].detail;
-	}
+	};
 }
 function getFks() {
 	var fkscookie = getCookie("fks");
 	if (fkscookie != "") {
 		var result = cookieDecorder(fkscookie);
 		var obj = $.parseJSON( result );
-		console.log(obj);
+//		console.log(obj);
 		getFksCallback(obj);
 	} else {
 		var url = contextPath+"/order/getOrderDataServlet";
 		$.getJSON(url, {"data":"fk"}, function(result) {
 			getFksCallback(result);
 		});
-	}
+	};
 }
 
 function getFksCallback(result) {
@@ -526,7 +599,7 @@ function getFksCallback(result) {
 				fkName:result[i].fkName,
 				fkId:result[i].fkId
 		};
-	}
+	};
 }
 
 function getFoods() {
@@ -535,16 +608,16 @@ function getFoods() {
 	if (food != "") {
 		var result = cookieDecorder(food);
 		var obj = $.parseJSON( result );
-		console.log("food:");
-		console.log(obj);
+//		console.log("food:");
+//		console.log(obj);
 		drawTab(obj);
 	} else {
 		var url = contextPath+"/order/getOrderDataServlet";
 		$.getJSON(url, {"data":"food"}, function(result) {
 			drawTab(result);
-			console.log(result);
+//			console.log(result);
 		});
-	}
+	};
 }
 function drawTab(result) {
 	var mains = result.isMain;
@@ -559,7 +632,7 @@ function drawTab(result) {
 				addOrderAreaBtn("orderarea-"+tagscount,foods[j].fdId,true,foods[j].fdName,foods[j].fkId);
 			}
 			$("#ul-order").append(li);
-		}
+		};
 	}
 
 
@@ -575,7 +648,7 @@ function drawTab(result) {
 				addOrderAreaBtn("orderarea-"+tagscount,foods[j].fdId,false,foods[j].fdName,foods[j].fkId);
 			}
 			$("#ul-order").append(li);
-		}
+		};
 	}
 	
 	$('#ul-detail').css("display","block");
@@ -627,7 +700,7 @@ function addOrderAreaBtn(foodTag,fdId,isMain,foodName,fkId,orderlistActive) {
 				"display":"inline-block",
 			});
 			$('#orderlist-'+orderlistActive).find('#fkdiv-'+fkId).append(fkCountSpan);
-		}
+		};
 	}
 	FBId++;
 //	this refresh cause error!
@@ -674,9 +747,9 @@ function addCanOrderCountSpan(SetBtn,tagsid,firstFkId){
 							"display":"inline-block",
 						});
 						$('#'+tagsid).find(fkdiv).append(fkCountSpan);
-					}
-				}
-			}
+					};
+				};
+			};
 		}
 	}
 }

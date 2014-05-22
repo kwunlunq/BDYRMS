@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.service.ManageService;
@@ -24,10 +25,19 @@ public class ManageInsertDiscountAction extends ActionSupport implements Prepara
 	List<BdyDiscount> disc;
 	List<BdySet> set;
 	List<BdyMakearea> ma;
+	List<BdyMainkind> mk ;
 	ManageService service;
 	
 	HttpServletRequest request;
 	
+	public List<BdyMainkind> getMk() {
+		return mk;
+	}
+
+	public void setMk(List<BdyMainkind> mk) {
+		this.mk = mk;
+	}
+
 	public List<BdyDiscount> getDisc() {
 		return disc;
 	}
@@ -87,6 +97,7 @@ public class ManageInsertDiscountAction extends ActionSupport implements Prepara
 		disc = service.getAllDiscount();
 		set = service.getAllSet();
 		ma= service.getAllMakeArea();
+		mk=service.getAllMainKind();
 		return Action.SUCCESS;
 	}
 

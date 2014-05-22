@@ -13,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdySet;
 import com.bdy.service.ManageService;
@@ -39,11 +40,13 @@ public class ManageDeleteMAServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String maId = request.getParameter("maId");
 		int id  = Integer.parseInt(maId);
-		int disState = service.deleteMA(id);
+		int maState = service.deleteMA(id);
 		List<BdyDiscount> disc = service.getAllDiscount();
 		List<BdySet> set = service.getAllSet();
 		List<BdyMakearea> ma= service.getAllMakeArea();
-		request.setAttribute("disState", disState);
+		List<BdyMainkind> mk = service.getAllMainKind();
+		request.setAttribute("mk", mk);
+		request.setAttribute("disState", maState);
 		request.setAttribute("disc", disc);
 		request.setAttribute("set", set);
 		request.setAttribute("ma", ma);

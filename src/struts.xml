@@ -76,6 +76,11 @@
     		<result name="success">/secure/manageInside.jsp</result>
     		<result name="input">/secure/insertNewMA.jsp</result>
     	</action>
+    	<action name="insertMainKind" class="com.bdy.controller.ManageInsertMainKindAction">
+    		<result name="success">/secure/manageInside.jsp</result>
+    		<result name="input">/secure/insertNewMK.jsp</result>
+    	</action>
+    	
 	</package>
 	<package name="checkOutBill" namespace="/checkout" extends="struts-default">
 		<action name="checkTable" class="com.bdy.controller.CheckTableAction">
