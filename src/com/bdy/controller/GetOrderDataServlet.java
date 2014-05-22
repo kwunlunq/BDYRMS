@@ -32,6 +32,7 @@ import com.bdy.service.OrderService;
 @WebServlet("/order/getOrderDataServlet")
 public class GetOrderDataServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	private static final int CUT_LENGTH = 4000;
 
 	OrderService service;
 
@@ -56,6 +57,7 @@ public class GetOrderDataServlet extends HttpServlet{
 		String empId = request.getParameter("empId");
 		if (data == null) {
 			System.out.println("Param not found! (\"data\")");
+			out.print("Param not found! (\"data\")");
 			return ;
 		}
 		switch (data) {
@@ -71,13 +73,15 @@ public class GetOrderDataServlet extends HttpServlet{
 			out.write(tables);
 			break;
 		case "food" :
+			System.out.println("making cookie");
 //			foods = findCookie("foods", request);
 //			if (foods == null) { // 沒有在cookie中, 向資料庫查詢
 //				System.out.println("foods not found");
 				foods = service.getFoodsJSON().toString();
 				makeCookie("foods", foods, response);
 //			}
-			System.out.println(foods);
+//			System.out.println(foods);
+//			out.write("foods");
 			out.write(foods);
 			break;
 		case "fk" :
@@ -181,16 +185,71 @@ public class GetOrderDataServlet extends HttpServlet{
 	public void makeCookie(String name, String value, HttpServletResponse response) {
 		try {
 			value = java.net.URLEncoder.encode(value, "UTF-8");
+			int nameLength = name.length();
+			int totalLength = 0;
+			int count = 0;
+			String orivalue = value;
+			String concatevalue = "";
+			if (value.length() >= CUT_LENGTH) {
+				System.out.println("原長:"+value.length());
+				while (value.length() > 0) {
+					String smallvalue;
+					if (value.length() >= CUT_LENGTH) {
+						smallvalue = value.substring(0, CUT_LENGTH);
+//						value = value.substring(CUT_LENGTH);
+					} else {
+						smallvalue = value;
+//						value = "";
+					}
+					concatevalue += smallvalue;
+					value = value.substring(smallvalue.length());
+	//				System.out.println("Cookie長度超過"+CUT_LENGTH+"!");
+					System.out.println("長度 = "+value.length());
+					System.out.println(CUT_LENGTH+"/"+value.length()+"/"+count);
+					System.out.println("長度 = "+value.length());
+	//				System.out.println("small length:"+smallvalue.length());
+	//				System.out.println("cookie length => "+value.length());
+					
+					//value = Base64Coder.encodeString(value); 
+					
+					// 第一個切割的cookie, 在後面加上-0
+					if (name.length() == nameLength) {
+						name = name + "-" + count;
+					} else {
+					// 之後換成別的count
+						name = name.substring(0, name.length()-1);
+						name += count;
+					}
+					
+	
+					System.out.println(name+":");
+					System.out.println("URL MODE => " +smallvalue);
+					
+					totalLength += smallvalue.length();
+					System.out.println(count + " : "+smallvalue.length());
+
+					if (count == 0) {
+						// 建立cookie
+						Cookie cookie = new Cookie(name,smallvalue);
+						cookie.setMaxAge(3*60*60); //3 hour
+						response.addCookie(cookie);
+//						break;
+					}
+					count ++;
+				}
+				System.out.println("後總長:"+totalLength);
+				System.out.println("後原長:"+value.length());
+				if (orivalue.equals(concatevalue)) {
+					System.out.println("EQUAL!");
+				}
+			} else {
+				Cookie cookie = new Cookie(name,value);
+				cookie.setMaxAge(3*60*60); //3 hour
+				response.addCookie(cookie);
+			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("URL MODE => " +value);
-		//value = Base64Coder.encodeString(value); 
-		
-		// 建立cookie
-		Cookie cookie = new Cookie(name,value);
-		cookie.setMaxAge(3*60*60); //3 hour
-		response.addCookie(cookie);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.doGet(request, response);
