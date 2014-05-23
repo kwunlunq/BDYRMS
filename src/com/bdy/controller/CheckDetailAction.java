@@ -52,6 +52,7 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 
 	@Override
 	public String execute() throws Exception {
+		session.remove("checkout");
 		discounts = service.getAllDiscount();
 		CheckOut checkout = new CheckOut();
 		checkout.setTabId(tabId);

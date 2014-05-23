@@ -58,9 +58,11 @@ var contextPath='<%=request.getContextPath()%>';
 
 	<div id="writeCodeInThisDiv">
 		<s:iterator var="table" value="usingTables">
+		<div class="checkview" >
 		<p>桌號:<s:property value="#table.tbId" /></p>
 		<p>狀態:<s:property value="#table.tableState" /></p>
-		<p><input type="button" value="結帳" onclick="getableId(<s:property value='#table.tbId' />)"></p>
+		<p><input class="MainBtnColor" type="button" value="結帳" onclick="getableId(<s:property value='#table.tbId' />)"></p>
+		</div>
 		</s:iterator>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>

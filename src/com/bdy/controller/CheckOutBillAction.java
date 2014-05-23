@@ -42,6 +42,7 @@ public class CheckOutBillAction extends ActionSupport implements Preparable,Sess
 		@Override
 		public String execute() throws Exception {
 			CheckOut checkOut=(CheckOut) session.get("checkout");
+			if(disId!=-1){			
 			checkOut.setDiscount(service.getDiscountById(disId));
 			BdyEmp emp=(BdyEmp)	session.get("empData");
 			checkOut.setFinalPrice((int)Math.rint(checkOut.getPrice()*checkOut.getDiscount().getDisPrice()));
@@ -51,6 +52,17 @@ public class CheckOutBillAction extends ActionSupport implements Preparable,Sess
 			service.insertBill(checkOut);
 			session.remove("checkout");
 			return Action.SUCCESS;
+			}else{
+				checkOut.setDiscount(null);
+				BdyEmp emp=(BdyEmp)	session.get("empData");
+				checkOut.setFinalPrice((int)Math.rint(checkOut.getPrice()*1));
+				checkOut.setEndDate(new Date(System.currentTimeMillis()));
+				checkOut.setEmp(emp);
+				
+				service.insertBill(checkOut);
+				session.remove("checkout");
+				return Action.SUCCESS;
+			}
 		}
 
 		@Override

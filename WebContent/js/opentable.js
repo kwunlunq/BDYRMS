@@ -63,28 +63,23 @@ function doLoadTable(thisBtn){
 function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 	idCount++;
 	count++;
-	var tbStateName;
 	if(tbState == 0)
 		tbStateName = "未使用";
 	else
 		tbStateName = "使用中";
-	
-	var myOffset = $('#picTB').position();
-	var mot = parseInt(myOffset.top);
-	var mol = parseInt(myOffset.left);
 	tbLocation = tbLocation.split(",");
-	var tt = parseInt(tbLocation[0]);
-	var tl = parseInt(tbLocation[1]);
-	var topCount = mot+tt;
-	var leftCount = mol+tl;
+	var topCount = parseInt(tbLocation[0]);
+	var leftCount = parseInt(tbLocation[1]);
 
 	//Create Table
 	var newTbDiv = document.createElement("div");
-	newTbDiv.innerHTML = tbName;
-	newTbDiv.innerHTML += "<br>"+tbSize+" 人桌";
-	newTbDiv.innerHTML += "<br>"+tbStateName;
+	$(newTbDiv).append("<div id='tbNameInTable'>"+tbName+"</div>");
 	newTbDiv.setAttribute("style",'position:absolute;top:'+topCount+'px;left:'+leftCount+'px');
-	newTbDiv.setAttribute("class","divTB");
+	if(tbState != 0 ){
+		newTbDiv.setAttribute("class","divTBInUse divTB");
+	}else{
+		newTbDiv.setAttribute("class","divTBOrg divTB");
+	}
 	newTbDiv.setAttribute("tbName",tbName);
 	newTbDiv.setAttribute("tbSize",tbSize);
 	newTbDiv.setAttribute("tbState",tbState);

@@ -12,27 +12,53 @@ $(function(){
 //		pags = 0;
 //	}
 	
-	var obj1;	
-	$( "#setInsertDialog" ).dialog({		
-		
-		autoOpen: false,
-		width: 400,
-		buttons: [
-			{
-				text: "確定",
-				click: function() {
-					insertSet();
-					$( this ).dialog( "close" );
+	var objset;	
+	 if(booleanSetDetail){
+		 objset = {		
+					
+					autoOpen: true,
+					width: 400,
+					buttons: [
+						{
+							text: "確定",
+							click: function() {
+								insertSet();
+								$( this ).dialog( "close" );
+							}
+						},
+						{
+							text: "取消",
+							click: function() {
+								$( this ).dialog( "close" );
+							}
+						}
+					]
 				}
-			},
-			{
-				text: "取消",
-				click: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		]
-	});
+	 }else{	 
+		 objset = {
+				autoOpen: false,
+				width: 400,
+				buttons: [
+					{
+						text: "確定",
+						click: function() {
+							insertSet();
+							$( this ).dialog( "close" );
+						}
+					},
+					{
+						text: "取消",
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				]			
+	 }
+	 }
+	
+	
+	
+	$( "#setInsertDialog" ).dialog(objset);
 	
 	$( "#setDialog-link" ).click(function( event1 ) {
 		$( "#setInsertDialog" ).dialog( "open" );
@@ -46,7 +72,9 @@ function insertSet(){
 	var a = document.getElementById("setId");
 	var setId = document.getElementById("setId").options[document.getElementById("setId").selectedIndex].value;
 	var foodId = document.getElementById("foodId").options[document.getElementById("foodId").selectedIndex].value;
-	window.location.href = contextPath+"/secure/inserSet.action?setId="+setId+"&foodId="+foodId;
+	var setDetailPrice = document.getElementById("setDetailPrice").value;
+
+	window.location.href = contextPath+"/secure/inserSetDetail.action?setId="+setId+"&foodId="+foodId+"&setDetailPrice="+setDetailPrice;
 }
 
 function insertSetOption(){
@@ -106,14 +134,14 @@ function initcallbackSet(){
 			newOption2.setAttribute("id","fkselectname"+detailId);
 			for(var i=0 ;i<setOptions.length-1;i++){
 				
-				if(i==(setId-1)){
+				if(setId==setOptions[i][0]){
 					var setOption = setOptions[i].split(",");
 					newOption1.innerHTML += "<option  value='"+setOption[0]+"'>"+setOption[1]+"</option>";	
 				
 				}				
 			}
 			for(var i=0 ;i<setOptions.length-1;i++){
-				if(i!=(setId-1)){
+				if(setId!=setOptions[i][0]){
 					var setOption = setOptions[i].split(",");
 					newOption1.innerHTML += "<option  value='"+setOption[0]+"'>"+setOption[1]+"</option>";	
 				}
@@ -122,14 +150,14 @@ function initcallbackSet(){
 		
 			for(var j=0 ; j<fkOptions.length-1 ; j++){
 				
-				if(j==(fkId-1)){
+				if(fkId==fkOptions[j][0]){
 				var fkOption = fkOptions[j].split(",");
 				newOption2.innerHTML += "<option  value='"+fkOption[0]+"'>"+fkOption[1]+"</option>";
 				}
 			}
 			for(var j=0 ; j<fkOptions.length-1 ; j++){
 				
-				if(j!=(fkId-1)){
+				if(fkId!=fkOptions[j][0]){
 				var fkOption = fkOptions[j].split(",");
 				newOption2.innerHTML += "<option  value='"+fkOption[0]+"'>"+fkOption[1]+"</option>";
 				}

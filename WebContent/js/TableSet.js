@@ -62,51 +62,87 @@ function doLoadTable(){
 
 function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 	idCount++;
-	count++;
-	var tbStateName;
-	if(tbState == 0)
-		tbStateName = "未使用";
-	else
-		tbStateName = "使用中";
-	
+	count++;	
 	if(tbId == -1 || tbId == null)
 		tbId = "tb"+idCount;
-	var myOffset = $('#picTB').position();
-	var mot = parseInt(myOffset.top);
-	var mol = parseInt(myOffset.left);
-	var topCount = mot;
-	var leftCount = mol;	
 	if(tbLocation == 0 || tbLocation == null || tbLocation == ""){
-		topCount = mot + (count*5);
-		leftCount = mol + (count*5);	
+		topCount = count*5;
+		leftCount = count*5;	
 	}else
 	{
 		tbLocation = tbLocation.split(",");
 		var tt = parseInt(tbLocation[0]);
 		var tl = parseInt(tbLocation[1]);
-		topCount = mot+tt;
-		leftCount = mol+tl;
+		topCount = tt;
+		leftCount = tl;
 	}
 
 	//Create Table
 	var newTbDiv = document.createElement("div");
-	newTbDiv.innerHTML = tbName;
-	newTbDiv.innerHTML += "<br>"+tbSize+" 人桌";
-	newTbDiv.innerHTML += "<br>"+tbStateName;
-	newTbDiv.innerHTML += '<input type="hidden" id="tbName" value="'+tbName+'">';
-	newTbDiv.innerHTML += '<input type="hidden" id="tbSize" value="'+tbSize+'">';
-	newTbDiv.innerHTML += '<input type="hidden" id="tbState" value="'+tbState+'">';
-	newTbDiv.innerHTML += '<br><img class="tbimg" id="lockIMG" alt="unLock" src="'+contextPath+'/images/unLock.jpg">';
-	newTbDiv.innerHTML += '<img class="tbimg" id="delTB" alt="unLock" src="'+contextPath+'/images/del.jpg">';
+	$(newTbDiv).append("<div id='tbNameInTable'>"+tbName+"</div>");
 	newTbDiv.setAttribute("style",'position:absolute;top:'+topCount+'px;left:'+leftCount+'px');
-	newTbDiv.setAttribute("class","divTB");
+	newTbDiv.setAttribute("class","divTBOrg divTB");
 	newTbDiv.setAttribute("id",tbId);
+	newTbDiv.setAttribute("tbName",tbName);
+	newTbDiv.setAttribute("tbSize",tbSize);
+	newTbDiv.setAttribute("tbState",tbState);
 	
-	var newd =$(newTbDiv);
-	newd.draggable();
-	newd.draggable( "option", "containment", "parent" );
-	newd.draggable( "option", "cursor", "crosshair" );
-	$('#picTB').append(newd);
+	$(newTbDiv).draggable({
+		containment : "parent",
+		snap: true,
+		stack: "#picTB div",
+		revert: "valid",
+		snapTolerance: 8
+	});
+	$(newTbDiv).droppable({
+		toleranceType: "touch",
+		hoverClass: "divTBerror divTB",
+	    drop: function( event, ui ) {
+	        $( this ).addClass( "divTB" );
+	     },
+		out: function( event, ui ) {
+			$( this ).addClass( "divTB" );
+		}
+	});
+	$('#picTB').append(newTbDiv);
+}
+
+function saveFloor(){
+	$('#picTB>div').each(function(){
+		var TBid =  $(this).attr("id");
+		var tbName = $('#'+TBid).attr("tbName");
+		var tbSize = $('#'+TBid).attr("tbSize");
+		var state = $('#'+TBid).attr("tbState");
+
+		var myOffset = $(this).position();
+		var top = parseInt(myOffset.top);
+		var left = parseInt(myOffset.left);
+
+		var tableData = {
+			"tbId" : TBid,
+			"tbName" : tbName,
+			"tbSize" : tbSize,
+			"pos" : top+","+left,
+			"tbFloor" : $('#changeFloor').find(":selected").val(),
+			"tbState" : state
+		};
+		tablesDataForSaveInJson.tables.push(tableData);
+	});
+	tablesDataForSaveInJson.act = "save";
+	tablesDataForSaveInJson.floor = $('#changeFloor').find(":selected").val();
+	$.ajax({
+	    url: tableUrl,
+		    type: 'POST',
+		    data: JSON.stringify(tablesDataForSaveInJson),
+		    contentType: 'application/json; charset=utf-8',
+		    success: function(msg) {
+				showState("儲存完成");
+				tablesDataForSaveInJson.delTBlist = [];
+				tablesDataForSaveInJson.tables = [];
+				tablesDataForSaveInJson.act = null;
+				tablesDataForSaveInJson.floor = -1;
+		   }
+	});
 }
 
 $(function() {
@@ -114,78 +150,9 @@ $(function() {
 
 	$('body').on('change','#changeFloor',doLoadTable);
 	
-	$('body').on('click','#reset',doLoadTable);
-	
-	$('#picTB').on('click','#delTB',function(){
-		$('#saveFloor').attr("disabled","disabled");
-		$(this).attr("id","");
-		$(this).parents('#picTB>div').fadeToggle(800,function(){
-			$(this).remove();
-			$('#saveFloor').removeAttr("disabled");
-		});
-		var TBcount = $(this).parents('#picTB>div').attr("id");
-		tablesDataForSaveInJson.delTBlist.push(TBcount);
-		$('#dataTB>div[id='+TBcount+']').slideToggle(500,function(){
-			$(this).remove();	
-		});
-	});
+	$('body').on('click','#reLoad',doLoadTable);
 		
-	$('body').on('click','#saveFloor',function(){
-		$('#picTB>div').each(function(){
-			var TBid =  $(this).attr("id");
-			var tbName = $('#'+TBid+'>input[id="tbName"]').val();
-			var tbSize = $('#'+TBid+'>input[id="tbSize"]').val();
-			var state = $('#'+TBid+'>input[id="tbState"]').val();
-			//location
-			var pic_Offset = $('#picTB').position();
-			var pic_top = parseInt(pic_Offset.top);
-			var pic_left = parseInt(pic_Offset.left);
-			var myOffset = $(this).position();
-			var top = parseInt(myOffset.top - pic_top);
-			var left = parseInt(myOffset.left - pic_left);
-
-			var tableData = {
-				"tbId" : TBid,
-				"tbName" : tbName,
-				"tbSize" : tbSize,
-				"pos" : top+","+left,
-				"tbFloor" : $('#changeFloor').find(":selected").val(),
-				"tbState" : state
-			};
-			tablesDataForSaveInJson.tables.push(tableData);
-		});
-		tablesDataForSaveInJson.act = "save";
-		tablesDataForSaveInJson.floor = $('#changeFloor').find(":selected").val();
-		$.ajax({
-		    url: tableUrl,
-			    type: 'POST',
-			    data: JSON.stringify(tablesDataForSaveInJson),
-			    contentType: 'application/json; charset=utf-8',
-			    success: function(msg) {
-				showState("儲存完成");
-				tablesDataForSaveInJson.delTBlist = [];
-				tablesDataForSaveInJson.tables = [];
-				tablesDataForSaveInJson.act = null;
-				tablesDataForSaveInJson.floor = -1;
-			   }
-		});
-	});
-
-	$('#picTB').on('click','#lockIMG',function(){
-		$(this).parents("#picTB>div").draggable();
-		var state = $(this).attr('alt');
-		if(state=="unLock")
-		{
-			$(this).parents("#picTB>div").draggable("destroy");
-			$(this).attr('alt','Lock');
-			$(this).attr('src', contextPath + '/images/Lock.jpg');
-		}else
-		{
-			$(this).parents("#picTB>div").draggable("option", "containment", "parent");
-			$(this).attr('alt','unLock');
-			$(this).attr('src',contextPath + '/images/unLock.jpg');
-		}
-	});
+	$('body').on('click','#saveFloor',saveFloor);
 	
 	$('#addTB').click(function() {
 		var tbName;
