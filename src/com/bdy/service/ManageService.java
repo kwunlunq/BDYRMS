@@ -227,12 +227,13 @@ public class ManageService {
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}
-	public int insertSet(int foodId,int setId){
+	public int insertSet(int foodId,int setId,Double setDetailPrice){
 		BdySetdetail setd = new BdySetdetail();
 		BdyFoodkind fk = foodkindDao.getFoodkind(foodId);
 		BdySet set = setDao.getSet(setId);
 		setd.setBdyFoodkind(fk);
 		setd.setBdySet(set);
+		setd.setPrice(setDetailPrice);
 		int setNum = setdetailDao.insert(setd);
 		return setNum;
 	}

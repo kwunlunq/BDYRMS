@@ -5,9 +5,9 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="s" uri="/struts-tags" %>>
 <html>
 <head>
+<link rel="shortcut icon" href="<c:url value="/images/BDYLogoHeadIcon.png"/>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 27~29行JavaScript程式碼 作用等同於 ＜c:url＞的功能 
 	   如果有掛載JS檔案 且 利用JavaScript產生有包含路徑讀取專案內其他文件或檔案的時候
@@ -41,7 +41,7 @@ var contextPath='<%=request.getContextPath()%>';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RMS - checkOutDetail</title>
+<title>BDY RMS - SetMeal</title>
 </head>
 <body>
 	<div id="loadingControl"></div>
@@ -57,54 +57,9 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-		<c:forEach var="orders" items="${checkout.orders}">
-			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			
-				<c:if test="${not empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet }">
-					<details>
-					<summary>套餐-->${orderlist.bdySet.name}</summary>
-					<p>主餐:${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}</p>
-					<p>套餐價位:${orderlist.bdySet.price}</p>
-					</details>
-				</c:if>			
-			</c:forEach>
-		</c:forEach>
-		<details>
-			<summary>單點 </summary>	
-		<c:forEach var="orders" items="${checkout.orders}">
-			<c:forEach var="orderlist" items="${orders.bdyOrderlists}">
-					
-				<c:if test="${empty orderlist.bdySet}">
-					${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}<br>
-				</c:if>
-				
-			</c:forEach>
-		</c:forEach>
-		
-		</details>	
-		
-		
-	
-	總金額:<span id="price">${checkout.price}</span>優惠方案:<s:select
-									headerKey="-1"
-									headerValue="請選折折扣"
- 									value="dis"  
- 									name="dis" 
-									listKey="%{disId}" 
-				 					listValue="%{name}" 
-									list="discounts"/> 
-		
-		<input type="button" value="結帳" onclick="checkout()">
-		<script>
-		function checkout(){
-		
-		var disId=document.getElementById("dis").options[document.getElementById("dis").selectedIndex].value;
-		
-		window.location=contextPath+"/checkout/checkBill.action?disId="+disId;
-		}
-		</script>
-		
-		
+	<h1>this is setMeal</h1>
 	</div><!-- 	id="writeCodeInThisDiv" -->
+	
 </div>
 </div>
 <div id="footer">

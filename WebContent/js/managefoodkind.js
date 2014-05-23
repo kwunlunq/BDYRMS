@@ -151,13 +151,13 @@ function initcallbackUpdateFoodKind(){
 			var maOption = document.createElement("select");
 			maOption.setAttribute("id", "selectmaId"+fkId);
 			for(var i=0;i<temps.length-1;i++){
-				if(maId==(temps.length-1)){
+				if(maId==temps[i][0]){
 				var temp = temps[i].split(",");
 				maOption.innerHTML += "<option value='"+temp[0]+"'>"+temp[1]+"</option>";
 				}
 			}
 			for(var i=0;i<temps.length-1;i++){
-				if(maId!=(temps.length-1)){
+				if(maId!=temps[i][0]){
 				var temp = temps[i].split(",");
 				maOption.innerHTML += "<option value='"+temp[0]+"'>"+temp[1]+"</option>";
 				}

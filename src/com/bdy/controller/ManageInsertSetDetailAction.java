@@ -24,6 +24,15 @@ public class ManageInsertSetDetailAction extends ActionSupport implements Servle
 	 ManageService setinsertservice;
 	private int setId;
 	private int foodId;
+	private Double setDetailPrice;
+	
+	
+	public Double getSetDetailPrice() {
+		return setDetailPrice;
+	}
+	public void setSetDetailPrice(Double setDetailPrice) {
+		this.setDetailPrice = setDetailPrice;
+	}
 	public int getSetId() {
 		return setId;
 	}
@@ -36,9 +45,29 @@ public class ManageInsertSetDetailAction extends ActionSupport implements Servle
 	public void setFoodId(int foodId) {
 		this.foodId = foodId;
 	}
+	
+	
+	
+	
+	@Override
+	public void validate() {
+		
+		List<BdyDiscount> discount = setinsertservice.getAllDiscount();
+		List<BdyFood> foods = setinsertservice.getAllFood();
+		List<BdySetdetail> detail = setinsertservice.getAllDetail();
+		List<BdyFoodkind> foodkind = setinsertservice.getAllFoodKind();
+		request.setAttribute("resultFood", foods);
+		request.setAttribute("resultDetail", detail);
+		request.setAttribute("resultdiscount", discount);
+		request.setAttribute("resultfoodkind", foodkind);
+		request.setAttribute("pags", 1);
+		if(setDetailPrice==null||setDetailPrice==0){
+			this.addFieldError("setdPrice",this.getText("setdPrice.required"));
+		}
+	}
 	@Override
 	public String execute() throws Exception {
-		int setState = setinsertservice.insertSet(foodId, setId);
+		int setState = setinsertservice.insertSet(foodId, setId,setDetailPrice);
 		List<BdyDiscount> discount = setinsertservice.getAllDiscount();
 		List<BdyFood> foods = setinsertservice.getAllFood();
 		List<BdySetdetail> detail = setinsertservice.getAllDetail();
