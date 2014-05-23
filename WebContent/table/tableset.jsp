@@ -60,14 +60,12 @@ var contextPath='<%=request.getContextPath()%>';
 				<select id="changeFloor" class="MainBtnColor">
 				</select>
 				<input class="MainBtnColor" type="button" id="addTB" value="新增桌子">
-				<input class="MainBtnColor" type="button" id="reset" value="重新讀取">
+				<input class="MainBtnColor" type="button" id="reLoad" value="重新讀取">
+				<input class="MainBtnColor" type="button" id="addFloor" value="新增樓層">
+				<input class="MainBtnColor" type="button" id="delFloor" value="刪除樓層">
+				<input class="MainBtnColor" type="button" id="saveFloor" value="儲存樓層">
 			</div>
 			<div id="picTB"></div>
-			<div id="floorBTN">
-			<input class="MainBtnColor" type="button" id="addFloor" value="新增樓層">
-			<input class="MainBtnColor" type="button" id="delFloor" value="刪除樓層">
-			<input class="MainBtnColor" type="button" id="saveFloor" value="儲存樓層">
-			</div>
 		</div>
 	</div>
 </div>
