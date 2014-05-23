@@ -123,7 +123,7 @@ function initcallbackInsertMK(){
 				insertOptionMK.innerHTML +="<option value='"+temp[0]+"'>"+temp[1]+"</option>";
 			}
 			$('#insertMK').append(insertOptionMK);
-			$('#divMK').css("display","block");
+			$('#divMK').css("visibility","visible");
 		}
 	}
 }
@@ -165,7 +165,7 @@ function mkInsertChange(){
 		insertOptionMK();
 	}else{
 		$('#insertMK').empty();
-		$('#divMK').css("display","none");
+		$('#divMK').css("visibility","hidden");
 	}
 }
 

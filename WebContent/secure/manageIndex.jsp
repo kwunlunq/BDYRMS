@@ -73,16 +73,20 @@ var contextPath='<%=request.getContextPath()%>';
 var pags = "${pags}";
 var order='${param.sort}';
 var del='${param.del}';
-var mkId = '$'
 var judgeSet = "<s:property value="%{fieldErrors.foodname[0]}"/>"+"<s:property value="%{fieldErrors.foodPrice[0]}"/>"+"<s:property value="%{fieldErrors.foodQTY[0]}"/>";
 var judgeFoodKind = "<s:property value="%{fieldErrors.fkName[0]}"/>"+"<s:property value="%{fieldErrors.fkPeriod[0]}"/>"+"<s:property value="%{fieldErrors.fkSEQ[0]}"/>";
+var judgeSetDetail = "<s:property value="%{fieldErrors.setdPrice[0]}"/>";
 var booleanFood=false;
 var booleanFoodKind=false;
+var booleanSetDetail=false;
 if(judgeSet!=""){
 	booleanFood=true;
 }
 if(judgeFoodKind!=""){
 	booleanFoodKind=true;
+}
+if(judgeSetDetail!=""){
+	booleanSetDetail=true;
 }
 
 </script>
@@ -137,8 +141,8 @@ if(judgeFoodKind!=""){
 		<p>食物價錢:<br><input type="text" id="insertFoodPrice" name="foodPrice"><s:property value="%{fieldErrors.foodPrice[0]}"/></p>
 		<p>庫存量    :<br><input type="text" id="insertFoodQTY"><s:property value="%{fieldErrors.foodQTY[0]}"/></p>
 		<p>說明:<br><input type="text" id="insertFoodDiscript"></p>
-		<p>種類:<span id="insertFoodKind"></span></p>
-		<div id="divMK" style="display: none"><p>主餐種類:<span id="insertMK"></span></p></div>
+		<p>種類:<span id="insertFoodKind"></span>
+		<span id="divMK" style="visibility:hidden;">主餐種類:<span id="insertMK"></span></span></p>
 		</div>
 		
 		<table id="testTable" border="1">
@@ -195,6 +199,7 @@ if(judgeFoodKind!=""){
 		 <div id="setInsertDialog" title="新增套餐品項" style="display:none">
 		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
+		 <p>限定價錢:<input size="3" type="text" id="setDetailPrice"><s:property value="%{fieldErrors.setdPrice[0]}"/></p>
 		 </div>
 		<table style="width:50%; align:left" border="1">		
 		<thead>

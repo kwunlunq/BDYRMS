@@ -227,12 +227,13 @@ public class ManageService {
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}
-	public int insertSet(int foodId,int setId){
+	public int insertSet(int foodId,int setId,Double setDetailPrice){
 		BdySetdetail setd = new BdySetdetail();
 		BdyFoodkind fk = foodkindDao.getFoodkind(foodId);
 		BdySet set = setDao.getSet(setId);
 		setd.setBdyFoodkind(fk);
 		setd.setBdySet(set);
+		setd.setPrice(setDetailPrice);
 		int setNum = setdetailDao.insert(setd);
 		return setNum;
 	}
@@ -360,6 +361,7 @@ public Set<BdyOrder> getOrdersByTableId(int tableId){
 	public Double getPrice(Set<BdyOrder> orders){
 		Double singlePrice=0.0;
 		Double mealPrice=0.0;
+		Double differ= 0.0;
 		for(BdyOrder order:orders){
 		Set<BdyOrderlist> orderlists=order.getBdyOrderlists();
 		for(BdyOrderlist orderlist:orderlists){
@@ -371,13 +373,16 @@ public Set<BdyOrder> getOrdersByTableId(int tableId){
 		for(BdyOrder order:orders){
 			Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
 			for(BdyOrderlist  orderlist:orderlists){
+				if(orderlist.getAddmoney()!=null&&orderlist.getAddmoney()!=0){
+					differ+=orderlist.getAddmoney();
+				}
 				if(orderlist.getBdyFood().getBdyMainkind()!=null && orderlist.getBdySet()!=null){
 					
 					mealPrice +=orderlist.getBdyFood().getPrice()+orderlist.getBdySet().getPrice(); 
 				}
 			}
 		}
-		return singlePrice+mealPrice;
+		return singlePrice+mealPrice+differ;
 		
 	}
 	
