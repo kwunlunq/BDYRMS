@@ -37,6 +37,19 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/mainpage.js"/>"></script>
+<style>
+.checkview{
+margin:5px auto;
+margin-left:25px;
+border:1px solid gray;
+border-radius:20px;
+box-shadow:5px 5px 5px ;
+background: steelblue;
+float: left;
+width:80px;
+text-align: center;
+}
+</style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -58,11 +71,11 @@ var contextPath='<%=request.getContextPath()%>';
 
 	<div id="writeCodeInThisDiv">
 		<s:iterator var="table" value="usingTables">
-		<div class="checkview" >
-		<p>桌號:<s:property value="#table.tbId" /></p>
-		<p>狀態:<s:property value="#table.tableState" /></p>
-		<p><input class="MainBtnColor" type="button" value="結帳" onclick="getableId(<s:property value='#table.tbId' />)"></p>
-		</div>
+		<article class="checkview" >
+		桌號:<s:property value="#table.name" /><br>
+		狀態:<s:property value="#table.tableState" /><br>
+		<input class="MainBtnColor" type="button" value="結帳" onclick="getableId(<s:property value='#table.tbId' />)">
+		</article>
 		</s:iterator>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>

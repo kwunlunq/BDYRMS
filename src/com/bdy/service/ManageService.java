@@ -358,6 +358,11 @@ public Set<BdyOrder> getOrdersByTableId(int tableId){
 	return orders;
 	
 }
+
+public BdyTable getOrderTableName(int tableId){
+	BdyTable table = tableDao.getTableById(tableId);
+	return table;
+}
 	public Double getPrice(Set<BdyOrder> orders){
 		Double singlePrice=0.0;
 		Double mealPrice=0.0;

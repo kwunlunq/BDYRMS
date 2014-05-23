@@ -56,6 +56,7 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 
+	<h3>第${table.name}號桌</h3>
 	<div id="writeCodeInThisDiv">
 		<c:forEach var="orders" items="${checkout.orders}">
 			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			
@@ -65,8 +66,18 @@ var contextPath='<%=request.getContextPath()%>';
 					<p>主餐:${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}</p>
 					<p>套餐價位:${orderlist.bdySet.price}</p>
 					</details>
-				</c:if>			
+				</c:if>		
 			</c:forEach>
+			<details>
+			<summary>${orderlist.bdySet.name}-套餐內容</summary>
+			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">
+				<c:if test="${empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet }">
+				<c:forEach var="setdetail" items="${orderlist.bdyFood.name}">
+				<p>${setdetail}</p>
+				</c:forEach>
+				</c:if>		
+			</c:forEach>
+			</details>
 		</c:forEach>
 		<details>
 			<summary>單點 </summary>	
@@ -93,7 +104,7 @@ var contextPath='<%=request.getContextPath()%>';
 				 					listValue="%{name}" 
 									list="discounts"/> 
 		
-		<input type="button" value="結帳" onclick="checkout()">
+		<input type="button" class="MainBtnColor" value="結帳" onclick="checkout()">
 		<script>
 		function checkout(){
 		

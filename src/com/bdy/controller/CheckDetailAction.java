@@ -14,6 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyPriority;
+import com.bdy.model.BdyTable;
 import com.bdy.model.CheckOut;
 import com.bdy.service.ManageService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -52,6 +53,7 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 
 	@Override
 	public String execute() throws Exception {
+		session.remove("table");
 		session.remove("checkout");
 		discounts = service.getAllDiscount();
 		CheckOut checkout = new CheckOut();
@@ -72,6 +74,9 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 		checkout.setOrders(orders);
 		checkout.setCustNum(maxCustNum);
 		checkout.setPrice(price);
+		
+		BdyTable table = service.getOrderTableName(tabId);
+		session.put("table", table);
 		session.put("checkout", checkout);
 		return super.execute();
 	}
