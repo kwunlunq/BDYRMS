@@ -360,6 +360,7 @@ public Set<BdyOrder> getOrdersByTableId(int tableId){
 	public Double getPrice(Set<BdyOrder> orders){
 		Double singlePrice=0.0;
 		Double mealPrice=0.0;
+		Double differ= 0.0;
 		for(BdyOrder order:orders){
 		Set<BdyOrderlist> orderlists=order.getBdyOrderlists();
 		for(BdyOrderlist orderlist:orderlists){
@@ -371,13 +372,16 @@ public Set<BdyOrder> getOrdersByTableId(int tableId){
 		for(BdyOrder order:orders){
 			Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
 			for(BdyOrderlist  orderlist:orderlists){
+				if(orderlist.getAddmoney()!=null&&orderlist.getAddmoney()!=0){
+					differ+=orderlist.getAddmoney();
+				}
 				if(orderlist.getBdyFood().getBdyMainkind()!=null && orderlist.getBdySet()!=null){
 					
 					mealPrice +=orderlist.getBdyFood().getPrice()+orderlist.getBdySet().getPrice(); 
 				}
 			}
 		}
-		return singlePrice+mealPrice;
+		return singlePrice+mealPrice+differ;
 		
 	}
 	
