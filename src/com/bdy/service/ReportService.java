@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.naming.NamingException;
 
 import org.json.simple.JSONArray;
@@ -267,7 +266,7 @@ public class ReportService {
 			foodkindName.add(foodkinds.getName());
 		}
 		obj.put("foodkindName", foodkindName);
-		
+
 		/*
 		 * 目標 : { "i類":[{"foodAmount":["", "", ...,""]},{"foodName":["",
 		 * "",...,""]}] }
@@ -275,7 +274,7 @@ public class ReportService {
 
 		for (int i = 1; i <= foodkindBeans.size(); i++) {
 			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
-			foodAmounts = reportDao.getMonthFoodAmount(year,month, i);
+			foodAmounts = reportDao.getMonthFoodAmount(year, month, i);
 			JSONArray foodAmountList = new JSONArray();
 			JSONArray foodNameList = new JSONArray();
 			if (foodAmounts == null || foodAmounts.isEmpty()) {
@@ -294,12 +293,12 @@ public class ReportService {
 			foodkind.add(foodkindObj);
 			obj.put(foodkindBeans.get(i - 1).getFkId(), foodkind);
 		}
-		
+
 		/*
 		 * 目標 : { "單日來客數":["", "", ...,""], "單日營收":["", "", ..., ""],
 		 * "日期":[1,2,...,] }
 		 */
-		
+
 		List<MonthReport> beans = new ArrayList<MonthReport>();
 		beans = reportDao.getMonthRevenueDetailsDB(year, month);
 
@@ -333,24 +332,35 @@ public class ReportService {
 		System.out.println(obj);
 		return obj;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public JSONObject getOrderDetailByBillIdJSON(int billId) {
 		JSONObject obj = new JSONObject();
 		JSONArray foodName = new JSONArray();
 		JSONArray foodPrice = new JSONArray();
+		JSONArray fooeSet = new JSONArray();
+		JSONArray foodAddMoney = new JSONArray();
 		Set<BdyBilldetail> bills = new HashSet<BdyBilldetail>();
 		bills = billDao.getBill(billId).getBdyBilldetails();
-		for(BdyBilldetail billdetail : bills){
-			Set<BdyOrderlist> Orderlists = new HashSet<BdyOrderlist>();
-			Orderlists=billdetail.getBdyOrder().getBdyOrderlists();
-			for(BdyOrderlist orderlist:Orderlists){
+		for (BdyBilldetail billdetail : bills) {
+			Set<BdyOrderlist> orderlists = new HashSet<BdyOrderlist>();
+			orderlists = billdetail.getBdyOrder().getBdyOrderlists();
+			for (BdyOrderlist orderlist : orderlists) {
 				foodName.add(orderlist.getBdyFood().getName());
 				foodPrice.add(orderlist.getBdyFood().getPrice());
+				if (orderlist.getBdySet() != null) {
+					fooeSet.add(orderlist.getBdySet().getName());
+				} else {
+					fooeSet.add("單點");
+				}
+				foodAddMoney.add(orderlist.getAddmoney());
 			}
 		}
 		obj.put("foodName", foodName);
 		obj.put("foodPrice", foodPrice);
+		obj.put("fooeSet", fooeSet);
+		obj.put("foodAddMoney", foodAddMoney);
+		System.out.println(obj);
 		return obj;
 	}
 }

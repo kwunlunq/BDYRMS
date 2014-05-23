@@ -19,11 +19,16 @@ $(function() {
 		hide : {
 			effect : "explode",
 			duration : 200
-		}
+		},
+		maxHeight: 300,
+		minHeight: 200,
+		maxWidth: 300,
+		minWidth: 300,
+		title: "點菜單明細"
 	});
 	$("body").on("click", "#showdetail", function() {
-		$("#billOrderDialog").dialog("open");
 		var billId = $(this).attr("billId");
+		$("#billOrderDialog").dialog("open");
 		$.ajax({
 			url : contextPath + '/report/OrderDetailJSONServlet',
 			type : 'POST',
@@ -34,6 +39,8 @@ $(function() {
 			success : function(orderdetails) {
 				var foodName = orderdetails.foodName;
 				var foodPrice = orderdetails.foodPrice;
+				var fooeSet = orderdetails.fooeSet;
+				var foodAddMoney = orderdetails.foodAddMoney;
 				$('#billOrderDialog').empty();
 				var table = $("<table></table>");
 				var tr = $("<tr></tr>");
@@ -42,6 +49,12 @@ $(function() {
 				$(tr).append(th);
 				var th = $("<th></th>");
 				$(th).append("單價");
+				$(tr).append(th);
+				var th = $("<th></th>");
+				$(th).append("類別");
+				$(tr).append(th);
+				var th = $("<th></th>");
+				$(th).append("差額");
 				$(tr).append(th);
 				$(table).append(tr);
 				for ( var i = 0; i < foodName.length; i++) {
@@ -52,9 +65,17 @@ $(function() {
 					var td = $("<td></td>");
 					$(td).append(foodPrice[i]);
 					$(tr).append(td);
+					var td = $("<td></td>");
+					$(td).append(fooeSet[i]);
+					$(tr).append(td);
+					var td = $("<td></td>");
+					$(td).append(foodAddMoney[i]);
+					$(tr).append(td);
 					$(table).append(tr);
 				};
+				$(table).attr("style","margin: 0 auto");
 				$('#billOrderDialog').append(table);
+				
 			}
 		});
 	});

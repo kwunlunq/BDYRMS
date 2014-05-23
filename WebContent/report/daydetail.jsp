@@ -51,7 +51,9 @@ table{
 	font-size:0.85em;
 	text-align:center;
 }
-
+table,th,td,tr { 
+ 	border-style: double; 
+}
 .ui-tabs-vertical {
 	width: 55em;
 }
@@ -174,7 +176,7 @@ table{
 								</table>
 							</c:if>
 						</div>
-						<div id="billOrderDialog" title="點餐單明細">
+						<div id="billOrderDialog">
 						</div>
 						<div id="dayReportTabs-2">
 							<c:if test="${not empty bills}">

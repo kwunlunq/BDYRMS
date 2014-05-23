@@ -42,10 +42,17 @@ var ids = [];
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 <script src="<c:url value="/js/monthdetail.js"/>"></script>
+<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables_themeroller.min.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables.min.css"/>">
 <style type="text/css">
-table,th,td,tr {
-	border-style: double;
+table {
+	font-size:0.85em;
+	text-align: center;
 }
+table,th,td,tr { 
+ 	border-style: double; 
+} 
 .ui-tabs-vertical {
 	width: 55em;
 }
@@ -79,6 +86,10 @@ table,th,td,tr {
 	padding: 1em;
 	float: right;
 	width: 40em;
+}
+
+.DataTables_sort_icon {
+	display: none;
 }
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
@@ -136,7 +147,7 @@ table,th,td,tr {
 						</ul>
 						<div id="monthReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3 style="text-align:center">
+								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:99">
 									${param.year}年${param.month}月報表 | 
 									單月來客數 :
 									<c:set var="totalNum" value="0" />
@@ -151,7 +162,7 @@ table,th,td,tr {
 									</c:forEach>
 									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
 								</h3>
-								<table style="margin: 0 auto">
+								<table id="bills" style="margin: 0 auto">
 									<thead>
 										<tr>
 											<th>日期</th>

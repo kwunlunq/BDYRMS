@@ -1,4 +1,11 @@
 $(function() {
+	$('table').DataTable({
+		"jQueryUI" : true,
+		"scrollY" : ($('#writeCodeInThisDiv').height() -290),
+		"scrollCollapse" : true,
+		"paging" : false,
+		"stateSave" : true,
+	});
 	$("#monthReportTabs").tabs();
 	$("#monthMealsCount").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
 	$("#monthMealsCount li").removeClass("ui-corner-top").addClass(
