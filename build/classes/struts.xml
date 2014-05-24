@@ -93,4 +93,9 @@
 		<result name="success" type="redirect">/checkout/checkTable.action</result>
 		</action>
 	</package>
+	<package name="setmeal" namespace="/setmeal" extends="struts-default">
+	<action name="setIndex" class="com.bdy.controller.SetMealIndexAction">
+	<result name="success">/setmeal/setIndex.jsp</result>
+	</action>
+	</package>
 </struts>

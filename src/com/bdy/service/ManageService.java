@@ -340,6 +340,7 @@ public int deleteMK(int mkId){
 public  List<BdyTable> getUseTable(){
 	List<BdyTable> usingTabls = new ArrayList<BdyTable>();
 	List<BdyTable> alltable = tableDao.getAllTable();
+	//判斷是使用中的桌子才放到List
 	for(BdyTable temp:alltable){
 		if(temp.getTableState().equals(new Integer(1))){
 			usingTabls.add(temp);
@@ -431,11 +432,14 @@ public BdyTable getOrderTableName(int tableId){
 	public BdyDiscount getDiscountById(int discountId){
 		return discountDao.getDiscount(discountId);
 	}
-	
+//------------------------------SetMeal----------------------------------------------
+	public List<BdyFoodkind> getAllFoodKindSetMeal(){
+		List<BdyFoodkind> fk = foodkindDao.getAllFoodkind();
+		return fk;
+	}
+
 	
 }
-
-
 
 
 
