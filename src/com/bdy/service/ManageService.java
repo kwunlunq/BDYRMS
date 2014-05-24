@@ -1,9 +1,12 @@
 package com.bdy.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.bdy.model.BdyBill;
 import com.bdy.model.BdyBilldetail;
@@ -348,13 +351,38 @@ public  List<BdyTable> getUseTable(){
 	return usingTabls;
 }
 public Set<BdyOrder> getOrdersByTableId(int tableId){
-	Set<BdyOrder> orders = new HashSet<BdyOrder>();
-	List<BdyOrder> allOrder = orderDao.getAllOrder();
-	for(BdyOrder temp:allOrder){
+	Set<BdyOrder> orders = new TreeSet<BdyOrder>(new Comparator<BdyOrder>() {//----一訂單編號排序
+
+		@Override
+		public int compare(BdyOrder o1, BdyOrder o2) {
+			
+			return new Integer(o1.getOdId()).compareTo(new Integer(o2.getOdId()));
+		}
+		
+	});//--end訂單編號排序
+	
+	List<BdyOrder> allOrder = orderDao.getAllOrder();//----取得所有資料庫orders
+
+	for(BdyOrder temp:allOrder){//-------判斷此桌的訂單加入orders內
 		if(temp.getBdyTable().getTbId()==tableId && temp.getIsCheckout().equals(new Integer(0))){
 			orders.add(temp);
 		}
 	}
+	
+	
+	for(BdyOrder temp:orders){//-----------------------排序此桌的order內裡面orderList(造orderlistId排序)
+		
+		Collections.sort(new ArrayList<BdyOrderlist>(temp.getBdyOrderlists()), new Comparator<BdyOrderlist>() {
+
+			@Override
+			public int compare(BdyOrderlist o1, BdyOrderlist o2) {
+				// TODO Auto-generated method stub
+				return new Integer(o1.getOdlistId()).compareTo(new Integer(o2.getOdlistId()));
+			}
+			
+		});
+	}
+	
 	return orders;
 	
 }
@@ -364,9 +392,9 @@ public BdyTable getOrderTableName(int tableId){
 	return table;
 }
 	public Double getPrice(Set<BdyOrder> orders){
-		Double singlePrice=0.0;
-		Double mealPrice=0.0;
-		Double differ= 0.0;
+		Double singlePrice=0.0;//----------------單點的錢
+		Double mealPrice=0.0;//----------------套餐的錢
+		Double differ= 0.0;/////-------------------補差額的總金額
 		for(BdyOrder order:orders){
 		Set<BdyOrderlist> orderlists=order.getBdyOrderlists();
 		for(BdyOrderlist orderlist:orderlists){

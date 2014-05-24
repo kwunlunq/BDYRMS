@@ -37,6 +37,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/mainpage.js"/>"></script>
+<script src="<c:url value="/js/getUsingTable.js"/>"></script>
 <style>
 .checkview{
 margin:5px auto;
@@ -79,11 +80,6 @@ text-align: center;
 		</s:iterator>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
-<script>
-	function getableId(tabId){
-		window.location=contextPath+"/checkout/checkDetail.action?tabId="+tabId;
-	}
-</script>
 </div>
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />

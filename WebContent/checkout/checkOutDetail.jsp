@@ -66,19 +66,22 @@ var contextPath='<%=request.getContextPath()%>';
 					<p>主餐:${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}</p>
 					<p>套餐價位:${orderlist.bdySet.price}</p>
 					</details>
-				</c:if>		
+				</c:if>
+						
 			</c:forEach>
 			<details>
 			<summary>${orderlist.bdySet.name}-套餐內容</summary>
 			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">
-				<c:if test="${empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet }">
-				<c:forEach var="setdetail" items="${orderlist.bdyFood.name}">
-				<p>${setdetail}</p>
-				</c:forEach>
-				</c:if>		
+				<c:if test="${empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet && orderlist.addmoney!=0 }">
+				<p>品項名稱:${orderlist.bdyFood.name }----補差額:${orderlist.addmoney}</p>
+				</c:if>	
 			</c:forEach>
 			</details>
 		</c:forEach>
+		<!-- 以上為套餐部分----可知道點甚麼"套餐"以及"主餐價位" -->
+		
+		
+		
 		<details>
 			<summary>單點 </summary>	
 		<c:forEach var="orders" items="${checkout.orders}">

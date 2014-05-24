@@ -56,24 +56,24 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 		session.remove("table");
 		session.remove("checkout");
 		discounts = service.getAllDiscount();
-		CheckOut checkout = new CheckOut();
-		checkout.setTabId(tabId);
-		Set<BdyOrder> orders = service.getOrdersByTableId(tabId);
-		List<BdyOrder> ords = new ArrayList<BdyOrder>();
+		CheckOut checkout = new CheckOut();//-----創造checkout物件
+		checkout.setTabId(tabId); //取得桌號
+		Set<BdyOrder> orders = service.getOrdersByTableId(tabId);//--取得此桌的orders
+		List<BdyOrder> ords = new ArrayList<BdyOrder>();//Set轉List
 		for(BdyOrder temp:orders){
 			ords.add(temp);
 		}
-		Integer maxCustNum=0;
+		Integer maxCustNum=0;//----取得所有訂單中最大客數為客數
 		for(BdyOrder tempOrder:ords){
 			if(tempOrder.getCustNum()>maxCustNum){
 				maxCustNum=tempOrder.getCustNum();
 			}
 		}
-		Double price = service.getPrice(orders);
+		Double price = service.getPrice(orders);//------計算所有訂單中的價錢
 		
-		checkout.setOrders(orders);
-		checkout.setCustNum(maxCustNum);
-		checkout.setPrice(price);
+		checkout.setOrders(orders);//-----放入
+		checkout.setCustNum(maxCustNum);//-----放入
+		checkout.setPrice(price);//-----放入
 		
 		BdyTable table = service.getOrderTableName(tabId);
 		session.put("table", table);
