@@ -41,7 +41,7 @@ var contextPath='<%=request.getContextPath()%>';
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
-<title>BDY RMS - Welcome</title>
+<title>BDY RMS - ManageIndise</title>
 <style>
 .setCol{
  	text-align:center;			

@@ -5,6 +5,7 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 <link rel="shortcut icon" href="<c:url value="/images/BDYLogoHeadIcon.png"/>" />
@@ -37,10 +38,27 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/mainpage.js"/>"></script>
+<script src="<c:url value="/js/setmeal.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
+<style type="text/css">
+.setCol{
+text-align:center;	
+float:left;
+width: 24%;
+height:100%;
+border-left:1px solid blue;
+}
+.setColMid{
+text-align:center;	
+float:left;
+width: 50%;
+height:100%;
+border-left:1px solid blue;
+}
+</style>
 <title>BDY RMS - SetMeal</title>
 </head>
 <body>
@@ -57,7 +75,25 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	<h1>this is setMeal</h1>
+	<div class="setCol">
+	<h3>套餐名稱</h3>
+	<input type="text">
+	</div>
+	<div class="setColMid">
+	<h3>選擇套餐種類</h3>
+	
+		<s:iterator var="fk" value="foodKind">
+		<input type="checkbox" id="check" onclick="showMe('span<s:property value="#fk.fkId" />', this)"><s:property value="#fk.name" />
+		<span id="span<s:property value="#fk.fkId" />" style="display: none">
+		限定價錢:<input size="2" type="text" id="text<s:property value="#fk.fkId" />" onblur="checkPrice(<s:property value="#fk.fkId" />)">
+		</span><br>
+		</s:iterator>
+		<h4>限定價錢總合:<div id="totalPrice">0</div></h4>
+	</div>
+	<div class="setCol">
+	<h3>套餐價錢:<input type="text" size="3"></h3>
+	<input type="button" value="確定">
+	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 	
 </div>
