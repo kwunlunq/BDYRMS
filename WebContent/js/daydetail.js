@@ -83,7 +83,11 @@ $(function() {
 	$("#datepicker").datepicker({
 		dateFormat : "yy-mm-dd",
 		changeMonth : true,
-		changeYear : true
+		changeYear : true,
+		beforeShow: function(input){$(input).css({ 
+            "position": "relative", 
+            "z-index": 99
+        });}
 	});
 	$("#dayReportTabs").tabs();
 	$("#dayMealsCount").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
