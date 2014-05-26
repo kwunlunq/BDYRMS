@@ -131,7 +131,7 @@ table,th,td,tr {
 						</ul>
 						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:99">
+								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:90">
 									日期 : ${param.date} |
 									單日來客數 : 
 									<c:set var="totalNum" value="0" />

@@ -532,6 +532,9 @@ public class OrderService {
 					bdyFood = foodDao.getFood(fdId);
 				}else {
 					bdyFood = fdMap.get(fdId);
+					if (bdyFood == null ) {
+						System.out.println("bdyFood is null!");
+					}
 				}
 				int fkId = bdyFood.getBdyFoodkind().getFkId();
 				System.out.println("\tfkId : "+fkId);

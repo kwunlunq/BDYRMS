@@ -1,5 +1,7 @@
 package com.bdy.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
@@ -28,6 +30,14 @@ public class SetMealIndexAction extends ActionSupport implements Preparable{
 	@Override
 	public String execute() throws Exception {
 		foodKind = service.getAllFoodKindSetMeal();
+		Collections.sort(foodKind,new Comparator<BdyFoodkind>() {
+
+			@Override
+			public int compare(BdyFoodkind o1, BdyFoodkind o2) {
+				return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+			}
+			
+		});
 		return Action.SUCCESS;
 	}
 
