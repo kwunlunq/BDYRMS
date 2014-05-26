@@ -352,4 +352,17 @@ public class KitchenService {
 		JsonArray jsonArray = jsonArrayBuilder.build();
 		return jsonArray;
 	}
+	
+	
+	public void outAllMeal (){
+		List<BdyOrderlist> list = orderlistDao.getAllorderlist();
+		for(BdyOrderlist notoutMeal:list){
+			if(notoutMeal.getOlState()==0){
+				notoutMeal.setOlState(new Integer(1));
+				orderlistDao.update(notoutMeal);
+			}
+		}
+		
+		
+	}
 }

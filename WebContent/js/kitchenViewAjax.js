@@ -1,15 +1,14 @@
 $(function() {
 		$( "#tabs" ).tabs();
-
+		
 		getAllSortData();
 			  cala();	 
 			  setInterval(cala,1000);
-			  $( "input[name=outMeal]").button();
-		
+		$(":button").addClass("MainBtnColor");
 });
-windows.onload=function(){
+window.onload=function(){
 	cala();	 
-	  setInterval(cala,1000);
+	setInterval(cala,1000);
 };
 function getAllSortData(){
 	var strUrl = contextPath+"/kitchen/kitchenAllmeal.action";
@@ -74,6 +73,7 @@ function getAllSortData(){
 				eletextButton.setAttribute("name","outMeal");
 				eletextButton.setAttribute("value","出餐");
 				eletextButton.setAttribute("onclick","deleteItem("+datas[0].allmeall[i].點單明細編號+",0)");
+				eletextButton.setAttribute("class", "MainBtnColor");
 				
 				eleTID.appendChild(nodeTID);
 				eleTID.appendChild(elehidden);
@@ -166,7 +166,8 @@ function getAllSortData(){
 							eletextButton.setAttribute("name","outMeal");
 							eletextButton.setAttribute("value","出餐");
 							eletextButton.setAttribute("onclick","deleteItem("+datas[0].allmeall[j].點單明細編號+",0)");
-
+							eletextButton.setAttribute("class", "MainBtnColor");
+							
 							eleTID.appendChild(nodeTID);
 							eleTID.appendChild(elehidden);
 							eleName.appendChild(nodeName);
@@ -265,4 +266,11 @@ function ckeckOrder(){
 	$("#tabs-5").empty();
 	$("#tabs-6").empty();
 	getAllSortData();
+}
+
+function allOrderout(){
+	var b=window.confirm("你確定全部出餐?");
+	if(b){
+		window.location=contextPath+"/kitchen/outallmeal.action";
+	}
 }

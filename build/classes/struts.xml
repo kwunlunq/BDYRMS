@@ -20,6 +20,9 @@
 		</action>
 		<action name="kitchenAllmeal" class="com.bdy.controller.GetAllOutMealAction" method="myJSONOutMeal">
 		</action>
+		<action name="outallmeal" class="com.bdy.controller.OutAllMealAction">
+		<result name="success" type="redirect">/kitchen/kitchenView.action</result>
+		</action>
 	</package>
 	
 <!-- Max -->
