@@ -46,41 +46,35 @@ public class GetOrderDataServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-
 		String data = request.getParameter("data");
 		String empId = request.getParameter("empId");
 		HttpSession session = request.getSession();
+		
 		if (data == null) {
 			out.print("Param not found! (\"data\")");
 			return ;
 		}
 		switch (data) {
 		case "initial" :
+			TreeMap<Integer, BdyMainkind> mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
+			TreeMap<Integer, BdyFoodkind> fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
+			TreeMap<Integer, BdyFood> foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
 			TreeMap<Integer, BdyTable> tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			TreeMap<Integer, BdyFloor> floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
-			TreeMap<Integer, BdyFood> foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
-			TreeMap<Integer, BdyFoodkind> fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
-			TreeMap<Integer, BdyMainkind> mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
 			TreeMap<Integer, BdySet> sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
 			TreeMap<Integer, BdySetdetail> sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
-
-			getEmpToSession(session, empId);
 			break;
 		case "table" :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
-			
 			JsonArray table = service.makeJSONTables(tables, floors);
-			
 			out.write(table.toString());
 			break;
 		case "food" :
 			foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
 			fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
 			mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
-			
 			JsonObject food = service.makeJSONFoods(foods, fks, mks);
-			
 			out.write(food.toString());
 			break;
 		case "fk" :
@@ -91,20 +85,30 @@ public class GetOrderDataServlet extends HttpServlet{
 		case "set" :
 			sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
 			sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
-			
 			JsonArray sd = service.makeJSONSets(sets, sds);
-			
 			out.write(sd.toString());
 			break;
 		case "emp" :
+			session.removeAttribute("emp");
 			getEmpToSession(session, empId);
+			break;
+		case "clear" :
+			session.removeAttribute("foods");
+			session.removeAttribute("fks");
+			session.removeAttribute("mks");
+			session.removeAttribute("sets");
+			session.removeAttribute("sds");
+			session.removeAttribute("tables");
+			session.removeAttribute("floors");
+			session.removeAttribute("emp");
+			out.println("Session Cleared");
+			System.out.println("Session Cleared");
 			break;
 		default :
 			System.out.println("Wrong param!");
 			break;
 		}
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	public <T1, T2> TreeMap<T1, T2> getDataToSession(HttpSession session,
@@ -136,7 +140,6 @@ public class GetOrderDataServlet extends HttpServlet{
 		} else {
 			System.out.println("Session Hit : "+dataName);
 		}
-//		System.out.println("Session Complete : "+dataName);
 		return datas;
 	}
 	
@@ -144,13 +147,12 @@ public class GetOrderDataServlet extends HttpServlet{
 		if (session.getAttribute("emp") != null) {
 			System.out.println("Session Hit : emp");
 		} else if (empId != null) {
-			System.out.println("Session Miss : emp");
+			System.out.println("Session Update : emp");
 			session.setAttribute("emp", service.getEmp(empId));
 		} else {
 			System.out.println("No Emp ID");
 			return ;
 		}
-//		System.out.println("Session Complete : emp");
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
