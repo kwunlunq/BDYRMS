@@ -25,7 +25,7 @@ $(function() {
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
 	getTables();
-	readEmpToSession(empId);
+	getEmp(empId);
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
 	// 解決按鈕被腰斬問題
@@ -45,7 +45,7 @@ for(var i=0; i<ca.length; i++)
 return "";
 }
 
-function readEmpToSession(empId) {
+function getEmp(empId) {
 	var url = contextPath+"/order/getOrderDataServlet";
 	$.getJSON(url, {"data":"emp", "empId":empId});
 }
@@ -320,21 +320,6 @@ function deletSetTab(thisTab){
      $( "#orderlist" ).tabs( "refresh" );
      
      
-//	 $.each($('div[id^="orderlist-"')
-//	 var obj = $('div[id^="orderlist-"]');
-//	 for (var i = 0; i < obj.length; i++) {
-//		 console.log($(obj[i]).attr("id"));
-//		 var oldId = $(obj[i]).attr("id");
-//		 var oldIdx = parseInt(oldId.substring(oldId.length-1));
-//		 console.log(oldIdx);
-//		 if (oldIdx > index) {
-//			 var newId = oldId.substring(0, oldId.length-1) + (oldIdx-1);
-//			 console.log(newId);
-//			 
-//			 $(obj[i]).attr("id", newId);
-//			 
-//		 }
-//	 }
 }
 
 function confirmClick() {
