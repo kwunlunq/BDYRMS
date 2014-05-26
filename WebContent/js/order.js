@@ -25,7 +25,7 @@ $(function() {
 	getSets(); 	// 取得套餐資訊
 	getFks(); 	// 取得fk資訊
 	getTables();
-	readDataToSession(empId);
+	readEmpToSession(empId);
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
 	// 解決按鈕被腰斬問題
@@ -45,12 +45,9 @@ for(var i=0; i<ca.length; i++)
 return "";
 }
 
-function readDataToSession() {
+function readEmpToSession(empId) {
 	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"sessionFood"});
-	$.getJSON(url, {"data":"sessionSet"});
-	$.getJSON(url, {"data":"sessionEmp", "empId":empId});
-	$.getJSON(url, {"data":"sessionTable"});
+	$.getJSON(url, {"data":"emp", "empId":empId});
 }
 function listenerInitial() {
 	$('body').on('click','#num',function(){
@@ -227,20 +224,10 @@ function cookieDecorder( str ) {
 }
 
 function getTables() {
-	var tables = getCookie("tables");
-	if (tables != "") {
-		var result = cookieDecorder(tables);
-		var obj = $.parseJSON( result );
-//		console.log(obj);
-		getTablesCallback(obj);
-	} else {
-		var url = contextPath+"/order/getOrderDataServlet";
-		$.getJSON(url, {"data":"table"}, function(result) {
-			
-			getTablesCallback(result);
-
-		});
-	};
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"table"}, function(result) {
+		getTablesCallback(result);
+	});
 }
 
 function getTablesCallback(result) {
@@ -557,18 +544,10 @@ function setOnClick() {
 }
 
 function getSets() {
-	var set = getCookie("sets");
-	if (set != "") {
-		var result = cookieDecorder(set);
-		var obj = $.parseJSON( result );
-//		console.log(obj);
-		getSetCallback(obj);
-	} else {
-		var url = contextPath+"/order/getOrderDataServlet";
-		$.getJSON(url, {"data":"set"}, function(result) {
-			getSetCallback(result);
-		});
-	};
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"set"}, function(result) {
+		getSetCallback(result);
+	});
 }
 
 function getSetCallback(result) {
@@ -579,18 +558,18 @@ function getSetCallback(result) {
 	};
 }
 function getFks() {
-	var fkscookie = getCookie("fks");
-	if (fkscookie != "") {
-		var result = cookieDecorder(fkscookie);
-		var obj = $.parseJSON( result );
-//		console.log(obj);
-		getFksCallback(obj);
-	} else {
-		var url = contextPath+"/order/getOrderDataServlet";
-		$.getJSON(url, {"data":"fk"}, function(result) {
-			getFksCallback(result);
-		});
-	};
+//	var fkscookie = getCookie("fks");
+//	if (fkscookie != "") {
+//		var result = cookieDecorder(fkscookie);
+//		var obj = $.parseJSON( result );
+////		console.log(obj);
+//		getFksCallback(obj);
+//	} else {
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"fk"}, function(result) {
+		getFksCallback(result);
+	});
+//	};
 }
 
 function getFksCallback(result) {
@@ -603,22 +582,12 @@ function getFksCallback(result) {
 }
 
 function getFoods() {
-	var food = getCookie("foods");
-//	if (false) {
-	if (food != "") {
-		var result = cookieDecorder(food);
-		var obj = $.parseJSON( result );
-//		console.log("food:");
-//		console.log(obj);
-		drawTab(obj);
-	} else {
-		var url = contextPath+"/order/getOrderDataServlet";
-		$.getJSON(url, {"data":"food"}, function(result) {
-			drawTab(result);
-//			console.log(result);
-		});
-	};
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"food"}, function(result) {
+		drawTab(result);
+	});
 }
+
 function drawTab(result) {
 	var mains = result.isMain;
 	var tagscount = 0;

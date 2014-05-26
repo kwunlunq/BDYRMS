@@ -191,6 +191,16 @@ private SessionFactory sf = null;
 		session.close();
 		return count;
 	}
+	@SuppressWarnings("unchecked")
+	public List<BdySetdetail> getAllSetdetailSortedBySeq(){
+		Session session = sf.openSession();
+		List<BdySetdetail> result = session.createCriteria(BdySetdetail.class)
+				   						   .createAlias("bdyFoodkind", "fk")
+				   						   .addOrder(Order.asc("fk.seq"))
+				   						   .list();
+		session.close();
+		return result;
+	}
 	
 	/*
 	 * ===================================

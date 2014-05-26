@@ -1,23 +1,21 @@
 package com.bdy.service;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFloor;
@@ -137,6 +135,9 @@ public class OrderService {
 	public List<BdyFoodkind> getFoodkinds() {
 		return foodkindDao.getAllFoodkind();
 	}
+	
+
+	
 	public JsonArray getSetDetailBySetIdJSON(int SetId) {
 		List<BdySetdetail> result = new ArrayList<BdySetdetail>();
 		List<BdySetdetail> details = setdetailDao.getSortedSetdetailBySetId(SetId);
@@ -191,16 +192,43 @@ public class OrderService {
 		return mkBuilder.build();
 	}
 	
-	public HashMap<Integer, BdyFood> getAllFood() {
-		HashMap<Integer, BdyFood> foods = new HashMap<Integer, BdyFood>();
+	public TreeMap<Integer, BdyFoodkind> getAllFksSortedBySeq() {
+		TreeMap<Integer, BdyFoodkind> fks = new TreeMap<Integer, BdyFoodkind>();
+		List<BdyFoodkind> foodkinds = foodkindDao.getAllFoodkind();
+		
+		int index = 1;
+		for (BdyFoodkind fk : foodkinds) {
+			fks.put(index++, fk);
+		}
+		return fks;
+	}
+	public TreeMap<Integer, BdyMainkind> getAllMks() {
+		TreeMap<Integer, BdyMainkind> mks = new TreeMap<Integer, BdyMainkind>();
+		List<BdyMainkind> mainkinds = mainkindDao.getAllMainkind();
+		for (BdyMainkind mk : mainkinds) {
+			mks.put(mk.getMkId(), mk);
+		}
+		return mks;
+	}
+	public TreeMap<Integer, BdyFood> getAllFoods() {
+		TreeMap<Integer, BdyFood> foods = new TreeMap<Integer, BdyFood>();
 		List<BdyFood> foodlist = foodDao.getAllFood();
 		for (BdyFood fd : foodlist) {
 			foods.put(fd.getFdId(), fd);
 		}
 		return foods;
 	}
-	public HashMap<Integer, BdySet> getAllSet() {
-		HashMap<Integer, BdySet> sets = new HashMap<Integer, BdySet>();
+	public TreeMap<Integer, BdySetdetail> getAllSortedSetdetails() {
+		TreeMap<Integer, BdySetdetail> setdetails = new TreeMap<Integer, BdySetdetail>();
+		List<BdySetdetail> setdetaillist = setdetailDao.getAllSetdetailSortedBySeq();
+		int index = 1;
+		for (BdySetdetail sd : setdetaillist) {
+			setdetails.put(index++, sd);
+		}
+		return setdetails;
+	}
+	public TreeMap<Integer, BdySet> getAllSets() {
+		TreeMap<Integer, BdySet> sets = new TreeMap<Integer, BdySet>();
 		List<BdySet> setlist = setDao.getAllSet();
 		for (BdySet set : setlist) {
 			sets.put(set.getSetId(), set);
@@ -211,13 +239,83 @@ public class OrderService {
 		BdyEmp emp = empDao.getEmpById(empId);
 		return emp;
 	}
-	public HashMap<Integer, BdyTable> getAllTable() {
-		HashMap<Integer, BdyTable> tables = new HashMap<Integer, BdyTable>();
+	public TreeMap<Integer, BdyTable> getAllTables() {
+		TreeMap<Integer, BdyTable> tables = new TreeMap<Integer, BdyTable>();
 		List<BdyTable> tablelist = tableDao.getAllTable();
 		for (BdyTable table : tablelist) {
 			tables.put(table.getTbId(), table);
 		}
 		return tables;
+	}
+	public TreeMap<Integer, BdyFloor> getAllFloors() {
+		TreeMap<Integer, BdyFloor> floors = new TreeMap<Integer, BdyFloor>();
+		List<BdyFloor> floorlist = floorDao.getAllFloor();
+		for (BdyFloor floor : floorlist) {
+			floors.put(floor.getFloorid(), floor);
+		}
+		return floors;
+	}
+	public JsonObject getFoodsJSONOld() {
+		/*
+		 * 目標 :
+		 * {"isMain":
+		 * 		[{"牛排":[	{"fdId"="1", "fdName"="牛小排", "fkId=5"},
+		 * 					{"fdId"="2", "fdName"="菲力牛排", "fkId=5"}
+		 * 					{"fdId"="3", "fdName"="肋眼牛排", "fkId=5"}]}, 
+ 		 *  	 {"披薩":["	{"fdId"="4", "fdName"="夏威夷披薩"},
+ 		 *  				{"fdId"="5", "fdName"="海鮮披薩"}]}
+ 		 *  	]
+ 		 *  "notMain":
+ 		 *  	[{"前菜":[  {}, {}, {}    ]
+ 		 *  }
+ 		 *  
+		 */
+		System.out.println("Geting foods...");
+		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
+		List<BdyMainkind> mks =  mainkindDao.getAllMainkind();
+		for (BdyMainkind mk : mks) {
+			int mkId = mk.getMkId();
+			int fkId = -1;
+			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
+			for (BdyFood food : foodDao.getFoodsByMkId(mkId)) {
+				if (fkId == -1) {
+					fkId = food.getBdyFoodkind().getFkId();
+				}
+				foodBuilder.add(Json.createObjectBuilder()
+									.add("fdId", food.getFdId())
+									.add("fdName", food.getName())
+									.add("fkId", fkId)
+									.build());
+			}
+			mkBuilder.add(Json.createObjectBuilder()
+					 		  .add(mk.getName(), foodBuilder));
+		}
+		
+		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
+		List<BdyFoodkind> fks = foodkindDao.getAllFoodkind();
+		
+		for (BdyFoodkind fk : fks) {
+			List<BdyFood> foods = foodDao.getFoodsByFkId(fk.getFkId());
+			if (foods!=null && foods.size()!=0 && foods.get(0).getBdyMainkind()!=null) {
+				continue;
+			}
+			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
+			for (BdyFood food : foods) {
+				foodBuilder.add(Json.createObjectBuilder()
+									.add("fdId", food.getFdId())
+									.add("fdName", food.getName())
+									.add("fkId", fk.getFkId())
+									.build());
+			}
+			fkBuilder.add(Json.createObjectBuilder()
+							  .add(fk.getName(), foodBuilder)
+							  .build());
+		}
+		JsonObject resultObject = 
+				Json.createObjectBuilder().add("isMain", mkBuilder.build())
+								  		  .add("notMain", fkBuilder.build())
+								  		  .build();
+		return resultObject;
 	}
 	public JsonObject getFoodsJSON() {
 		/*
@@ -317,8 +415,42 @@ public class OrderService {
 		
 		return aryBuilder.build();
 	}
+
+	public JsonArray makeJSONTables(TreeMap<Integer, BdyTable> tableMap, TreeMap<Integer, BdyFloor> floorMap) {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		Iterator<Integer> flKeys = tableMap.keySet().iterator();
+		while (flKeys.hasNext()) {
+			BdyFloor floor = floorMap.get(flKeys.next());
+			int floorId = floor.getFloorid();
+//		List<BdyFloor> floors = floorDao.getAllFloor();
+//		for (BdyFloor floor : floors) {
+			JsonArrayBuilder tbary = Json.createArrayBuilder();
+			
+			Iterator<Integer> tbKeys = floorMap.keySet().iterator();
+			List<BdyTable> fIdTables = new ArrayList<BdyTable>();
+			while (tbKeys.hasNext()) {
+				BdyTable table = tableMap.get(tbKeys.next());
+				if (table.getBdyFloor() == floorId) {
+					fIdTables.add(table);
+				}
+			}
+			List<BdyTable> tables = tableDao.getTableByFloor(floor.getFloorid());
+			for (BdyTable table: tables) {
+				tbary.add(Json.createObjectBuilder()
+							  .add("tbId", table.getTbId())
+							  .add("tbName", table.getName())
+							  .build());
+			}
+			aryBuilder.add(Json.createObjectBuilder()
+							   .add("fId", floor.getFloorid())
+							   .add("fName", floor.getName())
+							   .add("tables", tbary)
+							   .build());
+		}
+		return aryBuilder.build();
+	}
+	
 	public JsonArray getSetJson() {
-		System.out.println("Geting set...");
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		List<BdySet> sets = setDao.getAllSet();
 		for (BdySet set : sets) {
@@ -338,8 +470,8 @@ public class OrderService {
 		return aryBuilder.build();
 	}
 	
-	public void readOrderJson(JsonObject object, HashMap<Integer, BdyFood> fdMap,
-			HashMap<Integer, BdySet> setMap, HashMap<Integer, BdyTable> tableMap, 
+	public void readOrderJson(JsonObject object, TreeMap<Integer, BdyFood> fdMap,
+			TreeMap<Integer, BdySet> setMap, TreeMap<Integer, BdyTable> tableMap, 
 			BdyEmp bdyEmp) {
 			System.out.println("Processing order...");
 			long start = System.currentTimeMillis();
@@ -458,4 +590,154 @@ public class OrderService {
 		  System.out.println("Complete("+interval/1000.0+"s)");
 		  
 	}
+	
+	public TreeMap<String, TreeMap<Integer,Object>> getOrderInitialData () {
+		TreeMap<String, TreeMap<Integer,Object>> map = null;
+				
+		return map;
+	}
+	public JsonObject makeJSONFoods(TreeMap<Integer, BdyFood> fdMap, TreeMap<Integer, BdyFoodkind> fkMap, TreeMap<Integer, BdyMainkind> mkMap) {
+		/*
+		 * 目標 :
+		 * {"isMain":
+		 * 		[{"牛排":[	{"fdId"="1", "fdName"="牛小排", "fkId=5"},
+		 * 					{"fdId"="2", "fdName"="菲力牛排", "fkId=5"}
+		 * 					{"fdId"="3", "fdName"="肋眼牛排", "fkId=5"}]}, 
+ 		 *  	 {"披薩":["	{"fdId"="4", "fdName"="夏威夷披薩"},
+ 		 *  				{"fdId"="5", "fdName"="海鮮披薩"}]}
+ 		 *  	]
+ 		 *  "notMain":
+ 		 *  	[{"前菜":[  {}, {}, {}    ]
+ 		 *  }
+ 		 *  
+		 */
+		JsonArrayBuilder mkBuilder = Json.createArrayBuilder();
+		Iterator<Integer> mkKeys = mkMap.keySet().iterator();
+		Iterator<Integer> fdKeys = fdMap.keySet().iterator();
+		// 主餐部分
+		while (mkKeys.hasNext()) {
+			BdyMainkind mk = mkMap.get(mkKeys.next());
+			int mkId = mk.getMkId();
+			int fkId = -1;
+			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
+			//--------------------------------//
+			List<BdyFood> mkIdFoods = new ArrayList<BdyFood>();
+			fdKeys = fdMap.keySet().iterator();
+			while (fdKeys.hasNext()) {
+				BdyFood food = fdMap.get(fdKeys.next());
+				if (food.getBdyMainkind() != null) {
+					if (food.getBdyMainkind().getMkId() == mkId) {
+						mkIdFoods.add(food);
+					}
+				}
+			}
+			//--------------------------------//
+			
+			for (BdyFood food : mkIdFoods) {
+				if (fkId == -1) {
+					fkId = food.getBdyFoodkind().getFkId();
+				}
+				foodBuilder.add(Json.createObjectBuilder()
+									.add("fdId", food.getFdId())
+									.add("fdName", food.getName())
+									.add("fkId", fkId)
+									.build());
+			}
+			mkBuilder.add(Json.createObjectBuilder()
+					 		  .add(mk.getName(), foodBuilder));
+		}
+		
+		JsonArrayBuilder fkBuilder = Json.createArrayBuilder();
+
+		//--------------------------------//
+		Iterator<Integer> fkKeys = fkMap.keySet().iterator();
+		//--------------------------------//
+//		List<BdyFoodkind> fks = foodkindDao.getAllFoodkind();
+
+		/*
+		 * 非主餐部分
+		 */
+		while (fkKeys.hasNext()) {
+//		for (BdyFoodkind fk : fks) {
+			BdyFoodkind fk = fkMap.get(fkKeys.next());
+			int fkId = fk.getFkId();
+			
+			//--------------------------------//
+			List<BdyFood> fkIdFoods = new ArrayList<BdyFood>();
+			fdKeys = fdMap.keySet().iterator();
+			while (fdKeys.hasNext()) {
+				BdyFood food = fdMap.get(fdKeys.next());
+				if (food.getBdyFoodkind().getFkId() == fkId) {
+					fkIdFoods.add(food);
+				}
+			}
+			//--------------------------------//
+			
+//			List<BdyFood> foods = foodDao.getFoodsByFkId(fk.getFkId());
+			if (fkIdFoods!=null && fkIdFoods.size()!=0 && fkIdFoods.get(0).getBdyMainkind()!=null) {
+				continue;
+			}
+			JsonArrayBuilder foodBuilder = Json.createArrayBuilder();
+			for (BdyFood food : fkIdFoods) {
+				foodBuilder.add(Json.createObjectBuilder()
+									.add("fdId", food.getFdId())
+									.add("fdName", food.getName())
+									.add("fkId", fk.getFkId())
+									.build());
+			}
+			fkBuilder.add(Json.createObjectBuilder()
+							  .add(fk.getName(), foodBuilder)
+							  .build());
+		}
+		JsonObject resultObject = 
+				Json.createObjectBuilder().add("isMain", mkBuilder.build())
+								  		  .add("notMain", fkBuilder.build())
+								  		  .build();
+		return resultObject;
+	}
+	public JsonArray makeJSONSets(TreeMap<Integer, BdySet> setMap, TreeMap<Integer, BdySetdetail> sdMap) {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		
+		Iterator<Integer> setKeys = setMap.keySet().iterator();
+		while (setKeys.hasNext()) {
+			BdySet set = setMap.get(setKeys.next());
+			int setId = set.getSetId();
+
+			Iterator<Integer> sdKeys = sdMap.keySet().iterator();
+			List<BdySetdetail> details = new ArrayList<BdySetdetail>();
+			while (sdKeys.hasNext()) {
+				BdySetdetail sd = sdMap.get(sdKeys.next());
+				if (sd.getBdySet().getSetId() == setId) {
+					details.add(sd);
+				}
+			}
+			
+			JsonArrayBuilder detailbuilder = Json.createArrayBuilder();
+			for (BdySetdetail detail : details) {
+				detailbuilder.add(detail.getBdyFoodkind().getFkId());
+			}
+			JsonObject object =	Json.createObjectBuilder()
+									.add("name", set.getName())
+									.add("id", set.getSetId())
+									.add("detail", detailbuilder.build())
+									.build();
+			aryBuilder.add(object);
+		}
+		return aryBuilder.build();
+	}
+	
+	public JsonArray makeJSONFks(TreeMap<Integer, BdyFoodkind> fkMap) {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		Iterator<Integer> fkKeys = fkMap.keySet().iterator();
+		while (fkKeys.hasNext()) {
+			BdyFoodkind fk = fkMap.get(fkKeys.next());
+			aryBuilder.add(Json.createObjectBuilder()
+							   .add("fkName", fk.getName())
+							   .add("fkId", fk.getFkId())
+							   .build());
+		};
+
+		return aryBuilder.build();
+	}
+	
 }

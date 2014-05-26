@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Locale;
 
 import javax.json.Json;
@@ -55,9 +55,9 @@ public class SendOrderServlet extends HttpServlet {
 		JsonObject object = jsonReader.readObject();
 		jsonReader.close();
 		HttpSession session = request.getSession();
-		HashMap<Integer, BdyFood> foods = (HashMap<Integer, BdyFood>) session.getAttribute("foods");
-		HashMap<Integer, BdySet> sets = (HashMap<Integer, BdySet>) session.getAttribute("sets");
-		HashMap<Integer, BdyTable> tables = (HashMap<Integer, BdyTable>) session.getAttribute("tables");
+		TreeMap<Integer, BdyFood> foods = (TreeMap<Integer, BdyFood>) session.getAttribute("foods");
+		TreeMap<Integer, BdySet> sets = (TreeMap<Integer, BdySet>) session.getAttribute("sets");
+		TreeMap<Integer, BdyTable> tables = (TreeMap<Integer, BdyTable>) session.getAttribute("tables");
 		BdyEmp emp = (BdyEmp) session.getAttribute("emp");
 		
 		service.readOrderJson(object, foods, sets, tables, emp);

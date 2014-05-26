@@ -2,12 +2,13 @@ package com.bdy.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
+import java.util.TreeMap;
 
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,13 +17,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-
-
-
-
-import com.bdy.model.BdyEmp;
+import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyFood;
+import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdySet;
+import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
 import com.bdy.service.OrderService;
 
@@ -32,7 +32,6 @@ import com.bdy.service.OrderService;
 @WebServlet("/order/getOrderDataServlet")
 public class GetOrderDataServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	private static final int CUT_LENGTH = 4000;
 
 	OrderService service;
 
@@ -44,213 +43,116 @@ public class GetOrderDataServlet extends HttpServlet{
 	}
 	
 
-	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
-		String foods = null;
-		String sets = null;
-		String tables = null;
-		String fks = null;
 		String data = request.getParameter("data");
 		String empId = request.getParameter("empId");
+		HttpSession session = request.getSession();
 		if (data == null) {
-			System.out.println("Param not found! (\"data\")");
 			out.print("Param not found! (\"data\")");
 			return ;
 		}
 		switch (data) {
+		case "initial" :
+			TreeMap<Integer, BdyTable> tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
+			TreeMap<Integer, BdyFloor> floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
+			TreeMap<Integer, BdyFood> foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
+			TreeMap<Integer, BdyFoodkind> fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
+			TreeMap<Integer, BdyMainkind> mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
+			TreeMap<Integer, BdySet> sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
+			TreeMap<Integer, BdySetdetail> sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
+
+			getEmpToSession(session, empId);
+			break;
 		case "table" :
-//			out.write(service.getTableJson().toString());
-//			tables = findCookie("tables", request);
-//			if (tables == null) { // 沒有在cookie中, 向資料庫查詢
-//				System.out.println("tables not found");
-				tables = service.getTableJson().toString();
-				makeCookie("tables", tables, response);
-//			}
-			System.out.println(tables);
-			out.write(tables);
+			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
+			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
+			
+			JsonArray table = service.makeJSONTables(tables, floors);
+			
+			out.write(table.toString());
 			break;
 		case "food" :
-			System.out.println("making cookie");
-//			foods = findCookie("foods", request);
-//			if (foods == null) { // 沒有在cookie中, 向資料庫查詢
-//				System.out.println("foods not found");
-				foods = service.getFoodsJSON().toString();
-				makeCookie("foods", foods, response);
-//			}
-//			System.out.println(foods);
-//			out.write("foods");
-			out.write(foods);
+			foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
+			fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
+			mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
+			
+			JsonObject food = service.makeJSONFoods(foods, fks, mks);
+			
+			out.write(food.toString());
 			break;
 		case "fk" :
-//			out.write(service.getFoodkindJson().toString());
-//			fks = findCookie("fks", request);
-//			if (fks == null) { // 沒有在cookie中, 向資料庫查詢
-//				System.out.println("fks not found");
-				fks = service.getFoodkindJson().toString();
-				makeCookie("fks", fks, response);
-//			}
-			System.out.println(fks);
-			out.write(fks);
+			fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
+			JsonArray fk = service.makeJSONFks(fks);
+			out.write(fk.toString());
 			break;
 		case "set" :
-//			out.write(service.getSetJson().toString());
-//			sets = findCookie("sets", request);
-//			if (sets == null) { // 沒有在cookie中, 向資料庫查詢
-//				System.out.println("sets not found");
-				sets = service.getSetJson().toString();
-				makeCookie("sets", sets, response);
-//			}
-			System.out.println(sets);
-			out.write(sets);
-			break;
-		case "main" :
-			out.write(service.getMainsJSON().toString());
-			break;
-		case "sessionFood" :
-			HttpSession session = request.getSession();
+			sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
+			sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
 			
-
-			HashMap<Integer, BdyFood> sessionfood = (HashMap<Integer, BdyFood>) session.getAttribute("foods");
-			if (sessionfood==null || sessionfood.size()==0) {
-				System.out.println("Session Miss : Food");
-				session.setAttribute("foods", service.getAllFood());
-			} else {
-				System.out.println("Session Hit : Food");
-			}
-			System.out.println("Session Complete : Food");
-			break;
-		case "sessionSet" :
-			session = request.getSession();
-
-			HashMap<Integer, BdySet> sessionset = (HashMap<Integer, BdySet>) session.getAttribute("sets");
-			if (sessionset==null || sessionset.size()==0) {
-				System.out.println("Session Miss : Set");
-				session.setAttribute("sets", service.getAllSet());
-			} else {
-				System.out.println("Session Hit : Set");
-			}
-			System.out.println("Session Complete : Set");
-			break;
-		case "sessionEmp" :
-			session = request.getSession();
+			JsonArray sd = service.makeJSONSets(sets, sds);
 			
-
-			BdyEmp sessionemp = (BdyEmp) session.getAttribute("emp");
-			if (sessionemp==null) {
-				System.out.println("Session Miss : Emp");
-				session.setAttribute("emp", service.getEmp(empId));
-			} else {
-				System.out.println("Session Hit : Emp");
-			}
-			
-			System.out.println("Session Complete : Emp");
+			out.write(sd.toString());
 			break;
-		case "sessionTable" :
-			session = request.getSession();
-
-			HashMap<Integer, BdyTable> sessiontable = (HashMap<Integer, BdyTable>) session.getAttribute("tables");
-			
-			if (sessiontable==null || sessiontable.size()==0) {
-				System.out.println("Session Miss : Table");
-				session.setAttribute("tables", service.getAllTable());
-			} else {
-				System.out.println("Session Hit : Table");
-			}
-			System.out.println("Session Complete : Table");
+		case "emp" :
+			getEmpToSession(session, empId);
 			break;
 		default :
 			System.out.println("Wrong param!");
 			break;
 		}
 	}
-	public String findCookie(String name, HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		String result = null;
-		for (int i = 0; cookies != null && i < cookies.length; i++) {
-			//遍历cookie数组，找到含有name的key的cookie。
-			if (name.equals(cookies[i].getName())) {
-				result = cookies[i].getValue();
-				//得到cookie的值后必须，进行Base64解码，因为前次生成cookie时，value是经过Base64编码。
-//				result = Base64Coder.decodeString(result);  //进行Base64解码
-			}
-		}
-//		System.out.println(name+" in cookie : ");
-//		System.out.println(result);
-//		System.out.println("----------");
-		return result;
-	}
-	public void makeCookie(String name, String value, HttpServletResponse response) {
-		try {
-			value = java.net.URLEncoder.encode(value, "UTF-8");
-			int nameLength = name.length();
-			int totalLength = 0;
-			int count = 0;
-			String orivalue = value;
-			String concatevalue = "";
-			if (value.length() >= CUT_LENGTH) {
-				System.out.println("原長:"+value.length());
-				while (value.length() > 0) {
-					String smallvalue;
-					if (value.length() >= CUT_LENGTH) {
-						smallvalue = value.substring(0, CUT_LENGTH);
-//						value = value.substring(CUT_LENGTH);
-					} else {
-						smallvalue = value;
-//						value = "";
-					}
-					concatevalue += smallvalue;
-					value = value.substring(smallvalue.length());
-	//				System.out.println("Cookie長度超過"+CUT_LENGTH+"!");
-					System.out.println("長度 = "+value.length());
-					System.out.println(CUT_LENGTH+"/"+value.length()+"/"+count);
-					System.out.println("長度 = "+value.length());
-	//				System.out.println("small length:"+smallvalue.length());
-	//				System.out.println("cookie length => "+value.length());
-					
-					//value = Base64Coder.encodeString(value); 
-					
-					// 第一個切割的cookie, 在後面加上-0
-					if (name.length() == nameLength) {
-						name = name + "-" + count;
-					} else {
-					// 之後換成別的count
-						name = name.substring(0, name.length()-1);
-						name += count;
-					}
-					
 	
-					System.out.println(name+":");
-					System.out.println("URL MODE => " +smallvalue);
-					
-					totalLength += smallvalue.length();
-					System.out.println(count + " : "+smallvalue.length());
-
-					if (count == 0) {
-						// 建立cookie
-						Cookie cookie = new Cookie(name,smallvalue);
-						cookie.setMaxAge(3*60*60); //3 hour
-						response.addCookie(cookie);
-//						break;
-					}
-					count ++;
-				}
-				System.out.println("後總長:"+totalLength);
-				System.out.println("後原長:"+value.length());
-				if (orivalue.equals(concatevalue)) {
-					System.out.println("EQUAL!");
-				}
-			} else {
-				Cookie cookie = new Cookie(name,value);
-				cookie.setMaxAge(3*60*60); //3 hour
-				response.addCookie(cookie);
+	
+	@SuppressWarnings("unchecked")
+	public <T1, T2> TreeMap<T1, T2> getDataToSession(HttpSession session,
+			T1 t1, T2 t2, String dataName, String methodName) {
+		TreeMap<T1, T2> datas = (TreeMap<T1, T2>) session.getAttribute(dataName);
+		if (datas==null || datas.size()==0) {
+			System.out.println("Session Miss : "+dataName);
+			// 使用Reflect動態選擇method
+			java.lang.reflect.Method method = null;
+			try {
+				// 建立在service.getClass()中, 名為methodName的method
+				method = service.getClass().getMethod(methodName);
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
 			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			try {
+				// 呼叫method
+				datas = (TreeMap<T1, T2>) method.invoke(service);
+				session.setAttribute(dataName, datas);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Session Hit : "+dataName);
 		}
+//		System.out.println("Session Complete : "+dataName);
+		return datas;
 	}
+	
+	public void getEmpToSession(HttpSession session , String empId) {
+		if (session.getAttribute("emp") != null) {
+			System.out.println("Session Hit : emp");
+		} else if (empId != null) {
+			System.out.println("Session Miss : emp");
+			session.setAttribute("emp", service.getEmp(empId));
+		} else {
+			System.out.println("No Emp ID");
+			return ;
+		}
+//		System.out.println("Session Complete : emp");
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.doGet(request, response);
 	}
