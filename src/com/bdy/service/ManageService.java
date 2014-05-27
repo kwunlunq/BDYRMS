@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.bdy.model.BdyBill;
@@ -374,6 +376,35 @@ public int deleteMK(int mkId){
 	return mkState;
 }
 //---------------------------CheckOut-------------------------------------------
+
+public Map<BdySet, List<BdyFood>> sortSetMap(Set<BdyOrder> orders){
+	Map<BdySet, List<BdyFood>> sortMap = new TreeMap<BdySet, List<BdyFood>>(new Comparator<BdySet>() {
+
+		@Override
+		public int compare(BdySet o1, BdySet o2) {
+			return new Integer(o1.getSetId()).compareTo(new Integer(o2.getSetId()));
+		}
+	});
+	
+	for(BdyOrder order:orders){
+		Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
+		for(BdyOrderlist orderlist:orderlists){
+			if(orderlist.getBdyFood().getBdyMainkind()!=null && orderlist.getBdySet()!=null){//-----找到唯一價錢(主餐+Setid)
+				if(!sortMap.containsKey(orderlist.getBdySet())){//----不包含
+					List<BdyFood> mainFoods = new ArrayList<BdyFood>();
+					mainFoods.add(orderlist.getBdyFood());
+					sortMap.put(orderlist.getBdySet(), mainFoods);
+				}else{//-----如果已包含
+				List<BdyFood> mainFoods=sortMap.get(orderlist.getBdySet());
+				mainFoods.add(orderlist.getBdyFood());
+				sortMap.put(orderlist.getBdySet(), mainFoods);
+				}
+			}
+		}
+	}
+	return sortMap;
+}
+
 public  List<BdyTable> getUseTable(){
 	List<BdyTable> usingTabls = new ArrayList<BdyTable>();
 	List<BdyTable> alltable = tableDao.getAllTable();
