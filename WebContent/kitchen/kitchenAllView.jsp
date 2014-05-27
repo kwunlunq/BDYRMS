@@ -8,6 +8,9 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
+<style>
+	
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 27~29行JavaScript程式碼 作用等同於 ＜c:url＞的功能 
 	   如果有掛載JS檔案 且 利用JavaScript產生有包含路徑讀取專案內其他文件或檔案的時候
@@ -40,7 +43,6 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/mainpage.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
 <title>kitchen View</title>
 </head>

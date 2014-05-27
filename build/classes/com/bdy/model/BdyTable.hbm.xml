@@ -20,9 +20,9 @@
         <property name="location" type="string">
             <column name="LOCATION" length="20" />
         </property>
-        <property name="bdyFloor" type="java.lang.Integer">
+        <many-to-one name="bdyFloor" class="com.bdy.model.BdyFloor" lazy="false" fetch="select">
             <column name="BDY_FLOOR" />
-        </property>
+        </many-to-one>
         <set name="bdyOrders" table="BDY_ORDER" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="TB_ID" />

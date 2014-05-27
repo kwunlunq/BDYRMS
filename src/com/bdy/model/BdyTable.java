@@ -15,7 +15,7 @@ public class BdyTable implements java.io.Serializable {
 	private Integer tableState;
 	private Integer size;
 	private String location;
-	private Integer bdyFloor;
+	private BdyFloor bdyFloor;
 	private Set bdyOrders = new HashSet(0);
 
 	public BdyTable() {
@@ -26,7 +26,7 @@ public class BdyTable implements java.io.Serializable {
 	}
 
 	public BdyTable(int tbId, String name, Integer tableState, Integer size,
-			String location, Integer bdyFloor, Set bdyOrders) {
+			String location, BdyFloor bdyFloor, Set bdyOrders) {
 		this.tbId = tbId;
 		this.name = name;
 		this.tableState = tableState;
@@ -76,11 +76,11 @@ public class BdyTable implements java.io.Serializable {
 		this.location = location;
 	}
 
-	public Integer getBdyFloor() {
+	public BdyFloor getBdyFloor() {
 		return this.bdyFloor;
 	}
 
-	public void setBdyFloor(Integer bdyFloor) {
+	public void setBdyFloor(BdyFloor bdyFloor) {
 		this.bdyFloor = bdyFloor;
 	}
 

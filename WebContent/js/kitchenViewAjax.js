@@ -19,17 +19,17 @@ function getAllSortData(){
 		var eleThead=document.createElement("thead");
 		var eleTbody=document.createElement("tbody");
 		var eleTr=document.createElement("tr");	
-			var eleTd  = document.createElement("td");
+			var eleTd  = document.createElement("th");
 				eleTd.appendChild(document.createTextNode("桌號"));
-			var eleTd2 = document.createElement("td");
+			var eleTd2 = document.createElement("th");
 				eleTd2.appendChild(document.createTextNode("餐點名稱"));
-			var eleTd3 = document.createElement("td");
+			var eleTd3 = document.createElement("th");
 				eleTd3.appendChild(document.createTextNode("點餐時間"));
-			var eleTd4 = document.createElement("td");
+			var eleTd4 = document.createElement("th");
 			 	eleTd4.appendChild(document.createTextNode("出餐時間"));
-			var eleTd5 = document.createElement("td");
+			var eleTd5 = document.createElement("th");
 				eleTd5.appendChild(document.createTextNode("距離時間"));
-			var eleTd6 = document.createElement("td");
+			var eleTd6 = document.createElement("th");
 				eleTd6.appendChild(document.createTextNode("確定出餐"));
 			
 				eleTr.appendChild(eleTd);
@@ -108,7 +108,7 @@ function getAllSortData(){
 			var b = false;//-------------出始為false title
 			for(var i=0;i<datas[1].foodkind.length;i++){
 				console.log(datas[1].foodkind[i].種類編號+":第1次檢查點");
-				for(var j=0;datas[0].allmeall.length;j++){
+				for(var j=0;j<datas[0].allmeall.length;j++){					
 					if((datas[1].foodkind[i].種類編號)==(datas[0].allmeall[j].食物種類)){//1==1
 						console.log(datas[1].foodkind[i].種類編號+":第2次檢查點:"+datas[0].allmeall[j].食物種類+":BBB="+b);
 						if(b==false){//-----第一次畫表
@@ -119,17 +119,17 @@ function getAllSortData(){
 							var eleThead=document.createElement("thead");
 							var eleTbody=document.createElement("tbody");
 							var eleTr=document.createElement("tr");	
-							var eleTd  = document.createElement("td");
+							var eleTd  = document.createElement("th");
 								eleTd.appendChild(document.createTextNode("桌號"));
-							var eleTd2 = document.createElement("td");
+							var eleTd2 = document.createElement("th");
 								eleTd2.appendChild(document.createTextNode("餐點名稱"));
-							var eleTd3 = document.createElement("td");
+							var eleTd3 = document.createElement("th");
 								eleTd3.appendChild(document.createTextNode("點餐時間"));
-							var eleTd4 = document.createElement("td");
+							var eleTd4 = document.createElement("th");
 							 	eleTd4.appendChild(document.createTextNode("出餐時間"));
-							var eleTd5 = document.createElement("td");
+							var eleTd5 = document.createElement("th");
 								eleTd5.appendChild(document.createTextNode("距離時間"));
-							var eleTd6 = document.createElement("td");
+							var eleTd6 = document.createElement("th");
 								eleTd6.appendChild(document.createTextNode("確定出餐"));
 								eleTr.appendChild(eleTd);
 								eleTr.appendChild(eleTd2);

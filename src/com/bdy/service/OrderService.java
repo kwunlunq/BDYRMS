@@ -224,7 +224,7 @@ public class OrderService {
 			List<BdyTable> fIdTables = new ArrayList<BdyTable>();
 			while (tbKeys.hasNext()) {
 				BdyTable table = tableMap.get(tbKeys.next());
-				if (table.getBdyFloor() == floorId) {
+				if (table.getBdyFloor().getFloorid() == floorId) {
 					fIdTables.add(table);
 				}
 			}

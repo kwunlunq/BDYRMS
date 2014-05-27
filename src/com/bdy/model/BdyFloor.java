@@ -1,5 +1,8 @@
 package com.bdy.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 // Generated 2014/4/16 �U�� 04:39:32 by Hibernate Tools 4.0.0
 
 /**
@@ -9,7 +12,21 @@ public class BdyFloor implements java.io.Serializable {
 
 	private int floorid;
 	private String name;
+	private int sort;
+	private Set bdyTable = new HashSet(0);
 	
+	public Set getBdyTable() {
+		return bdyTable;
+	}
+	public void setBdyTable(Set bdyTable) {
+		this.bdyTable = bdyTable;
+	}
+	public int getSort() {
+		return sort;
+	}
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
 	public int getFloorid() {
 		return floorid;
 	}
