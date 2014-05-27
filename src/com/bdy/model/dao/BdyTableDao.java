@@ -70,7 +70,7 @@ private SessionFactory sf = null;
 	public void deleteTableByFloor(int floor){
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor", floor));
+		Criteria criteria = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor.floorid", floor));
 		@SuppressWarnings("rawtypes")
 		Iterator tables = criteria.list().iterator();
 		while (tables.hasNext()) {
