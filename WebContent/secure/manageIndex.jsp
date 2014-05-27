@@ -103,6 +103,8 @@ if(judgeSetDetail!=""){
 <script src="<c:url value="/js/managefood.js"/>"></script>
 <script src="<c:url value="/js/manageset.js"/>"></script>
 <script src="<c:url value="/js/managefoodkind.js"/>"></script>
+
+<script src="<c:url value="/js/orderinitial.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 

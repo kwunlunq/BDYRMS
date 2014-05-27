@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -38,10 +39,9 @@ public class SetMealInsertServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
 		String name = request.getParameter("setName");
-		String nrice = request.getParameter("setPriceName");
-		Double setprice = Double.valueOf(nrice);
+		String sprice = request.getParameter("setPriceName");
+		Double setprice = Double.valueOf(sprice);
 		String check[]=request.getParameterValues("checkname");
 		List<FoodKindPrice> prices = new LinkedList<FoodKindPrice>();
 		String checkvalue="";

@@ -49,14 +49,12 @@ text-align:center;
 float:left;
 width: 24%;
 height:100%;
-border-left:1px solid blue;
 }
 .setColMid{
 text-align:center;	
 float:left;
 width: 50%;
 height:100%;
-border-left:1px solid blue;
 }
 </style>
 <title>BDY RMS - SetMeal</title>
@@ -91,7 +89,7 @@ border-left:1px solid blue;
 		<div id="fkindChecked"></div>	
 		<h4>限定價錢總合:<span id="totalPrice">0</span></h4>
 		<s:iterator var="fk" value="foodKind">
-		<div style="display: none;width:80%;hieght:150px;border:1px solid black;" id="span<s:property value="#fk.fkId" />">
+		<div style="display: none;width:80%;hieght:150px;" id="span<s:property value="#fk.fkId" />">
 		<s:property value="#fk.name" />-限定價錢:<input name="price<s:property value="#fk.fkId"/>" onblur="getTotalPrice()" size="2" type="text" id="text<s:property value="#fk.fkId"/>" fakeID="textPrice" >
 		</div>
 		</s:iterator>
