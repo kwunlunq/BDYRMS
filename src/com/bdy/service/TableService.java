@@ -55,7 +55,7 @@ public class TableService {
 								.add("tbName", tableBean.getName())
 								.add("tbSize", tableBean.getSize())
 								.add("tbLocation", tableBean.getLocation())
-								.add("tbFloor", tableBean.getBdyFloor())
+								.add("tbFloor", tableBean.getBdyFloor().getFloorid())
 								.add("tbState", tableBean.getTableState())
 							);
 		}
@@ -81,10 +81,12 @@ public class TableService {
 			for (int i = 0; i < tables.size(); i++) {
 				JsonObject tableJson = tables.getJsonObject(i);
 				BdyTable table = new BdyTable();
+				BdyFloor floorBean = new BdyFloor();
+				floorBean.setFloorid(Integer.parseInt(tableJson.getString("tbFloor")));
 				table.setName(tableJson.getString("tbName"));
 				table.setSize(Integer.parseInt(tableJson.getString("tbSize")));
 				table.setLocation(tableJson.getString("pos"));
-				table.setBdyFloor(Integer.parseInt(tableJson.getString("tbFloor")));
+				table.setBdyFloor(floorBean);
 				table.setTableState(Integer.parseInt(tableJson.getString("tbState")));
 				if(tableJson.getString("tbId").startsWith("tb")){
 					table.setTbId(0);

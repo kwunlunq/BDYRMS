@@ -30,7 +30,7 @@ private SessionFactory sf = null;
 	@SuppressWarnings("unchecked")
 	public List<BdyTable> getTableByFloor(int floor){
 		Session session = sf.openSession();
-		List<BdyTable> result = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor", floor)).list();
+		List<BdyTable> result = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor.floorid", floor)).list();
 		session.close();
 		return result;
 	}
