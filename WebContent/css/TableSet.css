@@ -118,3 +118,14 @@
 	right:7px;
 	top:11px;
 }
+
+.stateColorStyle{
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	position:absolute;
+	color:white;
+	padding:7px;
+	bottom:2px;
+	font-size:0.9em;
+}
