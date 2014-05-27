@@ -5,11 +5,18 @@ public class KitchenView  {
 	private int orderlistID;////明細ID
 	private int orderID;//訂單ID
 	private int tableID;//桌號
+	private BdyTable table;
 	private java.util.Date orderDate;//點單時間
 	private int orderStatus;//出餐狀態
 	private java.util.Date outMealTime;//出餐時間點
 	private int foodkindID;
 	
+	public BdyTable getTable() {
+		return table;
+	}
+	public void setTable(BdyTable table) {
+		this.table = table;
+	}
 	public int getFoodkindID() {
 		return foodkindID;
 	}

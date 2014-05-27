@@ -325,7 +325,7 @@ public class KitchenService {
 		for(KitchenView notOutMealitem:outMeals){
 			jsonArrayBuilder.add(
                     Json.createObjectBuilder()
-                    .add("桌號",notOutMealitem.getTableID())
+                    .add("桌號",tableDao.getTableById(notOutMealitem.getTableID()).getName())
                     .add("點單明細編號",notOutMealitem.getOrderlistID())
                     .add("食物名稱", notOutMealitem.getOrderlistname())
                     .add("點單時間", sdf.format(notOutMealitem.getOrderDate()))                 
