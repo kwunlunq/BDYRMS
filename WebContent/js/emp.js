@@ -9,23 +9,18 @@ var b = false;
 function empUpdate(empId){	
 	if(b==true){
 		if(this.empId==empId){//同一層
-//		console.log($("input[name$=Id]").val());
 		$("#modifyEmpForm"+empId).append($("#trEmp"+empId));
 		$("#modifyEmpForm"+empId).submit();
 		}else{
 			return;
 		}
-//		$(':text').each(function(){
-//			console.log($(this).val());
-//		});
 	}else{
 	$('#update'+empId).val("確定").after($("<input type='button' class='MainBtnColor' id='cancel+"+empId+"' value='取消'/>").one("click",goback));
 	var count = 0;
-	//console.log($("#trEmp"+empId).html());
 	$('#trEmp'+empId+'>td').each(function(){
 		if(count==0){//---empId
 			var str = $(this).text().trim();
-			$(this).html("<input type='text' name='emp.empId' size='9'  value='"+str+"'>");
+			$(this).after("<input type='hidden' name='emp.empId' size='9'  value='"+str+"'>");
 			count++;
 			return;
 		}
@@ -36,7 +31,7 @@ function empUpdate(empId){
 			return;
 		}
 		if(count==2){//sex
-			$(this).empty().append($("<select name='emp.sex'></select>").html("<option value='W'>W</option><option value='M'>M</option>"));
+			$(this).empty().append($("<select name='emp.sex'></select>").html("<option value='F'>F</option><option value='M'>M</option>"));
 			count++;
 			return;
 		}
