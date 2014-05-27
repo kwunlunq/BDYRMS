@@ -49,14 +49,12 @@ text-align:center;
 float:left;
 width: 24%;
 height:100%;
-border-left:1px solid blue;
 }
 .setColMid{
 text-align:center;	
 float:left;
 width: 50%;
 height:100%;
-border-left:1px solid blue;
 }
 </style>
 <title>BDY RMS - SetMeal</title>
@@ -75,29 +73,32 @@ border-left:1px solid blue;
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
+		
+	<form action="<c:url value='/setmeal/setInsert'/>" method="post">
 	<div class="setCol">
 	<h3>套餐名稱</h3>
-	<input type="text">
+	<input name="setName" type="text">
 	</div>
 	<div class="setColMid">
 	<h3>選擇套餐種類</h3>
 		<s:iterator var="fk" value="foodKind">
 		<s:if test="%{#fk.isMain==0}">		
-		<input type="checkbox" id="check<s:property value="#fk.fkId" />" onclick="showMe(<s:property value="#fk.fkId" />,'span<s:property value="#fk.fkId" />', this)" ><s:property value="#fk.name" />
+		<input type="checkbox" name="checkname" value="<s:property value="#fk.fkId" />" id="check<s:property value="#fk.fkId" />" onclick="showMe(<s:property value="#fk.fkId" />,'span<s:property value="#fk.fkId" />', this)" ><s:property value="#fk.name" />
 		</s:if>
 		</s:iterator>
 		<div id="fkindChecked"></div>	
 		<h4>限定價錢總合:<span id="totalPrice">0</span></h4>
 		<s:iterator var="fk" value="foodKind">
-		<div style="display: none;width:80%;hieght:150px;border:1px solid black;" id="span<s:property value="#fk.fkId" />">
-		<s:property value="#fk.name" />-限定價錢:<input onblur="getTotalPrice()" size="2" type="text" id="text<s:property value="#fk.fkId"/>" fakeID="textPrice" >
+		<div style="display: none;width:80%;hieght:150px;" id="span<s:property value="#fk.fkId" />">
+		<s:property value="#fk.name" />-限定價錢:<input name="price<s:property value="#fk.fkId"/>" onblur="getTotalPrice()" size="2" type="text" id="text<s:property value="#fk.fkId"/>" fakeID="textPrice" >
 		</div>
 		</s:iterator>
 	</div>
 	<div class="setCol">
-	<h3>套餐價錢:<input id="setPrice" type="text" size="3"></h3>
-	<input type="button" value="確定" onclick="setConfirm()">
+	<h3>套餐價錢:<input name="setPriceName" id="setPrice" type="text" size="3"></h3>
+	<input type="submit" value="確定" onclick="return checkPrice()">
 	</div>
+	</form>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 	
 </div>

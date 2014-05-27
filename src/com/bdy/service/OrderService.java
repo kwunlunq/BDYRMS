@@ -419,10 +419,11 @@ public class OrderService {
 			}
 			System.out.println("EmpId from db : "+emp.getEmpId());
 			System.out.println("TbId from db : "+tb.getTbId());
-			BdyOrder order = new BdyOrder(emp, tb, nowTime.getTime(), 0, custNum);
-			orderDao.insert(order);
-			BdyOrder newOrder = orderDao.getOrderByOrder(order);
-			System.out.println("\nNew order generated. Id = "+newOrder.getOdId());
+			BdyOrder newOrder = new BdyOrder(emp, tb, nowTime.getTime(), 0, custNum);
+//			orderDao.insert(newOrder);
+//			BdyOrder newOrder = orderDao.getOrderByOrder(order);
+//			System.out.println("\nNew order generated. Id = "+newOrder.getOdId());
+			System.out.println("\t   ----");
 			JsonArray foods = object.getJsonArray("Foods");
 			
 			int lastSetId = 0;
@@ -465,11 +466,12 @@ public class OrderService {
 				double setBasePrice = 0;
 				for (BdySetdetail detail : bdySetdetails) {
 					if (detail.getBdyFoodkind().getFkId() == fkId) {
-						setBasePrice = detail.getPrice();
+						if (detail.getPrice() == null) {
+							System.out.println("Error : setBasePrice not found");
+						} else {
+							setBasePrice = detail.getPrice();
+						}
 					}
-				}
-				if (setBasePrice == 0) {
-					System.out.println("Error : setBasePrice not found!");
 				}
 				
 				System.out.println("\tprice : (b)"+setBasePrice+", (f)"+fdPrice);
@@ -486,8 +488,12 @@ public class OrderService {
 				System.out.println("\t   ----");
 				
 			}
-			// 將lists批次寫入資料庫
+			// insert新的order
+			orderDao.insert(newOrder);
+			System.out.println("**Order process complete**");
+			// 批次insert新的orderlists
 			orderlistDao.batchInsert(lists);
+			System.out.println("**Orderlists process complete**");
 		  } catch (NullPointerException e) {
 			  System.out.println("nullPointer (param not found?)");
 			  e.printStackTrace();
@@ -500,6 +506,6 @@ public class OrderService {
 		  }
 
 		  long interval = System.currentTimeMillis() - start;
-		  System.out.println("Complete("+interval/1000.0+"s)");
+		  System.out.println("("+interval/1000.0+"s)\n");
 	}
 }
