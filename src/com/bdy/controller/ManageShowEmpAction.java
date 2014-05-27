@@ -18,7 +18,17 @@ public class ManageShowEmpAction extends ActionSupport implements Preparable {
 	private static final long serialVersionUID = 1L;
 	private List<BdyEmp> emps ;
     private List <BdyPriority> prior;
-    ManageService service;
+    private int  resign;
+    
+    
+    public int getResign() {
+		return resign;
+	}
+
+	public void setResign(int resign) {
+		this.resign = resign;
+	}
+	ManageService service;
 	public List<BdyPriority> getPrior() {
 		return prior;
 	}
@@ -52,9 +62,19 @@ public class ManageShowEmpAction extends ActionSupport implements Preparable {
 	}
 	@Override
 	public String execute() throws Exception {
+		if(resign==1){
+			emps=service.getResignEmps();
+			prior = service.getAllPri();
+			return Action.SUCCESS;
+		}else if(resign==0){
+			emps=service.getNotResignEmps();
+			prior = service.getAllPri();
+			return Action.SUCCESS;
+		}else{
 		emps=service.getAllEmps();
 		prior = service.getAllPri();
 		return Action.SUCCESS;
+		}
 	}
 
 	

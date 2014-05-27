@@ -78,6 +78,10 @@ var contextPath='<%=request.getContextPath()%>';
 		<input type="button" value="載入新訂單" class="MainBtnColor" onclick="ckeckOrder()">
 		<input type="button" value="全部出餐" class="MainBtnColor" onclick="allOrderout()">
 	</div>
+	
+	<div id="kitchenDiv">
+	
+	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>
