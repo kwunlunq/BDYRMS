@@ -56,6 +56,15 @@ public class TableSetServlet extends HttpServlet {
 				JsonArray tableList = TS.getTableByFloorInJson(floor);
 		        out.print(tableList.toString());
 				break;
+			case "addFloor":
+				String floorName = object.getString("floorName");
+				TS.insertFloor(floorName);
+				break;
+			case "updateFloor":
+				JsonArray updateFloorList = object.getJsonArray("floorList");
+				JsonArray delFloorList = object.getJsonArray("delFloorList");
+				TS.updateFloor(updateFloorList, delFloorList);
+				break;
 		}
 	}
 	

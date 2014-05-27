@@ -10,7 +10,7 @@
 <input class="MainBtnColor asideBtn" type="button" value="訂位" onclick="goURL('<c:url value="/booking/booking.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="結帳" onclick="goURL('<c:url value="/checkout/checkTable.action" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="點餐" onclick="goURL('<c:url value="/order/order.jsp" />')"><br>
-<input class="MainBtnColor asideBtn" type="button" value="餐桌擺設" onclick="goURL('<c:url value="/table/tableset.jsp" />')"><br>
+<input class="MainBtnColor asideBtn" type="button" value="現場擺設" onclick="goURL('<c:url value="/table/tableset.jsp" />')"><br>
 <input class="MainBtnColor asideBtn" type="button" value="出餐" onclick="goURL('<c:url value="/kitchen/kitchenView.action"/>')"><BR>
 <input class="MainBtnColor asideBtn" type="button" value="報表" onclick="goURL('<c:url value="/report/reportmenu.jsp" />')"><BR>
 <input class="MainBtnColor asideBtn" type="button" value="員工管理" onclick="goURL('<c:url value="/secure/showEmp.action?resign=0" />')"><BR>

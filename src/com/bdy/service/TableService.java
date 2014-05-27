@@ -41,8 +41,9 @@ public class TableService {
 				);
 		}
         System.out.println("TSE Return data :");
-        //System.out.println("TSE " +  floorBuilder.build().toString());
-        return floorBuilder.build();
+        JsonArray data = floorBuilder.build();
+        System.out.println("TSE " +  data.toString());
+        return data;
 	}
 	
 	public JsonArray getTableByFloorInJson(int floor){
@@ -60,8 +61,9 @@ public class TableService {
 							);
 		}
         System.out.println("TSE Return data : ");
-        //System.out.println("TSE " +  tableBuilder.build().toString());
-        return tableBuilder.build();
+        JsonArray data = tableBuilder.build();
+        System.out.println("TSE " +  data.toString());
+        return data;
 	}
 	
 	
@@ -96,11 +98,49 @@ public class TableService {
 					tableDao.updateTable(table);
 				}
 			}
-			System.out.println("TSE Table save done");
 		}else
 		{
 			System.out.println("TSE No table can save");
 		}
-        System.out.println("TSE Not need return");
+		System.out.println("TSE saveTableByJson(JsonArray tables,int floor,JsonArray DTL) done");
+	}
+	
+	public void insertFloor(String floorName){
+		System.out.println("TSS Strat to insertFloor(String floorName)");
+		System.out.println("TSS [ floorName = "+floorName+" ]");
+		BdyFloor floorBean = new BdyFloor();
+		floorBean.setName(floorName);
+		floorBean.setSort(9999);
+		floorDao.insertFloor(floorBean);
+		System.out.println("TSE insertFloor(String floorName) done");
+	}
+	
+	public void updateFloor(JsonArray floorList,JsonArray delFloorList){
+		System.out.println("TSS Strat to updateFloor(JsonArray floorList,JsonArray delFloorList)");
+		System.out.println("TSS [ floorList = "+floorList+" ]");
+		System.out.println("TSS [ delFloorList = "+delFloorList+" ]");
+		BdyFloor floorBean = new BdyFloor();
+		if(delFloorList.size() > 0){
+			for(int i=0;i < delFloorList.size() ; i++){
+				floorBean.setFloorid(Integer.parseInt(delFloorList.getString(i)));
+				tableDao.deleteTableByFloor(floorBean.getFloorid());
+				floorDao.deleteFloor(floorBean);
+			}
+		}else{
+			System.out.println("TSE No floor can delete!");
+		}
+		
+		if(floorList.size()>0){
+			for(int i=0;i < floorList.size() ;i++){
+				JsonObject floorData = floorList.getJsonObject(i);
+				floorBean.setFloorid(Integer.parseInt(floorData.getString("floorId")));
+				floorBean.setName(floorData.getString("floorName"));
+				floorBean.setSort(i);
+				floorDao.updateFloor(floorBean);
+			}
+		}else{
+			System.out.println("TSE No floor can update!");
+		}
+		System.out.println("TSE updateFloor(JsonArray floorList,JsonArray delFloorList) done");
 	}
 }
