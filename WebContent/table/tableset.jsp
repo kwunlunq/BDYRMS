@@ -55,17 +55,40 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 	<div id="writeCodeInThisDiv">
 		<div style="margin: 0px auto; width: 95%; height: 100%">
-			<div style="width: 100%;font-size:1.2em">
-				現在樓層:
+			<div style="width: 100%;font-size:1.25em">
+				目前場地:
 				<select id="changeFloor" class="MainBtnColor">
 				</select>
 				<input class="MainBtnColor" type="button" id="addTB" value="新增桌子">
 				<input class="MainBtnColor" type="button" id="reLoad" value="重新讀取">
-				<input class="MainBtnColor" type="button" id="addFloor" value="新增樓層">
-				<input class="MainBtnColor" type="button" id="delFloor" value="刪除樓層">
-				<input class="MainBtnColor" type="button" id="saveFloor" value="儲存樓層">
+				<span>擺設數量：<span id="tableCount" style="color:red">0</span></span>
+				<span style="display:inline-block;float:right;">
+				<input class="MainBtnColor" type="button" id="addFloor" value="新增場地">
+				<input class="MainBtnColor" type="button" id="editFloor" value="編輯場地">
+				<input class="MainBtnColor" type="button" id="saveFloor" value="儲存擺設">
+				</span>
 			</div>
 			<div id="picTB"></div>
+		</div>
+		<div id="addTbDialog" title="新增桌子" style='display:none'>
+			<p>桌子名稱：<span id='addTbNameError' style='color:red;font-size:0.8em'></span></p>
+			<input id='addTbNameText' type="text">
+			<p>容納人數：<span id='addTbSizeError' style='color:red;font-size:0.8em'></span></p>
+			<input id='addTbSizeText' type="number">
+		</div>
+		<div id="addFloorDialog" title="新增場地" style='display:none'>
+			<p>場地名稱：<span id='addFloorNameError' style='color:red;font-size:0.8em'></span></p>
+			<input id='addFloorNameText' type="text">
+		</div>
+		<div id="editFloorDialog" title="編輯場地" style='display:none'>
+			<ul id="sortableFloor">
+			</ul>
+		</div>
+		<div id="editTableDialog" title="編輯場地" style='display:none'>
+			<p>桌子名稱：<span id='editTbNameError' style='color:red;font-size:0.8em'></span></p>
+			<input id='editTbNameText' type="text">
+			<p>容納人數：<span id='editTbSizeError' style='color:red;font-size:0.8em'></span></p>
+			<input id='editTbSizeText' type="number">
 		</div>
 	</div>
 </div>

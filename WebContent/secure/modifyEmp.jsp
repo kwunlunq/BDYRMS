@@ -54,7 +54,11 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 
-	<div id="writeCodeInThisDiv"> <s:property value="%{fieldErrors['emp.empId']}"/>
+	<div id="writeCodeInThisDiv">
+	<a href="<c:url value="/secure/priorEmp.action" />">新增新進員工</a>
+		<a href="<c:url value="/secure/showEmp.action?resign=0" />">查詢在職員工</a>
+		<a href="<c:url value="/secure/showEmp.action?resign=1" />">查詢離職員工</a>
+	 <s:property value="%{fieldErrors['emp.empId']}"/>
 	<s:iterator var="emp" value="emps" status="headcheck" >	
 	<s:if test="%{#headcheck.first}">
 	<table border="1">		
@@ -104,7 +108,7 @@ var contextPath='<%=request.getContextPath()%>';
 		<s:property value="%{fieldErrors['emp.comedate'][0]}"/>
 		<s:property value="%{fieldErrors['emp.phone'][0]}"/>
 		<s:property value="%{fieldErrors['emp.empAddress'][0]}"/>
-		<a href="<c:url value="/secure/priorEmp.action" />">新增新進員工</a>
+		
 	</div>
 		<s:select
 		value="pri" 

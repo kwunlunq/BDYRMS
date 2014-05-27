@@ -279,6 +279,29 @@ public class ManageService {
 	public List<BdyEmp> getAllEmps(){
 		return empDao.getAllEmp();
 	}
+	public List<BdyEmp> getResignEmps(){
+		List<BdyEmp> emps= empDao.getAllEmp();
+		List<BdyEmp> resignEmps = new ArrayList<BdyEmp>();
+		for(BdyEmp temp :emps){
+			if(temp.getResign()==1){
+				resignEmps.add(temp);
+			}
+		}
+		return resignEmps;
+	}
+	
+	public List<BdyEmp> getNotResignEmps(){
+		List<BdyEmp> emps= empDao.getAllEmp();
+		List<BdyEmp> notresignEmps = new ArrayList<BdyEmp>();
+		for(BdyEmp temp :emps){
+			if(temp.getResign()==0){
+				notresignEmps.add(temp);
+			}
+		}
+		return notresignEmps;
+	}
+	
+	
 	public List<BdyPriority> getAllPri(){
 		return priorityDao.getAllProiority();
 	}
