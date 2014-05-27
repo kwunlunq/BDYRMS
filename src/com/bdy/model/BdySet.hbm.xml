@@ -14,13 +14,13 @@
         <property name="price" type="java.lang.Double">
             <column name="PRICE" precision="53" scale="0" />
         </property>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" cascade="delete" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="SET_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdyOrderlist" />
         </set>
-        <set name="bdySetdetails" table="BDY_SETDETAIL" inverse="true" lazy="false"  fetch="select">
+        <set name="bdySetdetails" table="BDY_SETDETAIL" cascade="delete" inverse="true" lazy="false"  fetch="select">
             <key>
                 <column name="SET_ID" />
             </key>

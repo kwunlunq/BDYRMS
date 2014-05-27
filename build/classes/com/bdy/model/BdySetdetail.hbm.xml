@@ -8,7 +8,7 @@
             <column name="SD_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdySet" class="com.bdy.model.BdySet" lazy="false" fetch="select">
+        <many-to-one name="bdySet" class="com.bdy.model.BdySet" lazy="false" fetch="select" cascade="delete">
             <column name="SET_ID" />
         </many-to-one>
         <many-to-one name="bdyFoodkind" class="com.bdy.model.BdyFoodkind" lazy="false" fetch="select">

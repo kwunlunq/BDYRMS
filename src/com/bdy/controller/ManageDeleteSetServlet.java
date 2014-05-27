@@ -48,7 +48,11 @@ public class ManageDeleteSetServlet extends HttpServlet {
 
 		String detailId = request.getParameter("detailid");
 		Integer id = Integer.parseInt(detailId);
+		System.out.println("1");
+		deleteService.deleteSetDetail(id);
+		System.out.println("2");
 		deleteService.deleteSet(id);
+		System.out.println("3");
 		List<BdySetdetail> detail = deleteService.getAllDetail();
 		request.setAttribute("pags", "1");
 		request.setAttribute("resultFood", foods);

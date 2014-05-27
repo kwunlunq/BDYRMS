@@ -228,6 +228,16 @@ public class ManageService {
 		 return bean;
 		
 	}
+	public void deleteSetDetail(int detailId){
+		
+		BdySet set = setDao.getSet(detailId);
+		Set<BdySetdetail> setDetails = set.getBdySetdetails();
+		for(BdySetdetail temp:setDetails){
+			setdetailDao.delete(temp.getSdId());
+		}
+
+		
+	}
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}

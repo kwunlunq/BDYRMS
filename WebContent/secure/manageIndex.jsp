@@ -147,7 +147,7 @@ if(judgeSetDetail!=""){
 		<span id="divMK" style="visibility:hidden;">主餐種類:<span id="insertMK"></span></span></p>
 		</div>
 		
-		<table id="testTable" border="1">
+		<table id="sortTable1" border="1">
 		<thead>
 		<tr>
 		<th>食物名稱</th>
@@ -164,7 +164,7 @@ if(judgeSetDetail!=""){
 		
 		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<c:if test="${food.fdId==param.fdid }">
-		<tr style="background-color:firebrick" id="TRfood${food.fdId}">
+		<tr style="border-color:firebrick " id="TRfood${food.fdId}">
 		</c:if>
 		<c:if test="${food.fdId!=param.fdid }">
 		<tr id="TRfood${food.fdId}">
@@ -203,7 +203,7 @@ if(judgeSetDetail!=""){
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
 		 <p>限定價錢:<input size="3" type="text" id="setDetailPrice"><s:property value="%{fieldErrors.setdPrice[0]}"/></p>
 		 </div>
-		<table style="width:50%; align:left" border="1">		
+		<table id="sortTable2" style="width:50%; align:left" border="1">		
 		<thead>
 		<tr>
 		<th>套餐名稱</th>
@@ -240,7 +240,7 @@ if(judgeSetDetail!=""){
 		<p>製作區域:<br><span id="insertSetFoodKindMa"></span></p>
 		<p>出餐順序:<br><input type="text" size="2" id="insertFoodKindSEQ"><s:property value="%{fieldErrors.fkSEQ[0]}"/></p>
 		</div>
-		<table border="1">
+		<table id="sortTable3" border="1">
 		
 		<thead>
 		<tr>
@@ -252,6 +252,7 @@ if(judgeSetDetail!=""){
 		</tr>
 		</thead>
 		<c:forEach var = "foodkind" items="${resultfoodkind }">
+		<c:if test="${foodkind.isMain!='1'}">		
 		<tr id="TRfk${foodkind.fkId }">
 		<td id="foodkindname${foodkind.fkId }">${foodkind.name }</td>
 		<td id="foodkindperiod${foodkind.fkId }">${foodkind.period }</td>
@@ -262,6 +263,7 @@ if(judgeSetDetail!=""){
 		<input class='MainBtnColor' type="button" value="刪除" onclick="fkdelete(${foodkind.fkId })">
 		</td>
 		</tr>
+		</c:if>
 		</c:forEach>			
 		</table>
 		</div>
