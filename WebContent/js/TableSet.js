@@ -66,7 +66,7 @@ function editTableDialog(thisTB){
 		modal:true,
 		position: { 
 			my: "center center", 
-			at: "center center", 
+			at: "top top", 
 			of: window 
 		},
 		show: {
@@ -80,6 +80,12 @@ function editTableDialog(thisTB){
 	      buttons:{
 	    	  "取消":function (){
 	    		  $('#editTableDialog').dialog('close');
+	    	  },
+	    	  "刪除":function(){
+	    		  $('#editTableDialog').dialog('close');
+	    		  $('#picTB>div[id='+tbId+']').toggle('explode',800,function(){
+	    			  $(this).remove();
+	    		  });
 	    	  },
 	    	  "修改":function() {
 	    		  var canAdd = true;
@@ -128,7 +134,7 @@ function editFloorDialog(){
 		modal:true,
 		position: { 
 			my: "center center", 
-			at: "center center", 
+			at: "top top",  
 			of: window 
 		},
 		show: {
@@ -215,7 +221,7 @@ function addFloorDialog(){
 		modal:true,
 		position: { 
 			my: "center center", 
-			at: "center center", 
+			at: "top top", 
 			of: window 
 		},
 		show: {
@@ -437,7 +443,7 @@ function addTbDialog(){
 			modal:true,
 			position: { 
 				my: "center center", 
-				at: "center center", 
+				at: "top top",  
 				of: window 
 			},
 			show: {
