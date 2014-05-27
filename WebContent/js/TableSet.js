@@ -35,7 +35,22 @@ $(function() {
 	
 	$('body').on('click','#delIcon',function (){delFloor($(this));});
 	
+	$('body').on('click','#floorListLi',function () {editFloorName($(this));});
+	
 });
+
+function editFloorName(thisLi){
+	var tbName = $(thisLi).text();
+	var state = $(thisLi).attr("state");
+	if(state == 'show'){
+		$(thisLi).attr("state","edit");
+		$(thisLi).html("<input id='editFloorName' style='text-align:center;height:25px;width:150px' type='text' value='"+tbName+"'>");
+		$('#editFloorName').focus();
+	}else if(state == 'edit'){
+		$(thisLi).attr("state","show");
+		$(thisLi).text($('#editFloorName').val());
+	}
+}
 
 function editTableDialog(thisTB){
 	var tbId = $(thisTB).attr("id");
@@ -133,7 +148,16 @@ function editFloorDialog(){
 	    		  getFloorInSortableFloor();
 	    	  },
 	    	  "儲存":function() {
-	    		  doSaveFloorList();
+	    		  var canSave = true;
+	    		  $('#editFloorName').each(function (){
+	    			  canSave = false;
+	    			  showState('場地名稱未修改完成');
+	    		  });
+	    		  if(canSave){
+	    			  doSaveFloorList();
+	    			  showState("修改完成");
+	    		  }
+	    		  
 	    	  }
 	      }
 	});
@@ -179,7 +203,7 @@ function getFloorInSortableFloor(){
 	    	$('#sortableFloor').empty();
 			for(var i=0 ;i<floorList.length;i++){
 				var floorData = floorList[i];
-				$('#sortableFloor').append("<li class='ui-state-default' floorId='"+floorData.floorId+"'>"+floorData.floorName+"<span id='delIcon' floorId='"+floorData.floorId+"' class='ui-state-default ui-corner-all' ><span class='ui-icon ui-icon-closethick'></span></span></li>");
+				$('#sortableFloor').append("<li class='ui-state-default' floorId='"+floorData.floorId+"'><div id='floorListLi' state='show'>"+floorData.floorName+"</div><span id='delIcon' floorId='"+floorData.floorId+"' class='ui-state-default ui-corner-all' ><span class='ui-icon ui-icon-closethick'></span></span></li>");
 			}
 	    }
 	});
