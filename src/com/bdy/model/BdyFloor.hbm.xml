@@ -11,5 +11,14 @@
         <property name="name" type="string">
             <column name="NAME" />
         </property>
+        <property name="sort" type="integer">
+            <column name="SORT" />
+        </property>
+        <set name="bdyTable" table="BDY_TABLE" inverse="true" lazy="false"  fetch="select">
+            <key>
+                <column name="BDY_FLOOR" />
+            </key>
+            <one-to-many class="com.bdy.model.BdyTable" />
+        </set>
     </class>
 </hibernate-mapping>
