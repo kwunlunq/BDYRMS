@@ -23,6 +23,7 @@ import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
 import com.bdy.model.CheckOut;
+import com.bdy.model.FoodKindPrice;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
@@ -466,7 +467,38 @@ public BdyTable getOrderTableName(int tableId){
 		return fk;
 	}
 
+	public void insertSet(String setName,Double setPrice){
+		BdySet set = new BdySet();
+		set.setName(setName);
+		set.setPrice(setPrice);
+		setDao.insert(set);		
+	}
 	
+	public int findlastSetId(){
+		int setId=0;
+		for(BdySet temp:setDao.getAllSet()){
+			if(temp.getSetId()>setId){
+				setId =temp.getSetId(); 
+			}
+		}
+		return setId;
+	}
+	
+	public void insertSetDetail(List<FoodKindPrice> list){
+		int lastSetId=findlastSetId();
+		for(FoodKindPrice temp:list){
+			BdySetdetail detail = new BdySetdetail();
+			detail.setBdySet(setDao.getSet(lastSetId));
+			detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
+			detail.setPrice(temp.getPirce());
+			setdetailDao.insert(detail);
+		}
+		BdySetdetail detail = new BdySetdetail();
+		detail.setBdySet(setDao.getSet(lastSetId));
+		detail.setBdyFoodkind(foodkindDao.getFoodkind(6));
+		detail.setPrice(0.0);
+		setdetailDao.insert(detail);
+	}
 }
 
 
