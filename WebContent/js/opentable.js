@@ -73,7 +73,10 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 
 	//Create Table
 	var newTbDiv = document.createElement("div");
-	$(newTbDiv).append("<div id='tbNameInTable'>"+tbName+"</div>");
+	var newTbNameSpan = $("<span id='tbNameSpan'>"+tbName+"</span>");
+	var newTbSizeSpan = $("<span id='tbSizeSpan' style='position:absolute;right:5px;bottom:1px'>"+tbSize+"</span>");
+	$(newTbDiv).append(newTbNameSpan);
+	$(newTbDiv).append(newTbSizeSpan);
 	newTbDiv.setAttribute("style",'position:absolute;top:'+topCount+'px;left:'+leftCount+'px');
 	if(tbState != 0 ){
 		newTbDiv.setAttribute("class","divTBInUse divTB");

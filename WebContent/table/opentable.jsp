@@ -58,8 +58,15 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 	<div id="writeCodeInThisDiv">
 		<div style="margin: 0px auto; width: 95%; height: 100%">
-			<div id="selectFloor">
-				<span style="font-size:1.3em">樓層:</span>
+			<div style="width:980px;position:relative;font-size:1.2em">
+				<span>場地：</span>
+				<span id="selectFloor" style="font-size:0.9em"></span>
+				<div class="stateColorStyle" style="right:280px;color:black;font-size:0.9em">狀態：</div>
+				<div class="stateColorStyle" title='0-閒置中...' style="background-color:green;right:230px;">閒置</div>
+				<div class="stateColorStyle" title="1-等待點餐..." style="background-color:orange;right:170px;">點餐</div>
+				<div class="stateColorStyle" title="2-用餐中..." style="background-color:purple;right:110px;">用餐</div>
+				<div class="stateColorStyle" title="3-有客人預約" style="background-color:#057fd0;right:50px;">預約</div>
+				<div class="stateColorStyle" title="4-不開放使用" style="background-color:gray;right:-10px;">關閉</div>
 			 </div>
 			<div id="picTB"></div>
 		</div>
