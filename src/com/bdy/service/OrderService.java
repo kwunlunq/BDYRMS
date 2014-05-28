@@ -2,15 +2,11 @@ package com.bdy.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -36,6 +32,7 @@ import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBillHistoryDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
@@ -48,6 +45,7 @@ import com.bdy.model.dao.BdyMakeareaDao;
 import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
+import com.bdy.model.dao.BdyOrderlistReportDao;
 import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
@@ -73,6 +71,16 @@ public class OrderService {
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
 	
+
+	BdyBillHistoryDao billHistoryDao;
+	BdyOrderlistReportDao orderlistReportDao;
+	
+	public void setBillHistoryDao(BdyBillHistoryDao billHistoryDao) {
+		this.billHistoryDao = billHistoryDao;
+	}
+	public void setOrderlistReportDao(BdyOrderlistReportDao orderlistReportDao) {
+		this.orderlistReportDao = orderlistReportDao;
+	}
 	
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
@@ -222,17 +230,18 @@ public class OrderService {
 	public JsonArray makeJSONTables(TreeMap<Integer, BdyTable> tableMap, TreeMap<Integer, BdyFloor> floorMap) {
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		// 走訪map : 呼叫keySet()取出所有的key, 來取出map所有的value
-		Iterator<Integer> flKeys = tableMap.keySet().iterator();
+		Iterator<Integer> flKeys = floorMap.keySet().iterator();
 		while (flKeys.hasNext()) {
 			BdyFloor floor = floorMap.get(flKeys.next());
-			int floorId = floor.getFloorid();
+			int fId = floor.getFloorid();
+ 
 			JsonArrayBuilder tbary = Json.createArrayBuilder();
 			
-			Iterator<Integer> tbKeys = floorMap.keySet().iterator();
+			Iterator<Integer> tbKeys = tableMap.keySet().iterator();
 			List<BdyTable> fIdTables = new ArrayList<BdyTable>();
 			while (tbKeys.hasNext()) {
 				BdyTable table = tableMap.get(tbKeys.next());
-				if (table.getBdyFloor().getFloorid() == floorId) {
+				if (table.getBdyFloor().getFloorid() == fId) {
 					fIdTables.add(table);
 				}
 			}

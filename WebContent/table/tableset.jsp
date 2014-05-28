@@ -37,6 +37,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/TableSet.css"/>">
 <script src="<c:url value="/js/TableSet.js"/>"></script>
+<script src="<c:url value="/js/orderinitial.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
