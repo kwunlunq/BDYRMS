@@ -20,7 +20,7 @@ $(function() {
 	$('#saveFloor').css("color","gray");
 	
 	getFloor();
-
+	
 	$('body').on('change','#changeFloor',doLoadTable);
 	
 	$('body').on('click','#reLoad',doLoadTable);
@@ -50,6 +50,10 @@ function editFloorName(thisLi){
 		$(thisLi).attr("state","show");
 		$(thisLi).text($('#editFloorName').val());
 	}
+}
+
+function doubleClickTB(thisTB){
+	var t = setTimeout
 }
 
 function editTableDialog(thisTB){
@@ -82,6 +86,9 @@ function editTableDialog(thisTB){
 	    		  $('#editTableDialog').dialog('close');
 	    	  },
 	    	  "刪除":function(){
+	    		  tablesDataForSaveInJson.delTBlist.push(tbId);
+	    		  count--;
+	    		  $('#tableCount').text(count);
 	    		  $('#editTableDialog').dialog('close');
 	    		  $('#picTB>div[id='+tbId+']').toggle('explode',800,function(){
 	    			  $(this).remove();
@@ -104,6 +111,7 @@ function editTableDialog(thisTB){
 	    			  $('#editTbSizeError').text("");
 	    		  }
 	    		  if(canAdd){
+	    			  tablesDataForSaveInJson.delTBlist = [];
 	    			  $(thisTB).attr("tbName",tbName);
 	    			  $(thisTB).attr("tbSize",tbSize);
 	    			  $('#picTB>div[id='+tbId+']>span[id=tbNameSpan]').text(tbName);
@@ -384,7 +392,9 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 		}
 	});
 	$('#picTB').append(newTbDiv);
-	$(newTbDiv).click(function (){editTableDialog($(this));});
+	//$(newTbDiv).click(function (){editTableDialog($(this));});
+	$(newTbDiv).dblclick( function () { editTableDialog($(this)); });
+
 	$('#tableCount').text(count);
 }
 
