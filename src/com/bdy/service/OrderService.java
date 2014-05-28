@@ -222,17 +222,18 @@ public class OrderService {
 	public JsonArray makeJSONTables(TreeMap<Integer, BdyTable> tableMap, TreeMap<Integer, BdyFloor> floorMap) {
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		// 走訪map : 呼叫keySet()取出所有的key, 來取出map所有的value
-		Iterator<Integer> flKeys = tableMap.keySet().iterator();
+		Iterator<Integer> flKeys = floorMap.keySet().iterator();
 		while (flKeys.hasNext()) {
 			BdyFloor floor = floorMap.get(flKeys.next());
-			int floorId = floor.getFloorid();
+			int fId = floor.getFloorid();
+ 
 			JsonArrayBuilder tbary = Json.createArrayBuilder();
 			
-			Iterator<Integer> tbKeys = floorMap.keySet().iterator();
+			Iterator<Integer> tbKeys = tableMap.keySet().iterator();
 			List<BdyTable> fIdTables = new ArrayList<BdyTable>();
 			while (tbKeys.hasNext()) {
 				BdyTable table = tableMap.get(tbKeys.next());
-				if (table.getBdyFloor().getFloorid() == floorId) {
+				if (table.getBdyFloor().getFloorid() == fId) {
 					fIdTables.add(table);
 				}
 			}

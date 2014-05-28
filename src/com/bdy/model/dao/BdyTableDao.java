@@ -28,9 +28,11 @@ private SessionFactory sf = null;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<BdyTable> getTableByFloor(int floor){
+	public List<BdyTable> getTableByFloor(int floorid){
 		Session session = sf.openSession();
-		List<BdyTable> result = session.createCriteria(BdyTable.class).add(Restrictions.eq("bdyFloor.floorid", floor)).list();
+		List<BdyTable> result = session.createCriteria(BdyTable.class)
+									   .add(Restrictions.eq("bdyFloor.floorid", floorid))
+									   .list();
 		session.close();
 		return result;
 	}

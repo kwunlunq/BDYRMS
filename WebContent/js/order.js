@@ -84,10 +84,11 @@ function listenerInitial() {
 	});
 	$('#orderConfirm').click(function() {
 			var peopleCount = $('#peopleCount').text();
+			var tableNum = $('#tableNum').text();
 			var setleft = $('span[id^=fkCountSpan-]').length;
 			
 			// 判斷桌號人數
-			if (peopleCount=='-') {
+			if (peopleCount=='-' || tableNum=="") {
 				$('#ChooseTableAndPeopleDialog').dialog("open");
 				showState("請輸入桌號及人數");
 			} else if (peopleCount=='0') {
