@@ -637,12 +637,39 @@ public BdyTable getOrderTableName(int tableId){
 		detail.setPrice(0.0);
 		setdetailDao.insert(detail);
 	}
+
+//setmealupdate
+
+public void updateSet(int setId,String setName,Double setPrice){
+	BdySet set = new BdySet();
+	set.setSetId(setId);
+	set.setName(setName);
+	set.setPrice(setPrice);
+	setDao.update(set);		
+}
+
+public void updateSetDetail(int setId,List<FoodKindPrice> list){
+	
+	for(FoodKindPrice temp:list){
+		BdySetdetail detail = new BdySetdetail();
+		detail.setBdySet(setDao.getSet(setId));
+		detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
+		detail.setPrice(temp.getPirce());
+		setdetailDao.update(detail);
+	}
+	
 }
 
 
 
 
 
+
+
+
+
+
+}
 
 
 

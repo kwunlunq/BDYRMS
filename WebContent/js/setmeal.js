@@ -76,6 +76,10 @@ function checkPrice(){
 }
 //------------------------------update----------------------------------------------
 function updateSet(setId){
+	$('body').find("input[id^=check]").each(function(){
+		
+//		$(this).attr("checked","unchecked");
+	});
 	
 	
 	var detailids= [];
@@ -99,7 +103,11 @@ function updateSet(setId){
 		$('#span'+detailids[i]).css("display","block");
 		$('#text'+detailids[i]).val(settext);
 	}
-	
+	$('#changebtn').empty();
+	$('#changebtn').append( "<input type='submit' value='確認更改'>" +
+							"<input type='button' value='取消'>"+
+							"<input type='hidden' name='setId' value='"+setId+"'>");
+	getTotalPrice();
 	
 }
 

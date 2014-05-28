@@ -39,12 +39,14 @@ public class SetMealInsertServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//		String setId = request.getParameter("setId");
+//		System.out.println("setId = "+setId);
 		String name = request.getParameter("setName");
 		String sprice = request.getParameter("setPriceName");
 		Double setprice = Double.valueOf(sprice);
 		String check[]=request.getParameterValues("checkname");
 		List<FoodKindPrice> prices = new LinkedList<FoodKindPrice>();
-		String checkvalue="";
+		
 		for(int i=0;i<check.length;i++){
 			Integer var= Integer.valueOf(check[i]);
 			String price=request.getParameter("price"+var);
