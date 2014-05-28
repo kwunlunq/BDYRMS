@@ -2,6 +2,7 @@ package com.bdy.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
 import java.util.HashSet;
@@ -9,13 +10,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+
+import org.directwebremoting.Browser;
+import org.directwebremoting.ServerContextFactory;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
+import org.directwebremoting.ui.dwr.Util;
+
+import utils.Data;
 
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFloor;
@@ -508,4 +516,47 @@ public class OrderService {
 		  long interval = System.currentTimeMillis() - start;
 		  System.out.println("("+interval/1000.0+"s)\n");
 	}
+
+	/*
+	 * --------------------------------------------------------
+	 * DWR function
+	 * 由order.js呼叫, 在 kitchenAllView.jsp id為kitchenDiv
+	 * 的element放入資料
+	 * --------------------------------------------------------
+	 */
+
+	 public void notifyKitchen(Data data) {
+	   List<Data> messages = new ArrayList<Data>();
+	//   messages.add(new Data("testing" + count++));
+	   messages.add(data);
+
+	   // Collection sessions = wctx.getAllScriptSessions();
+	   WebContext wctx = WebContextFactory.get();				   ///kitchen/kitchenAllView.jsp
+//	   Collection<?> sessions = wctx.getScriptSessionsByPage("/BDYRMS/kitchen/kitchenAllView.jsp");
+//	   Collection<?> sessions = wctx.getScriptSessionsByPage("/BDYRMS/testdwr.jsp");
+//	   Util utilAll = new Util(sessions);
+//	   utilAll.addOptions("updates", messages, "value");
+	   
+//	   Collection<?> sessions = wctx.getScriptSessionsByPage("/BDYRMS/testdwr.jsp");
+//	   Collection session = Browser.withPage("/BDYRMS/testdwr.jsp", task);
+//	   org.directwebremoting.ui.dwr.Util utilAll = new Util(sessions);
+//	   utilAll.addOptions("updates", messages, "value");
+		   
+	 }
+	 
+	public void sendMes(String mes) {
+		send("新點餐單!");
+	}
+
+	public void send(final String output) {
+		String page = ServerContextFactory.get().getContextPath()
+				+ "/kitchen/kitchenAllView.jsp";
+		Browser.withPage(page, new Runnable() {
+			public void run() {
+				Util.setValue("updates", output); // news 客户端jsp里面textarea的id
+			}
+		});
+	}
+	
+	
 }
