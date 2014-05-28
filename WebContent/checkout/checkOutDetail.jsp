@@ -115,10 +115,9 @@ var contextPath='<%=request.getContextPath()%>';
 <form action="<c:url value="" />" method="post">		
 <div id="tabs">
   <ul>
-  <c:forEach var="map" items="${checkout.setMap}">
-    <li><a href="#tabs${map.key.setId}">${map.key.name}-數量${fn:length(map.value)}</a></li>
+  <c:forEach var="map" items="${checkout.setDetailMap}">
+    <li><a href="#tabs${map.key.setId}">${map.key.name}-數量${fn:length(map.value['0'])}</a></li>
    </c:forEach>
-   <li><a href="#tabs-diff">補差額</a></li>
    <li><a href="#tabs-single">單點</a></li>
   </ul>
   <c:forEach var="map" items="${checkout.setMap}">
