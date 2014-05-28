@@ -115,30 +115,23 @@ var contextPath='<%=request.getContextPath()%>';
 <form action="<c:url value="" />" method="post">		
 <div id="tabs">
   <ul>
-  <c:forEach var="map" items="${checkout.setMap}">
-    <li><a href="#tabs${map.key.setId}">${map.key.name}-數量${fn:length(map.value)}</a></li>
+  <c:forEach var="map" items="${checkout.setDetailMap}">
+    <li><a href="#tabs${map.key.setId}">${map.key.name}-數量${fn:length(map.value['0'])}</a></li>
    </c:forEach>
-   <li><a href="#tabs-diff">補差額</a></li>
    <li><a href="#tabs-single">單點</a></li>
   </ul>
-  <c:forEach var="map" items="${checkout.setMap}">
+  <c:forEach var="map" items="${checkout.setDetailMap}">
   	<div id="tabs${map.key.setId}">
     	<h4>套餐價錢${map.key.price}</h4> 
-	     	<c:forEach var="mainfood" items="${map.value}" >
+	     	<c:forEach var="mainfood" items="${map.value['0']}" >
 	     	<span>主餐:${mainfood.name}-價錢${mainfood.price}</span><br>
+	     	</c:forEach>
+	     	<hr>
+	     	<c:forEach var="notMianFood" items="${map.value['1']}" >
+	     	<span>餐點品項:${notMianFood.bdyFood.bdyFoodkind.name}-${notMianFood.bdyFood.name}-(${notMianFood.addmoney})</span><br>
 	     	</c:forEach> 
  	 </div>
   </c:forEach>
-  <div id="tabs-diff">
-    <h4>補差額</h4>
-    <c:forEach var="orders" items="${checkout.orders}">
-			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			
-				<c:if test="${empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet && orderlist.addmoney!=0 }">		
-					<p>餐點名稱:${orderlist.bdyFood.name}(${orderlist.bdySet.name})--價錢:${orderlist.addmoney}</p>	
-				</c:if>						
-			</c:forEach>
-		</c:forEach> 
-  </div>
   <div id="tabs-single">
   	<h4>單點</h4>
   	<c:forEach var="orders" items="${checkout.orders}">
