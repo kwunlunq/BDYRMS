@@ -2,6 +2,7 @@ var setIds     = [];
 var setdetails = [];
 var fks        = [];
 var tableoptions = [[]];
+var setNames     = [];
 var orderlistIndex = 0;
 var setCount = 1;
 // 要傳送的訂單所有資訊
@@ -28,7 +29,7 @@ $(function() {
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
 	// 解決按鈕被腰斬問題
-	$( "#orderarea" ).tabs( "refresh" );
+//	$( "#orderarea" ).tabs( "refresh" );
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });
 });
@@ -78,7 +79,7 @@ function listenerInitial() {
 				text: "送出",
 				click: function() {
 //					Service.update({value:"有人點餐"});
-					Service.sendMes("新消息");
+//					Service.sendMes("新消息");
 					sendOrder();
 				}}]
 	});
@@ -254,7 +255,7 @@ function getTablesCallback(result) {
 			var option = document.createElement("option");
 			$(option).attr("value", tbs[j].tbId);
 			$(option).append(document.createTextNode(tbName));
-			console.log(option);
+//			console.log(option);
 			tableoptions[i][j] = option;
 			$('#setTableNum').append(tableoptions[i][j]);
 		};
