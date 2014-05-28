@@ -31,8 +31,10 @@ var contextPath='<%=request.getContextPath()%>';
 <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
+<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
+
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/mainpage.js"/>"></script>
@@ -46,7 +48,7 @@ var contextPath='<%=request.getContextPath()%>';
 .setCol{
  	text-align:center;			
 	float:left;
-	width:24%;
+	width:32%;
 	height:100%;
 	border-left:1px solid blue;
 }
@@ -73,13 +75,13 @@ var contextPath='<%=request.getContextPath()%>';
 	
 	<div class="setCol">
 	<a href="<c:url value="/secure/insertNewDiscount.jsp" />">新增折扣</a>
-	<table border="1" align="center">
+	<table id="table1" border="1" align="center">
 	<thead>
 	<tr>
 	<th>折扣名稱</th>
 	<th>折扣優惠</th>
 	<th>功能</th>
-	<tr>
+	</tr>
 	</thead>
 	<tbody>
 	<c:forEach var="disc" items="${disc }">
@@ -92,37 +94,15 @@ var contextPath='<%=request.getContextPath()%>';
 	</tbody>
 	</table>
 	</div>
-	
-	<div class="setCol">
-	<a href="<c:url value="/secure/insertNewSet.jsp" />">新增套餐</a>
-	<table border="1" align="center">
-	<thead>
-	<tr>
-	<th>套餐名稱名稱</th>
-	<th>套餐價位</th>
-	<th>功能</th>
-	<tr>
-	</thead>
-	<tbody>
-	<c:forEach var="set" items="${set }">
-	<tr>
-	<td>${set.name }</td>
-	<td>${set.price }</td>
-	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteSet(${set.setId})"></td>
-	</tr>
-	</c:forEach>
-	</tbody>
-	</table>
-	</div>
-	
+		
 	<div class="setCol">
 	<a href="<c:url value="/secure/insertNewMA.jsp" />">新增製作區域</a>
-	<table border="1" align="center">
+	<table id="table2" border="1" align="center">
 	<thead>
 	<tr>
 	<th>製作區域名稱</th>
 	<th>功能</th>
-	<tr>
+	</tr>
 	</thead>
 	<tbody>
 	<c:forEach var="ma" items="${ma }">
@@ -137,12 +117,12 @@ var contextPath='<%=request.getContextPath()%>';
 	
 	<div class="setCol">
 	<a href="<c:url value="/secure/insertNewMK.jsp" />">新增主餐種類</a>
-	<table border="1" align="center">
+	<table id="table3" border="1" align="center">
 	<thead>
 	<tr>
 	<th>主餐種類</th>
 	<th>功能</th>
-	<tr>
+	</tr>
 	</thead>
 	<tbody>
 	<c:forEach var="mk" items="${mk }">
@@ -155,6 +135,29 @@ var contextPath='<%=request.getContextPath()%>';
 	</table>
 	</div>
 	
+	
+<!-- 	<div class="setCol"> -->
+<%-- 	<a href="<c:url value="/secure/insertNewSet.jsp" />">新增套餐</a> --%> 
+<!-- 	<h3>套餐類別</h3> -->
+<!-- 	<table id="table4" border="1" align="center"> -->
+<!-- 	<thead> -->
+<!-- 	<tr> -->
+<!-- 	<th>套餐名稱</th> -->
+<!-- 	<th>套餐價位</th> -->
+<!-- 	<th>功能</th> -->
+<!-- 	</tr> -->
+<!-- 	</thead> -->
+<!-- 	<tbody> -->
+<%-- 	<c:forEach var="set" items="${set }"> --%>
+<!-- 	<tr> -->
+<%-- 	<td>${set.name }</td> --%>
+<%-- 	<td>${set.price }</td> --%>
+<%-- 	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteSet(${set.setId})"></td> --%>
+<!-- 	</tr> -->
+<%-- 	</c:forEach> --%>
+<!-- 	</tbody> -->
+<!-- 	</table> -->
+<!-- 	</div> -->
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>

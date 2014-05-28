@@ -9,6 +9,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdySet;
 import com.bdy.service.ManageService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -17,8 +18,20 @@ import com.opensymphony.xwork2.Preparable;
 public class SetMealIndexAction extends ActionSupport implements Preparable{
 
 	List<BdyFoodkind> foodKind;
+	List<BdySet> set;
 	ManageService service;
 	
+	
+	
+
+	public List<BdySet> getSet() {
+		return set;
+	}
+
+	public void setSet(List<BdySet> set) {
+		this.set = set;
+	}
+
 	public List<BdyFoodkind> getFoodKind() {
 		return foodKind;
 	}
@@ -30,11 +43,20 @@ public class SetMealIndexAction extends ActionSupport implements Preparable{
 	@Override
 	public String execute() throws Exception {
 		foodKind = service.getAllFoodKindSetMeal();
+		set = service.getAllSet();
 		Collections.sort(foodKind,new Comparator<BdyFoodkind>() {
 
 			@Override
 			public int compare(BdyFoodkind o1, BdyFoodkind o2) {
 				return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+			}
+			
+		});
+		Collections.sort(set,new Comparator<BdySet>() {
+
+			@Override
+			public int compare(BdySet o1, BdySet o2) {
+				return new Integer(o1.getSetId()).compareTo(new Integer(o2.getSetId()));
 			}
 			
 		});

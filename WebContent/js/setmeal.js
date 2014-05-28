@@ -46,10 +46,7 @@ function onblurCheckPrice(fkId){
 	
 }
 
-//function focusCheckPrice(fkId){
-//	var focusnum = document.getElementById("text"+fkId).value;
-//	onblurCheckPrice(focusnum,fkId);
-//}
+
 
 var b;
 function setConfirm(){
@@ -58,34 +55,53 @@ function setConfirm(){
 	
 	if(!isNaN(setPrice)&&setPrice>settatolPrice){	
 		b=window.confirm("套餐價錢大於限定價錢總合 確定新增");
-//		if(b){
-//			window.location.href=contextPath+"/setmeal/set";
-//		}
 	}
 	
 }
 
 function checkPrice(){
 	var setPrice = document.getElementById("setPrice").value;
-	if(isNaN(setPrice)){
+	if(isNaN(setPrice)||setPrice==''){
 		alert("請輸入數字");
 		return false;
 	}else{
 		var settatolPrice = document.getElementById("totalPrice").innerHTML;
 		if(!isNaN(setPrice) && parseInt(setPrice) > parseInt(settatolPrice)){
-			b=window.confirm("套餐價錢大於限定價錢總合 確定新增");
-			if(b){
-				return true;
-			}else{
-				return false;
-			}
+			alert("套餐價錢不能大於限定價錢總合 ");
+			return false;
 		}
 		return true;
 	}
 	
 }
-
-
+//------------------------------update----------------------------------------------
+function updateSet(setId){
+	
+	
+	var detailids= [];
+	var detailfkids=[];
+	$('#setId'+setId).find("span[id=detailname]").each(function(){//抓detail的id 
+		detailids.push($(this).attr("detailid"));
+	});
+	$('#setId'+setId).find("span[id=detailname]").each(function(){//抓fk的id 
+		detailfkids.push($(this).attr("detailfkid"));
+	});
+	console.log("detailid = "+detailids);
+	console.log("detailfkid = "+detailfkids);
+	var setName = $('#setname'+setId).text();
+	var setPrice = $('#setprice'+setId).text();
+	$('#setName').val(setName);
+	$('#setPrice').val(setPrice);
+	for(var i=0;i<detailfkids.length;i++){
+		
+		var settext = $('#settext'+detailfkids[i]).text();
+		$('#check'+detailids[i]).attr("checked","checked");
+		$('#span'+detailids[i]).css("display","block");
+		$('#text'+detailids[i]).val(settext);
+	}
+	
+	
+}
 
 
 

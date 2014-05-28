@@ -1,5 +1,45 @@
 $(function(){
 	$("a").button();
+	
+	$('#table1').DataTable({
+	    "jQueryUI": true,
+	    "scrollY": ($('#aside').height()-275),
+	    "scrollCollapse": true,
+	    "paging": false,
+	    "aoColumnDefs":[{
+	    	bSortable:false
+	    }],
+	});
+	
+	$('#table2').DataTable({
+	    "jQueryUI": true,
+	    "scrollY": ($('#aside').height()-275),
+	    "scrollCollapse": true,
+	    "paging": false,
+	    "aoColumnDefs":[{
+	    	bSortable:false
+	    }],
+	});
+	
+	$('#table3').DataTable({
+	    "jQueryUI": true,
+	    "scrollY": ($('#aside').height()-275),
+	    "scrollCollapse": true,
+	    "paging": false,
+	    "aoColumnDefs":[{
+	    	bSortable:false
+	    }],
+	});
+	
+	$('#table4').DataTable({
+	    "jQueryUI": true,
+	    "scrollY": ($('#aside').height()-275),
+	    "scrollCollapse": true,
+	    "paging": false,
+	    "aoColumnDefs":[{
+	    	bSortable:false
+	    }],
+	});
 })
 
 function cancelDis(){

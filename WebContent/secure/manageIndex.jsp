@@ -58,6 +58,10 @@ width:110px;
 max-width:110px;
 
 }
+
+
+.DataTables_sort_icon{
+	display:none;
 }
 
 </style>
@@ -197,7 +201,8 @@ if(judgeSetDetail!=""){
 		</div>
 		
 		 <div id="tabs-2">
-		 <a href="javascript:void(0)" id="setDialog-link" class="ui-state-default ui-corner-all" ">新增一筆套餐品項</a>
+<!-- 		 <a href="javascript:void(0)" id="setDialog-link" class="ui-state-default ui-corner-all" ">新增一筆套餐品項</a> -->
+		 <a href="<c:url value='/setmeal/setIndex.jsp'/>" class="ui-state-default ui-corner-all" ">新增一筆套餐</a>
 		 <div id="setInsertDialog" title="新增套餐品項" style="display:none">
 		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
@@ -208,7 +213,7 @@ if(judgeSetDetail!=""){
 		<tr>
 		<th>套餐名稱</th>
 		<th>食物類別</th>
-		<th>功能</th>
+		<th>套餐類別限定價錢</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -221,9 +226,9 @@ if(judgeSetDetail!=""){
 		<td><div id="sname${detail.sdId }">${detail.bdySet.name} </div> </td>
 		<td><div id="fkname${detail.sdId }">${detail.bdyFoodkind.name}</td>		
 		<td>
-		
-		<input class='MainBtnColor' type="button" value="修改" onclick="setoption(${detail.sdId },${detail.bdySet.setId},${detail.bdyFoodkind.fkId})">
-		<input class='MainBtnColor' type="button" value="刪除" onclick="setdelete(${detail.sdId })">
+		${detail.price}
+<%-- 		<input class='MainBtnColor' type="button" value="修改" onclick="setoption(${detail.sdId },${detail.bdySet.setId},${detail.bdyFoodkind.fkId})"> --%>
+<%-- 		<input class='MainBtnColor' type="button" value="刪除" onclick="setdelete(${detail.sdId })"> --%>
 		</td>
 		</tr>
 		</form>

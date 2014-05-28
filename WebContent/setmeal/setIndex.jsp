@@ -47,7 +47,7 @@ var contextPath='<%=request.getContextPath()%>';
 .setCol{
 text-align:center;	
 float:left;
-width: 24%;
+width: 15%;
 height:100%;
 }
 .setColMid{
@@ -73,11 +73,11 @@ height:100%;
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-		
+	<div id="top" style="height: 250px;">
 	<form action="<c:url value='/setmeal/setInsert'/>" method="post">
 	<div class="setCol">
 	<h3>套餐名稱</h3>
-	<input name="setName" type="text">
+	<input id="setName" type="text">
 	</div>
 	<div class="setColMid">
 	<h3>選擇套餐種類</h3>
@@ -88,7 +88,11 @@ height:100%;
 		</s:iterator>
 		<div id="fkindChecked"></div>	
 		<h4>限定價錢總合:<span id="totalPrice">0</span></h4>
-		<s:iterator var="fk" value="foodKind">
+		
+	</div>
+	
+	<div class="setCol">
+	<s:iterator var="fk" value="foodKind">
 		<div style="display: none;width:80%;hieght:150px;" id="span<s:property value="#fk.fkId" />">
 		<s:property value="#fk.name" />-限定價錢:<input name="price<s:property value="#fk.fkId"/>" onblur="getTotalPrice()" size="2" type="text" id="text<s:property value="#fk.fkId"/>" fakeID="textPrice" >
 		</div>
@@ -98,7 +102,24 @@ height:100%;
 	<h3>套餐價錢:<input name="setPriceName" id="setPrice" type="text" size="3"></h3>
 	<input type="submit" value="確定" onclick="return checkPrice()">
 	</div>
+	
 	</form>
+	</div>
+	<div id="showSetMeal">
+		
+		<c:forEach var="set" items="${set}">
+		<div id="setId${set.setId }">
+		<span id="setname${set.setId }">${set.name}</span> -----<span id="setprice${set.setId }">${set.price }</span><br>
+		<c:forEach var="setdetails" items="${set.bdySetdetails }">
+		<c:if test="${setdetails.bdyFoodkind.fkId != '6'}">
+		<span id="detailname" detailfkid="${setdetails.bdyFoodkind.fkId }" detailid="${setdetails.sdId }">${setdetails.bdyFoodkind.name }</span>
+		<span id="settext${setdetails.bdyFoodkind.fkId }">${setdetails.price }</span>
+		</c:if>
+		</c:forEach><input type="button" value="修改" onclick="updateSet(${set.setId})"><input type="button" value="刪除"><br>
+		</div>
+		</c:forEach>
+		
+	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 	
 </div>
