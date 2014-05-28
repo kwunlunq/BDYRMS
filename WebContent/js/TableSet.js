@@ -52,14 +52,11 @@ function editFloorName(thisLi){
 	}
 }
 
-function doubleClickTB(thisTB){
-	var t = setTimeout
-}
-
 function editTableDialog(thisTB){
 	var tbId = $(thisTB).attr("id");
 	var tbName = $(thisTB).attr("tbName");
 	var tbSize = $(thisTB).attr("tbSize");
+	$(thisTB).css("z-index","9999");
 	$('#editTbNameText').val(tbName);
 	$('#editTbSizeText').val(tbSize);
 	$('#editTableDialog span').each(function (){
@@ -69,9 +66,9 @@ function editTableDialog(thisTB){
 		resizable:false,
 		modal:true,
 		position: { 
-			my: "center center", 
-			at: "top top", 
-			of: window 
+			my: "left top", 
+			at: "right top",
+			of: $(thisTB) 
 		},
 		show: {
 	        effect: "blind",
@@ -83,9 +80,11 @@ function editTableDialog(thisTB){
 	      },
 	      buttons:{
 	    	  "取消":function (){
+	    		  $(thisTB).css("z-index","0");
 	    		  $('#editTableDialog').dialog('close');
 	    	  },
 	    	  "刪除":function(){
+	    		  $(thisTB).css("z-index","0");
 	    		  tablesDataForSaveInJson.delTBlist.push(tbId);
 	    		  count--;
 	    		  $('#tableCount').text(count);
@@ -118,6 +117,7 @@ function editTableDialog(thisTB){
 	    			  $('#picTB>div[id='+tbId+']>span[id=tbSizeSpan]').text(tbSize);
 	    			  showState("修改成功");
 	    			  $('#editTableDialog').dialog('close');
+	    			  $(thisTB).css("z-index","0");
 	    		  }
 	    	  }
 	      }
@@ -368,7 +368,19 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 	$(newTbDiv).append(newTbNameSpan);
 	$(newTbDiv).append(newTbSizeSpan);
 	newTbDiv.setAttribute("style",'position:absolute;top:'+topCount+'px;left:'+leftCount+'px');
-	newTbDiv.setAttribute("class","divTBOrg divTB");
+	if(tbState == 0 ){ //閒置 Org
+		newTbDiv.setAttribute("class","divTBOrg divTB");
+	}else if(tbState == 1){ //點餐 InUse
+		newTbDiv.setAttribute("class","divTBInUse divTB");
+	}else if(tbState == 2){ //用餐 Eat
+		newTbDiv.setAttribute("class","divTBEat divTB");
+	}else if(tbState == 3){ //預約 Booking
+		newTbDiv.setAttribute("class","divTBBooking divTB");
+	}else if(tbState == 4){ //關閉 Closed
+		newTbDiv.setAttribute("class","divTBClosed divTB");
+	}else{                  // 例外 Org (閒置)
+		newTbDiv.setAttribute("class","divTBOrg divTB");
+	}
 	newTbDiv.setAttribute("id",tbId);
 	newTbDiv.setAttribute("tbName",tbName);
 	newTbDiv.setAttribute("tbSize",tbSize);
@@ -441,20 +453,20 @@ function saveFloor(){
 }
 
 function addTbDialog(){
-	  $('#addTbDialog input').each(function (){
-		  $(this).val("");
-	  });
-	  $('#addTbDialog span').each(function (){
-		  $(this).text("");
-	  });
+	$('#addTbDialog input').each(function (){
+		$(this).val("");
+	});
+	$('#addTbDialog span').each(function (){
+		$(this).text("");
+	});
 	if(canAddTbBtn){
 		$('#addTbDialog').dialog({
 			resizable:false,
 			modal:true,
 			position: { 
-				my: "center center", 
-				at: "top top",  
-				of: window 
+				my: "left top", 
+				at: "right top",  
+				of: $('#addTB') 
 			},
 			show: {
 		        effect: "blind",
