@@ -105,6 +105,7 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 }
 
 function divTBclick(divTB){
+	var tbId = $(divTB).attr("id");
 	var tbName = $(divTB).attr("tbName");
 	var tbSize = $(divTB).attr("tbSize");
 	var tbState = $(divTB).attr("tbState");
@@ -135,6 +136,7 @@ function divTBclick(divTB){
 	    	"點餐":function(){
 	    	},
 	    	"結帳":function(){
+	    		window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
 	    	},
 	    	"離開":function(){
     		$(divTB).css("z-index","0");
