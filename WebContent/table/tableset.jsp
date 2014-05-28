@@ -58,7 +58,7 @@ var contextPath='<%=request.getContextPath()%>';
 		<div style="margin: 0px auto; width: 95%; height: 100%">
 			<div style="width: 100%;font-size:1.25em">
 				目前場地:
-				<select id="changeFloor" class="MainBtnColor">
+				<select id="changeFloor">
 				</select>
 				<input class="MainBtnColor" type="button" id="addTB" value="新增桌子">
 				<input class="MainBtnColor" type="button" id="reLoad" value="重新讀取">
