@@ -25,6 +25,24 @@ public class CheckOut {
 			return new Integer(o1.getSetId()).compareTo(new Integer(o2.getSetId()));
 		}
 	});//-----map
+	
+	private Map<BdySet,List<List<?>>> setDetailMap = new TreeMap<BdySet,List<List<?>>>(new Comparator<BdySet>() {
+
+		@Override
+		public int compare(BdySet o1, BdySet o2) {
+			
+			return new Integer(o1.getSetId()).compareTo(new Integer(o2.getSetId()));
+		}
+	});//-----map
+	
+	
+	
+	public Map<BdySet, List<List<?>>> getSetDetailMap() {
+		return setDetailMap;
+	}
+	public void setSetDetailMap(Map<BdySet, List<List<?>>> setDetailMap) {
+		this.setDetailMap = setDetailMap;
+	}
 	public Map<BdySet, List<BdyFood>> getSetMap() {
 		return setMap;
 	}

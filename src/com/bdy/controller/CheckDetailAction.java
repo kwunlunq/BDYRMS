@@ -19,6 +19,7 @@ import com.bdy.model.BdySet;
 import com.bdy.model.BdyTable;
 import com.bdy.model.CheckOut;
 import com.bdy.service.ManageService;
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.Preparable;
 
@@ -76,11 +77,12 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 		checkout.setCustNum(maxCustNum);//-----放入
 		checkout.setPrice(price);//-----放入
 		Map<BdySet, List<BdyFood>> setMap = service.sortSetMap(checkout.getOrders());
+		checkout.setSetDetailMap(service.sortSetDetailMap(checkout.getOrders()));
 		checkout.setSetMap(setMap);
 		BdyTable table = service.getOrderTableName(tabId);
 		session.put("table", table);
 		session.put("checkout", checkout);
-		return super.execute();
+		return Action.SUCCESS;
 	}
 
 
