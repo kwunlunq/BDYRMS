@@ -1,4 +1,3 @@
-var setNames   = [];
 var setIds     = [];
 var setdetails = [];
 var fks        = [];
@@ -78,15 +77,18 @@ function listenerInitial() {
 				{
 				text: "送出",
 				click: function() {
-					Service.update({value:"有人點餐"});
+//					Service.update({value:"有人點餐"});
+					Service.sendMes("新消息");
 					sendOrder();
 				}}]
 	});
 	$('#orderConfirm').click(function() {
 			var peopleCount = $('#peopleCount').text();
+			var tableNum = $('#tableNum').text();
 			var setleft = $('span[id^=fkCountSpan-]').length;
+			
 			// 判斷桌號人數
-			if (peopleCount=='-') {
+			if (peopleCount=='-' || tableNum=="") {
 				$('#ChooseTableAndPeopleDialog').dialog("open");
 				showState("請輸入桌號及人數");
 			} else if (peopleCount=='0') {
@@ -104,6 +106,9 @@ function listenerInitial() {
 					});
 				showState("還有餐點未選");
 				$("#orderlist").tabs( "option", "active", IdToActive(divid));
+			// 判斷是否有點餐
+			} else if (checkEmpty()) {
+				showState("尚未點餐");
 			} else {
 				confirmClick();
 			};
@@ -451,6 +456,17 @@ function IdToActive(divid) {
 			return i;
 		}
 	}
+}
+
+function checkEmpty() {
+	// 分頁數目為1
+	if ($('div[id^="orderlist-"]').length > 1) {
+		return false;
+	// 單點中沒有按鈕
+	} else if ($('#orderlist-0').find('input').length == 0) {
+		return true;
+	}
+	return false;
 }
 
 function orderlistClick() {
