@@ -4,6 +4,8 @@ var tablesDataForSaveInJson = {
 		"tables" : [],
 		"delTBlist" : [] 
 };
+var stateName = ["閒置","點餐","用餐","預約","關閉"];
+var stateDesc = ["0-閒置中","1-等待點餐","2-用餐中","3-有客人預約","4-不開放使用"];
 var tableUrl = contextPath + "/table/tableset";
 var count = 0;
 var idCount = 0;
@@ -78,9 +80,17 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 	$(newTbDiv).append(newTbNameSpan);
 	$(newTbDiv).append(newTbSizeSpan);
 	newTbDiv.setAttribute("style",'position:absolute;top:'+topCount+'px;left:'+leftCount+'px');
-	if(tbState != 0 ){
+	if(tbState == 0 ){ //閒置 Org
+		newTbDiv.setAttribute("class","divTBOrg divTB");
+	}else if(tbState == 1){ //點餐 InUse
 		newTbDiv.setAttribute("class","divTBInUse divTB");
-	}else{
+	}else if(tbState == 2){ //用餐 Eat
+		newTbDiv.setAttribute("class","divTBEat divTB");
+	}else if(tbState == 3){ //預約 Booking
+		newTbDiv.setAttribute("class","divTBBooking divTB");
+	}else if(tbState == 4){ //關閉 Closed
+		newTbDiv.setAttribute("class","divTBClosed divTB");
+	}else{                  // 例外 Org (閒置)
 		newTbDiv.setAttribute("class","divTBOrg divTB");
 	}
 	newTbDiv.setAttribute("tbName",tbName);
@@ -95,10 +105,45 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 }
 
 function divTBclick(divTB){
-	var dialogTB = $("<div title='桌號："+$(divTB).attr("tbName")+" 容納人數："+$(divTB).attr("tbSize")+"'></div>");
-	$(dialogTB).append("<input id='openTable' class='MainBtnColor' type='button' value='開桌'>");
-	$(dialogTB).append("<input id='closeTable' class='MainBtnColor' type='button' value='徹桌'>");
-	$(dialogTB).dialog();
+	var tbId = $(divTB).attr("id");
+	var tbName = $(divTB).attr("tbName");
+	var tbSize = $(divTB).attr("tbSize");
+	var tbState = $(divTB).attr("tbState");
+	$(divTB).css("z-index","99999");
+	$('#tbClickDialog span[id=tbNameLable]').text(tbName);
+	$('#tbClickDialog span[id=tbSizeLable]').text(tbSize);
+	$('#tbClickDialog span[id=tbStateLable]').text(stateName[tbState] + "(" + stateDesc[tbState] + ")");
+	$('#tbClickDialog').dialog({
+		width:400,
+		resizable:false,
+		modal:true,
+		position: { 
+			my: "left top", 
+			at: "right top", 
+			of: $(divTB) 
+		},
+		show: {
+	        effect: "blind",
+	        duration: 800
+	      },
+	    hide: {
+	        effect: "blind",
+	        duration: 500
+	    },
+	    buttons:{
+	    	"入座":function(){
+	    	},
+	    	"點餐":function(){
+	    	},
+	    	"結帳":function(){
+	    		window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
+	    	},
+	    	"離開":function(){
+    		$(divTB).css("z-index","0");
+    		$('#tbClickDialog').dialog('close');
+    		}
+	    }
+	});
 }
 
 $(function(){

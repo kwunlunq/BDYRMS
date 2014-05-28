@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+
+import org.directwebremoting.Browser;
+import org.directwebremoting.ServerContextFactory;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
+import org.directwebremoting.ui.dwr.Util;
+
+import utils.Data;
 
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFloor;
@@ -28,6 +32,7 @@ import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBillHistoryDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
@@ -40,6 +45,7 @@ import com.bdy.model.dao.BdyMakeareaDao;
 import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
+import com.bdy.model.dao.BdyOrderlistReportDao;
 import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
@@ -65,6 +71,16 @@ public class OrderService {
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
 	
+
+	BdyBillHistoryDao billHistoryDao;
+	BdyOrderlistReportDao orderlistReportDao;
+	
+	public void setBillHistoryDao(BdyBillHistoryDao billHistoryDao) {
+		this.billHistoryDao = billHistoryDao;
+	}
+	public void setOrderlistReportDao(BdyOrderlistReportDao orderlistReportDao) {
+		this.orderlistReportDao = orderlistReportDao;
+	}
 	
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
@@ -214,17 +230,18 @@ public class OrderService {
 	public JsonArray makeJSONTables(TreeMap<Integer, BdyTable> tableMap, TreeMap<Integer, BdyFloor> floorMap) {
 		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
 		// 走訪map : 呼叫keySet()取出所有的key, 來取出map所有的value
-		Iterator<Integer> flKeys = tableMap.keySet().iterator();
+		Iterator<Integer> flKeys = floorMap.keySet().iterator();
 		while (flKeys.hasNext()) {
 			BdyFloor floor = floorMap.get(flKeys.next());
-			int floorId = floor.getFloorid();
+			int fId = floor.getFloorid();
+ 
 			JsonArrayBuilder tbary = Json.createArrayBuilder();
 			
-			Iterator<Integer> tbKeys = floorMap.keySet().iterator();
+			Iterator<Integer> tbKeys = tableMap.keySet().iterator();
 			List<BdyTable> fIdTables = new ArrayList<BdyTable>();
 			while (tbKeys.hasNext()) {
 				BdyTable table = tableMap.get(tbKeys.next());
-				if (table.getBdyFloor().getFloorid() == floorId) {
+				if (table.getBdyFloor().getFloorid() == fId) {
 					fIdTables.add(table);
 				}
 			}
@@ -508,4 +525,52 @@ public class OrderService {
 		  long interval = System.currentTimeMillis() - start;
 		  System.out.println("("+interval/1000.0+"s)\n");
 	}
+
+	/*
+	 * --------------------------------------------------------
+	 * DWR function
+	 * 由order.js呼叫, 在 kitchenAllView.jsp id為kitchenDiv
+	 * 的element放入資料
+	 * --------------------------------------------------------
+	 */
+
+	 public void notifyKitchen(Data data) {
+	   List<Data> messages = new ArrayList<Data>();
+	//   messages.add(new Data("testing" + count++));
+	   messages.add(data);
+
+	   // Collection sessions = wctx.getAllScriptSessions();
+	   WebContext wctx = WebContextFactory.get();				   ///kitchen/kitchenAllView.jsp
+//	   Collection<?> sessions = wctx.getScriptSessionsByPage("/BDYRMS/kitchen/kitchenAllView.jsp");
+//	   Collection<?> sessions = wctx.getScriptSessionsByPage("/BDYRMS/testdwr.jsp");
+//	   Util utilAll = new Util(sessions);
+//	   utilAll.addOptions("updates", messages, "value");
+	   
+//	   Collection<?> sessions = wctx.getScriptSessionsByPage("/BDYRMS/testdwr.jsp");
+//	   Collection session = Browser.withPage("/BDYRMS/testdwr.jsp", task);
+//	   org.directwebremoting.ui.dwr.Util utilAll = new Util(sessions);
+//	   utilAll.addOptions("updates", messages, "value");
+		   
+	 }
+	 
+	public void sendMes(String mes) {
+		send("新點餐單!");
+	}
+
+	public void send(final String output) {
+//		String page = ServerContextFactory.get().getContextPath()
+//				+ "/kitchen/kitchenAllView.jsp";
+		Browser.withAllSessions(ServerContextFactory.get(), new Runnable() {
+			public void run() {
+				Util.setValue("kitchenDiv", output); // news 客户端jsp里面textarea的id
+			}
+		});
+//		Browser.withPage(page, new Runnable() {
+//			public void run() {
+//				Util.setValue("kitchenDiv", output); // news 客户端jsp里面textarea的id
+//			}
+//		});
+	}
+	
+	
 }

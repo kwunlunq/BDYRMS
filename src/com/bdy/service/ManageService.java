@@ -1,9 +1,11 @@
 package com.bdy.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +29,7 @@ import com.bdy.model.BdyTable;
 import com.bdy.model.CheckOut;
 import com.bdy.model.FoodKindPrice;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBillHistoryDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
@@ -39,6 +42,7 @@ import com.bdy.model.dao.BdyMakeareaDao;
 import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
+import com.bdy.model.dao.BdyOrderlistReportDao;
 import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
@@ -64,6 +68,16 @@ public class ManageService {
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
 	
+
+	BdyBillHistoryDao billHistoryDao;
+	BdyOrderlistReportDao orderlistReportDao;
+	
+	public void setBillHistoryDao(BdyBillHistoryDao billHistoryDao) {
+		this.billHistoryDao = billHistoryDao;
+	}
+	public void setOrderlistReportDao(BdyOrderlistReportDao orderlistReportDao) {
+		this.orderlistReportDao = orderlistReportDao;
+	}
 	
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
@@ -376,6 +390,66 @@ public int deleteMK(int mkId){
 	return mkState;
 }
 //---------------------------CheckOut-------------------------------------------
+
+public Map<BdySet, List<List<?>>> sortSetDetailMap(Set<BdyOrder> orders){
+	Map<BdySet, List<List<?>>> sortDetailMap = new TreeMap<BdySet, List<List<?>>>(new Comparator<BdySet>() {
+
+		@Override
+		public int compare(BdySet o1, BdySet o2) {
+			return new Integer(o1.getSetId()).compareTo(new Integer(o2.getSetId()));
+		}
+	});
+	for(BdyOrder order:orders){//-----主餐
+		Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
+		for(BdyOrderlist orderlist:orderlists){
+			if(orderlist.getBdyFood().getBdyMainkind()!=null && orderlist.getBdySet()!=null){//-----找到唯一價錢(主餐+Setid)
+				if(!sortDetailMap.containsKey(orderlist.getBdySet())){//----不包含
+				List<List<?>> foodDetails = new LinkedList<List<?>>();
+				List<BdyFood> mainFoods = new ArrayList<BdyFood>();
+				List<BdyOrderlist> notMainFoods = new ArrayList<BdyOrderlist>();
+				mainFoods.add(orderlist.getBdyFood());
+				foodDetails.add(0,mainFoods);
+				foodDetails.add(1,notMainFoods);
+				sortDetailMap.put(orderlist.getBdySet(), foodDetails);
+			}else{
+				List<List<?>> foodDetails=(List<List<?>>)sortDetailMap.get(orderlist.getBdySet());
+				List<BdyFood> mainFoods=(List<BdyFood>) foodDetails.get(0);
+				mainFoods.add(orderlist.getBdyFood());
+				foodDetails.remove(0);
+				foodDetails.add(0,mainFoods);
+				sortDetailMap.put(orderlist.getBdySet(), foodDetails);
+			}
+				}
+			}
+		}	
+	for(BdyOrder order:orders){
+		Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
+		for(BdyOrderlist orderlist:orderlists){
+			if(orderlist.getBdyFood().getBdyMainkind()==null && orderlist.getBdySet()!=null){
+				List<List<?>> foodDetails=(List<List<?>>)sortDetailMap.get(orderlist.getBdySet());
+				List<BdyOrderlist> notMainFoods=(List<BdyOrderlist>) foodDetails.get(1);
+				notMainFoods.add(orderlist);
+				Collections.sort(notMainFoods,new Comparator<BdyOrderlist>() {
+
+					@Override
+					public int compare(BdyOrderlist o1, BdyOrderlist o2) {
+						
+						return new Integer(o1.getBdyFoodkind().getFkId()).compareTo(new Integer(o2.getBdyFoodkind().getFkId()));
+					}
+				});				
+				foodDetails.remove(1);
+				foodDetails.add(1, notMainFoods);
+				}
+			}
+		
+		}
+//	System.out.println(sortDetailMap.get(setDao.getSet(new Integer(1))).get(0).size());
+	return sortDetailMap;
+	
+	
+}
+
+
 
 public Map<BdySet, List<BdyFood>> sortSetMap(Set<BdyOrder> orders){
 	Map<BdySet, List<BdyFood>> sortMap = new TreeMap<BdySet, List<BdyFood>>(new Comparator<BdySet>() {

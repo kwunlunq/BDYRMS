@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.naming.NamingException;
 
 import org.json.simple.JSONArray;
@@ -20,6 +21,7 @@ import com.bdy.model.BdyOrderlist;
 import com.bdy.model.DayFoodAmountReport;
 import com.bdy.model.MonthReport;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBillHistoryDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
@@ -32,6 +34,7 @@ import com.bdy.model.dao.BdyMakeareaDao;
 import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
+import com.bdy.model.dao.BdyOrderlistReportDao;
 import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
@@ -59,6 +62,18 @@ public class ReportService {
 	BdyBookingDao bookingDao;
 	ReportDaoJdbc reportDao;
 
+
+	BdyBillHistoryDao billHistoryDao;
+	BdyOrderlistReportDao orderlistReportDao;
+	
+	public void setBillHistoryDao(BdyBillHistoryDao billHistoryDao) {
+		this.billHistoryDao = billHistoryDao;
+	}
+	public void setOrderlistReportDao(BdyOrderlistReportDao orderlistReportDao) {
+		this.orderlistReportDao = orderlistReportDao;
+	}
+	
+	
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
 	}

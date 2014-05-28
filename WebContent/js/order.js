@@ -1,8 +1,8 @@
-var setNames   = [];
 var setIds     = [];
 var setdetails = [];
 var fks        = [];
 var tableoptions = [[]];
+var setNames     = [];
 var orderlistIndex = 0;
 var setCount = 1;
 // 要傳送的訂單所有資訊
@@ -29,7 +29,7 @@ $(function() {
 	listenerInitial(); // 掛載listener
 	console.log(currentStatus);
 	// 解決按鈕被腰斬問題
-	$( "#orderarea" ).tabs( "refresh" );
+//	$( "#orderarea" ).tabs( "refresh" );
 	// 解決IE緩存問題
 	$.ajaxSetup({ cache: false });
 });
@@ -50,6 +50,11 @@ function getEmp(empId) {
 	$.getJSON(url, {"data":"emp", "empId":empId});
 }
 function listenerInitial() {
+	// 視窗改變大小的時候重新調整按鈕大小
+	$(window).resize(function() {
+		$( "#orderlist" ).tabs( "refresh" );
+		$( "#orderarea" ).tabs( "refresh" );
+	});
 	$('body').on('click','#num',function(){
 		var textValue = $('#setNumberOfCust').val();
 		if($(this).val() == "clear"){
@@ -78,15 +83,18 @@ function listenerInitial() {
 				{
 				text: "送出",
 				click: function() {
-					Service.update({value:"有人點餐"});
+//					Service.update({value:"有人點餐"});
+					Service.sendMes("新消息");
 					sendOrder();
 				}}]
 	});
 	$('#orderConfirm').click(function() {
 			var peopleCount = $('#peopleCount').text();
+			var tableNum = $('#tableNum').text();
 			var setleft = $('span[id^=fkCountSpan-]').length;
+			
 			// 判斷桌號人數
-			if (peopleCount=='-') {
+			if (peopleCount=='-' || tableNum=="") {
 				$('#ChooseTableAndPeopleDialog').dialog("open");
 				showState("請輸入桌號及人數");
 			} else if (peopleCount=='0') {
@@ -104,6 +112,9 @@ function listenerInitial() {
 					});
 				showState("還有餐點未選");
 				$("#orderlist").tabs( "option", "active", IdToActive(divid));
+			// 判斷是否有點餐
+			} else if (checkEmpty()) {
+				showState("尚未點餐");
 			} else {
 				confirmClick();
 			};
@@ -249,7 +260,7 @@ function getTablesCallback(result) {
 			var option = document.createElement("option");
 			$(option).attr("value", tbs[j].tbId);
 			$(option).append(document.createTextNode(tbName));
-			console.log(option);
+//			console.log(option);
 			tableoptions[i][j] = option;
 			$('#setTableNum').append(tableoptions[i][j]);
 		};
@@ -451,6 +462,17 @@ function IdToActive(divid) {
 			return i;
 		}
 	}
+}
+
+function checkEmpty() {
+	// 分頁數目為1
+	if ($('div[id^="orderlist-"]').length > 1) {
+		return false;
+	// 單點中沒有按鈕
+	} else if ($('#orderlist-0').find('input').length == 0) {
+		return true;
+	}
+	return false;
 }
 
 function orderlistClick() {

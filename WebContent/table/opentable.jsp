@@ -70,6 +70,11 @@ var contextPath='<%=request.getContextPath()%>';
 			 </div>
 			<div id="picTB"></div>
 		</div>
+		<div id="tbClickDialog" title="詳細資訊" style="display:none">
+			<div>桌子名稱：<span id="tbNameLable">-</span></div>
+			<div>容納人數：<span id="tbSizeLable">-</span></div>
+			<div>目前狀態：<span id="tbStateLable">-</span></div>
+		</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
 </div>

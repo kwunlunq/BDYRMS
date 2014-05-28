@@ -37,6 +37,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/TableSet.css"/>">
 <script src="<c:url value="/js/TableSet.js"/>"></script>
+<script src="<c:url value="/js/orderinitial.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -57,7 +58,7 @@ var contextPath='<%=request.getContextPath()%>';
 		<div style="margin: 0px auto; width: 95%; height: 100%">
 			<div style="width: 100%;font-size:1.25em">
 				目前場地:
-				<select id="changeFloor" class="MainBtnColor">
+				<select id="changeFloor">
 				</select>
 				<input class="MainBtnColor" type="button" id="addTB" value="新增桌子">
 				<input class="MainBtnColor" type="button" id="reLoad" value="重新讀取">

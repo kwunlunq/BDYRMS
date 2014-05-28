@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014/5/28 ?U?? 02:06:33 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.bdy.model.BdyOrderlistReport" table="BDY_ORDERLIST_REPORT" catalog="BDY">
+        <id name="odlistId" type="int">
+            <column name="ODLIST_ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="bdyBillHistory" class="com.bdy.model.BdyBillHistory" fetch="select">
+            <column name="BILL_ID" />
+        </many-to-one>
+        <property name="odId" type="java.lang.Integer">
+            <column name="OD_ID" />
+        </property>
+        <property name="odEmpId" type="string">
+            <column name="OD_EMP_ID" length="10" />
+        </property>
+        <property name="odEmpName" type="string">
+            <column name="OD_EMP_NAME" length="20" />
+        </property>
+        <property name="foodName" type="string">
+            <column name="FOOD_NAME" length="20" />
+        </property>
+        <property name="foodPrice" type="java.lang.Double">
+            <column name="FOOD_PRICE" precision="53" scale="0" />
+        </property>
+        <property name="setName" type="string">
+            <column name="SET_NAME" length="20" />
+        </property>
+        <property name="setPrice" type="java.lang.Double">
+            <column name="SET_PRICE" precision="53" scale="0" />
+        </property>
+        <property name="foodkindName" type="string">
+            <column name="FOODKIND_NAME" length="20" />
+        </property>
+        <property name="mainkindName" type="string">
+            <column name="MAINKIND_NAME" length="20" />
+        </property>
+        <property name="addmoney" type="java.lang.Double">
+            <column name="ADDMONEY" precision="53" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

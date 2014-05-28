@@ -39,8 +39,17 @@ var contextPath='<%=request.getContextPath()%>';
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
+<script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
+<script type='text/javascript' src='/BDYRMS/dwr/interface/Service.js'></script>
+<script type='text/javascript' src='/BDYRMS/dwr/util.js'></script>
+<script>dwr.engine.setActiveReverseAjax(false);</script>
 <script src="<c:url value="/js/kitchenViewAjax.js"/>"></script>
 <script src="<c:url value="/js/mainpage.js"/>"></script>
+<script>
+$(function(){
+	dwr.engine.setActiveReverseAjax(true);
+});
+</script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 詳細說明2 : 把 Welcome 改成你個功能名稱  請使用"English"不知道怎麼取可以請教 ［Kevin］ -->
@@ -80,7 +89,7 @@ var contextPath='<%=request.getContextPath()%>';
 	</div>
 	
 	<div id="kitchenDiv">
-	
+	 等待新點餐單
 	</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>

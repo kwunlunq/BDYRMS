@@ -1,14 +1,21 @@
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" "http://getahead.org/dwr/dwr20.dtd">
+<!DOCTYPE dwr PUBLIC
+    "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
+    "http://getahead.org/dwr/dwr30.dtd">
 
 <dwr>
-	<allow>		
-   		<create creator="new" javascript="Service" scope="application">
-     		<param name="class" value="utils.Service" />
-  		</create>
-   		<convert converter="bean" match="utils.Data" />
-<!--    		<create creator="new" javascript="Service" scope="application"> -->
-<!--      		<param name="class" value="utils.Service" /> -->
-<!--   		</create> -->
-<!--    		<convert converter="bean" match="utils.Data" /> -->
-	</allow>
+  <allow>
+    <create creator="new" javascript="JDate">
+      <param name="class" value="java.util.Date"/>
+    </create>
+    <create creator="new" javascript="Service">
+      <param name="class" value="com.bdy.service.OrderService"/>
+    </create>
+    <convert match="java.lang.Exception" converter="exception"></convert>
+    <convert match="java.lang.StackTraceElement" converter="bean"></convert>
+  </allow>
 </dwr>
+
+
+<!-- <create creator="new" javascript="Service"> -->
+<!-- <param name="class" value="com.bdy.servie.OrderService" /> -->
+<!-- </create> -->
