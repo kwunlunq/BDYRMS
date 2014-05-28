@@ -50,6 +50,11 @@ function getEmp(empId) {
 	$.getJSON(url, {"data":"emp", "empId":empId});
 }
 function listenerInitial() {
+	// 視窗改變大小的時候重新調整按鈕大小
+	$(window).resize(function() {
+		$( "#orderlist" ).tabs( "refresh" );
+		$( "#orderarea" ).tabs( "refresh" );
+	});
 	$('body').on('click','#num',function(){
 		var textValue = $('#setNumberOfCust').val();
 		if($(this).val() == "clear"){
@@ -79,7 +84,7 @@ function listenerInitial() {
 				text: "送出",
 				click: function() {
 //					Service.update({value:"有人點餐"});
-//					Service.sendMes("新消息");
+					Service.sendMes("新消息");
 					sendOrder();
 				}}]
 	});

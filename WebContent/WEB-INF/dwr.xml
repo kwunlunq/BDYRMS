@@ -10,6 +10,8 @@
     <create creator="new" javascript="Service">
       <param name="class" value="com.bdy.service.OrderService"/>
     </create>
+    <convert match="java.lang.Exception" converter="exception"></convert>
+    <convert match="java.lang.StackTraceElement" converter="bean"></convert>
   </allow>
 </dwr>
 

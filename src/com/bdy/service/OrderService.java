@@ -558,13 +558,18 @@ public class OrderService {
 	}
 
 	public void send(final String output) {
-		String page = ServerContextFactory.get().getContextPath()
-				+ "/kitchen/kitchenAllView.jsp";
-		Browser.withPage(page, new Runnable() {
+//		String page = ServerContextFactory.get().getContextPath()
+//				+ "/kitchen/kitchenAllView.jsp";
+		Browser.withAllSessions(ServerContextFactory.get(), new Runnable() {
 			public void run() {
-				Util.setValue("updates", output); // news 客户端jsp里面textarea的id
+				Util.setValue("kitchenDiv", output); // news 客户端jsp里面textarea的id
 			}
 		});
+//		Browser.withPage(page, new Runnable() {
+//			public void run() {
+//				Util.setValue("kitchenDiv", output); // news 客户端jsp里面textarea的id
+//			}
+//		});
 	}
 	
 	
