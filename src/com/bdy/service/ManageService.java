@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.bdy.model.BdyBill;
@@ -23,6 +25,7 @@ import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
 import com.bdy.model.CheckOut;
+import com.bdy.model.FoodKindPrice;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
@@ -227,6 +230,16 @@ public class ManageService {
 		 return bean;
 		
 	}
+	public void deleteSetDetail(int detailId){
+		
+		BdySet set = setDao.getSet(detailId);
+		Set<BdySetdetail> setDetails = set.getBdySetdetails();
+		for(BdySetdetail temp:setDetails){
+			setdetailDao.delete(temp.getSdId());
+		}
+
+		
+	}
 	public void deleteSet(int detailId){
 		setdetailDao.delete(detailId);
 	}
@@ -268,6 +281,29 @@ public class ManageService {
 	public List<BdyEmp> getAllEmps(){
 		return empDao.getAllEmp();
 	}
+	public List<BdyEmp> getResignEmps(){
+		List<BdyEmp> emps= empDao.getAllEmp();
+		List<BdyEmp> resignEmps = new ArrayList<BdyEmp>();
+		for(BdyEmp temp :emps){
+			if(temp.getResign()==1){
+				resignEmps.add(temp);
+			}
+		}
+		return resignEmps;
+	}
+	
+	public List<BdyEmp> getNotResignEmps(){
+		List<BdyEmp> emps= empDao.getAllEmp();
+		List<BdyEmp> notresignEmps = new ArrayList<BdyEmp>();
+		for(BdyEmp temp :emps){
+			if(temp.getResign()==0){
+				notresignEmps.add(temp);
+			}
+		}
+		return notresignEmps;
+	}
+	
+	
 	public List<BdyPriority> getAllPri(){
 		return priorityDao.getAllProiority();
 	}
@@ -340,6 +376,35 @@ public int deleteMK(int mkId){
 	return mkState;
 }
 //---------------------------CheckOut-------------------------------------------
+
+public Map<BdySet, List<BdyFood>> sortSetMap(Set<BdyOrder> orders){
+	Map<BdySet, List<BdyFood>> sortMap = new TreeMap<BdySet, List<BdyFood>>(new Comparator<BdySet>() {
+
+		@Override
+		public int compare(BdySet o1, BdySet o2) {
+			return new Integer(o1.getSetId()).compareTo(new Integer(o2.getSetId()));
+		}
+	});
+	
+	for(BdyOrder order:orders){
+		Set<BdyOrderlist> orderlists = order.getBdyOrderlists();
+		for(BdyOrderlist orderlist:orderlists){
+			if(orderlist.getBdyFood().getBdyMainkind()!=null && orderlist.getBdySet()!=null){//-----找到唯一價錢(主餐+Setid)
+				if(!sortMap.containsKey(orderlist.getBdySet())){//----不包含
+					List<BdyFood> mainFoods = new ArrayList<BdyFood>();
+					mainFoods.add(orderlist.getBdyFood());
+					sortMap.put(orderlist.getBdySet(), mainFoods);
+				}else{//-----如果已包含
+				List<BdyFood> mainFoods=sortMap.get(orderlist.getBdySet());
+				mainFoods.add(orderlist.getBdyFood());
+				sortMap.put(orderlist.getBdySet(), mainFoods);
+				}
+			}
+		}
+	}
+	return sortMap;
+}
+
 public  List<BdyTable> getUseTable(){
 	List<BdyTable> usingTabls = new ArrayList<BdyTable>();
 	List<BdyTable> alltable = tableDao.getAllTable();
@@ -466,7 +531,38 @@ public BdyTable getOrderTableName(int tableId){
 		return fk;
 	}
 
+	public void insertSet(String setName,Double setPrice){
+		BdySet set = new BdySet();
+		set.setName(setName);
+		set.setPrice(setPrice);
+		setDao.insert(set);		
+	}
 	
+	public int findlastSetId(){
+		int setId=0;
+		for(BdySet temp:setDao.getAllSet()){
+			if(temp.getSetId()>setId){
+				setId =temp.getSetId(); 
+			}
+		}
+		return setId;
+	}
+	
+	public void insertSetDetail(List<FoodKindPrice> list){
+		int lastSetId=findlastSetId();
+		for(FoodKindPrice temp:list){
+			BdySetdetail detail = new BdySetdetail();
+			detail.setBdySet(setDao.getSet(lastSetId));
+			detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
+			detail.setPrice(temp.getPirce());
+			setdetailDao.insert(detail);
+		}
+		BdySetdetail detail = new BdySetdetail();
+		detail.setBdySet(setDao.getSet(lastSetId));
+		detail.setBdyFoodkind(foodkindDao.getFoodkind(6));
+		detail.setPrice(0.0);
+		setdetailDao.insert(detail);
+	}
 }
 
 

@@ -13,7 +13,11 @@ function getTotalPrice(){
 	var price = 0;
 	var totalPrice=0;
 	$('input[fakeId="textPrice"]').each(function (index,text){
-		if($(this).val().length > 0 && $(this).val() != null && $(this).val() != "")
+		if($(this).val().length >0 && isNaN($(this).val())){
+			alert("請輸入數字");
+			$(this).val('');
+		}
+		else if($(this).val().length > 0 && $(this).val() != null && $(this).val() != "")
 			price = $(this).val();
 		else
 			price = 0;
@@ -50,16 +54,36 @@ function onblurCheckPrice(fkId){
 var b;
 function setConfirm(){
 	var setPrice = document.getElementById("setPrice").value;
+	var settatolPrice = document.getElementById("totalPrice").innerHTML;
 	
-	if(!isNaN(setPrice)&&setPrice>totalPrice){	
+	if(!isNaN(setPrice)&&setPrice>settatolPrice){	
 		b=window.confirm("套餐價錢大於限定價錢總合 確定新增");
-		if(b){
-			window.location.href=contextPath+"";
-		}
-	}		
+//		if(b){
+//			window.location.href=contextPath+"/setmeal/set";
+//		}
+	}
+	
 }
 
-
+function checkPrice(){
+	var setPrice = document.getElementById("setPrice").value;
+	if(isNaN(setPrice)){
+		alert("請輸入數字");
+		return false;
+	}else{
+		var settatolPrice = document.getElementById("totalPrice").innerHTML;
+		if(!isNaN(setPrice) && parseInt(setPrice) > parseInt(settatolPrice)){
+			b=window.confirm("套餐價錢大於限定價錢總合 確定新增");
+			if(b){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		return true;
+	}
+	
+}
 
 
 

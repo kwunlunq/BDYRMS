@@ -12,8 +12,10 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.bdy.model.BdyDiscount;
+import com.bdy.model.BdyFood;
 import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyPriority;
+import com.bdy.model.BdySet;
 import com.bdy.model.BdyTable;
 import com.bdy.model.CheckOut;
 import com.bdy.service.ManageService;
@@ -70,11 +72,11 @@ public class CheckDetailAction extends ActionSupport implements Preparable,Sessi
 			}
 		}
 		Double price = service.getPrice(orders);//------計算所有訂單中的價錢
-		
 		checkout.setOrders(orders);//-----放入
 		checkout.setCustNum(maxCustNum);//-----放入
 		checkout.setPrice(price);//-----放入
-		
+		Map<BdySet, List<BdyFood>> setMap = service.sortSetMap(checkout.getOrders());
+		checkout.setSetMap(setMap);
 		BdyTable table = service.getOrderTableName(tabId);
 		session.put("table", table);
 		session.put("checkout", checkout);

@@ -5,7 +5,8 @@
 		      最後 將你要做的功能以及介面 都寫在 article -->
 <!-- 所有的 "路徑" 都必須加上  ＜c:url＞ 方法 所以掛載 JSTL 是必要的 (勿刪) -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="s" uri="/struts-tags" %>>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,9 +35,11 @@ var contextPath='<%=request.getContextPath()%>';
 <script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery-ui.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/checkOutDetail.css"/>">
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/mainpage.js"/>"></script>
+<script src="<c:url value="/js/checkOutDetail.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -57,60 +60,139 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<h3>第${table.name}號桌</h3>
+
 	<div id="writeCodeInThisDiv">
-		<c:forEach var="orders" items="${checkout.orders}">
-			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			
-				<c:if test="${not empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet }">
-					<details>
-					<summary>套餐-->${orderlist.bdySet.name}</summary>
-					<p>主餐:${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}</p>
-					<p>套餐價位:${orderlist.bdySet.price}</p>
-					</details>
-				</c:if>						
-			</c:forEach>
-		</c:forEach>
-		<br>
+<%-- 		<c:forEach var="orders" items="${checkout.orders}"> --%>
+<%-- 			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			 --%>
+<%-- 				<c:if test="${not empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet }"> --%>
+<!-- 					<details> -->
+<%-- 					<summary>套餐-->${orderlist.bdySet.name}</summary> --%>
+<%-- 					<p>主餐:${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}</p> --%>
+<%-- 					<p>套餐價位:${orderlist.bdySet.price}</p> --%>
+<!-- 					</details> -->
+<%-- 				</c:if>						 --%>
+<%-- 			</c:forEach> --%>
+<%-- 		</c:forEach> --%>
+<!-- 		<br> -->
 		<!-- 以上為套餐部分----可知道點甚麼"套餐"以及"主餐價位" -->
 		
 		<!-- 以下為補差額部分----可知道哪些套餐內的餐點需要補差額" -->
-		<details>
-		<summary>補差額部分</summary>
-		<c:forEach var="orders" items="${checkout.orders}">
+<!-- 		<details> -->
+<%-- 		<summary>補差額部分</summary> --%>
+<%-- 		<c:forEach var="orders" items="${checkout.orders}"> --%>
+<%-- 			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			 --%>
+<%-- 				<c:if test="${empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet && orderlist.addmoney!=0 }">		 --%>
+<%-- 					<p>餐點名稱:${orderlist.bdyFood.name}(${orderlist.bdySet.name})------價錢:${orderlist.addmoney}</p>	 --%>
+<%-- 				</c:if>						 --%>
+<%-- 			</c:forEach> --%>
+<%-- 		</c:forEach> --%>
+<!-- 		</details> -->
+<!-- 		<br> -->
+		
+<!-- 		<details> -->
+<%-- 			<summary>單點 </summary>	 --%>
+<%-- 		<c:forEach var="orders" items="${checkout.orders}"> --%>
+<%-- 			<c:forEach var="orderlist" items="${orders.bdyOrderlists}"> --%>
+					
+<%-- 				<c:if test="${empty orderlist.bdySet}"> --%>
+<%-- 					${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}<br> --%>
+<%-- 				</c:if> --%>
+				
+<%-- 			</c:forEach> --%>
+<%-- 		</c:forEach>		 --%>
+<!-- 		</details>	 -->
+		<!-- ------------------------------------------------------------------------------------------- -->
+<%-- 		<c:forEach var="map" items="${checkout.setMap}"> --%>
+<%-- 			<span>套餐名稱${map.key.name}</span> --%>
+<%-- 			<c:forEach var="mainfood" items="${map.value}" > --%>
+<%-- 					<span>名稱${mainfood.name}:價錢${mainfood.price}</span><br> --%>
+<%-- 			</c:forEach> --%>
+<!-- 			<br> -->
+<%-- 		</c:forEach> --%>
+		
+<fieldset style="width:70%">
+	<legend >結帳明細</legend>
+<form action="<c:url value="" />" method="post">		
+<div id="tabs">
+  <ul>
+  <c:forEach var="map" items="${checkout.setMap}">
+    <li><a href="#tabs${map.key.setId}">${map.key.name}-數量${fn:length(map.value)}</a></li>
+   </c:forEach>
+   <li><a href="#tabs-diff">補差額</a></li>
+   <li><a href="#tabs-single">單點</a></li>
+  </ul>
+  <c:forEach var="map" items="${checkout.setMap}">
+  	<div id="tabs${map.key.setId}">
+    	<h4>套餐價錢${map.key.price}</h4> 
+	     	<c:forEach var="mainfood" items="${map.value}" >
+	     	<span>主餐:${mainfood.name}-價錢${mainfood.price}</span><br>
+	     	</c:forEach> 
+ 	 </div>
+  </c:forEach>
+  <div id="tabs-diff">
+    <h4>補差額</h4>
+    <c:forEach var="orders" items="${checkout.orders}">
 			<c:forEach var="orderlist" items="${orders.bdyOrderlists }">			
 				<c:if test="${empty orderlist.bdyFood.bdyMainkind && not empty orderlist.bdySet && orderlist.addmoney!=0 }">		
-					<p>餐點名稱:${orderlist.bdyFood.name}(${orderlist.bdySet.name})------價錢:${orderlist.addmoney}</p>	
+					<p>餐點名稱:${orderlist.bdyFood.name}(${orderlist.bdySet.name})--價錢:${orderlist.addmoney}</p>	
 				</c:if>						
 			</c:forEach>
-		</c:forEach>
-		</details>
-		<br>
-		
-		<details>
-			<summary>單點 </summary>	
-		<c:forEach var="orders" items="${checkout.orders}">
+		</c:forEach> 
+  </div>
+  <div id="tabs-single">
+  	<h4>單點</h4>
+  	<c:forEach var="orders" items="${checkout.orders}">
 			<c:forEach var="orderlist" items="${orders.bdyOrderlists}">
 					
 				<c:if test="${empty orderlist.bdySet}">
-					${orderlist.bdyFood.name}------價錢:${orderlist.bdyFood.price}<br>
+					餐點:${orderlist.bdyFood.name}-價錢:${orderlist.bdyFood.price}<br>
 				</c:if>
 				
 			</c:forEach>
-		</c:forEach>
+		</c:forEach>	
+  </div>	
+</div>
+優惠方案:<s:select
+			headerKey="-1"
+			headerValue="選擇折扣"
+ 			value="dis"  
+ 			name="dis"
+ 			id="dis" 
+			listKey="%{disId}" 
+			listValue="%{name}" 
+			list="discounts"
+			onchange="getDisCount(this.value)"
+			/><span id="disShow"></span><br>
+應收:<input type="hidden" id="price" value="${checkout.price}"><span id="showprice">${checkout.price}</span><br>
+	
+<input type="button" class="MainBtnColor" value="結帳" onclick="checkout()">
+	</form>
+</fieldset>		
 		
-		</details>	
 		
 		
 	
-	總金額:<span id="price">${checkout.price}</span>優惠方案:<s:select
-									headerKey="-1"
-									headerValue="請選折折扣"
- 									value="dis"  
- 									name="dis" 
-									listKey="%{disId}" 
-				 					listValue="%{name}" 
-									list="discounts"/> 
+<%-- 	應收:<span id="price">${checkout.price}</span>優惠方案:<s:select --%>
+<%-- 									headerKey="-1" --%>
+<%-- 									headerValue="請選折折扣" --%>
+<%--  									value="dis"   --%>
+<%--  									name="dis"  --%>
+<%-- 									listKey="%{disId}"  --%>
+<%-- 				 					listValue="%{name}"  --%>
+<%-- 									list="discounts"/>  --%>
 		
-		<input type="button" class="MainBtnColor" value="結帳" onclick="checkout()">
+<!-- 		<input type="button" class="MainBtnColor" value="結帳" onclick="checkout()"> -->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<script>
 		function checkout(){
 		

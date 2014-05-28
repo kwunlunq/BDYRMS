@@ -12,19 +12,43 @@ $(function(){
 	insertSetOption();
 	insertFoodKindOption();
 	//insertOptionMK();
-//	$('#testTable').DataTable({
+//	$('#sortTable1').DataTable({
 //	    "jQueryUI": true,
 //	    "scrollY": ($('#aside').height()-275),
 //	    "scrollCollapse": true,
 //	    "paging": false,
-//	    "stateSave": true,
-//	    "order": [[ orders[0], orders[1] ]]
+//	    "aoColumnDefs":[{
+//	    	aTargets:[1,2,3,4,5,6],
+//	    	bSortable:false
+//	    }],
 //	});
+	$('#sortTable2').DataTable({
+    "jQueryUI": true,
+    "scrollY": ($('#aside').height()-275),
+    "scrollCollapse": true,
+    "paging": false,
+    "aoColumnDefs":[{
+    	bSortable:false
+    }],
+});
+	$('#sortTable3').DataTable({
+	    "jQueryUI": true,
+	    "scrollY": ($('#aside').height()-275),
+	    "scrollCollapse": true,
+	    "paging": false,
+	    "aoColumnDefs":[{
+	    	bSortable:false
+	    }],
+	});
+	
 	var obj;
 		
-	$( "#tabs" ).tabs();
+	$( "#tabs" ).tabs({
+		heightStyle: "fill"
+	});
 	if(booleanFood){
-		obj = {				
+		obj = {		
+				modal: true,
 				autoOpen: true,
 				width: 400,
 				buttons: [
@@ -47,7 +71,7 @@ $(function(){
 	}else{
 	 obj = {
 			
-			
+			modal: true,
 			autoOpen: false,
 			width: 400,
 			buttons: [
@@ -212,6 +236,7 @@ function fupdate(fdid,fkId,mkId){
 	
 		if(count < 4){
 		var str = $(this).text();
+		
 		$(this).html("<input type='text' size='7' value='"+str+"'>");
 		}
 		else if(count==4){

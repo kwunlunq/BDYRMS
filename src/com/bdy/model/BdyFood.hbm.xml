@@ -26,7 +26,7 @@
         <property name="descript" type="string">
             <column name="DESCRIPT" length="100" />
         </property>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" cascade="delete" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="FD_ID" />
             </key>
