@@ -15,12 +15,13 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 
-import com.bdy.model.BdyBilldetail;
 import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdyOrderlist;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
+import com.bdy.model.KitchenView;
 import com.bdy.model.dao.BdyBillDao;
+import com.bdy.model.dao.BdyBillHistoryDao;
 import com.bdy.model.dao.BdyBilldetailDao;
 import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyDiscountDao;
@@ -33,11 +34,11 @@ import com.bdy.model.dao.BdyMakeareaDao;
 import com.bdy.model.dao.BdyNewsDao;
 import com.bdy.model.dao.BdyOrderDao;
 import com.bdy.model.dao.BdyOrderlistDao;
+import com.bdy.model.dao.BdyOrderlistReportDao;
 import com.bdy.model.dao.BdyPriorityDao;
 import com.bdy.model.dao.BdySetDao;
 import com.bdy.model.dao.BdySetdetailDao;
 import com.bdy.model.dao.BdyTableDao;
-import com.bdy.model.KitchenView;
 
 public class KitchenService {
 	BdyBillDao billDao;
@@ -59,7 +60,15 @@ public class KitchenService {
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
 	
+	BdyBillHistoryDao billHistoryDao;
+	BdyOrderlistReportDao orderlistReportDao;
 	
+	public void setBillHistoryDao(BdyBillHistoryDao billHistoryDao) {
+		this.billHistoryDao = billHistoryDao;
+	}
+	public void setOrderlistReportDao(BdyOrderlistReportDao orderlistReportDao) {
+		this.orderlistReportDao = orderlistReportDao;
+	}
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
 	}
