@@ -27,6 +27,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var activeFloor = '${param.f}';
 </script>
 <%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
 <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
@@ -60,7 +61,7 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 		<div style="margin: 0px auto; width: 95%; height: 100%">
 			<div style="width:980px;position:relative;font-size:1.2em">
-				<span>目前場地：<span id="activeFloor"></span><input class="MainBtnColor" id="chooseFloor" type="button" value="選擇場地"></span>
+				<input class="MainBtnColor" id="chooseFloor" type="button" value="選擇場地"><span class="ui-state-highlight ui-corner-all" style="padding:5px;font-weight: bold;">目前場地：<span id="activeFloor"></span></span>
 				<div title="選擇場地" id="selectFloor" style="display:none"></div>
 				<div class="stateColorStyle" style="right:280px;color:black;font-size:0.9em">狀態：</div>
 				<div class="stateColorStyle" title='0-閒置中...' style="background-color:green;right:230px;">閒置</div>

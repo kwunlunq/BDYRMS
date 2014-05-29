@@ -256,7 +256,7 @@ function sendOrder() {
 
 	
 	setTimeout(function(){
-		window.location = contextPath+"/table/opentable.jsp";
+		window.location = contextPath+"/table/opentable.jsp?f="+currentStatus.FId;
 	}, 800);
 }
 
