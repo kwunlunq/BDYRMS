@@ -42,10 +42,6 @@ var custNum = '${param.cNum}';
 <!-- 自己的  Script 與 CSS 外掛  (以下)-->
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/ordermain.css"/>"> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/order.css"/>">
-<script src="<c:url value="/js/order.js"/>"></script>
-<script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
-<script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
-<script type='text/javascript' src='/BDYRMS/dwr/interface/Service.js'></script>
 <script>
 $(function(){
 	setTableDetial();
@@ -58,6 +54,10 @@ function setTableDetial(){
 	$('#mainMenu span[id=peopleCount]').text(custNum);
 }
 </script>
+<script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
+<script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
+<script type='text/javascript' src='/BDYRMS/dwr/interface/Service.js'></script>
+<script src="<c:url value="/js/order.js"/>"></script>
 <!-- 自己的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -80,7 +80,7 @@ function setTableDetial(){
 	<div id="writeCodeInThisDiv">
 <!-- START Write -->
 <div id="mainMenu">
-	<input id="setTableAndPeople" class="MainBtnColor" type="button" value='選擇桌號與人數'>
+	<input  id="setTableAndPeople" class="MainBtnColor" type="button" value='修改桌號與人數'>
 	樓層:<span id="floor" floorId="0" style="margin-left:10px;margin-right:20px;">-</span>
 	桌號:<span id="tableNum" tbId="0" style="margin-left:10px;margin-right:20px;">-</span>
 	人數:<span id="peopleCount" style="margin-left:10px;margin-right:20px;">-</span>

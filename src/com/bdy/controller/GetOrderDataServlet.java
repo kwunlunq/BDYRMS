@@ -69,6 +69,7 @@ public class GetOrderDataServlet extends HttpServlet{
 		case "updateTable" :
 			session.removeAttribute("tables");
 			session.removeAttribute("floors");
+			System.out.println("Session Clear : table & floor");
 		case "table" :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
