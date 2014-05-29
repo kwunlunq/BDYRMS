@@ -10,7 +10,6 @@ import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
-
 import com.bdy.model.BdyOrderlistReport;
 
 public class BdyOrderlistReportDao {
@@ -32,7 +31,7 @@ public class BdyOrderlistReportDao {
 		return result;
 	}
 
-	public BdyOrderlistReport getBill(int odlistId) {
+	public BdyOrderlistReport getOrderlistReport(int odlistId) {
 		Session session = sf.openSession();
 		Iterator iter = session.createCriteria(BdyOrderlistReport.class)
 				.add(Restrictions.eq("odlistId", odlistId)).list().iterator();
@@ -121,5 +120,18 @@ public class BdyOrderlistReportDao {
 
 		session.close();
 		return 1;
+	}
+	
+	/* Frank
+	 	用BillId找Orderlist 
+	 */
+	
+	@SuppressWarnings("unchecked")
+	public List<BdyOrderlistReport> getOrderlistReportByBillId(int billId) {
+		Session session = sf.openSession();
+		Criteria criteria = session.createCriteria(BdyOrderlistReport.class);
+		List<BdyOrderlistReport> result = criteria.add(Restrictions.eq("bdyBillHistory.billId", billId)).list();
+		session.close();
+		return result;
 	}
 }

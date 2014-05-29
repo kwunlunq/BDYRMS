@@ -125,7 +125,6 @@ public class BdyBillHistoryDao {
 	@SuppressWarnings("unchecked")
 	// 日營收清單
 	public List<BdyBillHistory> getDayBillHistoryList(java.util.Date endDate) {
-
 		java.sql.Date sqlEndDate = new java.sql.Date(endDate.getTime());
 		Session session = sf.openSession();
 		List<BdyBillHistory> result = session
