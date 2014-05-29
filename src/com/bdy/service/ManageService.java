@@ -443,7 +443,7 @@ public Map<BdySet, List<List<?>>> sortSetDetailMap(Set<BdyOrder> orders){
 			}
 		
 		}
-//	System.out.println(sortDetailMap.get(setDao.getSet(new Integer(1))).get(0).size());
+	
 	return sortDetailMap;
 	
 	

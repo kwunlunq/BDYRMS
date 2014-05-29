@@ -1,9 +1,7 @@
 $(function() {
     $( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
     $( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-    
   });
-
 function getDisCount(valuekey){
 	$.getJSON(contextPath+"/secure/getDisCount",{"disId":valuekey},function(data){
 		if(parseFloat(data)==1.0){
@@ -17,3 +15,10 @@ function getDisCount(valuekey){
 		}
 	});
 };
+
+function showDiscription(){
+	$("input[name='finalPrice']").show();
+	$('#discription').show();
+	alert("rte");
+}
+
