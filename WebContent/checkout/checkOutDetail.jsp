@@ -115,7 +115,7 @@ var contextPath='<%=request.getContextPath()%>';
 			onchange="getDisCount(this.value)"
 			/><span id="disShow"></span><br>
 		
-應收:<input type="text" id="price" value="${checkout.price}"><span id="showprice">${checkout.price}</span><br>	
+應收:<input type="hidden" id="price" value="${checkout.price}"><span id="showprice">${checkout.price}</span><br>	
 <input type="button" class="MainBtnColor" value="結帳" id="checkout">
 <input type="button" class="MainBtnColor" value="+" onclick="showDiscription()">
 <label  name="realpriceText">扣除金額</label ><input type="text" name="realprice" value="" onblur="calculatePrice()">
@@ -137,7 +137,6 @@ var contextPath='<%=request.getContextPath()%>';
 		var finalPrice=parseFloat($('#showprice').html());
  		var disId=document.getElementById("dis").options[document.getElementById("dis").selectedIndex].value;
  		discription = document.getElementById("discription").options[document.getElementById("discription").selectedIndex].value;
- 		alert(discription);
  		window.location=contextPath+"/checkout/checkBill.action?disId="+disId+"&finalPrice="+finalPrice+"&discription="+discription;
 		}
 </script>

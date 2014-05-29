@@ -22,14 +22,13 @@ function getDisCount(valuekey){
 		}
 	});
 	}else{
-		alert("modify");
+
 		$.getJSON(contextPath+"/secure/getDisCount",{"disId":valuekey},function(data){
 			if(parseFloat(data)==1.0){
 				$("#disShow").empty();
 				$('#showprice').html(paymentPrice);
 			}else{
 			$("#disShow").empty().html(data+"折");
-			alert("paymentPrice" + paymentPrice);
 			var finprice =paymentPrice*parseFloat(data);
 			$('#showprice').html(finprice);
 			}
@@ -55,23 +54,16 @@ function showDiscription(){
 }
 
 function calculatePrice(){
-	//alert($("input[name='realprice']").val());
-	//alert(realPrice)
+	
 	
 	var realprice = $("input[name='realprice']").val();
 	if(realprice<0 || realprice=="" || isNaN(realprice) ){
-		alert("1");
+
 		$('#showprice').html($("#price").val());
 		return;
 	}else{	
-	//alert("correct");
 	var initPrice = $("#price").val();
-	//alert("correct="+$("input[name='realprice']").val());
-	
-	//var modifyPrice = $("input[name='realprice']").val();
 	var showPrice = parseFloat(initPrice)-parseFloat(realprice); 
-	alert(initPrice);
-	alert(showPrice);
 	$('#showprice').html(showPrice);
 	$("input[name='realprice']").val(realprice);
 	 divide=true;

@@ -93,7 +93,7 @@
 		<result name="success">/checkout/checkOutDetail.jsp</result>
 		</action>
 		<action name="checkBill" class="com.bdy.controller.CheckOutBillAction">
-		<result name="success" type="redirect">/checkout/checkTable.action</result>
+		<result name="success" type="redirect">/table/opentable.jsp</result>
 		</action>
 	</package>
 	
