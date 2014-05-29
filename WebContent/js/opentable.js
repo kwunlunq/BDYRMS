@@ -68,10 +68,6 @@ function doLoadTable(thisBtn){
 function addTB(tbId ,tbName , tbSize , tbState , tbLocation , custNum, floorId, floorName){
 	idCount++;
 	count++;
-	if(tbState == 0)
-		tbStateName = "未使用";
-	else
-		tbStateName = "使用中";
 	tbLocation = tbLocation.split(",");
 	var topCount = parseInt(tbLocation[0]);
 	var leftCount = parseInt(tbLocation[1]);
@@ -92,7 +88,7 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation , custNum, floorId, 
 	newTbDiv.setAttribute("tbName",tbName);
 	newTbDiv.setAttribute("tbSize",tbSize);
 	newTbDiv.setAttribute("tbState",tbState);
-	newTbDiv.setAttribute("tbState",custNum);
+	newTbDiv.setAttribute("custNum",custNum);
 	newTbDiv.setAttribute("floorId",floorId);
 	newTbDiv.setAttribute("floorName",floorName);
 	newTbDiv.setAttribute("id",tbId);
@@ -123,7 +119,7 @@ function setTbState(tbState){
 
 function divTBclick(divTB){
 	$('#tbClickDialog input[type=button]').remove();
-	$('#peopleCount').val("0");
+	$('#peopleCount').val($(divTB).attr("custNum"));
 	$('#countP').css("display","none");
 	var tbId = $(divTB).attr("id");
 	var tbName = $(divTB).attr("tbName");
@@ -135,16 +131,20 @@ function divTBclick(divTB){
 	$('#tbClickDialog span[id=tbNameLable]').text(tbName);
 	$('#tbClickDialog span[id=tbSizeLable]').text(tbSize);
 	$('#tbClickDialog span[id=tbStateLable]').text(stateName[tbState] + "(" + stateDesc[tbState] + ")");
-	var tbOpenBtn = $('<input value="帶位" type="button" aria-disabled="false">');
-	var tbOrderBtn = $('<input value="點餐" type="button" aria-disabled="false">');
-	var tbCheckoutBtn = $('<input value="結帳" type="button" aria-disabled="false">');
-	var tbCancelBtn = $('<input value="離開" type="button" aria-disabled="false">');
+	var tbOpenBtn = $('<input id="takeSet" value="帶位" type="button" aria-disabled="false">');
+	var tbOrderBtn = $('<input id="order" value="點餐" type="button" aria-disabled="false">');
+	var tbCheckoutBtn = $('<input id="checkout" value="結帳" type="button" aria-disabled="false">');
+	var tbCancelBtn = $('<input id="cancel" value="離開" type="button" aria-disabled="false">');
+	var tbLeaveBtn = $('<input id="leave" value="空桌" type="button" aria-disabled="false">');
 	if(tbState == 0){
 		$('#countP').css("display","block");
 		$('#tbClickDialog div[id=buttonBar]').append(tbOpenBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 	}else if(tbState == 1){
 		$('#countP').css("display","block");
+		$(tbOpenBtn).val("更改人數");
+		$('#tbClickDialog div[id=buttonBar]').append(tbLeaveBtn);
+		$('#tbClickDialog div[id=buttonBar]').append(tbOpenBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 	}else if(tbState == 2){
 		$('#tbClickDialog div[id=buttonBar]').append(tbCheckoutBtn);
@@ -155,21 +155,20 @@ function divTBclick(divTB){
 	}
 	$('#tbClickDialog div[id=buttonBar]').append(tbCancelBtn);
 	$('#tbClickDialog input[type=button]').button().click(function( event ) {
-		var act = $(this).val();
-		if(act == "離開"){
+		var act = $(this).attr("id");
+		if(act == "cancel"){
 			$(divTB).css("z-index","0");
     		$('#tbClickDialog').dialog('close');
-		}else if(act == "結帳"){
+		}else if(act == "checkout"){
 			$(divTB).css("z-index","0");
 			window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
-		}else if(act == "點餐"){
+		}else if(act == "order"){
 			var cNum = $('#peopleCount').val();
 			fName = encodeURI(encodeURI(fName));
 			tbName = encodeURI(encodeURI(tbName));
-			console.log(tbName);
 			var url = contextPath+"/order/order.jsp?fId="+fId+"&fName="+fName+"&cNum="+cNum+"&tbId="+tbId+"&tbName="+tbName;
 			window.location = url;
-		}else if(act == "帶位"){
+		}else if(act == "takeSet"){
 			if($('#peopleCount').val()>0 && $('#peopleCount').val().length>0 && $('#peopleCount').val()<1000){
 				var updateTable ={
 						"act" : "tbOpen",
@@ -186,7 +185,7 @@ function divTBclick(divTB){
 				    success: function() {
 						$(divTB).attr("custNum",updateTable.custNum);
 						$(divTB).attr("class",setTbState(1));
-						$(divTB).attr("tbState",1);
+						$(divTB).attr("tbState","1");
 						$(divTB).find('span[id=tbSizeSpan]').text(updateTable.custNum+"("+tbSize+")");
 						$(divTB).css("z-index","0");
 						$('#tbClickDialog').dialog('close');
@@ -197,6 +196,28 @@ function divTBclick(divTB){
 			}else{
 				showState("未輸入來客數");
 			}
+		}else if(act="leave"){
+			var updateTable ={
+					"act" : "tbOpen",
+					"tbId" : tbId,
+					"tbState" : 0,
+					"custNum" : "0",
+					"floor" : "-1"
+			};
+			$.ajax({
+			    url: tableUrl,
+			    type: 'POST',
+			    data: JSON.stringify(updateTable),
+			    contentType: 'application/json; charset=utf-8',
+			    success: function() {
+					$(divTB).attr("custNum",0);
+					$(divTB).attr("class",setTbState(0));
+					$(divTB).attr("tbState","0");
+					$(divTB).find('span[id=tbSizeSpan]').text(tbSize);
+					$(divTB).css("z-index","0");
+					$('#tbClickDialog').dialog('close');
+			    }
+			});
 		}else{
 			showState("無效的按鈕");
 		}
