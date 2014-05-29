@@ -21,14 +21,22 @@ function getFloor(){
 	    dataType :'json',
 	    success: function(floorList) {
 	    	floorDataList = [];
+	    	var firstFloorId = 0;
 			for(var i=0 ;i<floorList.length;i++){
 				var floorData = floorList[i];
+				if(i == 0){
+					firstFloorId = floorData.floorId;
+				}
 				floorDataList[floorData.floorId] = floorData.floorName;
 				$('#selectFloor').append("<input style='font-size:1.0em;margin:2px' class='MainBtnColor' type='button' floorId='"+floorData.floorId+"' value='"+floorData.floorName+"'>");
 			}
 			$('#selectFloor').append("<hr>");
 			$('#selectFloor').append("<input style='font-size:1.0em;width:100%;margin:2px' class='MainBtnColor' type='button' floorId='-1' value='離開'>");
-			doLoadTable(activeFloor,floorDataList[activeFloor]);
+			if(activeFloor == null || activeFloor.length == 0 ){
+				doLoadTable(firstFloorId,floorDataList[firstFloorId]);
+			}else{
+				doLoadTable(activeFloor,floorDataList[activeFloor]);
+			}
 	    }
 	});
 }
@@ -40,7 +48,7 @@ function doLoadTable(floorId,floorName){
 	count = 0;
 	idCount = 0;
 	tablesDataForSaveInJson.act = "load";
-	tablesDataForSaveInJson.floor = floorId;
+	tablesDataForSaveInJson.floor = floorId+"";
 	$.ajax({
 	    url: tableUrl,
 	    type: 'POST',
@@ -152,11 +160,12 @@ function divTBclick(divTB){
 		$('#tbClickDialog div[id=buttonBar]').append(tbOpenBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 	}else if(tbState == 2){
+		$('#tbClickDialog div[id=buttonBar]').append(tbLeaveBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbCheckoutBtn);
 	}else if(tbState == 3){
+		$('#countP').css("display","block");
 		$('#tbClickDialog div[id=buttonBar]').append(tbOpenBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
-		$('#tbClickDialog div[id=buttonBar]').append(tbCheckoutBtn);
 	}
 	$('#tbClickDialog div[id=buttonBar]').append(tbCancelBtn);
 	$('#tbClickDialog input[type=button]').button().click(function( event ) {
@@ -165,14 +174,35 @@ function divTBclick(divTB){
 			$(divTB).css("z-index","0");
     		$('#tbClickDialog').dialog('close');
 		}else if(act == "checkout"){
-			$(divTB).css("z-index","0");
-			window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
+			var updateTable ={
+					"act" : "tbOpen",
+					"tbId" : tbId,
+					"tbState" : 0,
+					"custNum" : "0",
+					"floor" : "-1"
+			};
+			$.ajax({
+			    url: tableUrl,
+			    type: 'POST',
+			    data: JSON.stringify(updateTable),
+			    contentType: 'application/json; charset=utf-8',
+			    success: function() {
+			    	$(divTB).css("z-index","0");
+					window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
+			    }
+			});
 		}else if(act == "order"){
 			var cNum = $('#peopleCount').val();
-			fName = encodeURI(encodeURI(fName));
-			tbName = encodeURI(encodeURI(tbName));
-			var url = contextPath+"/order/order.jsp?fId="+fId+"&fName="+fName+"&cNum="+cNum+"&tbId="+tbId+"&tbName="+tbName;
-			window.location = url;
+			if(cNum>0 && cNum.length>0 && cNum<1000){
+				fName = encodeURI(encodeURI(fName));
+				tbName = encodeURI(encodeURI(tbName));
+				var url = contextPath+"/order/order.jsp?fId="+fId+"&fName="+fName+"&cNum="+cNum+"&tbId="+tbId+"&tbName="+tbName;
+				window.location = url;
+			}else if($('#peopleCount').val()>999){
+				showState("超過上限 (小於3位)");
+			}else{
+				showState("未輸入來客數");
+			}
 		}else if(act == "takeSet"){
 			if($('#peopleCount').val()>0 && $('#peopleCount').val().length>0 && $('#peopleCount').val()<1000){
 				var updateTable ={
