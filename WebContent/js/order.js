@@ -242,7 +242,6 @@ function getTables() {
 }
 
 function getTablesCallback(result) {
-
 	for (var i = 0; i < result.length; i++) {
 		var fId = result[i].fId;
 		var fName = result[i].fName;
@@ -251,30 +250,33 @@ function getTablesCallback(result) {
 		$(option).attr("index", i);
 		$(option).append(document.createTextNode(fName));
 		$("#setFloor").append(option);
-				
+		
 		// 將桌子資訊做成option存入tableoptions[[]]陣列中
 		// 以便之後選擇樓層時取出
 		var tbs = result[i].tables;
+		tableoptions[i] = [];
 		for (var j = 0; j < tbs.length; j++) {
 			var tbName = tbs[j].tbName;
+			var tbId = tbs[j].tbId;
 			var option = document.createElement("option");
-			$(option).attr("value", tbs[j].tbId);
+			$(option).attr("value", tbId);
 			$(option).append(document.createTextNode(tbName));
-//			console.log(option);
+
 			tableoptions[i][j] = option;
-			$('#setTableNum').append(tableoptions[i][j]);
+			if (i == 0) {
+				$('#setTableNum').append(option);
+			}
 		};
 	}
 
 	$("#setFloor").change(function() {
-		var selected = $(this).find(":selected");
 		$('#setTableNum').empty();
 		var index = $(this).find(":selected").attr("index");
 		// 如果選擇的樓層有桌子
 		// 將桌子options掛到選擇桌子的選單中
-		if (tableoptions.length > index) {
+		if (index < tableoptions.length) {
 			for (var i = 0; i < tableoptions[index].length; i++) {
-				$('#setTableNum').append(tableoptions[index][i]);				
+				$('#setTableNum').append(tableoptions[index][i]);
 			};
 		};
 	});

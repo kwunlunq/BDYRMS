@@ -148,8 +148,10 @@
 }
 
 #changeFloor{
-   font-size: 0.8em;
-   padding:4px;
+	min-width:80px;
+	color:white;
+	font-size: 0.8em;
+	padding:4px;
 	-moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
 	-webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
 	box-shadow: 0px 1px 0px 0px #f0f7fa;
@@ -161,7 +163,6 @@
 	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
 	background-color:#33bdef;
-	
 	-moz-border-radius:6px;
 	-webkit-border-radius:6px;
 	border-radius:6px;
@@ -221,4 +222,10 @@
 	padding:7px;
 	bottom:2px;
 	font-size:0.9em;
+}
+
+#numBtn{
+	width:29px;
+	margin-right:1px;
+	padding:1px;
 }

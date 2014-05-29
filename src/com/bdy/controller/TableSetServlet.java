@@ -65,6 +65,12 @@ public class TableSetServlet extends HttpServlet {
 				JsonArray delFloorList = object.getJsonArray("delFloorList");
 				TS.updateFloor(updateFloorList, delFloorList);
 				break;
+			case "tbOpen":
+				int tbId = Integer.parseInt(object.getString("tbId"));
+				int tbState = object.getInt("tbState");
+				int custNum = Integer.parseInt(object.getString("custNum"));
+				TS.setTbToOpenState(tbId, tbState, custNum);
+				break;
 		}
 	}
 	

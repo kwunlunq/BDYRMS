@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyFood;
 import com.bdy.model.BdyFoodkind;
@@ -63,6 +64,7 @@ public class GetOrderDataServlet extends HttpServlet{
 			TreeMap<Integer, BdyFloor> floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
 			TreeMap<Integer, BdySet> sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
 			TreeMap<Integer, BdySetdetail> sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
+//			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
 			break;
 		case "table" :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
@@ -87,6 +89,14 @@ public class GetOrderDataServlet extends HttpServlet{
 			sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
 			JsonArray sd = service.makeJSONSets(sets, sds);
 			out.write(sd.toString());
+			break;
+		case "discount" :
+			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
+			JsonArray dis = service.makeJSONDiss(diss);
+			out.write(dis.toString());
+			break;
+		case "orderNotCheckNum" :
+			out.write(service.getOrderNotCheckNum().toString());
 			break;
 		case "emp" :
 			session.removeAttribute("emp");

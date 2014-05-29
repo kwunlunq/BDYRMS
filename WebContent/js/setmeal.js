@@ -74,11 +74,18 @@ function checkPrice(){
 	}
 	
 }
-//------------------------------update----------------------------------------------
+//------------------------------setupdate----------------------------------------------
 function updateSet(setId){
-	$('body').find("input[id^=check]").each(function(){
+	$('body').find("input[name=checkname]").each(function(){
+		$(this).prop("checked", false);
+	});
+	
+	$('#divPrice').find('div').each(function(){
 		
-//		$(this).attr("checked","unchecked");
+		$(this).css('display','none');		
+	});
+	$('#divPrice').find('input').each(function(){
+		var a = $(this).val('');
 	});
 	
 	
@@ -96,20 +103,51 @@ function updateSet(setId){
 	var setPrice = $('#setprice'+setId).text();
 	$('#setName').val(setName);
 	$('#setPrice').val(setPrice);
+	
 	for(var i=0;i<detailfkids.length;i++){
 		
-		var settext = $('#settext'+detailfkids[i]).text();
-		$('#check'+detailids[i]).attr("checked","checked");
-		$('#span'+detailids[i]).css("display","block");
-		$('#text'+detailids[i]).val(settext);
+		var settext = $('#settext'+detailids [i]).text();
+		$('#check'+detailfkids[i]).attr("checked","checked");
+		$('#span'+detailfkids[i]).css("display","block");
+		$('#text'+detailfkids[i]).val(settext);
 	}
 	$('#changebtn').empty();
-	$('#changebtn').append( "<input type='submit' value='確認更改'>" +
-							"<input type='button' value='取消'>"+
+	$('#changebtn').append( "<input name='buttonName' type='submit' value='確認更改'>" +
+							"<input type='button' value='取消' onclick='onclear()'>"+
 							"<input type='hidden' name='setId' value='"+setId+"'>");
 	getTotalPrice();
 	
 }
+function onclear(){
+	$('body').find("input[name=checkname]").each(function(){
+		$(this).prop("checked", false);
+	});
+	
+	$('#divPrice').find('div').each(function(){
+		
+		$(this).css('display','none');		
+	});
+	$('#divPrice').find('input').each(function(){
+		var a = $(this).val('');
+	});
+	$('#totalPrice').text('0');
+	$('#setName').val('');
+	$('#setPrice').val('');
+	$('#changebtn').empty();
+	$('#changebtn').append("<input type='submit' name='buttonName' value='確定' onclick='return checkPrice()'>");
+}
+
+function deleteSet(setId){
+	var b = window.confirm("確定刪除");
+	if(b){
+	window.location.href =  contextPath+"/setmeal/deleteset?setId="+setId;
+	}
+}
+
+
+
+
+
 
 
 
