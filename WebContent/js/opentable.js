@@ -4,6 +4,7 @@ var tablesDataForSaveInJson = {
 		"tables" : [],
 		"delTBlist" : [] 
 };
+var floorDataList = [];
 var stateName = ["閒置","點餐","用餐","預約","關閉"];
 var stateDesc = ["0-閒置中","1-等待點餐","2-用餐中","3-有客人預約","4-不開放使用"];
 var tableUrl = contextPath + "/table/tableset";
@@ -19,24 +20,25 @@ function getFloor(){
 	    contentType: 'application/json; charset=utf-8',
 	    dataType :'json',
 	    success: function(floorList) {
+	    	floorDataList = [];
 			for(var i=0 ;i<floorList.length;i++){
 				var floorData = floorList[i];
+				floorDataList[floorData.floorId] = floorData.floorName;
 				$('#selectFloor').append("<input style='font-size:1.0em;margin:2px' class='MainBtnColor' type='button' floorId='"+floorData.floorId+"' value='"+floorData.floorName+"'>");
 			}
 			$('#selectFloor').append("<hr>");
 			$('#selectFloor').append("<input style='font-size:1.0em;width:100%;margin:2px' class='MainBtnColor' type='button' floorId='-1' value='離開'>");
+			doLoadTable(activeFloor,floorDataList[activeFloor]);
 	    }
 	});
 }
 
-function doLoadTable(thisBtn){
+function doLoadTable(floorId,floorName){
 	$('#picTB>div').fadeToggle(800,function(){
 		$(this).remove();
 	});
 	count = 0;
 	idCount = 0;
-	var floorId = $(thisBtn).attr("floorId");
-	var floorName = $(thisBtn).val();
 	tablesDataForSaveInJson.act = "load";
 	tablesDataForSaveInJson.floor = floorId;
 	$.ajax({
@@ -47,6 +49,7 @@ function doLoadTable(thisBtn){
 	    dataType:'JSON',
 	    success: function(tableList) {
 	    	$('#picTB>div').remove();
+	    	$('#activeFloor').text(floorName);
 			if(tableList == null || tableList.length < 1)
 			{
 				showState("尚未有擺設");
@@ -282,11 +285,9 @@ $(function(){
 	
 	$('#selectFloor').on('click','input',function(){
 		if($(this).attr("floorId") != -1){
-			$('#selectFloor').find('input').each(function(){
-				$(this).attr("class","MainBtnColor");
-			});
-			$(this).attr("class","ActiveBtnColor");
-			doLoadTable($(this));
+			var floorId = $(this).attr("floorId");
+			var floorName = $(this).val();
+			doLoadTable(floorId,floorName);
 		}
 		$('#selectFloor').dialog('close');
 	});

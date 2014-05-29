@@ -27,6 +27,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var activeFloor = '${param.f}';
 </script>
 <%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
 <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
