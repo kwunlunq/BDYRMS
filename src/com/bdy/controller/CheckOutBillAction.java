@@ -19,7 +19,26 @@ public class CheckOutBillAction extends ActionSupport implements Preparable,Sess
 
 	
 		private int disId;
+		private Double finalPrice;
+		private String discription;
 		
+		
+		public String getDiscription() {
+			return discription;
+		}
+
+		public void setDiscription(String discription) {
+			this.discription = discription;
+		}
+
+		public Double getFinalPrice() {
+			return finalPrice;
+		}
+
+		public void setFinalPrice(Double finalPrice) {
+			this.finalPrice = finalPrice;
+		}
+
 		ManageService service;
 		Map<String, Object> session;
 		
@@ -43,23 +62,31 @@ public class CheckOutBillAction extends ActionSupport implements Preparable,Sess
 		@Override
 		public String execute() throws Exception {
 			CheckOut checkOut=(CheckOut) session.get("checkout");
-			if(disId!=-1){			
+			if(disId!=-1){//------有選擇折扣	
+				if(getDiscription().equals("none")|| getDiscription().trim().length()==0){//---沒有吃到蟑螂
+					checkOut.setDiscription(null);
+				}else{
+					checkOut.setDiscription(getDiscription());
+				}
 			checkOut.setDiscount(service.getDiscountById(disId));
 			BdyEmp emp=(BdyEmp)	session.get("empData");
-			checkOut.setFinalPrice((int)Math.rint(checkOut.getPrice()*checkOut.getDiscount().getDisPrice()));
+			checkOut.setFinalPrice((int)Math.rint(getFinalPrice()));
 			checkOut.setEndDate(new Date(System.currentTimeMillis()));
-			checkOut.setEmp(emp);
-			
+			checkOut.setEmp(emp);			
 			service.insertBill(checkOut);
 			session.remove("checkout");
 			return Action.SUCCESS;
-			}else{
+			}else{//------有選擇折扣
+				if(getDiscription().equals("none")|| getDiscription().trim().length()==0){//---沒有吃到蟑螂
+					checkOut.setDiscription(null);
+				}else{
+					checkOut.setDiscription(getDiscription());//-----吃到蟑螂
+				}
 				checkOut.setDiscount(null);
 				BdyEmp emp=(BdyEmp)	session.get("empData");
-				checkOut.setFinalPrice((int)Math.rint(checkOut.getPrice()*1));
+				checkOut.setFinalPrice((int)Math.rint(getFinalPrice()));
 				checkOut.setEndDate(new Date(System.currentTimeMillis()));
-				checkOut.setEmp(emp);
-				
+				checkOut.setEmp(emp);				
 				service.insertBill(checkOut);
 				session.remove("checkout");
 				return Action.SUCCESS;

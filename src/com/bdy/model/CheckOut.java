@@ -16,7 +16,16 @@ public class CheckOut {
 	private BdyDiscount discount;//----折扣
 	private Double price;//-----應付帳款
 	private BdyEmp emp;//-----結帳員工
-	private Integer finalPrice;//------------實收金額	
+	private Integer finalPrice;//------------實收金額
+	private String discription;
+	
+	
+	public String getDiscription() {
+		return discription;
+	}
+	public void setDiscription(String discription) {
+		this.discription = discription;
+	}
 	private  Map<BdySet,List<BdyFood>> setMap = new TreeMap<BdySet,List<BdyFood>>(new Comparator<BdySet>() {
 
 		@Override

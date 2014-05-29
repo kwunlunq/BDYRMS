@@ -121,7 +121,7 @@ var contextPath='<%=request.getContextPath()%>';
 <label  name="realpriceText">扣除金額</label ><input type="text" name="realprice" value="" onblur="calculatePrice()">
 <label  name="discriptionText">備註</label >
 <select id="discription" name="discriptionSelect">
-<option value="1">請選擇</option>
+<option value="none">請選擇</option>
 <option value="招待">招待</option>
 <option value="貴賓">貴賓</option>
 <option value="其他">其他</option>
@@ -129,15 +129,16 @@ var contextPath='<%=request.getContextPath()%>';
 	</form>
 </fieldset>		
 <script>
-	$('#checkout').click(function (){
+	$('#checkout').click(function(){
 		checkout();
 	});
 	
 	function checkout(){
-		alert("123");
- 		return;
+		var finalPrice=parseFloat($('#showprice').html());
  		var disId=document.getElementById("dis").options[document.getElementById("dis").selectedIndex].value;
- 		window.location=contextPath+"/checkout/checkBill.action?disId="+disId;
+ 		discription = document.getElementById("discription").options[document.getElementById("discription").selectedIndex].value;
+ 		alert(discription);
+ 		window.location=contextPath+"/checkout/checkBill.action?disId="+disId+"&finalPrice="+finalPrice+"&discription="+discription;
 		}
 </script>
 		

@@ -14,7 +14,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.hibernate.sql.Insert;
+
 import com.bdy.model.BdyBill;
+import com.bdy.model.BdyBillHistory;
 import com.bdy.model.BdyBilldetail;
 import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyEmp;
@@ -24,6 +27,7 @@ import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdyMakearea;
 import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdyOrderlistReport;
 import com.bdy.model.BdyPriority;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
@@ -504,7 +508,7 @@ public  List<BdyTable> getUseTable(){
 	List<BdyTable> alltable = tableDao.getAllTable();
 	//判斷是使用中的桌子才放到List
 	for(BdyTable temp:alltable){
-		if(temp.getTableState().equals(new Integer(1))){
+		if(temp.getTableState().equals(new Integer(2))){
 			usingTabls.add(temp);
 		}
 	}
@@ -590,13 +594,13 @@ public BdyTable getOrderTableName(int tableId){
 		bill.setFinPrice((double)check.getFinalPrice());
 		billDao.insert(bill);
 		
-		int index=0;
+		int index=0;//------找出最後一筆
 		for(BdyBill temp:billDao.getAllBill()){
 			if(temp.getBillId()>index){
 				index=temp.getBillId();
 			}
 		}
-		BdyBill tempBill = billDao.getBill(index);
+		BdyBill tempBill = billDao.getBill(index);//----insert To BillDetail table
 		for(BdyOrder orders:check.getOrders()){
 			BdyBilldetail detail = new BdyBilldetail();
 			detail.setBdyBill(tempBill);
@@ -604,21 +608,114 @@ public BdyTable getOrderTableName(int tableId){
 			billdetailDao.insert(detail);
 		}
 		
-		BdyTable table = tableDao.getTableById(check.getTabId());
+		BdyTable table = tableDao.getTableById(check.getTabId());//-----change table state to 0(no use)
 		table.setTableState(0);
 		tableDao.updateTable(table);
 		
-		for(BdyOrder order:check.getOrders()){
+		for(BdyOrder order:check.getOrders()){//----------------------change orders that have checkout
 			int ordId=order.getOdId();
 			BdyOrder temp = orderDao.getOrder(ordId);
 			temp.setIsCheckout(1);
 			orderDao.upDateOrder(temp);
 		}
 		
+		BdyBillHistory history = new BdyBillHistory();
+		history.setBillId(index);
+		history.setEndDate(check.getEndDate());
+		history.setCustNum(check.getCustNum());
+		history.setDisName(check.getDiscount().getName());
+		history.setBillEmpId(check.getEmp().getEmpId());
+		history.setBillEmpName(check.getEmp().getName());
+		history.setPrice(check.getPrice());
+		history.setFinPrice(new Double(check.getFinalPrice()));
+		history.setDiscription(check.getDiscription());
+		billHistoryDao.insert(history);
+		
+		int lastHistoryId=0;//------找尋最後一筆billHistoryId
+		for(BdyBillHistory findLastHistory:billHistoryDao.getAllBillHistory()){
+			if(findLastHistory.getBillId()>lastHistoryId){
+				lastHistoryId=findLastHistory.getBillId();
+			}
+		}
+		
+		
+		for(BdyOrder order:check.getOrders()){
+			Set<BdyOrderlist> orderlists=order.getBdyOrderlists();
+			for(BdyOrderlist orderlist:orderlists){				
+				if(orderlist.getBdySet()==null){//----單點
+					if(orderlist.getBdyFood().getBdyMainkind()==null){//-----無製作區(非主餐)
+					BdyOrderlistReport olReport = new BdyOrderlistReport();
+					olReport.setOdlistId(orderlist.getOdlistId());
+					olReport.setOdId(orderlist.getBdyOrder().getOdId());
+					olReport.setOdEmpName(orderlist.getBdyOrder().getBdyEmp().getName());
+					olReport.setOdEmpId(orderlist.getBdyOrder().getBdyEmp().getEmpId());
+					olReport.setFoodName(orderlist.getBdyFood().getName());
+					olReport.setFoodPrice(orderlist.getBdyFood().getPrice());
+					olReport.setSetName(null);	
+					olReport.setSetPrice(null);
+					olReport.setFoodkindName(orderlist.getBdyFood().getBdyFoodkind().getName());
+					olReport.setMainkindName(null);
+					olReport.setAddmoney(orderlist.getAddmoney());
+					olReport.setBdyBillHistory(billHistoryDao.getBillHistory(lastHistoryId));
+					orderlistReportDao.insert(olReport);
+					}else{//------有製作區(主餐)
+						BdyOrderlistReport olReport = new BdyOrderlistReport();
+						olReport.setOdlistId(orderlist.getOdlistId());
+						olReport.setOdId(orderlist.getBdyOrder().getOdId());
+						olReport.setOdEmpName(orderlist.getBdyOrder().getBdyEmp().getName());
+						olReport.setOdEmpId(orderlist.getBdyOrder().getBdyEmp().getEmpId());
+						olReport.setFoodName(orderlist.getBdyFood().getName());
+						olReport.setFoodPrice(orderlist.getBdyFood().getPrice());
+						olReport.setSetName(null);	
+						olReport.setSetPrice(null);
+						olReport.setFoodkindName(orderlist.getBdyFood().getBdyFoodkind().getName());
+						olReport.setMainkindName(orderlist.getBdyFood().getBdyMainkind().getName());
+						olReport.setAddmoney(orderlist.getAddmoney());
+						olReport.setBdyBillHistory(billHistoryDao.getBillHistory(lastHistoryId));
+						orderlistReportDao.insert(olReport);
+					}
+				}else{//-----套餐
+					if(orderlist.getBdyFood().getBdyMainkind()==null){//----無製作區套餐
+					BdyOrderlistReport olReport = new BdyOrderlistReport();
+					olReport.setOdlistId(orderlist.getOdlistId());
+					olReport.setOdId(orderlist.getBdyOrder().getOdId());
+					olReport.setOdEmpName(orderlist.getBdyOrder().getBdyEmp().getName());
+					olReport.setOdEmpId(orderlist.getBdyOrder().getBdyEmp().getEmpId());
+					olReport.setFoodName(orderlist.getBdyFood().getName());
+					olReport.setFoodPrice(orderlist.getBdyFood().getPrice());
+					olReport.setSetName(orderlist.getBdySet().getName());	
+					olReport.setSetPrice(orderlist.getBdySet().getPrice());
+					olReport.setFoodkindName(orderlist.getBdyFood().getBdyFoodkind().getName());
+					olReport.setMainkindName(null);
+					olReport.setAddmoney(orderlist.getAddmoney());
+					olReport.setBdyBillHistory(billHistoryDao.getBillHistory(lastHistoryId));
+					orderlistReportDao.insert(olReport);
+					}else{//------有製作區的套餐(主餐)
+						BdyOrderlistReport olReport = new BdyOrderlistReport();
+						olReport.setOdlistId(orderlist.getOdlistId());
+						olReport.setOdId(orderlist.getBdyOrder().getOdId());
+						olReport.setOdEmpName(orderlist.getBdyOrder().getBdyEmp().getName());
+						olReport.setOdEmpId(orderlist.getBdyOrder().getBdyEmp().getEmpId());
+						olReport.setFoodName(orderlist.getBdyFood().getName());
+						olReport.setFoodPrice(orderlist.getBdyFood().getPrice());
+						olReport.setSetName(orderlist.getBdySet().getName());	
+						olReport.setSetPrice(orderlist.getBdySet().getPrice());
+						olReport.setFoodkindName(orderlist.getBdyFood().getBdyFoodkind().getName());
+						olReport.setMainkindName(orderlist.getBdyFood().getBdyMainkind().getName());
+						olReport.setAddmoney(orderlist.getAddmoney());
+						olReport.setBdyBillHistory(billHistoryDao.getBillHistory(lastHistoryId));	
+						orderlistReportDao.insert(olReport);
+					}
+				}
+				
+			}
+		}
+		
 	}
 	public BdyDiscount getDiscountById(int discountId){
 		return discountDao.getDiscount(discountId);
 	}
+	 
 //------------------------------SetMeal----------------------------------------------
 	public List<BdyFoodkind> getAllFoodKindSetMeal(){
 		List<BdyFoodkind> fk = foodkindDao.getAllFoodkind();
