@@ -39,25 +39,46 @@ public class SetMealInsertServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		String setId = request.getParameter("setId");
-//		System.out.println("setId = "+setId);
+		String setId = request.getParameter("setId");
+		//System.out.println("setId = "+setId);
+		String btnname = request.getParameter("buttonName");
+		System.out.println("btn name==="+btnname);
 		String name = request.getParameter("setName");
 		String sprice = request.getParameter("setPriceName");
+		
 		Double setprice = Double.valueOf(sprice);
 		String check[]=request.getParameterValues("checkname");
 		List<FoodKindPrice> prices = new LinkedList<FoodKindPrice>();
+		switch(btnname){
+		case "確定":
+		
 		
 		for(int i=0;i<check.length;i++){
 			Integer var= Integer.valueOf(check[i]);
 			String price=request.getParameter("price"+var);
-			System.out.println("fkID=" + var+"price="+Double.valueOf(price));
+			//System.out.println("fkID=" + var+"price="+Double.valueOf(price));
 			FoodKindPrice bean = new FoodKindPrice();
 			bean.setFkId(var);
 			bean.setPirce(Double.valueOf(price));
 			prices.add(bean);
 		}
 		service.insertSet(name,setprice);
-		service.insertSetDetail(prices);
+		service.insertSetDetail(prices);break;
+		case "確認更改":	
+			Integer sId = Integer.valueOf(setId);
+			for(int i=0;i<check.length;i++){
+				Integer var= Integer.valueOf(check[i]);
+				String price=request.getParameter("price"+var);
+				//System.out.println("fkID=" + var+"price="+Double.valueOf(price));
+				FoodKindPrice bean = new FoodKindPrice();
+				bean.setFkId(var);
+				bean.setPirce(Double.valueOf(price));
+				prices.add(bean);
+			}
+			service.updateSetMeal(sId,name,setprice);
+			service.updateSetDetail(sId,prices);
+			break;
+		}
 		List<BdyDiscount> discount = service.getAllDiscount();
 		List<BdyFood> foods = service.getAllFood();
 		List<BdySetdetail> detail = service.getAllDetail();
@@ -68,6 +89,7 @@ public class SetMealInsertServlet extends HttpServlet {
 		request.setAttribute("resultfoodkind", foodkind);
 		request.setAttribute("pags", 1);
 		request.getRequestDispatcher("/secure/manageIndex.jsp").forward(request, response);
+		
 	}
 
 	

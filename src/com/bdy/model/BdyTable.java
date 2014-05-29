@@ -16,6 +16,15 @@ public class BdyTable implements java.io.Serializable {
 	private Integer size;
 	private String location;
 	private BdyFloor bdyFloor;
+	private int custNum;
+	public int getCustNum() {
+		return custNum;
+	}
+
+	public void setCustNum(int custNum) {
+		this.custNum = custNum;
+	}
+
 	private Set bdyOrders = new HashSet(0);
 
 	public BdyTable() {

@@ -13,7 +13,15 @@ public class BdyBooking implements java.io.Serializable {
 	private int bkId;
 	private Serializable bkName;
 	private String bkPhone;
-	private String bkEmail;
+	private int tbId;
+	public int getTbId() {
+		return tbId;
+	}
+
+	public void setTbId(int tbId) {
+		this.tbId = tbId;
+	}
+
 	private Date bkOrderdate;
 	private Date bkEatdate;
 	private Serializable bkContent;
@@ -29,17 +37,17 @@ public class BdyBooking implements java.io.Serializable {
 	}
 
 	public BdyBooking(int bkId, Serializable bkName, String bkPhone,
-			String bkEmail, Date bkOrderdate, Date bkEatdate,
+			int tbId, Date bkOrderdate, Date bkEatdate,
 			Serializable bkContent, Integer bkState, Integer bkNumber,
 			String empId) {
 		this.bkId = bkId;
 		this.bkName = bkName;
 		this.bkPhone = bkPhone;
-		this.bkEmail = bkEmail;
 		this.bkOrderdate = bkOrderdate;
 		this.bkEatdate = bkEatdate;
 		this.bkContent = bkContent;
 		this.bkState = bkState;
+		this.tbId = tbId;
 		this.bkNumber = bkNumber;
 		this.empId = empId;
 	}
@@ -66,14 +74,6 @@ public class BdyBooking implements java.io.Serializable {
 
 	public void setBkPhone(String bkPhone) {
 		this.bkPhone = bkPhone;
-	}
-
-	public String getBkEmail() {
-		return this.bkEmail;
-	}
-
-	public void setBkEmail(String bkEmail) {
-		this.bkEmail = bkEmail;
 	}
 
 	public Date getBkOrderdate() {
