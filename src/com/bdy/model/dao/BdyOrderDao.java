@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -138,5 +139,15 @@ private SessionFactory sf = null;
 		Transaction tx = session.beginTransaction();
 		session.saveOrUpdate(order);
 		tx.commit();
-	} 
+	}
+	
+	public int getOrderNotCheckNum() {
+		Session session = sf.openSession();
+		int result = ((Number)session.createCriteria(BdyOrder.class)
+									 .add(Restrictions.eq("isCheckout", Integer.valueOf(0)))
+									 .setProjection(Projections.count("isCheckout"))
+									 .uniqueResult())
+									 .intValue();
+		return result;
+	}
 }

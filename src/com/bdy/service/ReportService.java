@@ -5,19 +5,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.naming.NamingException;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.bdy.model.BdyBill;
-import com.bdy.model.BdyBilldetail;
+import com.bdy.model.BdyBillHistory;
 import com.bdy.model.BdyFoodkind;
-import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdyOrderlistReport;
 import com.bdy.model.DayFoodAmountReport;
 import com.bdy.model.MonthReport;
 import com.bdy.model.dao.BdyBillDao;
@@ -61,19 +58,17 @@ public class ReportService {
 	BdyNewsDao newsDao;
 	BdyBookingDao bookingDao;
 	ReportDaoJdbc reportDao;
-
-
 	BdyBillHistoryDao billHistoryDao;
 	BdyOrderlistReportDao orderlistReportDao;
-	
+
 	public void setBillHistoryDao(BdyBillHistoryDao billHistoryDao) {
 		this.billHistoryDao = billHistoryDao;
 	}
+
 	public void setOrderlistReportDao(BdyOrderlistReportDao orderlistReportDao) {
 		this.orderlistReportDao = orderlistReportDao;
 	}
-	
-	
+
 	public void setBilldetailDao(BdyBilldetailDao billdetailDao) {
 		this.billdetailDao = billdetailDao;
 	}
@@ -149,18 +144,16 @@ public class ReportService {
 	public ReportService() {
 	}
 
-	public List<BdyBill> getDayRevenueDetails(java.util.Date date) {
-
-		List<BdyBill> beans = new ArrayList<BdyBill>();
-		beans = billDao.getDayRevenueDetailsDB(date);
-		return beans;
-
+	public List<BdyBillHistory> getDayRevenue(java.util.Date date) {
+		List<BdyBillHistory> billBeans = new ArrayList<BdyBillHistory>();
+		billBeans = billHistoryDao.getDayBillHistoryList(date);
+		return billBeans;
 	}
 
-	public List<BdyFoodkind> getAllFoodkind() {
-		List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
-		foodkindBeans = foodkindDao.getAllFoodkind();
-		return foodkindBeans;
+	public List<BdyOrderlistReport> getFoodkindName(java.util.Date date) {
+		List<BdyOrderlistReport> foodKindNames = new ArrayList<BdyOrderlistReport>();
+		foodKindNames = reportDao.getDayFoodKindName(date);
+		return foodKindNames;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -169,64 +162,58 @@ public class ReportService {
 		JSONObject obj = new JSONObject();
 
 		/*
-		 * 目標 : { "食物種類名稱":["", "", "", "", "", ..., ""]}
+		 * {"食物種類名稱":[{"沙拉":[{"沙拉名稱":[...]},{"沙拉數量":[...]}]},
+		 * 				{"湯":[{"湯名稱":[...]},{"湯數量":[...]}]},
+		 * 									 .
+		 * 									 .
+		 * 									 .
+		 * 				{"甜點":[{"甜點名稱":[...]},{"甜點數量":[...]}]}]}
 		 */
 
-		List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
-		foodkindBeans = foodkindDao.getAllFoodkind();
-		Collections.sort(foodkindBeans, new Comparator<BdyFoodkind>() {
-			@Override
-			public int compare(BdyFoodkind o1, BdyFoodkind o2) {
-				return new Integer(o1.getFkId()).compareTo(o2.getFkId());
-			}
-		});
-		JSONArray foodkindName = new JSONArray();
-		for (BdyFoodkind foodkinds : foodkindBeans) {
-			foodkindName.add(foodkinds.getName());
-		}
-		obj.put("foodkindName", foodkindName);
-
-		/*
-		 * 目標 : { "i類":[{"foodAmount":["", "", ...,""]},{"foodName":["",
-		 * "",...,""]}] }
-		 */
-
-		for (int i = 1; i <= foodkindBeans.size(); i++) {
+		List<BdyOrderlistReport> foodKindNames = new ArrayList<BdyOrderlistReport>();
+		foodKindNames = reportDao.getDayFoodKindName(date);
+		JSONArray foodkindNameList = new JSONArray();
+		JSONArray foodkindNames = new JSONArray();
+		JSONObject foodkindNameobj = new JSONObject();
+		JSONArray foodkindList = new JSONArray();
+		for (BdyOrderlistReport foodKindName : foodKindNames) {
+			
 			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
-			foodAmounts = reportDao.getDayFoodAmount(date, i);
-			JSONArray foodAmountList = new JSONArray();
+			foodAmounts = reportDao.getDayFoodAmount(
+					foodKindName.getFoodkindName(), date);
+			JSONObject foodkindNameObj = new JSONObject();
 			JSONArray foodNameList = new JSONArray();
-			if (foodAmounts == null || foodAmounts.isEmpty()) {
-				foodAmountList.add(0);
-				foodNameList.add("沒有賣出");
-			} else {
-				for (DayFoodAmountReport foodAmount : foodAmounts) {
-					foodAmountList.add(foodAmount.getAmount());
-					foodNameList.add(foodAmount.getName());
-				}
+			JSONArray foodAmountList = new JSONArray();
+			for (DayFoodAmountReport foodAmount : foodAmounts) {
+				foodNameList.add(foodAmount.getFoodName());
+				foodAmountList.add(foodAmount.getAmount());
 			}
-			JSONObject foodkindObj = new JSONObject();
-			JSONArray foodkind = new JSONArray();
-			foodkindObj.put("foodAmount", foodAmountList);
-			foodkindObj.put("foodName", foodNameList);
-			foodkind.add(foodkindObj);
-			obj.put(foodkindBeans.get(i - 1).getFkId(), foodkind);
-		}
+			foodkindNames.add(foodKindName.getFoodkindName());
+			
+			foodkindNameObj.put("foodName",foodNameList);
+			foodkindNameObj.put("foodAmount",foodAmountList);
+			foodkindList.add(foodkindNameObj);
+
+		}			
+		foodkindNameobj.put("foodkindName", foodkindList);
+		foodkindNameList.add(foodkindNameobj);
+		obj.put("foodkind", foodkindNameList);
+		obj.put("foodkindNames", foodkindNames);
 
 		/*
 		 * 目標 : { "來客數":["", "", "", "", "", ..., ""], "平均消費金額":["", "", "", "",
 		 * ..., ""] }
 		 */
 
-		List<BdyBill> billBeans = new ArrayList<BdyBill>();
-		billBeans = billDao.getDayRevenueDetailsDB(date);
+		List<BdyBillHistory> billBeans = new ArrayList<BdyBillHistory>();
+		billBeans = billHistoryDao.getDayBillHistoryList(date);
 		JSONArray list1 = new JSONArray();
 		JSONArray list2 = new JSONArray();
 		DecimalFormat df = new DecimalFormat(".00");
 		for (int i = 8; i < 24; i++) {
 			double billPrice = 0;
 			int billCustNum = 0;
-			for (BdyBill bill : billBeans) {
+			for (BdyBillHistory bill : billBeans) {
 				java.util.Date billEndDate = bill.getEndDate();
 				java.util.Calendar calendar = java.util.Calendar.getInstance();
 				calendar.setTime(billEndDate);
@@ -243,10 +230,9 @@ public class ReportService {
 				list2.add(Double.parseDouble(df.format(billPrice / billCustNum)));
 			}
 		}
-
 		obj.put("sumCustNumByhour", list1);
 		obj.put("avgPriceDividedByCustNumByhour", list2);
-		// System.out.println(obj);
+		System.out.println(obj);
 		return obj;
 	}
 
@@ -298,7 +284,7 @@ public class ReportService {
 			} else {
 				for (DayFoodAmountReport foodAmount : foodAmounts) {
 					foodAmountList.add(foodAmount.getAmount());
-					foodNameList.add(foodAmount.getName());
+					foodNameList.add(foodAmount.getFoodName());
 				}
 			}
 			JSONObject foodkindObj = new JSONObject();
@@ -353,29 +339,27 @@ public class ReportService {
 		JSONObject obj = new JSONObject();
 		JSONArray foodName = new JSONArray();
 		JSONArray foodPrice = new JSONArray();
-		JSONArray fooeSet = new JSONArray();
+		JSONArray foodSet = new JSONArray();
 		JSONArray foodAddMoney = new JSONArray();
-		Set<BdyBilldetail> bills = new HashSet<BdyBilldetail>();
-		bills = billDao.getBill(billId).getBdyBilldetails();
-		for (BdyBilldetail billdetail : bills) {
-			Set<BdyOrderlist> orderlists = new HashSet<BdyOrderlist>();
-			orderlists = billdetail.getBdyOrder().getBdyOrderlists();
-			for (BdyOrderlist orderlist : orderlists) {
-				foodName.add(orderlist.getBdyFood().getName());
-				foodPrice.add(orderlist.getBdyFood().getPrice());
-				if (orderlist.getBdySet() != null) {
-					fooeSet.add(orderlist.getBdySet().getName());
-				} else {
-					fooeSet.add("單點");
-				}
-				foodAddMoney.add(orderlist.getAddmoney());
+
+		List<BdyOrderlistReport> orderlistReports = new ArrayList<BdyOrderlistReport>();
+		orderlistReports = orderlistReportDao
+				.getOrderlistReportByBillId(billId);
+		for (BdyOrderlistReport orderlistReport : orderlistReports) {
+			foodName.add(orderlistReport.getFoodName());
+			foodPrice.add(orderlistReport.getFoodPrice());
+			if (orderlistReport.getSetName() != null) {
+				foodSet.add(orderlistReport.getSetName());
+			} else {
+				foodSet.add("單點");
 			}
+			foodAddMoney.add(orderlistReport.getAddmoney());
 		}
 		obj.put("foodName", foodName);
 		obj.put("foodPrice", foodPrice);
-		obj.put("fooeSet", fooeSet);
+		obj.put("fooeSet", foodSet);
 		obj.put("foodAddMoney", foodAddMoney);
-		System.out.println(obj);
+		// System.out.println(obj+"---------------");
 		return obj;
 	}
 }
