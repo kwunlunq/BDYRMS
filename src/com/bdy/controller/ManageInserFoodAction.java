@@ -1,5 +1,6 @@
 package com.bdy.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,12 +94,12 @@ public class ManageInserFoodAction extends ActionSupport implements ServletReque
 	
 	@Override
 	public String execute() throws Exception {
-		int insertState = foodinsertservice.insertFood(foodname, foodPrice, foodQTY, discription, foodKind,foodMK);
+		List<BdyFood> foods = foodinsertservice.insertFood(foodname, foodPrice, foodQTY, discription, foodKind,foodMK);
 		List<BdyDiscount> discount = foodinsertservice.getAllDiscount();
-		List<BdyFood> foods = foodinsertservice.getAllFood();
+		//List<BdyFood> foods = foodinsertservice.getAllFood();
 		List<BdySetdetail> detail = foodinsertservice.getAllDetail();
 		List<BdyFoodkind> foodkind = foodinsertservice.getAllFoodKind();
-		request.setAttribute("insertState", insertState);
+		//request.setAttribute("insertState", insertState);
 		
 		if(foods!=null){
 			request.setAttribute("foodcount", foods.size());

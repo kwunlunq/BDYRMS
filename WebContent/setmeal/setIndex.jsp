@@ -73,7 +73,7 @@ height:100%;
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	<div id="top" style="height: 250px;">
+	<div id="top" style="height: 300px;">
 	<form action="<c:url value='/setmeal/setInsert'/>" method="post">
 	<div class="setCol">
 	<h3>套餐名稱</h3>

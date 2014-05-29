@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -184,8 +186,11 @@ public class ManageService {
 	public List<BdyDiscount> getAllDiscount(){
 		return discountDao.getAllDiscount();
 	}
-	public int insertFood(String name,double price,int qty,String desc,int fkid,int foodMK){
+	public List<BdyFood> insertFood(String name,double price,int qty,String desc,int fkid,int foodMK){
 		BdyFood food = new BdyFood();
+		List<BdyFood> listFood= foodDao.getAllFood();
+		
+		
 		food.setName(name);
 		food.setPrice(price);
 		food.setQty(qty);
@@ -194,10 +199,13 @@ public class ManageService {
 		food.setBdyFoodkind(foodkind);	
 		BdyMainkind ma = mainkindDao.getMainkind(foodMK);
 		food.setBdyMainkind(ma);
-		foodDao.update(food);
+		foodDao.insert(food);
+		Deque<BdyFood> foods = new LinkedList<BdyFood>(listFood);
+		foods.addFirst(food);
+		List<BdyFood> tempfoods = new ArrayList<BdyFood>(foods);
 		
-		int foodnum = foodDao.insert(food);
-		return foodnum;
+		 
+		return tempfoods;
 	}
 	public List<BdyFood> updateFood(int fdid,String name,double price,int qty,String desc,int fkid,int fmk){
 		BdyFood food = new BdyFood();
@@ -213,10 +221,22 @@ public class ManageService {
 		food.setBdyMainkind(ma);
 		}
 		foodDao.update(food);
+		List<BdyFood> bean = foodDao.getAllFood();
 		
-		List<BdyFood> bean = null;
-		bean = foodDao.getAllFood();
-		return bean;
+		LinkedList<BdyFood> listfood =new LinkedList<BdyFood>(bean);
+		System.out.println("First size="+listfood.size());
+		Iterator<BdyFood> it =  listfood.iterator();
+		while(it.hasNext()){
+			if(it.next().getFdId()==foodDao.getFood(fdid).getFdId()){
+				it.remove();
+			}
+		}
+		
+		System.out.println("Final size="+listfood.size());
+		listfood.addFirst(food);
+		List<BdyFood> list = new ArrayList<>(listfood);
+		
+		return list;
 	}
 	public int deleteFood(int id){
 		int foodState = foodDao.delete(id);

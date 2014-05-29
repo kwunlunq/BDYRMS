@@ -36,7 +36,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <script src="<c:url value="/js/emp.js"/>"></script>
-
+<script src="<c:url value="/js/jquery.dataTables.min.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -61,7 +61,7 @@ var contextPath='<%=request.getContextPath()%>';
 	 <s:property value="%{fieldErrors['emp.empId']}"/>
 	<s:iterator var="emp" value="emps" status="headcheck" >	
 	<s:if test="%{#headcheck.first}">
-	<table border="1">		
+	<table id="table1" >		
 		<thead>
 			<tr>
 				<td>員工ID</td>

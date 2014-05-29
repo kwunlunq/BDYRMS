@@ -168,7 +168,7 @@ if(judgeSetDetail!=""){
 		
 		<form action="<c:url value='/secure/Delete'/>" method="post">
 		<c:if test="${food.fdId==param.fdid }">
-		<tr style="border-color:firebrick " id="TRfood${food.fdId}">
+		<tr style="background-color: firebrick " id="TRfood${food.fdId}">
 		</c:if>
 		<c:if test="${food.fdId!=param.fdid }">
 		<tr id="TRfood${food.fdId}">

@@ -50,7 +50,7 @@ var contextPath='<%=request.getContextPath()%>';
 	float:left;
 	width:32%;
 	height:100%;
-	border-left:1px solid blue;
+/* 	border-left:1px solid blue; */
 }
 </style>
 </head>
@@ -75,7 +75,7 @@ var contextPath='<%=request.getContextPath()%>';
 	
 	<div class="setCol">
 	<a href="<c:url value="/secure/insertNewDiscount.jsp" />">新增折扣</a>
-	<table id="table1" border="1" align="center">
+	<table id="table1"  align="center">
 	<thead>
 	<tr>
 	<th>折扣名稱</th>
@@ -97,7 +97,7 @@ var contextPath='<%=request.getContextPath()%>';
 		
 	<div class="setCol">
 	<a href="<c:url value="/secure/insertNewMA.jsp" />">新增製作區域</a>
-	<table id="table2" border="1" align="center">
+	<table id="table2"  align="center">
 	<thead>
 	<tr>
 	<th>製作區域名稱</th>
@@ -117,7 +117,7 @@ var contextPath='<%=request.getContextPath()%>';
 	
 	<div class="setCol">
 	<a href="<c:url value="/secure/insertNewMK.jsp" />">新增主餐種類</a>
-	<table id="table3" border="1" align="center">
+	<table id="table3"  align="center">
 	<thead>
 	<tr>
 	<th>主餐種類</th>

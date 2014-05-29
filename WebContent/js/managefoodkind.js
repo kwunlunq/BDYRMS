@@ -8,7 +8,7 @@ $(function(){
 	 var objfk;
 	 if(booleanFoodKind){
 		 objfk = {		
-					
+				 modal: true,
 					autoOpen: true,
 					width: 400,
 					buttons: [
@@ -29,6 +29,7 @@ $(function(){
 				}
 	 }else{	 
 		 objfk = {
+				 modal: true,
 				autoOpen: false,
 				width: 400,
 				buttons: [

@@ -294,6 +294,8 @@ function fdeleteFood(fdid){
 	var b=window.confirm("你確定刪除");
 	if(b){
 		window.location.href=contextPath+"/secure/deletefood?fid="+fdid;
+		
+		showState("刪除成功");
 	}
 }
 function foodoption(id,fkId){
@@ -358,6 +360,7 @@ function fconfirm(fdid,mkId){
 
 function updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,order,fmk){
 	window.location.href=contextPath+"/secure/updatefood?fdid="+fdid+"&fname="+fname+"&fprice="+fprice+"&fqty="+fqty+"&fdesc="+fdesc+"&ffkind="+ffkind+"&sort="+order+"&fmk="+fmk;
+	//showState("修改成功");
 	
 }
 

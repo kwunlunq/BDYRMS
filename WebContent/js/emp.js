@@ -3,6 +3,17 @@ $(function(){
 		function(){
 			$('#mySelect').hide();});
 		$("a, button" ).button();
+		
+		
+		$('#table1').DataTable({
+		    "jQueryUI": true,
+		    "scrollY": ($('#aside').height()-275),
+		    "scrollCollapse": true,
+		    "paging": false,
+		    "aoColumnDefs":[{
+		    	bSortable:false
+		    }],
+		});
 });
 var empId;
 var b = false;

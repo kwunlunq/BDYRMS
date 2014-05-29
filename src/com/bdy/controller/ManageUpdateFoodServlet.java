@@ -57,8 +57,8 @@ public class ManageUpdateFoodServlet extends HttpServlet {
 		Integer fdid = Integer.parseInt(ffdid);
 		Integer mk = Integer.parseInt(fmk);
 		
-		foodservice.updateFood(fdid,fname, price, qty, fdesc, fkid,mk);
-		List<BdyFood> foods = foodservice.getAllFood();
+		List<BdyFood> foods = foodservice.updateFood(fdid,fname, price, qty, fdesc, fkid,mk);
+		
 		request.setAttribute("resultFood", foods);
 		request.setAttribute("resultDetail", detail);
 		request.setAttribute("resultdiscount", discount);
