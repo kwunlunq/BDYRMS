@@ -135,7 +135,7 @@ if(judgeSetDetail!=""){
   <ul>
     
  	<li><a href="#tabs-1"  id="modifyfood">修改食物</a></li>
-    <li><a href="#tabs-2"  id="modifypackage">修改套餐組合</a></li>
+    <li><a href="#tabs-2"  id="modifypackage">套餐組合</a></li>
     <li><a href="#tabs-3"  id="modifycount">修改食物類別</a></li>
 
   </ul>
@@ -202,7 +202,7 @@ if(judgeSetDetail!=""){
 		
 		 <div id="tabs-2">
 <!-- 		 <a href="javascript:void(0)" id="setDialog-link" class="ui-state-default ui-corner-all" ">新增一筆套餐品項</a> -->
-		 <a href="<c:url value='/setmeal/setIndex.jsp'/>" class="ui-state-default ui-corner-all" ">新增一筆套餐</a>
+<%-- 		 <a href="<c:url value='/setmeal/setIndex.jsp'/>" class="ui-state-default ui-corner-all" ">新增一筆套餐</a> --%>
 		 <div id="setInsertDialog" title="新增套餐品項" style="display:none">
 		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>

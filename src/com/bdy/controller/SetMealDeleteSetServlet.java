@@ -18,8 +18,8 @@ import com.bdy.model.BdyFoodkind;
 import com.bdy.model.BdySetdetail;
 import com.bdy.service.ManageService;
 
-@WebServlet("/secure/deleteset")
-public class ManageDeleteSetServlet extends HttpServlet {
+@WebServlet("/setmeal/deleteset")
+public class SetMealDeleteSetServlet extends HttpServlet {
 	
 	
 	ManageService deleteService;
@@ -46,13 +46,10 @@ public class ManageDeleteSetServlet extends HttpServlet {
 		List<BdyFood> foods = deleteService.getAllFood();
 		List<BdyFoodkind> foodkind = deleteService.getAllFoodKind();
 
-		String detailId = request.getParameter("detailid");
+		String detailId = request.getParameter("setId");
 		Integer id = Integer.parseInt(detailId);
-		System.out.println("1");
 		deleteService.deleteSetDetail(id);
-		System.out.println("2");
 		deleteService.deleteSet(id);
-		System.out.println("3");
 		List<BdySetdetail> detail = deleteService.getAllDetail();
 		request.setAttribute("pags", "1");
 		request.setAttribute("resultFood", foods);

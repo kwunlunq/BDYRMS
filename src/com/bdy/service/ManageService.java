@@ -640,7 +640,7 @@ public BdyTable getOrderTableName(int tableId){
 
 //setmealupdate
 
-public void updateSet(int setId,String setName,Double setPrice){
+public void updateSetMeal(int setId,String setName,Double setPrice){
 	BdySet set = new BdySet();
 	set.setSetId(setId);
 	set.setName(setName);
