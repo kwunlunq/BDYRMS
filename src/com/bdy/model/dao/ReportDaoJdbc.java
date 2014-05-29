@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.bdy.model.BdyOrderlistReport;
 import com.bdy.model.DayFoodAmountReport;
 import com.bdy.model.MonthReport;
 
@@ -74,34 +75,93 @@ public class ReportDaoJdbc {
 	}
 
 	/*
-	 * 依照食物種類編號取得當天食物數量的DAO By Frank
+	 * 依照食物種類取得當天食物(非主餐)數量的 DAO By Frank
 	 */
 
-	private static final String SELECT_BY_DAYOFFOOD = "select count(BDY_ORDERLIST.FD_ID) as amount,BDY_FOOD.NAME from BDY_ORDER inner join BDY_ORDERLIST on BDY_ORDERLIST.OD_ID=BDY_ORDER.OD_ID inner join BDY_FOOD on BDY_ORDERLIST.FD_ID=BDY_FOOD.FD_ID where (BDY_ORDER.ORD_TIME between ? and ?) And BDY_FOOD.FK_ID= ? group by BDY_FOOD.NAME";
-
-	public List<DayFoodAmountReport> getDayFoodAmount(java.util.Date orderDate,
-			int foodKindID) {
+	private static final String SELECT_BY_DAYOFFOOD = "select COUNT(FOOD_NAME) as AMOUNT, FOOD_NAME,FOODKIND_NAME from BDY_ORDERLIST_REPORT o inner join BDY_BILL_HISTORY b on o.BILL_ID=b.BILL_ID where MAINKIND_NAME is null and FOODKIND_NAME = ? and  YEAR(END_DATE) = ? and MONTH(END_DATE) = ? and DAY(END_DATE) = ? group by FOOD_NAME,FOODKIND_NAME order by FOODKIND_NAME";
+		public List<DayFoodAmountReport> getDayFoodAmount(String foodkindName,java.util.Date date) {
 
 		List<DayFoodAmountReport> result = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH)+1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
 		try {
 			conn = dataSource.getConnection();
-			java.util.Calendar calendar = java.util.Calendar.getInstance();
-			calendar.setTime(orderDate);
-			calendar.set(Calendar.DAY_OF_MONTH,
-					calendar.get(Calendar.DAY_OF_MONTH) + 1);
 			stmt = conn.prepareStatement(SELECT_BY_DAYOFFOOD);
-			stmt.setDate(1, new java.sql.Date(orderDate.getTime()));
-			stmt.setDate(2, new java.sql.Date(calendar.getTime().getTime()));
-			stmt.setInt(3, foodKindID);
+			stmt.setString(1, foodkindName);
+			stmt.setInt(2, year);
+			stmt.setInt(3, month);
+			stmt.setInt(4, day);
 			rset = stmt.executeQuery();
 			result = new ArrayList<DayFoodAmountReport>();
 			while (rset.next()) {
 				DayFoodAmountReport temp = new DayFoodAmountReport();
 				temp.setAmount(rset.getInt("AMOUNT"));
-				temp.setName(rset.getString("NAME"));
+				temp.setFoodName(rset.getString("FOOD_NAME"));
+				temp.setFoodKindName(rset.getString("FOODKIND_NAME"));
+				result.add(temp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rset != null) {
+				try {
+					rset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * 依照日期取得食物種類名稱(非主餐)的 DAO By Frank
+	 */
+	
+	private static final String SELECT_BY_DAYFOODKINDNAME = "select FOODKIND_NAME from BDY_ORDERLIST_REPORT o inner join BDY_BILL_HISTORY b on o.BILL_ID=b.BILL_ID where MAINKIND_NAME is null and YEAR(END_DATE) = ? and MONTH(END_DATE) = ? and DAY(END_DATE) = ? group by FOODKIND_NAME,MAINKIND_NAME order by  FOODKIND_NAME";
+
+	public List<BdyOrderlistReport> getDayFoodKindName(java.util.Date date) {
+		List<BdyOrderlistReport> result = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rset = null;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH)+1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.prepareStatement(SELECT_BY_DAYFOODKINDNAME);
+			stmt.setInt(1, year);
+			stmt.setInt(2, month);
+			stmt.setInt(3, day);
+			rset = stmt.executeQuery();
+			result = new ArrayList<BdyOrderlistReport>();
+			while (rset.next()) {
+				BdyOrderlistReport temp = new BdyOrderlistReport();
+				temp.setFoodkindName(rset.getString("FOODKIND_NAME"));
 				result.add(temp);
 			}
 		} catch (SQLException e) {
@@ -156,7 +216,7 @@ public class ReportDaoJdbc {
 			while (rset.next()) {
 				DayFoodAmountReport temp = new DayFoodAmountReport();
 				temp.setAmount(rset.getInt("AMOUNT"));
-				temp.setName(rset.getString("NAME"));
+				temp.setFoodName(rset.getString("FOODNAME"));
 				result.add(temp);
 			}
 		} catch (SQLException e) {

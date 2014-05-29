@@ -39,7 +39,7 @@ $(function() {
 			success : function(orderdetails) {
 				var foodName = orderdetails.foodName;
 				var foodPrice = orderdetails.foodPrice;
-				var fooeSet = orderdetails.fooeSet;
+				var foodSet = orderdetails.foodSet;
 				var foodAddMoney = orderdetails.foodAddMoney;
 				$('#billOrderDialog').empty();
 				var table = $("<table></table>");
@@ -66,7 +66,7 @@ $(function() {
 					$(td).append(foodPrice[i]);
 					$(tr).append(td);
 					var td = $("<td></td>");
-					$(td).append(fooeSet[i]);
+					$(td).append(foodSet[i]);
 					$(tr).append(td);
 					var td = $("<td></td>");
 					$(td).append(foodAddMoney[i]);
@@ -254,12 +254,14 @@ function GetReportData() {
 			success : function(result) {
 				numData = result.sumCustNumByhour;
 				priceData = result.avgPriceDividedByCustNumByhour;
-				foodkindName = result.foodkindName;
+				foodkindName = result.foodkindNames;
 				for ( var i = 0; i < ids.length; i++) {
-					foodAmountDate[ids[i]] = result[ids[i]][0].foodAmount;
-					foodNameDate[ids[i]] = result[ids[i]][0].foodName;
+					foodNameDate = result.foodkind[0].foodkindName[i].foodName;
+					foodAmountDate = result.foodkind[0].foodkindName[i].foodAmount;
+					console.log(foodNameDate);
+					console.log(foodAmountDate);
 					mealsCount[ids[i]].xAxis[0]
-							.setCategories(foodNameDate[ids[i]]);
+							.setCategories(foodNameDate);
 					mealsCount[ids[i]].setTitle({
 						text : foodkindName[i] + "類"
 					});
@@ -268,7 +270,7 @@ function GetReportData() {
 					});
 					mealsCount[ids[i]].addSeries({
 						name : '數量',
-						data : foodAmountDate[ids[i]],
+						data : foodAmountDate,
 					});
 				}
 				dayOperateChart.setTitle(null, {

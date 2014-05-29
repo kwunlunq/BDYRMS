@@ -162,12 +162,12 @@ table,th,td,tr {
 									<tbody>
 										<c:forEach var="bills" items="${bills}">
 											<tr>
-												<td >${bills.billId}</td>
+												<td>${bills.billId}</td>
 												<td>${bills.custNum}</td>
 												<td><fmt:formatNumber value="${bills.price}" maxFractionDigits="0"/></td>
-												<td>${bills.bdyDiscount.name}</td>
+												<td>${bills.disName}</td>
 												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
-												<td>${bills.bdyEmp.name}</td>
+												<td>${bills.billEmpName}</td>
 												<td>${bills.endDate}</td>
 												<td id="showdetail" billId="${bills.billId}" style="cursor: pointer">顯示明細</td>
 											</tr>
@@ -187,14 +187,14 @@ table,th,td,tr {
 							<c:if test="${not empty bills}">
 								<div id="dayMealsCount">
 									<ul>
-										<c:forEach var="foodkinds" items="${foodkinds}">
-											<li><a href="#dayMealsCount-${foodkinds.fkId}" style="width: 10em">${foodkinds.name}類</a></li>
+										<c:forEach var="foodkindNames" items="${foodkindNames}" varStatus="theCount">
+											<li><a href="#dayMealsCount-${theCount.index}" style="width: 10em">${foodkindNames.foodkindName}類</a></li>
 										</c:forEach>
 									</ul>
-									<c:forEach var="foodkinds" items="${foodkinds}" varStatus="theCount">
-									<script type="text/javascript">ids['${theCount.index}'] = '${foodkinds.fkId}';</script>
-										<div id="dayMealsCount-${foodkinds.fkId}">
-											<div id="mealsCount-${foodkinds.fkId}" style="width: 700px;height: 460px; margin: 0px auto"></div>
+									<c:forEach var="foodkindNames" items="${foodkindNames}" varStatus="theCount">
+									<script type="text/javascript">ids['${theCount.index}'] = '${theCount.index}';</script>		
+										<div id="dayMealsCount-${theCount.index}">
+											<div id="mealsCount-${theCount.index}" style="width: 700px;height: 460px; margin: 0px auto"></div>
 										</div>
 									</c:forEach>
 								</div>

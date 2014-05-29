@@ -39,6 +39,12 @@ $(function() {
 	
 });
 
+function updateSession(){
+	alert("doUpdateSession");
+	var url = contextPath + "/order/getOrderDataServlet";
+	$.getJSON(url,{"data":"updateTable"});
+}
+
 function editFloorName(thisLi){
 	var tbName = $(thisLi).text();
 	var state = $(thisLi).attr("state");
@@ -199,8 +205,10 @@ function doSaveFloorList(){
 	    	getFloor();
 	    	if(state != 0){
 	    		showState("刪除失敗!請確認刪除的場地不能有桌子/擺設");
-	    	}else
+	    	}else{
+	    		updateSession();
 	    		showState("儲存完成");
+	    	}
 	    },
 	});
 }
@@ -283,6 +291,7 @@ function doAddFloorAjax(floorName){
 	    contentType: 'application/json; charset=utf-8',
 	    success: function() {
 	    	getFloor();
+	    	updateSession();
 	    	showState('新增完成');
 	    }
 	});
@@ -368,19 +377,19 @@ function addTB(tbId ,tbName , tbSize , tbState , tbLocation){
 	$(newTbDiv).append(newTbNameSpan);
 	$(newTbDiv).append(newTbSizeSpan);
 	newTbDiv.setAttribute("style",'position:absolute;top:'+topCount+'px;left:'+leftCount+'px');
-	if(tbState == 0 ){ //閒置 Org
+//	if(tbState == 0 ){ //閒置 Org
+//		newTbDiv.setAttribute("class","divTBOrg divTB");
+//	}else if(tbState == 1){ //點餐 InUse
+//		newTbDiv.setAttribute("class","divTBInUse divTB");
+//	}else if(tbState == 2){ //用餐 Eat
+//		newTbDiv.setAttribute("class","divTBEat divTB");
+//	}else if(tbState == 3){ //預約 Booking
+//		newTbDiv.setAttribute("class","divTBBooking divTB");
+//	}else if(tbState == 4){ //關閉 Closed
+//		newTbDiv.setAttribute("class","divTBClosed divTB");
+//	}else{                  // 例外 Org (閒置)
 		newTbDiv.setAttribute("class","divTBOrg divTB");
-	}else if(tbState == 1){ //點餐 InUse
-		newTbDiv.setAttribute("class","divTBInUse divTB");
-	}else if(tbState == 2){ //用餐 Eat
-		newTbDiv.setAttribute("class","divTBEat divTB");
-	}else if(tbState == 3){ //預約 Booking
-		newTbDiv.setAttribute("class","divTBBooking divTB");
-	}else if(tbState == 4){ //關閉 Closed
-		newTbDiv.setAttribute("class","divTBClosed divTB");
-	}else{                  // 例外 Org (閒置)
-		newTbDiv.setAttribute("class","divTBOrg divTB");
-	}
+//	}
 	newTbDiv.setAttribute("id",tbId);
 	newTbDiv.setAttribute("tbName",tbName);
 	newTbDiv.setAttribute("tbSize",tbSize);
@@ -441,6 +450,7 @@ function saveFloor(){
 			    contentType: 'application/json; charset=utf-8',
 			    success: function(msg) {
 					showState("儲存完成");
+					updateSession();
 					tablesDataForSaveInJson.delTBlist = [];
 					tablesDataForSaveInJson.tables = [];
 					tablesDataForSaveInJson.act = null;
