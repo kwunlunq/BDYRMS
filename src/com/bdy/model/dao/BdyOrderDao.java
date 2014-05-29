@@ -139,6 +139,7 @@ private SessionFactory sf = null;
 		Transaction tx = session.beginTransaction();
 		session.saveOrUpdate(order);
 		tx.commit();
+		session.close();
 	}
 	
 	public int getOrderNotCheckNum() {
@@ -148,6 +149,7 @@ private SessionFactory sf = null;
 									 .setProjection(Projections.count("isCheckout"))
 									 .uniqueResult())
 									 .intValue();
+		session.close();
 		return result;
 	}
 }

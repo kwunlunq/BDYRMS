@@ -99,8 +99,8 @@ public class GetOrderDataServlet extends HttpServlet{
 			JsonArray dis = service.makeJSONDiss(diss);
 			out.write(dis.toString());
 			break;
-		case "orderNotCheckNum" :
-			out.write(service.getOrderNotCheckNum().toString());
+		case "orderNotCheckAndCustNum" :
+			out.write(service.getOrderNotCheckAndCustNum().toString());
 			break;
 		case "emp" :
 			session.removeAttribute("emp");

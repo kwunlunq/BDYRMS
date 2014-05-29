@@ -13,6 +13,8 @@
 <div class="ui-state-highlight ui-corner-all">
 <!-- <p><span class="topItem">可容納人數:</span><span id="custCapacity" class="topValueint">99999</span></p> -->
 <p><span class="topItem">餐聽內人數:</span><span id="custInside" class="topValueint"></span></p>
+<p><span class="topItem">未結點餐單數:</span><span id="orderNum" class="topValueint"></span></p>
+<p><span class="topItem">未出餐餐點數:</span><span id="odlistNum" class="topValueint"></span></p>
 <!-- <p><span class="topItem">桌位總數:</span><span   id="tableCapacity" class="topValueint">25</span></p> -->
 <!-- <p><span class="topItem">已使用桌數:</span><span id="tableInUse" class="topValueint">20</span></p> -->
 <p><span class="topItem">未使用桌數:</span><span id="tableNotUse" class="topValueint"></span></p>

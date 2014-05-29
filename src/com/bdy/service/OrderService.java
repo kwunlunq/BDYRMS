@@ -230,8 +230,13 @@ public class OrderService {
 		return dicsounts;
 	}
 	
-	public Integer getOrderNotCheckNum() {
-		return orderDao.getOrderNotCheckNum();
+	public JsonObject getOrderNotCheckAndCustNum() {
+		JsonObject object = Json.createObjectBuilder()
+								.add("orderNum", orderDao.getOrderNotCheckNum())
+								.add("custNum", tableDao.getCustNum())
+								.add("odlistNum", orderlistDao.getUnservedOdlist())
+								.build();
+		return object;
 	}
 	/*
 	 * --------------------------------------------------------

@@ -29,8 +29,10 @@ function updateInfo() {
 	});
 
 	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"orderNotCheckNum"}, function(result) {
-		$('#custInside').text(result);
+	$.getJSON(url, {"data":"orderNotCheckAndCustNum"}, function(result) {
+		$('#custInside').text(result.custNum);
+		$('#orderNum').text(result.orderNum);
+		$('#odlistNum').text(result.odlistNum);
 	});
 	
 }
