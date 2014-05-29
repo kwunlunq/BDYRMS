@@ -58,6 +58,7 @@ public class TableService {
 								.add("tbLocation", tableBean.getLocation())
 								.add("tbFloor", tableBean.getBdyFloor().getFloorid())
 								.add("tbState", tableBean.getTableState())
+								.add("custNum", tableBean.getCustNum())
 							);
 		}
         System.out.println("TSE Return data : ");
@@ -142,5 +143,17 @@ public class TableService {
 			System.out.println("TSE No floor can update!");
 		}
 		System.out.println("TSE updateFloor(JsonArray floorList,JsonArray delFloorList) done");
+	}
+	
+	public void setTbToOpenState(int tbId,int tbState,int custNum){
+		System.out.println("TSS Strat to setTbToOpenState(int tbId,int tbState,int custNum)");
+		System.out.println("TSS [ tbId = "+tbId+" ]");
+		System.out.println("TSS [ tbState = "+tbState+" ]");
+		System.out.println("TSS [ custNum = "+custNum+" ]");
+		BdyTable tableBean = tableDao.getTableById(tbId);
+		tableBean.setCustNum(custNum);
+		tableBean.setTableState(tbState);
+		tableDao.updateTable(tableBean);
+		System.out.println("TSE setTbToOpenState(int tbId,int tbState,int custNum) done");
 	}
 }

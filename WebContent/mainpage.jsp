@@ -91,6 +91,7 @@ var contextPath='<%=request.getContextPath()%>';
 	</div><!-- 	id="writeCodeInThisDiv" -->
 	
 </div>
+
 </div>
 <div id="footer">
 <jsp:include page="/mainpage/footer.jsp" />

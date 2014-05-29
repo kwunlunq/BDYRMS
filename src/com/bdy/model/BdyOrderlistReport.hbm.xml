@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2014/5/28 ?U?? 02:06:33 by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <class name="com.bdy.model.BdyOrderlistReport" table="BDY_ORDERLIST_REPORT" catalog="BDY">
+    <class name="com.bdy.model.BdyOrderlistReport" table="BDY_ORDERLIST_REPORT">
         <id name="odlistId" type="int">
             <column name="ODLIST_ID" />
             <generator class="native" />

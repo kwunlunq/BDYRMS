@@ -103,18 +103,7 @@ var contextPath='<%=request.getContextPath()%>';
 		</c:forEach>	
   </div>	
 </div>
-結帳人員:<s:select
-			headerKey="-1"
-			headerValue="選擇結帳人員"
- 			value="emp"  
- 			name="emp"
- 			id="emp" 
-			listKey="%{empId}" 
-			listValue="%{name}" 
-			list="emps"
-			/><br>
-
-優惠方案:<s:select
+<label  id="disText">優惠方案:</label ><s:select
 			headerKey="-1"
 			headerValue="選擇折扣"
  			value="dis"  
@@ -126,29 +115,29 @@ var contextPath='<%=request.getContextPath()%>';
 			onchange="getDisCount(this.value)"
 			/><span id="disShow"></span><br>
 		
-應收:<input type="hidden" id="price" value="${checkout.price}"><span id="showprice">${checkout.price}</span><br>	
-<input type="button" class="MainBtnColor" value="結帳" id="checkout" onclick="checkout()">
+應收:<input type="text" id="price" value="${checkout.price}"><span id="showprice">${checkout.price}</span><br>	
+<input type="button" class="MainBtnColor" value="結帳" id="checkout">
 <input type="button" class="MainBtnColor" value="+" onclick="showDiscription()">
-<input type="text" name="finalPrice" value=""><br>
-<textarea id="discription" name="discription">
-
-</textarea>
+<label  name="realpriceText">扣除金額</label ><input type="text" name="realprice" value="" onblur="calculatePrice()">
+<label  name="discriptionText">備註</label >
+<select id="discription" name="discriptionSelect">
+<option value="1">請選擇</option>
+<option value="招待">招待</option>
+<option value="貴賓">貴賓</option>
+<option value="其他">其他</option>
+</select>
 	</form>
 </fieldset>		
 <script>
-$("input[name='finalPrice']").hide();
-$('#discription').hide();
-
-		function checkout(){
-		
-		var disId=document.getElementById("dis").options[document.getElementById("dis").selectedIndex].value;
-		
-		window.location=contextPath+"/checkout/checkBill.action?disId="+disId;
-		}
-		
-		function showDiscription(){
-			$("input[name='finalPrice']").show();
-			$('#discription').show();
+	$('#checkout').click(function (){
+		checkout();
+	});
+	
+	function checkout(){
+		alert("123");
+ 		return;
+ 		var disId=document.getElementById("dis").options[document.getElementById("dis").selectedIndex].value;
+ 		window.location=contextPath+"/checkout/checkBill.action?disId="+disId;
 		}
 </script>
 		

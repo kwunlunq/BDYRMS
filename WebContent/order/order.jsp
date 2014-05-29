@@ -26,7 +26,12 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
-var empId='${empData.empId}';
+var empId = '${empData.empId}';
+var fId = '${param.fId}';
+var fName = '${param.fName}';
+var tbId = '${param.tbId}';
+var tbName = '${param.tbName}';
+var custNum = '${param.cNum}';
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -37,10 +42,22 @@ var empId='${empData.empId}';
 <!-- 自己的  Script 與 CSS 外掛  (以下)-->
 <%-- <link rel="stylesheet" type="text/css" href="<c:url value="/css/ordermain.css"/>"> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/order.css"/>">
-<script src="<c:url value="/js/order.js"/>"></script>
+<script>
+$(function(){
+	setTableDetial();
+});
+function setTableDetial(){
+	$('#mainMenu span[id=floor]').text(decodeURI(decodeURI(fName)));
+	$('#mainMenu span[id=floor]').attr("floorId",fId);
+	$('#mainMenu span[id=tableNum]').text(decodeURI(decodeURI(tbName)));
+	$('#mainMenu span[id=tableNum]').attr("tbId",tbId);
+	$('#mainMenu span[id=peopleCount]').text(custNum);
+}
+</script>
 <script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>
 <script type='text/javascript' src="/BDYRMS/dwr/util.js"></script>
 <script type='text/javascript' src='/BDYRMS/dwr/interface/Service.js'></script>
+<script src="<c:url value="/js/order.js"/>"></script>
 <!-- 自己的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -63,9 +80,9 @@ var empId='${empData.empId}';
 	<div id="writeCodeInThisDiv">
 <!-- START Write -->
 <div id="mainMenu">
-	<input id="setTableAndPeople" class="MainBtnColor" type="button" value='選擇桌號與人數'>
-	樓層:<span id="floor" style="margin-left:10px;margin-right:20px;">-</span>
-	桌號:<span id="tableNum" style="margin-left:10px;margin-right:20px;">-</span>
+	<input  id="setTableAndPeople" class="MainBtnColor" type="button" value='修改桌號與人數'>
+	樓層:<span id="floor" floorId="0" style="margin-left:10px;margin-right:20px;">-</span>
+	桌號:<span id="tableNum" tbId="0" style="margin-left:10px;margin-right:20px;">-</span>
 	人數:<span id="peopleCount" style="margin-left:10px;margin-right:20px;">-</span>
 	<input id="orderConfirm" class="MainBtnColor" style='float:right' type='button' value='完成點餐'>
 </div>

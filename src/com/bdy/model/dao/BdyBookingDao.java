@@ -92,7 +92,7 @@ public class BdyBookingDao {
 			tmpBooking.setBkId(booking.getBkId());
 			tmpBooking.setBkName(booking.getBkName());
 			tmpBooking.setBkPhone(booking.getBkPhone());
-			tmpBooking.setBkEmail(booking.getBkEmail());
+			tmpBooking.setTbId(booking.getTbId());
 			tmpBooking.setBkOrderdate(booking.getBkOrderdate());
 			tmpBooking.setBkEatdate(booking.getBkEatdate());
 			tmpBooking.setBkContent(booking.getBkContent());

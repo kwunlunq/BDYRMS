@@ -19,6 +19,7 @@ public class CheckOutBillAction extends ActionSupport implements Preparable,Sess
 
 	
 		private int disId;
+		
 		ManageService service;
 		Map<String, Object> session;
 		

@@ -2,12 +2,14 @@ package com.bdy.model;
 
 public class DayFoodAmountReport {
 	private int amount;
-	private String name;
+	private String foodName;
+	private String foodKindName;
 	public DayFoodAmountReport() {
 	}
-	public DayFoodAmountReport(int amount,String name) {
+	public DayFoodAmountReport(int amount,String foodName,String foodKindName) {
 		this.amount = amount;
-		this.name = name;
+		this.foodName = foodName;
+		this.foodKindName=foodKindName;
 	}
 	public int getAmount() {
 		return amount;
@@ -15,10 +17,16 @@ public class DayFoodAmountReport {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public String getName() {
-		return name;
+	public String getFoodName() {
+		return foodName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFoodName(String foodName) {
+		this.foodName = foodName;
+	}
+	public String getFoodKindName() {
+		return foodKindName;
+	}
+	public void setFoodKindName(String foodKindName) {
+		this.foodKindName = foodKindName;
 	}
 }

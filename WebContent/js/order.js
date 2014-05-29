@@ -12,7 +12,7 @@ var currentStatus = {"FId":null,
 					 "TableName":null, 
 					 "CustNum":null, 
 					 "EmpId":null, 
-					 "Foods":[]
+					 "Foods":[], 
 					 };
 $(function() {
 	dwr.engine.setActiveReverseAjax(true);
@@ -27,6 +27,7 @@ $(function() {
 	getTables();
 	getEmp(empId);
 	listenerInitial(); // 掛載listener
+	readTableInfo();
 	console.log(currentStatus);
 	// 解決按鈕被腰斬問題
 //	$( "#orderarea" ).tabs( "refresh" );
@@ -34,6 +35,15 @@ $(function() {
 	$.ajaxSetup({ cache: false });
 });
 
+function readTableInfo() {
+	currentStatus.TableId = $("#tableNum").attr("tbid");
+	currentStatus.TableName = $("#tableNum").text();
+
+	currentStatus.FId = $("#floor").attr("floorid");
+	currentStatus.FName = $("#floor").text();
+	
+	currentStatus.CustNum = $("#peopleCount").text();
+}
 function getCookie(cname) {
 var name = cname + "=";
 var ca = document.cookie.split(';');
@@ -110,7 +120,7 @@ function listenerInitial() {
 						});
 						return false;
 					});
-				showState("還有餐點未選");
+				showState("套餐還有餐點未選");
 				$("#orderlist").tabs( "option", "active", IdToActive(divid));
 			// 判斷是否有點餐
 			} else if (checkEmpty()) {
@@ -210,6 +220,23 @@ function listenerInitial() {
 }
 
 function sendOrder() {
+	var tableUrl = contextPath + "/table/tableset";
+	var updateTable ={
+			"act" : "tbOpen",
+			"tbId" : currentStatus.TableId,
+			"tbState" : 2,
+			"custNum" : currentStatus.CustNum,
+			"floor" : "-1"
+	};
+	$.ajax({
+	    url: tableUrl,
+	    type: 'POST',
+	    data: JSON.stringify(updateTable),
+//	    async: false,
+	    contentType: 'application/json; charset=utf-8'
+	});
+	
+	
 	$.ajax({
 	    url: contextPath+'/order/SendOrderServlet',
 	    type: 'POST',
@@ -224,9 +251,12 @@ function sendOrder() {
 	    }
 	});
 	showState("點餐單已送出");
+	
 
+
+	
 	setTimeout(function(){
-		window.location.reload();
+		window.location = contextPath+"/table/opentable.jsp?f="+currentStatus.FId;
 	}, 800);
 }
 
@@ -242,7 +272,6 @@ function getTables() {
 }
 
 function getTablesCallback(result) {
-
 	for (var i = 0; i < result.length; i++) {
 		var fId = result[i].fId;
 		var fName = result[i].fName;
@@ -251,30 +280,33 @@ function getTablesCallback(result) {
 		$(option).attr("index", i);
 		$(option).append(document.createTextNode(fName));
 		$("#setFloor").append(option);
-				
+		
 		// 將桌子資訊做成option存入tableoptions[[]]陣列中
 		// 以便之後選擇樓層時取出
 		var tbs = result[i].tables;
+		tableoptions[i] = [];
 		for (var j = 0; j < tbs.length; j++) {
 			var tbName = tbs[j].tbName;
+			var tbId = tbs[j].tbId;
 			var option = document.createElement("option");
-			$(option).attr("value", tbs[j].tbId);
+			$(option).attr("value", tbId);
 			$(option).append(document.createTextNode(tbName));
-//			console.log(option);
+
 			tableoptions[i][j] = option;
-			$('#setTableNum').append(tableoptions[i][j]);
+			if (i == 0) {
+				$('#setTableNum').append(option);
+			}
 		};
 	}
 
 	$("#setFloor").change(function() {
-		var selected = $(this).find(":selected");
 		$('#setTableNum').empty();
 		var index = $(this).find(":selected").attr("index");
 		// 如果選擇的樓層有桌子
 		// 將桌子options掛到選擇桌子的選單中
-		if (tableoptions.length > index) {
+		if (index < tableoptions.length) {
 			for (var i = 0; i < tableoptions[index].length; i++) {
-				$('#setTableNum').append(tableoptions[index][i]);				
+				$('#setTableNum').append(tableoptions[index][i]);
 			};
 		};
 	});
