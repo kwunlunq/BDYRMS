@@ -77,7 +77,7 @@ height:100%;
 	<form action="<c:url value='/setmeal/setInsert'/>" method="post">
 	<div class="setCol">
 	<h3>套餐名稱</h3>
-	<input id="setName" type="text">
+	<input id="setName" name="setName" type="text">
 	</div>
 	<div class="setColMid">
 	<h3>選擇套餐種類</h3>
@@ -100,7 +100,7 @@ height:100%;
 	</div>
 	<div class="setCol">
 	<h3>套餐價錢:<input name="setPriceName" id="setPrice" type="text" size="3"></h3>
-	<input type="submit" value="確定" onclick="return checkPrice()">
+	<div id="changebtn"><input type="submit" value="確定" onclick="return checkPrice()"></div>
 	</div>
 	
 	</form>
