@@ -8,10 +8,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.bdy.model.BdyOrderlist;
+import com.bdy.model.BdyTable;
 
 public class BdyOrderlistDao {
 private SessionFactory sf = null;
@@ -130,5 +132,16 @@ private SessionFactory sf = null;
 		return 1;
 	}
 	
+	public int getUnservedOdlist() {
+		Session session = sf.openSession();
+		int result = ((Number)session.createCriteria(BdyOrderlist.class)
+									 .add(Restrictions.eq("olState", 0))
+				 					 .setProjection(Projections.count("odlistId"))
+				 					 .uniqueResult())
+				 					 .intValue();
+		System.out.println(result);
+		session.close();
+		return result;
+	}
 
 }

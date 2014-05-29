@@ -27,6 +27,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var activeFloor = '${param.f}';
 </script>
 <%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
 <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
@@ -38,6 +39,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/TableSet.css"/>">
 <script src="<c:url value="/js/opentable.js"/>"></script>
+<%-- <script src="<c:url value="/js/updateTable.js"/>"></script> --%>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -59,8 +61,8 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 		<div style="margin: 0px auto; width: 95%; height: 100%">
 			<div style="width:980px;position:relative;font-size:1.2em">
-				<span>場地：</span>
-				<span id="selectFloor" style="font-size:0.9em"></span>
+				<input class="MainBtnColor" id="chooseFloor" type="button" value="選擇場地"><span class="ui-state-highlight ui-corner-all" style="padding:5px;font-weight: bold;">目前場地：<span id="activeFloor"></span></span>
+				<div title="選擇場地" id="selectFloor" style="display:none"></div>
 				<div class="stateColorStyle" style="right:280px;color:black;font-size:0.9em">狀態：</div>
 				<div class="stateColorStyle" title='0-閒置中...' style="background-color:green;right:230px;">閒置</div>
 				<div class="stateColorStyle" title="1-等待點餐..." style="background-color:orange;right:170px;">點餐</div>
@@ -72,8 +74,24 @@ var contextPath='<%=request.getContextPath()%>';
 		</div>
 		<div id="tbClickDialog" title="詳細資訊" style="display:none">
 			<div>桌子名稱：<span id="tbNameLable">-</span></div>
-			<div>容納人數：<span id="tbSizeLable">-</span></div>
+			<div>容納客數：<span id="tbSizeLable">-</span></div>
 			<div>目前狀態：<span id="tbStateLable">-</span></div>
+			<div id="countP" style="display:none">
+				來客數　：<input id="peopleCount" size="4" type="text" value="0"><br>
+				<button type="button" id="numBtn" class="MainBtnColor">0</button>
+				<button type="button" id="numBtn" class="MainBtnColor">1</button>
+				<button type="button" id="numBtn" class="MainBtnColor">2</button>
+				<button type="button" id="numBtn" class="MainBtnColor">3</button>
+				<button type="button" id="numBtn" class="MainBtnColor">4</button>
+				<button type="button" id="numBtn" class="MainBtnColor">5</button>
+				<button type="button" id="numBtn" class="MainBtnColor">6</button>
+				<button type="button" id="numBtn" class="MainBtnColor">7</button>
+				<button type="button" id="numBtn" class="MainBtnColor">8</button>
+				<button type="button" id="numBtn" class="MainBtnColor">9</button>
+				<button type="button" id="numBtn" class="MainBtnColor">C</button>
+			</div>
+			<hr>
+			<div id="buttonBar" style='text-align:right;'></div>
 		</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>

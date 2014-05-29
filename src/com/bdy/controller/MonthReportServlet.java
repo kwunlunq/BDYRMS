@@ -81,15 +81,6 @@ public class MonthReportServlet extends HttpServlet {
 					request, response);
 			return;
 		} else {
-			List<BdyFoodkind> foodkindBeans = new ArrayList<BdyFoodkind>();
-			foodkindBeans=service.getAllFoodkind();
-			Collections.sort(foodkindBeans,new Comparator<BdyFoodkind>(){
-				@Override
-				public int compare(BdyFoodkind o1, BdyFoodkind o2) {
-					return new Integer(o1.getFkId()).compareTo(o2.getFkId());
-				}
-			});
-			request.setAttribute("foodkinds", foodkindBeans);
 			request.setAttribute("bills", beans);
 			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
 					request, response);

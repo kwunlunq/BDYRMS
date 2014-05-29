@@ -3,10 +3,10 @@ package com.bdy.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.TreeMap;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -21,6 +21,7 @@ import org.directwebremoting.ui.dwr.Util;
 
 import utils.Data;
 
+import com.bdy.model.BdyDiscount;
 import com.bdy.model.BdyEmp;
 import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyFood;
@@ -220,7 +221,23 @@ public class OrderService {
 		}
 		return floors;
 	}
+	public TreeMap<Integer, BdyDiscount> getAllDiscounts() {
+		TreeMap<Integer, BdyDiscount> dicsounts = new TreeMap<Integer, BdyDiscount>();
+		List<BdyDiscount> discountlist = discountDao.getAllDiscount();
+		for (BdyDiscount discount : discountlist) {
+			dicsounts.put(discount.getDisId(), discount);
+		}
+		return dicsounts;
+	}
 	
+	public JsonObject getOrderNotCheckAndCustNum() {
+		JsonObject object = Json.createObjectBuilder()
+								.add("orderNum", orderDao.getOrderNotCheckNum())
+								.add("custNum", tableDao.getCustNum())
+								.add("odlistNum", orderlistDao.getUnservedOdlist())
+								.build();
+		return object;
+	}
 	/*
 	 * --------------------------------------------------------
 	 * 接收servlet傳來的session中的資料，做成Json格式傳回去
@@ -250,6 +267,8 @@ public class OrderService {
 				tbary.add(Json.createObjectBuilder()
 							  .add("tbId", table.getTbId())
 							  .add("tbName", table.getName())
+							  .add("tbSize", table.getSize())
+							  .add("tbState", table.getTableState())
 							  .build());
 			}
 			aryBuilder.add(Json.createObjectBuilder()
@@ -395,7 +414,21 @@ public class OrderService {
 
 		return aryBuilder.build();
 	}
-	
+
+	public JsonArray makeJSONDiss(TreeMap<Integer, BdyDiscount> disMap) {
+		JsonArrayBuilder aryBuilder = Json.createArrayBuilder();
+		Iterator<Integer> disKeys = disMap.keySet().iterator();
+		while (disKeys.hasNext()) {
+			BdyDiscount dis = disMap.get(disKeys.next());
+			aryBuilder.add(Json.createObjectBuilder()
+							   .add("disId", dis.getDisId())
+							   .add("disName", dis.getName())
+							   .add("disPrice", dis.getDisPrice())
+							   .build());
+		};
+
+		return aryBuilder.build();
+	}
 	/*
 	 * --------------------------------------------------------
 	 * 製作點餐單

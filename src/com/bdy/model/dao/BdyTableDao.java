@@ -7,9 +7,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.bdy.model.BdyEmp;
+import com.bdy.model.BdyOrder;
 import com.bdy.model.BdyTable;
 
 public class BdyTableDao {
@@ -99,7 +101,13 @@ private SessionFactory sf = null;
 		session.close();
 	}
 	
-	public BdyTableDao(){
-		
+	public int getCustNum() {
+		Session session = sf.openSession();
+		int result = ((Number)session.createCriteria(BdyTable.class)
+				 					 .setProjection(Projections.sum("custNum"))
+				 					 .uniqueResult())
+				 					 .intValue();
+		session.close();
+		return result;
 	}
 }
