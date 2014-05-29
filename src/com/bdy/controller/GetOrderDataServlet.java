@@ -66,6 +66,9 @@ public class GetOrderDataServlet extends HttpServlet{
 			TreeMap<Integer, BdySetdetail> sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
 //			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
 			break;
+		case "updateTable" :
+			session.removeAttribute("tables");
+			session.removeAttribute("floors");
 		case "table" :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
