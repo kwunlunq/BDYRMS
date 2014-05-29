@@ -91,7 +91,7 @@ height:100%;
 		
 	</div>
 	
-	<div class="setCol">
+	<div id="divPrice" class="setCol">
 	<s:iterator var="fk" value="foodKind">
 		<div style="display: none;width:80%;hieght:150px;" id="span<s:property value="#fk.fkId" />">
 		<s:property value="#fk.name" />-限定價錢:<input name="price<s:property value="#fk.fkId"/>" onblur="getTotalPrice()" size="2" type="text" id="text<s:property value="#fk.fkId"/>" fakeID="textPrice" >
@@ -100,7 +100,7 @@ height:100%;
 	</div>
 	<div class="setCol">
 	<h3>套餐價錢:<input name="setPriceName" id="setPrice" type="text" size="3"></h3>
-	<div id="changebtn"><input type="submit" value="確定" onclick="return checkPrice()"></div>
+	<div id="changebtn"><input type="submit" name='buttonName' value="確定" onclick="return checkPrice()"></div>
 	</div>
 	
 	</form>
@@ -113,9 +113,9 @@ height:100%;
 		<c:forEach var="setdetails" items="${set.bdySetdetails }">
 		<c:if test="${setdetails.bdyFoodkind.fkId != '6'}">
 		<span id="detailname" detailfkid="${setdetails.bdyFoodkind.fkId }" detailid="${setdetails.sdId }">${setdetails.bdyFoodkind.name }</span>
-		<span id="settext${setdetails.bdyFoodkind.fkId }">${setdetails.price }</span>
+		<span id="settext${setdetails.sdId }">${setdetails.price }</span>
 		</c:if>
-		</c:forEach><input type="button" value="修改" onclick="updateSet(${set.setId})"><input type="button" value="刪除"><br>
+		</c:forEach><input type="button"  value="修改" onclick="updateSet(${set.setId})"><input type="button" value="刪除" onclick="deleteSet(${set.setId})"><br>
 		</div>
 		</c:forEach>
 		
