@@ -1,3 +1,7 @@
+#selectFloor input{
+	width:48%;
+}
+
 .divTB {
 	position:absolute;
 	width: 50px;

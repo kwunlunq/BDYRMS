@@ -59,8 +59,8 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 		<div style="margin: 0px auto; width: 95%; height: 100%">
 			<div style="width:980px;position:relative;font-size:1.2em">
-				<span>場地：</span>
-				<span id="selectFloor" ></span>
+				<span>目前場地：<span id="activeFloor"></span><input class="MainBtnColor" id="chooseFloor" type="button" value="選擇場地"></span>
+				<div title="選擇場地" id="selectFloor" style="display:none"></div>
 				<div class="stateColorStyle" style="right:280px;color:black;font-size:0.9em">狀態：</div>
 				<div class="stateColorStyle" title='0-閒置中...' style="background-color:green;right:230px;">閒置</div>
 				<div class="stateColorStyle" title="1-等待點餐..." style="background-color:orange;right:170px;">點餐</div>

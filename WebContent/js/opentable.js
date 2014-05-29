@@ -21,8 +21,10 @@ function getFloor(){
 	    success: function(floorList) {
 			for(var i=0 ;i<floorList.length;i++){
 				var floorData = floorList[i];
-				$('#selectFloor').append("<input style='font-size:1.0em;width:40px;margin:2px' class='MainBtnColor' type='button' floorId='"+floorData.floorId+"' value='"+floorData.floorName+"'>");
+				$('#selectFloor').append("<input style='font-size:1.0em;margin:2px' class='MainBtnColor' type='button' floorId='"+floorData.floorId+"' value='"+floorData.floorName+"'>");
 			}
+			$('#selectFloor').append("<hr>");
+			$('#selectFloor').append("<input style='font-size:1.0em;width:100%;margin:2px' class='MainBtnColor' type='button' floorId='-1' value='離開'>");
 	    }
 	});
 }
@@ -251,14 +253,42 @@ function inputNum(thisNum){
 	}
 }
 
+function chooseFloor(){
+	$('#selectFloor').dialog({
+		width:420,
+		resizable:false,
+		modal:true,
+		position: { 
+			my: "left top", 
+			at: "right top", 
+			of: $('#chooseFloor')
+		},
+		show: {
+	        effect: "blind",
+	        duration: 800
+	      },
+	    hide: {
+	        effect: "blind",
+	        duration: 500
+	    }
+	});
+}
+
 $(function(){
 	getFloor();
+	$('#chooseFloor').click(function(){
+		chooseFloor();
+	});
+	
 	$('#selectFloor').on('click','input',function(){
-		$('#selectFloor').find('input').each(function(){
-			$(this).attr("class","MainBtnColor");
-		});
-		$(this).attr("class","ActiveBtnColor");
-		doLoadTable($(this));
+		if($(this).attr("floorId") != -1){
+			$('#selectFloor').find('input').each(function(){
+				$(this).attr("class","MainBtnColor");
+			});
+			$(this).attr("class","ActiveBtnColor");
+			doLoadTable($(this));
+		}
+		$('#selectFloor').dialog('close');
 	});
 	$('body').on('click','#numBtn',function(){
 		var textValue = $('#peopleCount').val();

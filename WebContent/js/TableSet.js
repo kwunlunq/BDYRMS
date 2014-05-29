@@ -40,7 +40,6 @@ $(function() {
 });
 
 function updateSession(){
-	alert("doUpdateSession");
 	var url = contextPath + "/order/getOrderDataServlet";
 	$.getJSON(url,{"data":"updateTable"});
 }
@@ -48,10 +47,19 @@ function updateSession(){
 function editFloorName(thisLi){
 	var tbName = $(thisLi).text();
 	var state = $(thisLi).attr("state");
+	var canEdit = true;
+	$('#editFloorDialog').find('input[type=text]').each(function (){
+		canEdit = false;
+	});
+
 	if(state == 'show'){
-		$(thisLi).attr("state","edit");
-		$(thisLi).html("<input id='editFloorName' style='text-align:center;height:25px;width:150px' type='text' value='"+tbName+"'>");
-		$('#editFloorName').focus();
+		if(canEdit){
+			$(thisLi).attr("state","edit");
+			$(thisLi).html("<input id='editFloorName' style='text-align:center;height:25px;width:150px' type='text' value='"+tbName+"'>");
+			$('#editFloorName').focus();
+		}else{
+			showState("有其他修改正在進行,須先完成");
+		}
 	}else if(state == 'edit'){
 		$(thisLi).attr("state","show");
 		$(thisLi).text($('#editFloorName').val());
