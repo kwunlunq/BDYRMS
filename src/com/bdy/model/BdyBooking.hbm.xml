@@ -14,8 +14,8 @@
         <property name="bkPhone" type="string">
             <column name="BK_PHONE" length="10" />
         </property>
-        <property name="bkEmail" type="string">
-            <column name="BK_EMAIL" length="50" />
+        <property name="tbId" type="int">
+            <column name="TB_ID" />
         </property>
         <property name="bkOrderdate" type="timestamp">
             <column name="BK_ORDERDATE" length="23" />
