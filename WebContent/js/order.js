@@ -12,7 +12,7 @@ var currentStatus = {"FId":null,
 					 "TableName":null, 
 					 "CustNum":null, 
 					 "EmpId":null, 
-					 "Foods":[]
+					 "Foods":[], 
 					 };
 $(function() {
 	dwr.engine.setActiveReverseAjax(true);
@@ -27,6 +27,7 @@ $(function() {
 	getTables();
 	getEmp(empId);
 	listenerInitial(); // 掛載listener
+	readTableInfo();
 	console.log(currentStatus);
 	// 解決按鈕被腰斬問題
 //	$( "#orderarea" ).tabs( "refresh" );
@@ -34,6 +35,15 @@ $(function() {
 	$.ajaxSetup({ cache: false });
 });
 
+function readTableInfo() {
+	currentStatus.TableId = $("#tableNum").attr("tbid");
+	currentStatus.TableName = $("#tableNum").text();
+
+	currentStatus.FId = $("#floor").attr("floorid");
+	currentStatus.FName = $("#floor").text();
+	
+	currentStatus.CustNum = $("#peopleCount").text();
+}
 function getCookie(cname) {
 var name = cname + "=";
 var ca = document.cookie.split(';');
@@ -110,7 +120,7 @@ function listenerInitial() {
 						});
 						return false;
 					});
-				showState("還有餐點未選");
+				showState("套餐還有餐點未選");
 				$("#orderlist").tabs( "option", "active", IdToActive(divid));
 			// 判斷是否有點餐
 			} else if (checkEmpty()) {
@@ -210,6 +220,23 @@ function listenerInitial() {
 }
 
 function sendOrder() {
+	var tableUrl = contextPath + "/table/tableset";
+	var updateTable ={
+			"act" : "tbOpen",
+			"tbId" : currentStatus.TableId,
+			"tbState" : 2,
+			"custNum" : currentStatus.CustNum,
+			"floor" : "-1"
+	};
+	$.ajax({
+	    url: tableUrl,
+	    type: 'POST',
+	    data: JSON.stringify(updateTable),
+//	    async: false,
+	    contentType: 'application/json; charset=utf-8'
+	});
+	
+	
 	$.ajax({
 	    url: contextPath+'/order/SendOrderServlet',
 	    type: 'POST',
@@ -224,9 +251,12 @@ function sendOrder() {
 	    }
 	});
 	showState("點餐單已送出");
+	
 
+
+	
 	setTimeout(function(){
-		window.location.reload();
+		window.location = contextPath+"/table/opentable.jsp";
 	}, 800);
 }
 
