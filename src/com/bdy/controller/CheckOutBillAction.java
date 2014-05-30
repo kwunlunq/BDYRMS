@@ -88,6 +88,9 @@ public class CheckOutBillAction extends ActionSupport implements Preparable,Sess
 				checkOut.setEndDate(new Date(System.currentTimeMillis()));
 				checkOut.setEmp(emp);				
 				service.insertBill(checkOut);
+				int billsCount = service.getTodayBills(new Date(System.currentTimeMillis()));
+				session.remove("billsCount");
+				session.put("billsCount", billsCount);
 				session.remove("checkout");
 				return Action.SUCCESS;
 			}
