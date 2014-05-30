@@ -84,8 +84,22 @@ function deleteMK(mkId){
 	window.location.href= contextPath+"/secure/deleteMK?mkId="+mkId;
 	}
 }
+function updateMA(maId){
+	var str = $('#maTD'+maId).text();
+	$('#maTD'+maId).html("<input size='10' type='text' value='"+str+"'>");
+	$('#mabtn'+maId).html("<input class='MainBtnColor' type='button' value='確認' onclick='confirmMA("+maId+")'>" +
+						  "<input class='MainBtnColor' type='button' value='取消' onclick='cancelMA("+maId+",\""+str+"\")'>");
+}
 
-
+function cancelMA(maId,text){
+	$('#maTD'+maId).text(text);
+	$('#mabtn'+maId).html("<input class='MainBtnColor' type='button' value='修改' onclick='updateMA("+maId+")'>" +
+						  "<input class='MainBtnColor' type='button' value='刪除' onclick='deleteMA("+maId+")'>");
+}
+function confirmMA(maId){
+	var str = $('#maTD'+maId+'>input').val();
+	window.location.href = contextPath+"/secure/updateMK?maId="+maId+"&name="+str;
+}
 
 
 

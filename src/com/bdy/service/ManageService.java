@@ -413,6 +413,12 @@ public int deleteMK(int mkId){
 	int mkState = mainkindDao.delete(mkId);
 	return mkState;
 }
+public void updateMA(int maId,String name){
+	BdyMakearea ma = new BdyMakearea();
+	ma.setMaId(maId);
+	ma.setName(name);
+	makeareaDao.update(ma);
+}
 //---------------------------CheckOut-------------------------------------------
 
 public Map<BdySet, List<List<?>>> sortSetDetailMap(Set<BdyOrder> orders){
