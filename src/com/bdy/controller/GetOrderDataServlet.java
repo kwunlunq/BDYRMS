@@ -3,6 +3,10 @@ package com.bdy.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TreeMap;
 
 import javax.json.JsonArray;
@@ -25,6 +29,7 @@ import com.bdy.model.BdyMainkind;
 import com.bdy.model.BdySet;
 import com.bdy.model.BdySetdetail;
 import com.bdy.model.BdyTable;
+import com.bdy.service.ManageService;
 import com.bdy.service.OrderService;
 
 /**
@@ -35,12 +40,14 @@ public class GetOrderDataServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	OrderService service;
+	ManageService manageService;
 
 	@Override
 	public void init() throws ServletException {
 		WebApplicationContext context = 
 			WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 		service = (OrderService) context.getBean("OrderService");
+		manageService = (ManageService) context.getBean("ManageService");
 	}
 	
 
@@ -65,6 +72,21 @@ public class GetOrderDataServlet extends HttpServlet{
 			TreeMap<Integer, BdySet> sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
 			TreeMap<Integer, BdySetdetail> sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
 //			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
+			break;
+		case "bills":
+			Calendar c = new GregorianCalendar();
+		    c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
+		    c.set(Calendar.MINUTE, 0);
+		    c.set(Calendar.SECOND, 0);
+		    Date today = c.getTime();
+		    Integer billsCount = 0;
+			try {
+				billsCount = manageService.getTodayBills(today);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			System.out.println("billsCount "+billsCount);
+			out.write(billsCount.toString());
 			break;
 		case "updateTable" :
 			session.removeAttribute("tables");

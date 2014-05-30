@@ -1,12 +1,21 @@
 $(function() {
+	updateDiscount();
+	updateInfo();
+	updateIncome();
+	billsCount();
 	setInterval(function(){
-
+		billsCount();
 		updateInfo();
-		updateDiscount();
 		updateIncome();
-		
-	}, 2000);
+	}, 5000);
 });
+
+function billsCount(){
+	var url = contextPath+"/order/getOrderDataServlet";
+	$.getJSON(url, {"data":"bills"}, function(result) {
+		$('#todayBillsCount').text(result);
+	});
+}
 
 function updateInfo() {
 	var url = contextPath+"/order/getOrderDataServlet";
@@ -54,12 +63,15 @@ function updateIncome() {
 }
 function updateDiscount() {
 	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"discount"}, function(result) {
+	$('#dicsountDiv').empty();
+	$('#dicsountDiv').append('<strong class="strongLabel">優惠資訊</strong>');
+	$.getJSON(url, {"data":"updateDiscount"}, function(result) {
 		for (var i = 0; i < result.length; i++) {
 			var disTitle = $('<p><span class="disName">'+result[i].disName+'</span>');
 			var disContent = document.createElement("span");
 			$(disContent).attr("class", "disValue");
-			$(disContent).append(document.createTextNode(result[i].disPrice));
+//			alert("")
+			$(disContent).append(document.createTextNode(parseFloat(result[i].disPrice)*10));
 			
 			$(disTitle).append(disContent);
 			$(disTitle).append('<span>折</span>');

@@ -21,13 +21,14 @@
 
 
 <div class="topLabel" id="dicsountDiv">
-<strong class="strongLabel">優惠資訊</strong>
+<!-- <strong class="strongLabel">優惠資訊</strong> -->
 </div>
 
 
 <div class="topLabel ui-state-highlight ui-corner-all" id="incomeDiv">
 <strong class="strongLabel">營運狀況</strong>
-<p><span class="topItem">目前營收  </span><span id="todayIncome" class="incomeValue"></span><span>元</span></p>
+<p><span class="topItem">目前營收  </span><span class="unit">元</span><span id="todayIncome" class="incomeValue"></span></p>
+<p><span class="topItem">翻桌次數  </span><span class="unit">翻</span><span id="todayBillsCount" class="incomeValue"></span></p>
 </div>
 
 

@@ -5,6 +5,10 @@ body,html {
 	background-color:gray;
 }
 
+.unit{
+	float:right;
+}
+
 #newsContent{
 	word-wrap: break-word; 
 	word-break: normal; 
@@ -255,7 +259,7 @@ p {
 .incomeValue {
 /* 	width: 2em; */
 	text-align:right;
-	
+	float:right;
 	display: inline-block;
 	color: blue;
 	margin-right:8px;
