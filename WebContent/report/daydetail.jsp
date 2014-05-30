@@ -167,11 +167,14 @@ table,th,td,tr {
 												<td>${bills.billId}</td>
 												<td>${bills.custNum}</td>
 												<td><fmt:formatNumber value="${bills.price}" maxFractionDigits="0"/></td>
-												<td>${bills.disName}
-													<c:if test="${bills.discription!=null}"><br>+備註 : ${bills.discription}</c:if>
+												<td>
+													<c:if test="${bills.disName==null&&bills.discription==null}">無</c:if>
+													<c:if test="${bills.disName!=null&&bills.discription==null}">${bills.disName}</c:if>
+													<c:if test="${bills.disName==null&&bills.discription!=null}">備註 : ${bills.discription}</c:if>
+													<c:if test="${bills.disName!=null&&bills.discription!=null}">${bills.disName}<br> + 備註 : ${bills.discription}</c:if>
 												</td>
 												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
-												<td>${bills.billEmpName}</td>
+												<td title="${bills.billEmpId}">${bills.billEmpName}</td>
 												<td>${bills.endDate}</td>
 												<td id="showdetail" billId="${bills.billId}" style="cursor: pointer">顯示明細</td>
 											</tr>
