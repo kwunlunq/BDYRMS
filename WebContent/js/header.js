@@ -1,7 +1,11 @@
 $(function() {
-	updateInfo();
-	updateDiscount();
-	updateIncome();
+	setInterval(function(){
+
+		updateInfo();
+		updateDiscount();
+		updateIncome();
+		
+	}, 2000);
 });
 
 function updateInfo() {

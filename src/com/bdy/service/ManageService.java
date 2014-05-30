@@ -1,9 +1,13 @@
 package com.bdy.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -735,6 +739,24 @@ public BdyTable getOrderTableName(int tableId){
 		return discountDao.getDiscount(discountId);
 	}
 	 
+	
+	public int getTodayBills(Date now) throws ParseException{
+		int count=0;
+		DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+		List<BdyBill> bills = billDao.getAllBill();
+		for(BdyBill bill:bills){
+			String billCheckTime;//--yyyy-MM-dd
+			String nowString;
+			billCheckTime = dFormat.format(bill.getEndDate());
+			 nowString= dFormat.format(now);
+			if( billCheckTime.equals(nowString)){
+				count++;
+			};
+			
+		}
+		return count;
+	}
+	
 //------------------------------SetMeal----------------------------------------------
 	public List<BdyFoodkind> getAllFoodKindSetMeal(){
 		List<BdyFoodkind> fk = foodkindDao.getAllFoodkind();
