@@ -17,7 +17,7 @@ public class CheckOut {
 	private Double price;//-----應付帳款
 	private BdyEmp emp;//-----結帳員工
 	private Integer finalPrice;//------------實收金額
-	private String discription;
+	private String discription;//------------吃到蟑螂
 	
 	
 	public String getDiscription() {
