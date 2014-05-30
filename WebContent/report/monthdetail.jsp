@@ -27,7 +27,10 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
-var ids = [];
+var selectYear = '${param.year}';
+var selectMonth = '${param.month}';
+var mainId = [];
+var mealId = [];
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -116,23 +119,9 @@ table,th,td,tr {
 					<form action="<c:url value="/report/MonthReportServlet" />" method="get">
 						<input type="submit" class="MainBtnColor" value="查詢單月營運狀況">
 						<select name="year" id="year">
-							<c:forEach var="i" begin="1990" end="2040">
-								<c:if test="${param.year==i}">
-									<option value="${i}" selected="selected">${i}</option>
-								</c:if>
-							<c:if test="${param.month!=i}">
-								<option value="${i}">${i}</option>
-							</c:if>								
-							</c:forEach>
+
 						</select> 年 <select name="month" id="month">
-							<c:forEach var="j" begin="1" end="12">
-							<c:if test="${param.month==j}">
-								<option value="${j}" selected="selected">${j}</option>
-							</c:if>
-							<c:if test="${param.month!=j}">
-								<option value="${j}">${j}</option>
-							</c:if>
-							</c:forEach>
+
 						</select> 月     ${errorMsgs.dateError}
 						<span style="display:inline-block;float:right;margin-top:10px;">
 							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
@@ -143,7 +132,8 @@ table,th,td,tr {
 						<ul>
 							<li><a href="#monthReportTabs-1">單月營運報表</a></li>
 							<li><a href="#monthReportTabs-2">營收/來客數 統計</a></li>
-							<li><a href="#monthReportTabs-3">單月餐點 統計</a></li>
+							<li><a href="#monthReportTabs-3">單月主餐 統計</a></li>
+							<li><a href="#monthReportTabs-4">單月餐點 統計</a></li>
 						</ul>
 						<div id="monthReportTabs-1">
 							<c:if test="${not empty bills}">
@@ -189,16 +179,33 @@ table,th,td,tr {
 						</div>
 						<div id="monthReportTabs-3">
 							<c:if test="${not empty bills}">
-								<div id="monthMealsCount">
+								<div id="monthMainsCount">
 									<ul>
-										<c:forEach var="foodkinds" items="${foodkinds}">
-											<li><a href="#monthMealsCount-${foodkinds.fkId}" style="width: 10em">${foodkinds.name}類</a></li>
+										<c:forEach var="mainkindNames" items="${mainkindNames}" varStatus="theCount">
+											<li><a href="#monthMainsCount-${theCount.index}" style="width: 10em">${mainkindNames.mainkindName}類</a></li>
 										</c:forEach>
 									</ul>
-									<c:forEach var="foodkinds" items="${foodkinds}" varStatus="theCount">
-									<script type="text/javascript">ids['${theCount.index}'] = '${foodkinds.fkId}';</script>
-										<div id="monthMealsCount-${foodkinds.fkId}">
-											<div id="mealsCount-${foodkinds.fkId}" style="width: 700px;height: 460px; margin: 0px auto"></div>
+									<c:forEach var="mainkindNames" items="${mainkindNames}" varStatus="theCount">
+									<script type="text/javascript">mainId['${theCount.index}'] = '${theCount.index}';</script>		
+										<div id="monthMainsCount-${theCount.index}">
+											<div id="mainsCount-${theCount.index}" style="width: 700px;height: 460px; margin: 0px auto"></div>
+										</div>
+									</c:forEach>
+								</div>
+							</c:if>
+						</div>
+						<div id="monthReportTabs-4">
+							<c:if test="${not empty bills}">
+								<div id="monthMealsCount">
+									<ul>
+										<c:forEach var="foodkindNames" items="${foodkindNames}" varStatus="theCount">
+											<li><a href="#monthMealsCount-${theCount.index}" style="width: 10em">${foodkindNames.foodkindName}類</a></li>
+										</c:forEach>
+									</ul>
+									<c:forEach var="foodkindNames" items="${foodkindNames}" varStatus="theCount">
+									<script type="text/javascript">mealId['${theCount.index}'] = '${theCount.index}';</script>		
+										<div id="monthMealsCount-${theCount.index}">
+											<div id="mealsCount-${theCount.index}" style="width: 700px;height: 460px; margin: 0px auto"></div>
 										</div>
 									</c:forEach>
 								</div>

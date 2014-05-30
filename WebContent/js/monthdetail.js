@@ -1,19 +1,49 @@
 $(function() {
+	var d = new Date();
+	var thisYear = d.getFullYear();
+	for ( var i = 2010; i <= thisYear; i++) {
+		var opt;
+		if (selectYear == i) {
+			opt = '<option selected="selected" value="' + i + '" selected="selected">' + i
+			+ '</option>';
+		} else {
+			opt = '<option value="' + i + '" >' + i
+					+ '</option>';
+		}
+
+		$("select[id=year]").append(opt);
+	}
+	for ( var i = 1; i <= 12; i++) {
+		var opt;
+		if (selectMonth == i) {
+			opt = '<option selected="selected" value="' + i + '" selected="selected">' + i
+			+ '</option>';
+		} else {
+			opt = '<option value="' + i + '" >' + i
+					+ '</option>';
+		}
+		$("select[id=month]").append(opt);
+	}
 	$('table').DataTable({
 		"jQueryUI" : true,
-		"scrollY" : ($('#writeCodeInThisDiv').height() -290),
+		"scrollY" : ($('#writeCodeInThisDiv').height() - 290),
 		"scrollCollapse" : true,
 		"paging" : false,
 		"stateSave" : true,
 	});
 	$("#monthReportTabs").tabs();
-	$("#monthMealsCount").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+	$("#monthMainsCount").tabs()
+			.addClass("ui-tabs-vertical ui-helper-clearfix");
+	$("#monthMainsCount li").removeClass("ui-corner-top").addClass(
+			"ui-corner-left");
+	$("#monthMealsCount").tabs()
+			.addClass("ui-tabs-vertical ui-helper-clearfix");
 	$("#monthMealsCount li").removeClass("ui-corner-top").addClass(
 			"ui-corner-left");
 	$('#monthOperate').highcharts({
 		chart : {
 			zoomType : 'xy',
-			height: 500,
+			height : 500,
 			width : 960,
 		},
 		title : {
@@ -59,22 +89,61 @@ $(function() {
 		},
 		series : []
 	});
-	for (var i = 0; i < ids.length; i++) {
-		if (i == ids.length - 1) {
-			$('#mealsCount-' + ids[i]).highcharts({
+	for ( var j = 0; j < mainId.length; j++) {
+		$('#mainsCount-' + mainId[j]).highcharts({
+			chart : {
+				type : 'column',
+				height : 460,
+				width : 700,
+			},
+			title : {
+				margin : 50
+			},
+			subtitle : {
+				y : 40
+			},
+			xAxis : {},
+			yAxis : {
+				min : 0,
+				title : {
+					text : '',
+				},
+				labels : {
+					overflow : 'justify'
+				}
+			},
+			tooltip : {
+				valueSuffix : '份'
+			},
+			plotOptions : {
+				bar : {
+					dataLabels : {
+						enabled : true
+					}
+				}
+			},
+			credits : {
+				enabled : false
+			},
+			series : []
+		});
+	}
+	for ( var i = 0; i < mealId.length; i++) {
+		if (i == mealId.length - 1) {
+			$('#mealsCount-' + mealId[i]).highcharts({
 				chart : {
-					type: 'column',
-					height: 460,
+					type : 'column',
+					height : 460,
 					width : 700,
 					events : {
 						load : GetReportData
 					}
 				},
 				title : {
-					margin:50
+					margin : 50
 				},
 				subtitle : {
-					y:40
+					y : 40
 				},
 				xAxis : {},
 				yAxis : {
@@ -102,17 +171,17 @@ $(function() {
 				series : []
 			});
 		} else {
-			$('#mealsCount-' + ids[i]).highcharts({
+			$('#mealsCount-' + mealId[i]).highcharts({
 				chart : {
-					type: 'column',
-					height: 460,
+					type : 'column',
+					height : 460,
 					width : 700,
 				},
 				title : {
-					margin:50
+					margin : 50
 				},
 				subtitle : {
-					y:40
+					y : 40
 				},
 				xAxis : {},
 				yAxis : {
@@ -140,73 +209,100 @@ $(function() {
 				series : []
 			});
 		}
-	};
+	}
+	;
 	hideLoading();
 });
 var numData;
 var priceData;
 var daydata;
+var mainkindName;
 var foodkindName;
+var mainsCount = [];
 var mealsCount = [];
 var foodAmountDate = [];
-var foodNameDate =[];
+var foodNameDate = [];
 function GetReportData() {
 	var monthOperateChart = $('#monthOperate').highcharts();
 	var year = $('#year').val();
 	var month = $('#month').val();
-	for(var i=0;i<ids.length;i++){
-		mealsCount[ids[i]] = $('#mealsCount-'+ids[i]).highcharts();
+	for ( var j = 0; j < mainId.length; j++) {
+		mainsCount[mainId[j]] = $('#mainsCount-' + mainId[j]).highcharts();
+	}
+	for ( var i = 0; i < mealId.length; i++) {
+		mealsCount[mealId[i]] = $('#mealsCount-' + mealId[i]).highcharts();
 	}
 	if (year != null && year.length > 0 && month != null && month.length > 0) {
-		$.ajax({
-			url : contextPath + '/report/MonthReportJSONServlet',
-			type : 'POST',
-			dataType : 'JSON',
-			data : {
-				year : year,
-				month : month
-			},
-			success : function(result) {
-				daydata = result.dayInMonth;
-				numData = result.dayTatolCustNum;
-				priceData = result.dayTatolFinPrice;
-				foodkindName = result.foodkindName;
-				for(var i=0;i<ids.length;i++){
-					foodAmountDate[ids[i]] = result[ids[i]][0].foodAmount;
-					foodNameDate[ids[i]] = result[ids[i]][0].foodName;
-					mealsCount[ids[i]].xAxis[0].setCategories(foodNameDate[ids[i]]);
-					mealsCount[ids[i]].setTitle({ text: foodkindName[i] + "類" });
-					mealsCount[ids[i]].setTitle(null, {
-						text : year + '年' + month + '月'
-					});
-					mealsCount[ids[i]].addSeries({
-						name : '數量',
-						data : foodAmountDate[ids[i]],
-					});
-				}
-				monthOperateChart.setTitle(null, {
-					text : year + '年' + month + '月'
+		$
+				.ajax({
+					url : contextPath + '/report/MonthReportJSONServlet',
+					type : 'POST',
+					dataType : 'JSON',
+					data : {
+						year : year,
+						month : month
+					},
+					success : function(result) {
+						daydata = result.dayInMonth;
+						numData = result.dayTatolCustNum;
+						priceData = result.dayTatolFinPrice;
+						mainkindName = result.mainkindNames;
+						foodkindName = result.foodkindNames;
+						for ( var j = 0; j < mainId.length; j++) {
+							foodNameDate = result.mainkind[0].mainkindName[j].foodName;
+							foodAmountDate = result.mainkind[0].mainkindName[j].foodAmount;
+							mainsCount[mainId[j]].xAxis[0]
+									.setCategories(foodNameDate);
+							mainsCount[mainId[j]].setTitle({
+								text : mainkindName[j] + "類"
+							});
+							mainsCount[mainId[j]].setTitle(null, {
+								text : year + "年" + month + "月"
+							});
+							mainsCount[mainId[j]].addSeries({
+								name : '數量',
+								data : foodAmountDate,
+							});
+						}
+						for ( var i = 0; i < mealId.length; i++) {
+							foodNameDate = result.foodkind[0].foodkindName[i].foodName;
+							foodAmountDate = result.foodkind[0].foodkindName[i].foodAmount;
+							mealsCount[mealId[i]].xAxis[0]
+									.setCategories(foodNameDate);
+							mealsCount[mealId[i]].setTitle({
+								text : foodkindName[i] + "類"
+							});
+							mealsCount[mealId[i]].setTitle(null, {
+								text : year + "年" + month + "月"
+							});
+							mealsCount[mealId[i]].addSeries({
+								name : '數量',
+								data : foodAmountDate,
+							});
+						}
+						monthOperateChart.setTitle(null, {
+							text : year + '年' + month + '月'
+						});
+						monthOperateChart.addSeries({
+							name : '單日來客數 ',
+							type : 'column',
+							yAxis : 1,
+							data : numData,
+							tooltip : {
+								valueSuffix : ' 位'
+							}
+						});
+						monthOperateChart.addSeries({
+							name : '單日營收',
+							type : 'spline',
+							data : priceData,
+							tooltip : {
+								valueSuffix : ' 元'
+							}
+						});
+						monthOperateChart.xAxis[0].setCategories(daydata);
+					},
+					cache : false
 				});
-				monthOperateChart.addSeries({
-					name : '單日來客數 ',
-					type : 'column',
-					yAxis : 1,
-					data : numData,
-					tooltip : {
-						valueSuffix : ' 位'
-					}
-				});
-				monthOperateChart.addSeries({
-					name : '單日營收',
-					type : 'spline',
-					data : priceData,
-					tooltip : {
-						valueSuffix : ' 元'
-					}
-				});
-				monthOperateChart.xAxis[0].setCategories(daydata);
-			},
-			cache : false
-		});
 	}
 }

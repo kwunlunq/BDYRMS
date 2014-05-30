@@ -43,12 +43,14 @@ function showDiscription(){
 	$('#discription').show();
 	$("label[name='realpriceText'],label[name='discriptionText']").show();
 	$("#dis,#disText").hide();
+	$("#checkout").hide();
 		b=false;
 	}else{
 		$("input[name='realprice']").hide();
 	    $('#discription').hide();
 	    $("label[name='realpriceText'],label[name='discriptionText']").hide();
 	    $("#dis,#disText").show();
+	    $("#checkout").show();
 	    b=true;
 	}	
 }
