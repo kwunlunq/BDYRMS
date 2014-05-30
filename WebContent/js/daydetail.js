@@ -90,6 +90,9 @@ $(function() {
         });}
 	});
 	$("#dayReportTabs").tabs();
+	$("#dayMainsCount").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+	$("#dayMainsCount li").removeClass("ui-corner-top").addClass(
+			"ui-corner-left");
 	$("#dayMealsCount").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
 	$("#dayMealsCount li").removeClass("ui-corner-top").addClass(
 			"ui-corner-left");
@@ -146,9 +149,48 @@ $(function() {
 				},
 				series : []
 			});
-	for ( var i = 0; i < ids.length; i++) {
-		if (i == ids.length - 1) {
-			$('#mealsCount-' + ids[i]).highcharts({
+	for ( var j = 0; j < mainId.length; j++) {
+		$('#mainsCount-' + mainId[j]).highcharts({
+			chart : {
+				type : 'column',
+				height : 460,
+				width : 700,
+			},
+			title : {
+				margin : 50
+			},
+			subtitle : {
+				y : 40
+			},
+			xAxis : {},
+			yAxis : {
+				min : 0,
+				title : {
+					text : '',
+				},
+				labels : {
+					overflow : 'justify'
+				}
+			},
+			tooltip : {
+				valueSuffix : '份'
+			},
+			plotOptions : {
+				bar : {
+					dataLabels : {
+						enabled : true
+					}
+				}
+			},
+			credits : {
+				enabled : false
+			},
+			series : []
+		});
+	}
+	for ( var i = 0; i < mealId.length; i++) {
+		if (i == mealId.length - 1) {
+			$('#mealsCount-' + mealId[i]).highcharts({
 				chart : {
 					type : 'column',
 					height : 460,
@@ -189,7 +231,7 @@ $(function() {
 				series : []
 			});
 		} else {
-			$('#mealsCount-' + ids[i]).highcharts({
+			$('#mealsCount-' + mealId[i]).highcharts({
 				chart : {
 					type : 'column',
 					height : 460,
@@ -233,15 +275,20 @@ $(function() {
 });
 var numData;
 var priceData;
+var mainkindName;
 var foodkindName;
+var mainsCount = [];
 var mealsCount = [];
 var foodAmountDate = [];
 var foodNameDate = [];
 function GetReportData() {
 	var dayOperateChart = $('#dayOperate').highcharts();
 	var date = $('#datepicker').val();
-	for ( var i = 0; i < ids.length; i++) {
-		mealsCount[ids[i]] = $('#mealsCount-' + ids[i]).highcharts();
+	for ( var j = 0; j < mainId.length; j++) {
+		mainsCount[mainId[j]] = $('#mainsCount-' + mainId[j]).highcharts();
+	}
+	for ( var i = 0; i < mealId.length; i++) {
+		mealsCount[mealId[i]] = $('#mealsCount-' + mealId[i]).highcharts();
 	}
 	if (date != null && date.length > 0) {
 		$.ajax({
@@ -254,21 +301,36 @@ function GetReportData() {
 			success : function(result) {
 				numData = result.sumCustNumByhour;
 				priceData = result.avgPriceDividedByCustNumByhour;
+				mainkindName = result.mainkindNames;
 				foodkindName = result.foodkindNames;
-				for ( var i = 0; i < ids.length; i++) {
-					foodNameDate = result.foodkind[0].foodkindName[i].foodName;
-					foodAmountDate = result.foodkind[0].foodkindName[i].foodAmount;
-					console.log(foodNameDate);
-					console.log(foodAmountDate);
-					mealsCount[ids[i]].xAxis[0]
+				for ( var j = 0; j < mainId.length; j++) {
+					foodNameDate = result.mainkind[0].mainkindName[j].foodName;
+					foodAmountDate = result.mainkind[0].mainkindName[j].foodAmount;
+					mainsCount[mainId[j]].xAxis[0]
 							.setCategories(foodNameDate);
-					mealsCount[ids[i]].setTitle({
-						text : foodkindName[i] + "類"
+					mainsCount[mainId[j]].setTitle({
+						text : mainkindName[j] + "類"
 					});
-					mealsCount[ids[i]].setTitle(null, {
+					mainsCount[mainId[j]].setTitle(null, {
 						text : date
 					});
-					mealsCount[ids[i]].addSeries({
+					mainsCount[mainId[j]].addSeries({
+						name : '數量',
+						data : foodAmountDate,
+					});
+				}
+				for ( var i = 0; i < mealId.length; i++) {
+					foodNameDate = result.foodkind[0].foodkindName[i].foodName;
+					foodAmountDate = result.foodkind[0].foodkindName[i].foodAmount;
+					mealsCount[mealId[i]].xAxis[0]
+							.setCategories(foodNameDate);
+					mealsCount[mealId[i]].setTitle({
+						text : foodkindName[i] + "類"
+					});
+					mealsCount[mealId[i]].setTitle(null, {
+						text : date
+					});
+					mealsCount[mealId[i]].addSeries({
 						name : '數量',
 						data : foodAmountDate,
 					});
