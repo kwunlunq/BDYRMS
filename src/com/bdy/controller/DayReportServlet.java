@@ -78,8 +78,11 @@ public class DayReportServlet extends HttpServlet {
 						response);
 				return;
 			} else {
+				List<BdyOrderlistReport> mainkindNames = new ArrayList<BdyOrderlistReport>();
+				mainkindNames=service.getMainkindNameByDate(date);
+				request.setAttribute("mainkindNames", mainkindNames);
 				List<BdyOrderlistReport> foodkindNames = new ArrayList<BdyOrderlistReport>();
-				foodkindNames=service.getFoodkindName(date);
+				foodkindNames=service.getFoodkindNameByDate(date);
 				request.setAttribute("foodkindNames", foodkindNames);
 				request.setAttribute("bills", beans);
 				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,

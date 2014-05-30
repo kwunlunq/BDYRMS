@@ -69,12 +69,15 @@ public class GetOrderDataServlet extends HttpServlet{
 		case "updateTable" :
 			session.removeAttribute("tables");
 			session.removeAttribute("floors");
-			System.out.println("Session Clear : table & floor");
+			System.out.println("Session Cleared : table & floor");
 		case "table" :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
 			JsonArray table = service.makeJSONTables(tables, floors);
 			out.write(table.toString());
+			break;
+		case "todayIncome" :
+			out.print(service.getTodayIncome().toString());
 			break;
 		case "food" :
 			foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
@@ -94,6 +97,9 @@ public class GetOrderDataServlet extends HttpServlet{
 			JsonArray sd = service.makeJSONSets(sets, sds);
 			out.write(sd.toString());
 			break;
+		case "updateDiscount" :
+			session.removeAttribute("diss");
+			System.out.println("Session Cleared : discount");
 		case "discount" :
 			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
 			JsonArray dis = service.makeJSONDiss(diss);
