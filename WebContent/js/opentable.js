@@ -131,6 +131,26 @@ function setTbState(tbState){
 }
 
 function divTBclick(divTB){
+	var picTB_x = $('#picTB').position().left;
+	var picTB_y = $('#picTB').position().top;
+	var tb_x =  $(divTB).position().left;
+	var tb_y = 	$(divTB).position().top;
+	var doc_x = $( document ).width();
+	var doc_y = $( document ).height();
+	var tooMy = "left top";
+	var tooAt = "right top";
+	if((picTB_x+tb_x+505)>doc_x){
+		tooMy = "right top";
+		tooAt = "left top";
+	}
+	if((picTB_y+tb_y+275)>doc_y){
+		tooMy = "left bottom";
+		tooAt = "right bottom";
+	}
+	if((picTB_y+tb_y+275)>doc_y && (picTB_x+tb_x+505)>doc_x){
+		tooMy = "right bottom";
+		tooAt = "left bottom";
+	}
 	$('#tbClickDialog input[type=button]').remove();
 	$('#peopleCount').val($(divTB).attr("custNum"));
 	$('#countP').css("display","none");
@@ -161,6 +181,7 @@ function divTBclick(divTB){
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 	}else if(tbState == 2){
 		$('#tbClickDialog div[id=buttonBar]').append(tbLeaveBtn);
+		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbCheckoutBtn);
 	}else if(tbState == 3){
 		$('#countP').css("display","block");
@@ -181,16 +202,9 @@ function divTBclick(divTB){
 					"custNum" : "0",
 					"floor" : "-1"
 			};
-			$.ajax({
-			    url: tableUrl,
-			    type: 'POST',
-			    data: JSON.stringify(updateTable),
-			    contentType: 'application/json; charset=utf-8',
-			    success: function() {
-			    	$(divTB).css("z-index","0");
-					window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
-			    }
-			});
+			doChangeTableState(updateTable,"");
+			$(divTB).css("z-index","0");
+			window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
 		}else if(act == "order"){
 			var cNum = $('#peopleCount').val();
 			if(cNum>0 && cNum.length>0 && cNum<1000){
@@ -212,20 +226,13 @@ function divTBclick(divTB){
 						"custNum" : $('#peopleCount').val(),
 						"floor" : "-1"
 				};
-				$.ajax({
-				    url: tableUrl,
-				    type: 'POST',
-				    data: JSON.stringify(updateTable),
-				    contentType: 'application/json; charset=utf-8',
-				    success: function() {
-						$(divTB).attr("custNum",updateTable.custNum);
-						$(divTB).attr("class",setTbState(1));
-						$(divTB).attr("tbState","1");
-						$(divTB).find('span[id=tbSizeSpan]').text(updateTable.custNum+"("+tbSize+")");
-						$(divTB).css("z-index","0");
-						$('#tbClickDialog').dialog('close');
-				    }
-				});
+				doChangeTableState(updateTable,"");
+				$(divTB).attr("custNum",updateTable.custNum);
+				$(divTB).attr("class",setTbState(1));
+				$(divTB).attr("tbState","1");
+				$(divTB).find('span[id=tbSizeSpan]').text(updateTable.custNum+"("+tbSize+")");
+				$(divTB).css("z-index","0");
+				$('#tbClickDialog').dialog('close');
 			}else if($('#peopleCount').val()>999){
 				showState("超過上限 (小於3位)");
 			}else{
@@ -239,31 +246,26 @@ function divTBclick(divTB){
 					"custNum" : "0",
 					"floor" : "-1"
 			};
-			$.ajax({
-			    url: tableUrl,
-			    type: 'POST',
-			    data: JSON.stringify(updateTable),
-			    contentType: 'application/json; charset=utf-8',
-			    success: function() {
-					$(divTB).attr("custNum",0);
-					$(divTB).attr("class",setTbState(0));
-					$(divTB).attr("tbState","0");
-					$(divTB).find('span[id=tbSizeSpan]').text(tbSize);
-					$(divTB).css("z-index","0");
-					$('#tbClickDialog').dialog('close');
-			    }
-			});
+			var successMsg = "";
+			doChangeTableState(updateTable,successMsg);
+			$(divTB).attr("custNum",0);
+			$(divTB).attr("class",setTbState(0));
+			$(divTB).attr("tbState","0");
+			$(divTB).find('span[id=tbSizeSpan]').text(tbSize);
+			$(divTB).css("z-index","0");
+			$('#tbClickDialog').dialog('close');
 		}else{
 			showState("無效的按鈕");
 		}
     });
 	$('#tbClickDialog').dialog({
 		width:420,
+//		height:265,
 		resizable:false,
 		modal:true,
 		position: { 
-			my: "left top", 
-			at: "right top", 
+			my: tooMy, 
+			at: tooAt, 
 			of: $(divTB) 
 		},
 		show: {
@@ -273,6 +275,20 @@ function divTBclick(divTB){
 	    hide: {
 	        effect: "blind",
 	        duration: 500
+	    }
+	});
+}
+
+function doChangeTableState(tableState,successMsg){
+	$.ajax({
+	    url: tableUrl,
+	    type: 'POST',
+	    data: JSON.stringify(tableState),
+	    contentType: 'application/json; charset=utf-8',
+	    async: false,
+	    success: function() {
+	    	if(successMsg != "")
+	    		showState(successMsg);
 	    }
 	});
 }
@@ -288,7 +304,7 @@ function inputNum(thisNum){
 
 function chooseFloor(){
 	$('#selectFloor').dialog({
-		width:420,
+		width:410,
 		resizable:false,
 		modal:true,
 		position: { 

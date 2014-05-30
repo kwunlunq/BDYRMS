@@ -28,7 +28,8 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
-var ids = [];
+var mainId = [];
+var mealId = [];
 </script>
 <script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
@@ -127,7 +128,8 @@ table,th,td,tr {
 						<ul>
 							<li><a href="#dayReportTabs-1">單日收據清單</a></li>
 							<li><a href="#dayReportTabs-2">平均消費金額/來客數 統計</a></li>
-							<li><a href="#dayReportTabs-3">單日餐點 統計</a></li>
+							<li><a href="#dayReportTabs-3">單日主餐 統計</a></li>
+							<li><a href="#dayReportTabs-4">單日餐點 統計</a></li>
 						</ul>
 						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
@@ -165,7 +167,9 @@ table,th,td,tr {
 												<td>${bills.billId}</td>
 												<td>${bills.custNum}</td>
 												<td><fmt:formatNumber value="${bills.price}" maxFractionDigits="0"/></td>
-												<td>${bills.disName}</td>
+												<td>${bills.disName}
+													<c:if test="${bills.discription!=null}"><br>+備註 : ${bills.discription}</c:if>
+												</td>
 												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
 												<td>${bills.billEmpName}</td>
 												<td>${bills.endDate}</td>
@@ -185,6 +189,23 @@ table,th,td,tr {
 						</div>
 						<div id="dayReportTabs-3">
 							<c:if test="${not empty bills}">
+								<div id="dayMainsCount">
+									<ul>
+										<c:forEach var="mainkindNames" items="${mainkindNames}" varStatus="theCount">
+											<li><a href="#dayMainsCount-${theCount.index}" style="width: 10em">${mainkindNames.mainkindName}類</a></li>
+										</c:forEach>
+									</ul>
+									<c:forEach var="mainkindNames" items="${mainkindNames}" varStatus="theCount">
+									<script type="text/javascript">mainId['${theCount.index}'] = '${theCount.index}';</script>		
+										<div id="dayMainsCount-${theCount.index}">
+											<div id="mainsCount-${theCount.index}" style="width: 700px;height: 460px; margin: 0px auto"></div>
+										</div>
+									</c:forEach>
+								</div>
+							</c:if>
+						</div>
+						<div id="dayReportTabs-4">
+							<c:if test="${not empty bills}">
 								<div id="dayMealsCount">
 									<ul>
 										<c:forEach var="foodkindNames" items="${foodkindNames}" varStatus="theCount">
@@ -192,7 +213,7 @@ table,th,td,tr {
 										</c:forEach>
 									</ul>
 									<c:forEach var="foodkindNames" items="${foodkindNames}" varStatus="theCount">
-									<script type="text/javascript">ids['${theCount.index}'] = '${theCount.index}';</script>		
+									<script type="text/javascript">mealId['${theCount.index}'] = '${theCount.index}';</script>		
 										<div id="dayMealsCount-${theCount.index}">
 											<div id="mealsCount-${theCount.index}" style="width: 700px;height: 460px; margin: 0px auto"></div>
 										</div>

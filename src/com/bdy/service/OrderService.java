@@ -238,6 +238,10 @@ public class OrderService {
 								.build();
 		return object;
 	}
+	
+	public Double getTodayIncome() {
+		return billDao.getTodayIncome();
+	}
 	/*
 	 * --------------------------------------------------------
 	 * 接收servlet傳來的session中的資料，做成Json格式傳回去
@@ -269,6 +273,7 @@ public class OrderService {
 							  .add("tbName", table.getName())
 							  .add("tbSize", table.getSize())
 							  .add("tbState", table.getTableState())
+							  .add("custNum", table.getCustNum())
 							  .build());
 			}
 			aryBuilder.add(Json.createObjectBuilder()

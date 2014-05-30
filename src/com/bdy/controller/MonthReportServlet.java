@@ -2,8 +2,6 @@ package com.bdy.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.bdy.model.BdyFoodkind;
+import com.bdy.model.BdyOrderlistReport;
 import com.bdy.model.MonthReport;
 import com.bdy.service.ReportService;
 
@@ -72,7 +70,7 @@ public class MonthReportServlet extends HttpServlet {
 		List<MonthReport> beans = new ArrayList<MonthReport>();
 
 		try {
-			beans = service.getMonthRevenueDetails(year, month);
+			beans = service.getMonthRevenue(year, month);
 		} catch (NamingException e) {
 		}
 		if (beans == null || beans.isEmpty()) {
@@ -81,6 +79,12 @@ public class MonthReportServlet extends HttpServlet {
 					request, response);
 			return;
 		} else {
+			List<BdyOrderlistReport> mainkindNames = new ArrayList<BdyOrderlistReport>();
+			mainkindNames=service.getMainkindNameByMonth(year,month);
+			request.setAttribute("mainkindNames", mainkindNames);
+			List<BdyOrderlistReport> foodkindNames = new ArrayList<BdyOrderlistReport>();
+			foodkindNames=service.getFoodkindNameByMonth(year,month);
+			request.setAttribute("foodkindNames", foodkindNames);
 			request.setAttribute("bills", beans);
 			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
 					request, response);

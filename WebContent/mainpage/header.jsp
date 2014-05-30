@@ -9,30 +9,29 @@
 <div id="LogoLabel">
 <img id="bannerLogo" src="<c:url value="/images/BDY_Logo.png"/>">
 </div>
-<div class="topLabel">
-<div class="ui-state-highlight ui-corner-all">
-<!-- <p><span class="topItem">可容納人數:</span><span id="custCapacity" class="topValueint">99999</span></p> -->
-<p><span class="topItem">餐聽內人數:</span><span id="custInside" class="topValueint"></span></p>
-<p><span class="topItem">未結點餐單數:</span><span id="orderNum" class="topValueint"></span></p>
-<p><span class="topItem">未出餐餐點數:</span><span id="odlistNum" class="topValueint"></span></p>
-<!-- <p><span class="topItem">桌位總數:</span><span   id="tableCapacity" class="topValueint">25</span></p> -->
-<!-- <p><span class="topItem">已使用桌數:</span><span id="tableInUse" class="topValueint">20</span></p> -->
-<p><span class="topItem">未使用桌數:</span><span id="tableNotUse" class="topValueint"></span></p>
+
+
+<div class="topLabel ui-state-highlight ui-corner-all">
+<strong class="strongLabel">餐廳資訊</strong>
+<p><span class="topItem">餐聽內人數  </span><span id="custInside" class="topValueint"></span><span>人</span></p>
+<p><span class="topItem">未結點餐單 </span><span id="orderNum" class="topValueint"></span><span>張</span></p>
+<p><span class="topItem">未出餐點數 </span><span id="odlistNum" class="topValueint"></span><span>份</span></p>
+<p><span class="topItem">未使用桌數 </span><span id="tableNotUse" class="topValueint"></span><span>桌</span></p>
 </div>
- </div>
-<!-- <div class="ui-state-highlight ui-corner-all"> -->
+
+
 <div class="topLabel" id="dicsountDiv">
-<!-- <p><span class="topItem">可用活動1:</span><span class="topValue">滿千送百</span></p> -->
-<!-- <p><span class="topItem">可用活動2:</span><span class="topValue">四人同行一人免費</span></p> -->
-<!-- <p><span class="topItem">可用活動3:</span><span class="topValue">無,不要太多字</span></p> -->
-<!-- <p><span class="topItem">可用活動4:</span><span class="topValue">超過就隱藏~</span></p> -->
-<!-- <p><span class="topItem">可用活動5:</span><span class="topValue">無</span></p> -->
+<strong class="strongLabel">優惠資訊</strong>
 </div>
-<!--  </div> -->
+
+
+<div class="topLabel ui-state-highlight ui-corner-all" id="incomeDiv">
+<strong class="strongLabel">營運狀況</strong>
+<p><span class="topItem">目前營收  </span><span id="todayIncome" class="incomeValue"></span><span>元</span></p>
+</div>
+
+
 <div class="topLabel">
-<!-- <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p> -->
-<!-- <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p> -->
-<!-- <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p> -->
-<!-- <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p> -->
-<!-- <p><span class="topItem">等待加入中:</span><span class="topValue">100</span></p> -->
 </div>
+
+

@@ -218,23 +218,65 @@ p {
 	margin: 1px;
 }
 
-.topItem {
-	color: black;
+.disName {
+	padding-left:1.2em;
 	display: inline-block;
+	width:80px;
+}
+.topItem {
+	padding-left:1.2em;
+	display: inline-block;
+/* 	width:120px; */
+	width:5em;
+/* 	text-justify:inter-ideograph; */
+/* 	text-justify: distribute-all-lines; */
 }
 
 .topLabel {
+	margin-top:2px;
 	margin-left:15px;
 	float: left;
+	height:96%;
+	
+/* 	min-width : 100px; */
 }
 
-.topValueint {
-	float:right;
+.disValue {
+/* 	width:20%; */
+	width: 2em;
+	text-align:right;
+	
+/* 	float:right; */
 	display: inline-block;
 	color: blue;
+	margin-right:8px;
+/* 	padding- */
+}
+.incomeValue {
+/* 	width: 2em; */
+	text-align:right;
+	
+	display: inline-block;
+	color: blue;
+	margin-right:8px;
+}
+.topValueint {
+/* 	width:20%; */
+	width: 2em;
+	text-align:right;
+	
+/* 	float:right; */
+	display: inline-block;
+	color: blue;
+	margin-right:8px;
+/* 	padding- */
 }
 
 .topValue {
+	
+/* 	float:right; */
+	text-align:left;
+	margin-left:20px;
 	display: inline-block;
 	color: blue;
 }
@@ -305,4 +347,8 @@ p {
 	top:0px;
 	left:0px;
 	position:absolute;
+}
+.strongLabel {
+	 margin-bottom:5px;
+	 display:inline-block;
 }

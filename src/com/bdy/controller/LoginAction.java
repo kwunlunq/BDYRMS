@@ -56,9 +56,11 @@ public class LoginAction extends ActionSupport implements SessionAware,ServletRe
 	public String execute() throws Exception {
 		LoginService Login = new LoginService(request.getServletContext());
 		BdyEmp bean = Login.login(userID, userPW);
-		if(bean==null){
+		
+		if(bean==null||bean.getResign()==1){
 			this.addFieldError("userPW",
             		this.getText("loginForm.login.fail"));
+			
 			return Action.INPUT;
 		}else if(bean.getBdyPriority().getPriId() == 3){
 			session.put("empData", bean);
