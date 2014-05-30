@@ -14,7 +14,7 @@
         <property name="disPrice" type="java.lang.Double">
             <column name="DIS_PRICE" precision="53" scale="0" />
         </property>
-        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="false" fetch="select">
+        <set name="bdyBills" table="BDY_BILL" inverse="true" lazy="false" fetch="select" cascade="delete">
             <key>
                 <column name="DIS_ID" />
             </key>

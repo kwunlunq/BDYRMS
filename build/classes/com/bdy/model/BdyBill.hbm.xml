@@ -8,7 +8,7 @@
             <column name="BILL_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdyDiscount" class="com.bdy.model.BdyDiscount" fetch="select" lazy="false">
+        <many-to-one name="bdyDiscount" class="com.bdy.model.BdyDiscount" fetch="select" lazy="false" cascade="delete">
             <column name="DIS_ID" />
         </many-to-one>
         <many-to-one name="bdyEmp" class="com.bdy.model.BdyEmp" fetch="select" lazy="false" cascade="save-update">
@@ -26,7 +26,7 @@
         <property name="finPrice" type="java.lang.Double">
             <column name="FIN_PRICE" precision="53" scale="0" />
         </property>
-        <set name="bdyBilldetails" table="BDY_BILLDETAIL" inverse="true" lazy="false" fetch="select">
+        <set name="bdyBilldetails" table="BDY_BILLDETAIL" inverse="true" lazy="false" fetch="select" cascade="delete">
             <key>
                 <column name="BILL_ID" />
             </key>

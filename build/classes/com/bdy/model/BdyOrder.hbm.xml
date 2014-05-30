@@ -23,13 +23,13 @@
         <property name="custNum" type="java.lang.Integer">
             <column name="CUST_NUM" />
         </property>
-        <set name="bdyBilldetails" table="BDY_BILLDETAIL" inverse="true" lazy="false" fetch="select">
+        <set name="bdyBilldetails" table="BDY_BILLDETAIL" inverse="true" lazy="false" fetch="select" cascade="delete">
             <key>
                 <column name="OD_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdyBilldetail" />
         </set>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select">
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select" >
             <key>
                 <column name="OD_ID" />
             </key>
