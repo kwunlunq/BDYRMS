@@ -1,17 +1,23 @@
 package com.bdy.model.dao;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.bdy.model.BdyBill;
+import com.bdy.model.BdyOrder;
 
 
 public class BdyBillDao {
@@ -136,4 +142,36 @@ public class BdyBillDao {
 		return bills;
 	}
 	
+	/*---------拿目前收入----------*/
+	public Double getTodayIncome() {
+		Session session = sf.openSession();
+		Calendar today = Calendar.getInstance();
+		today.setTime(new Date());
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		today.set(Calendar.MINUTE, 0);
+		
+		System.out.println(today.getTime().toString());
+		Double result = 0.0;
+		try {
+			result = ((Number)session.createCriteria(BdyBill.class)
+										 	.add(Restrictions.ge("endDate", today.getTime()))
+										 	.setProjection(Projections.sum("finPrice"))
+										 	.uniqueResult())
+										 	.doubleValue();
+		} catch (HibernateException e) {
+			System.out.println(e.getMessage());
+		} catch (NullPointerException e) {
+			System.out.println("income not found");
+		}
+		session.close();
+		System.out.println(result);
+		return result;
+	}
+	
+	
 }
+
+
+
+
+
