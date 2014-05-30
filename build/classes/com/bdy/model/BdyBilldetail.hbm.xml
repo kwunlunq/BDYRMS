@@ -8,10 +8,10 @@
             <column name="BD_ID" />
             <generator class="native" />
         </id>
-        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" fetch="select" lazy="false">
+        <many-to-one name="bdyOrder" class="com.bdy.model.BdyOrder" fetch="select" lazy="false" cascade="delete">
             <column name="OD_ID" />
         </many-to-one>
-        <many-to-one name="bdyBill" class="com.bdy.model.BdyBill" fetch="select" lazy="false">
+        <many-to-one name="bdyBill" class="com.bdy.model.BdyBill" fetch="select" lazy="false" cascade="delete">
             <column name="BILL_ID" />
         </many-to-one>
     </class>
