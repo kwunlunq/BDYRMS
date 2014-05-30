@@ -99,7 +99,7 @@ var contextPath='<%=request.getContextPath()%>';
 	<a href="<c:url value="/secure/insertNewMA.jsp" />">新增製作區域</a>
 	<table id="table2"  align="center">
 	<thead>
-	<tr>
+	<tr >
 	<th>製作區域名稱</th>
 	<th>功能</th>
 	</tr>
@@ -107,8 +107,11 @@ var contextPath='<%=request.getContextPath()%>';
 	<tbody>
 	<c:forEach var="ma" items="${ma }">
 	<tr>
-	<td>${ma.name }</td>
-	<td><input class='MainBtnColor' type="button" value="刪除" onclick="deleteMA(${ma.maId})"></td>
+	<td id="maTD${ma.maId}">${ma.name }</td>
+	<td id="mabtn${ma.maId}">
+		<input class='MainBtnColor' type="button" value="修改" onclick="updateMA(${ma.maId})">
+		<input class='MainBtnColor' type="button" value="刪除" onclick="deleteMA(${ma.maId})">
+	</td>
 	</tr>
 	</c:forEach>
 	</tbody>

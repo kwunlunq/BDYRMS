@@ -23,13 +23,13 @@
             </key>
             <one-to-many class="com.bdy.model.BdyOrderlist" />
         </set>
-        <set name="bdyFoods" table="BDY_FOOD" inverse="true" lazy="false" fetch="select">
+        <set name="bdyFoods" table="BDY_FOOD" inverse="true" lazy="false" fetch="select" cascade="delete">
             <key>
                 <column name="FK_ID" />
             </key>
             <one-to-many class="com.bdy.model.BdyFood" />
         </set>
-        <set name="bdySetdetails" table="BDY_SETDETAIL" inverse="true" lazy="false" fetch="select">
+        <set name="bdySetdetails" table="BDY_SETDETAIL" inverse="true" lazy="false" fetch="select" cascade="delete">
             <key>
                 <column name="FK_ID" />
             </key>
