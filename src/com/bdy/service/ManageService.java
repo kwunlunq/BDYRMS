@@ -620,16 +620,29 @@ public BdyTable getOrderTableName(int tableId){
 		}
 		
 		BdyBillHistory history = new BdyBillHistory();
+		if(check.getDiscount()==null){
 		history.setBillId(index);
 		history.setEndDate(check.getEndDate());
 		history.setCustNum(check.getCustNum());
-		history.setDisName(check.getDiscount().getName());
+		history.setDisName(null);
 		history.setBillEmpId(check.getEmp().getEmpId());
 		history.setBillEmpName(check.getEmp().getName());
 		history.setPrice(check.getPrice());
 		history.setFinPrice(new Double(check.getFinalPrice()));
 		history.setDiscription(check.getDiscription());
 		billHistoryDao.insert(history);
+		}else{
+			history.setBillId(index);
+			history.setEndDate(check.getEndDate());
+			history.setCustNum(check.getCustNum());
+			history.setDisName(check.getDiscount().getName());
+			history.setBillEmpId(check.getEmp().getEmpId());
+			history.setBillEmpName(check.getEmp().getName());
+			history.setPrice(check.getPrice());
+			history.setFinPrice(new Double(check.getFinalPrice()));
+			history.setDiscription(check.getDiscription());
+			billHistoryDao.insert(history);
+		}
 		
 		int lastHistoryId=0;//------找尋最後一筆billHistoryId
 		for(BdyBillHistory findLastHistory:billHistoryDao.getAllBillHistory()){
