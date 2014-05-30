@@ -39,6 +39,11 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 必要的 Script 與 CSS 外掛  (以上)-->
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <style>
+.title{
+	color:darkblue;
+	font-size:1.5em;
+	float:left;
+}
 </style>
 <script>
 $(function() {
@@ -54,6 +59,9 @@ $(function() {
         "paging": false,
         "stateSave": true,
     });
+    $('#example_info').remove();
+    $('#example_filter').html("訂位系統 BooKing");
+    $('#example_filter').attr("class","title");
     hideLoading();
 } );
 </script>
@@ -77,7 +85,6 @@ $(function() {
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-		<div style="color:darkblue;font-size:1.5em;z-index:99;position:absolute;margin-top:10px;margin-left:20px">訂位系統 BooKing</div>
 		<table id="example" class="display" cellspacing="0" width="80%">
         <thead>
             <tr>
