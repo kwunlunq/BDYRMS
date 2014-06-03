@@ -17,45 +17,43 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.bdy.service.ReportService;
 
 @WebServlet("/report/DayReportJSONServlet")
-public class DayReportJSONServlet extends HttpServlet{
-	
+public class DayReportJSONServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	ReportService service;
-	
+
 	@Override
 	public void init() throws ServletException {
-		WebApplicationContext context = 
-			WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+		WebApplicationContext context = WebApplicationContextUtils
+				.getRequiredWebApplicationContext(this.getServletContext());
 		service = (ReportService) context.getBean("ReportService");
 	}
-	
+
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain;charset=UTF-8");
-		
+
 		String col = request.getParameter("date");
 		if (col == null || col.trim().length() == 0) {
 		}
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date = null;
-		
+
 		try {
 			date = sdf.parse(col);
 		} catch (ParseException e) {
 		}
-
 		PrintWriter out = response.getWriter();
 		out.write(service.getSingleDayJSON(date).toJSONString());
 	}
-	
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		this.doGet(request, response);
 	}
-	
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.bdy.model.BdyOrderlistReport;
-import com.bdy.model.DayFoodAmountReport;
+import com.bdy.model.FoodAmountReport;
 import com.bdy.model.MonthReport;
 
 public class ReportDaoJdbc {
@@ -82,10 +82,10 @@ public class ReportDaoJdbc {
 	// 依照食物(主餐)種類與日期取得食物(主餐)數量的 DAO By Frank
 	private static final String SELECT_BY_DAYOFMAIN = "select COUNT(FOOD_NAME) as AMOUNT, FOOD_NAME,MAINKIND_NAME from BDY_ORDERLIST_REPORT o inner join BDY_BILL_HISTORY b on o.BILL_ID=b.BILL_ID where MAINKIND_NAME is not null and MAINKIND_NAME = ? and  YEAR(END_DATE) = ? and MONTH(END_DATE) = ? and DAY(END_DATE) = ? group by FOOD_NAME,MAINKIND_NAME order by MAINKIND_NAME";
 
-	public List<DayFoodAmountReport> getDayMainAmount(String mainkindName,
+	public List<FoodAmountReport> getDayMainAmount(String mainkindName,
 			java.util.Date date) {
 
-		List<DayFoodAmountReport> result = null;
+		List<FoodAmountReport> result = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
@@ -103,9 +103,9 @@ public class ReportDaoJdbc {
 			stmt.setInt(3, month);
 			stmt.setInt(4, day);
 			rset = stmt.executeQuery();
-			result = new ArrayList<DayFoodAmountReport>();
+			result = new ArrayList<FoodAmountReport>();
 			while (rset.next()) {
-				DayFoodAmountReport temp = new DayFoodAmountReport();
+				FoodAmountReport temp = new FoodAmountReport();
 				temp.setAmount(rset.getInt("AMOUNT"));
 				temp.setFoodName(rset.getString("FOOD_NAME"));
 				temp.setFoodKindName(rset.getString("MAINKIND_NAME"));
@@ -196,10 +196,10 @@ public class ReportDaoJdbc {
 	// 依照食物種類與日期取得食物(非主餐)數量的 DAO By Frank
 	private static final String SELECT_BY_DAYOFFOOD = "select COUNT(FOOD_NAME) as AMOUNT, FOOD_NAME,FOODKIND_NAME from BDY_ORDERLIST_REPORT o inner join BDY_BILL_HISTORY b on o.BILL_ID=b.BILL_ID where MAINKIND_NAME is null and FOODKIND_NAME = ? and  YEAR(END_DATE) = ? and MONTH(END_DATE) = ? and DAY(END_DATE) = ? group by FOOD_NAME,FOODKIND_NAME order by FOODKIND_NAME";
 
-	public List<DayFoodAmountReport> getDayFoodAmount(String foodkindName,
+	public List<FoodAmountReport> getDayFoodAmount(String foodkindName,
 			java.util.Date date) {
 
-		List<DayFoodAmountReport> result = null;
+		List<FoodAmountReport> result = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
@@ -217,9 +217,9 @@ public class ReportDaoJdbc {
 			stmt.setInt(3, month);
 			stmt.setInt(4, day);
 			rset = stmt.executeQuery();
-			result = new ArrayList<DayFoodAmountReport>();
+			result = new ArrayList<FoodAmountReport>();
 			while (rset.next()) {
-				DayFoodAmountReport temp = new DayFoodAmountReport();
+				FoodAmountReport temp = new FoodAmountReport();
 				temp.setAmount(rset.getInt("AMOUNT"));
 				temp.setFoodName(rset.getString("FOOD_NAME"));
 				temp.setFoodKindName(rset.getString("FOODKIND_NAME"));
@@ -359,10 +359,10 @@ public class ReportDaoJdbc {
 	// 依照食物(主餐)種類與日期取得食物(主餐)數量的 DAO By Frank
 	private static final String SELECT_BY_MONTHOFMAIN = "select COUNT(FOOD_NAME) as AMOUNT, FOOD_NAME, MAINKIND_NAME from BDY_ORDERLIST_REPORT o inner join BDY_BILL_HISTORY b on o.BILL_ID=b.BILL_ID where MAINKIND_NAME is not null and MAINKIND_NAME = ? and  YEAR(END_DATE) = ? and MONTH(END_DATE) = ? group by FOOD_NAME,MAINKIND_NAME order by MAINKIND_NAME";
 
-	public List<DayFoodAmountReport> getMonthMainAmount(String mainkindName,
+	public List<FoodAmountReport> getMonthMainAmount(String mainkindName,
 			int year, int month) {
 
-		List<DayFoodAmountReport> result = null;
+		List<FoodAmountReport> result = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
@@ -373,9 +373,9 @@ public class ReportDaoJdbc {
 			stmt.setInt(2, year);
 			stmt.setInt(3, month);
 			rset = stmt.executeQuery();
-			result = new ArrayList<DayFoodAmountReport>();
+			result = new ArrayList<FoodAmountReport>();
 			while (rset.next()) {
-				DayFoodAmountReport temp = new DayFoodAmountReport();
+				FoodAmountReport temp = new FoodAmountReport();
 				temp.setAmount(rset.getInt("AMOUNT"));
 				temp.setFoodName(rset.getString("FOOD_NAME"));
 				temp.setFoodKindName(rset.getString("MAINKIND_NAME"));
@@ -460,9 +460,9 @@ public class ReportDaoJdbc {
 	// 依照食物種類與年份月份取得食物數量(非主餐)的 DAO By Frank
 	private static final String SELECT_BY_MONTHOFFOOD = "select COUNT(FOOD_NAME) as AMOUNT, FOOD_NAME, FOODKIND_NAME from BDY_ORDERLIST_REPORT o inner join BDY_BILL_HISTORY b on o.BILL_ID=b.BILL_ID where MAINKIND_NAME is null and FOODKIND_NAME = ? and  YEAR(END_DATE) = ? and MONTH(END_DATE) = ? group by FOOD_NAME,FOODKIND_NAME order by FOODKIND_NAME";
 
-	public List<DayFoodAmountReport> getMonthFoodAmount(String foodkindName,
+	public List<FoodAmountReport> getMonthFoodAmount(String foodkindName,
 			int year, int month) {
-		List<DayFoodAmountReport> result = null;
+		List<FoodAmountReport> result = null;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
@@ -473,9 +473,9 @@ public class ReportDaoJdbc {
 			stmt.setInt(2, year);
 			stmt.setInt(3, month);
 			rset = stmt.executeQuery();
-			result = new ArrayList<DayFoodAmountReport>();
+			result = new ArrayList<FoodAmountReport>();
 			while (rset.next()) {
-				DayFoodAmountReport temp = new DayFoodAmountReport();
+				FoodAmountReport temp = new FoodAmountReport();
 				temp.setAmount(rset.getInt("AMOUNT"));
 				temp.setFoodName(rset.getString("FOOD_NAME"));
 				temp.setFoodKindName(rset.getString("FOODKIND_NAME"));

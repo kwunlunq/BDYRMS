@@ -47,10 +47,19 @@ $(function() {
 			width : 960,
 		},
 		title : {
-			text : '單月營收/單月來客數 統計'
+			text : '單月營收/單月來客數 統計',
+			style : {
+				"color": "#333333",
+				"fontSize": "20px",
+				"fontWeight": 'bold'
+			}
 		},
 		subtitle : {
-			text : ''
+			text : '',
+			style : {
+				"color": "#008866",
+				"fontSize": "16px",
+			}
 		},
 		xAxis : [ {
 			categories : []
@@ -97,10 +106,19 @@ $(function() {
 				width : 700,
 			},
 			title : {
-				margin : 50
+				margin : 50,
+				style : {
+					"color": "#333333",
+					"fontSize": "20px",
+					"fontWeight": 'bold'
+				}
 			},
 			subtitle : {
-				y : 40
+				y : 40,
+				style : {
+					"color": "#008866",
+					"fontSize": "16px",
+				}
 			},
 			xAxis : {},
 			yAxis : {
@@ -140,10 +158,19 @@ $(function() {
 					}
 				},
 				title : {
-					margin : 50
+					margin : 50,
+					style : {
+						"color": "#333333",
+						"fontSize": "20px",
+						"fontWeight": 'bold'
+					}
 				},
 				subtitle : {
-					y : 40
+					y : 40,
+					style : {
+						"color": "#008866",
+						"fontSize": "16px",
+					}
 				},
 				xAxis : {},
 				yAxis : {
@@ -178,10 +205,20 @@ $(function() {
 					width : 700,
 				},
 				title : {
-					margin : 50
+					margin : 50,
+					style : {
+						"color": "#333333",
+						"fontSize": "20px",
+						"fontWeight": 'bold'
+					}
 				},
 				subtitle : {
-					y : 40
+					y : 40,
+					style : {
+						"color": "#008866",
+						"fontSize": "16px",
+						
+					}
 				},
 				xAxis : {},
 				yAxis : {
