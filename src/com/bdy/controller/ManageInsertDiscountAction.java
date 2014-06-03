@@ -87,6 +87,9 @@ public class ManageInsertDiscountAction extends ActionSupport implements Prepara
 		if(disNum==null||disNum==0){
 			this.addFieldError("disNum", this.getText("dis.disNum.required"));
 		}
+		if(disNum>=1){
+			this.addFieldError("disNum1", this.getText("dis.disNum1.required"));
+		}
 		
 	}
 	

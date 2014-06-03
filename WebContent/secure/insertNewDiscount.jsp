@@ -60,7 +60,8 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 	<form action="<c:url value="/secure/insertDiscount.action" />"   method="post">
 	<p >折扣名稱 :<input name="disName" type="text" value="${param.disName }"><s:property value="%{fieldErrors['disName'][0]}"/></p>
-	<p >折扣優惠 :<input name="disNum" type="text" value="${param.disNum }"><s:property value="%{fieldErrors['disNum'][0]}"/></p>
+	<p >折扣優惠 :<input name="disNum" type="text" value="${param.disNum }"><s:property value="%{fieldErrors['disNum'][0]}"/>
+																		<s:property value="%{fieldErrors['disNum1'][0]}"/></p>
 	<input class='MainBtnColor' type="submit" value="確認">
 	<input class='MainBtnColor' type="button" value="取消" onclick="cancelDis()">
 	</form>
