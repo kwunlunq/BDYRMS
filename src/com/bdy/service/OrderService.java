@@ -233,7 +233,7 @@ public class OrderService {
 	public JsonObject getOrderNotCheckAndCustNum() {
 		JsonObject object = Json.createObjectBuilder()
 								.add("orderNum", orderDao.getOrderNotCheckNum())
-								.add("custNum", tableDao.getCustNum())
+//								.add("custNum", tableDao.getCustNum())
 								.add("odlistNum", orderlistDao.getUnservedOdlist())
 								.build();
 		return object;

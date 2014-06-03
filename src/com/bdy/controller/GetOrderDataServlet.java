@@ -85,13 +85,11 @@ public class GetOrderDataServlet extends HttpServlet{
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			System.out.println("billsCount "+billsCount);
 			out.write(billsCount.toString());
 			break;
 		case "updateTable" :
 			session.removeAttribute("tables");
 			session.removeAttribute("floors");
-			System.out.println("Session Cleared : table & floor");
 		case "table" :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
@@ -121,7 +119,7 @@ public class GetOrderDataServlet extends HttpServlet{
 			break;
 		case "updateDiscount" :
 			session.removeAttribute("diss");
-			System.out.println("Session Cleared : discount");
+//			System.out.println("Session Cleared : discount");
 		case "discount" :
 			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
 			JsonArray dis = service.makeJSONDiss(diss);
@@ -156,8 +154,14 @@ public class GetOrderDataServlet extends HttpServlet{
 	public <T1, T2> TreeMap<T1, T2> getDataToSession(HttpSession session,
 			T1 t1, T2 t2, String dataName, String methodName) {
 		TreeMap<T1, T2> datas = (TreeMap<T1, T2>) session.getAttribute(dataName);
+		boolean flTb = false;
+		if (dataName.equals("floors") || dataName.equals("tables")) {
+			flTb = true;
+		}
 		if (datas==null || datas.size()==0) {
-			System.out.println("Session Miss : "+dataName);
+			if (!flTb) {
+				System.out.println("Session Miss : "+dataName);
+			}
 			// 使用Reflect動態選擇method
 			java.lang.reflect.Method method = null;
 			try {
@@ -180,7 +184,9 @@ public class GetOrderDataServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("Session Hit : "+dataName);
+			if (!flTb) {
+				System.out.println("Session Hit : "+dataName);
+			}
 		}
 		return datas;
 	}
