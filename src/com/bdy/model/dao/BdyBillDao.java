@@ -1,6 +1,5 @@
 package com.bdy.model.dao;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -17,7 +16,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
 import com.bdy.model.BdyBill;
-import com.bdy.model.BdyOrder;
 
 
 public class BdyBillDao {
@@ -150,7 +148,6 @@ public class BdyBillDao {
 		today.set(Calendar.HOUR_OF_DAY, 0);
 		today.set(Calendar.MINUTE, 0);
 		
-		System.out.println(today.getTime().toString());
 		Double result = 0.0;
 		try {
 			result = ((Number)session.createCriteria(BdyBill.class)
@@ -161,10 +158,10 @@ public class BdyBillDao {
 		} catch (HibernateException e) {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
-			System.out.println("income not found");
+			System.out.println("--");
+//			System.out.println("No income found");
 		}
 		session.close();
-		System.out.println(result);
 		return result;
 	}
 	

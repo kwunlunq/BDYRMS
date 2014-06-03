@@ -139,7 +139,6 @@ private SessionFactory sf = null;
 				 					 .setProjection(Projections.count("odlistId"))
 				 					 .uniqueResult())
 				 					 .intValue();
-		System.out.println(result);
 		session.close();
 		return result;
 	}

@@ -1,12 +1,12 @@
 package com.bdy.model;
 
-public class DayFoodAmountReport {
+public class FoodAmountReport {
 	private int amount;
 	private String foodName;
 	private String foodKindName;
-	public DayFoodAmountReport() {
+	public FoodAmountReport() {
 	}
-	public DayFoodAmountReport(int amount,String foodName,String foodKindName) {
+	public FoodAmountReport(int amount,String foodName,String foodKindName) {
 		this.amount = amount;
 		this.foodName = foodName;
 		this.foodKindName=foodKindName;

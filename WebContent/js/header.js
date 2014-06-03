@@ -1,13 +1,13 @@
 $(function() {
 	updateDiscount();
-	updateInfo();
+	updateInfo(true);
 	updateIncome();
 	billsCount();
 	setInterval(function(){
 		billsCount();
-		updateInfo();
+		updateInfo(false);
 		updateIncome();
-	}, 5000);
+	}, 10000);
 });
 
 function billsCount(){
@@ -17,9 +17,13 @@ function billsCount(){
 	});
 }
 
-function updateInfo() {
-	var url = contextPath+"/order/getOrderDataServlet";
-	$.getJSON(url, {"data":"updateTable"}, function(result) {
+function updateInfo(firstTime) {
+	var url = contextPath+"/order/getOrderDataServlet?data=";
+	var param = "updateTable";
+	if (firstTime) {
+		param = "table";
+	}
+	$.getJSON(url+param, function(result) {
 		var sizeSum = 0;
 		var tableCapacity = 0;
 		var tableInUse = 0;
@@ -38,14 +42,17 @@ function updateInfo() {
 				}
 			}
 		}
-		$('#tableNotUse').text(tableNotUse);
+		// 餐廳內人數
 		$('#custInside').text(custNum);
+		// 未使用桌數
+		$('#tableNotUse').text(tableNotUse);
 	});
 
 	var url = contextPath+"/order/getOrderDataServlet";
 	$.getJSON(url, {"data":"orderNotCheckAndCustNum"}, function(result) {
-		
+		// 未結點餐單
 		$('#orderNum').text(result.orderNum);
+		// 未出餐點數
 		$('#odlistNum').text(result.odlistNum);
 	});
 	

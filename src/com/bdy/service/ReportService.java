@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+
 import javax.naming.NamingException;
 
 import org.json.simple.JSONArray;
@@ -12,7 +13,7 @@ import org.json.simple.JSONObject;
 
 import com.bdy.model.BdyBillHistory;
 import com.bdy.model.BdyOrderlistReport;
-import com.bdy.model.DayFoodAmountReport;
+import com.bdy.model.FoodAmountReport;
 import com.bdy.model.MonthReport;
 import com.bdy.model.dao.BdyBillDao;
 import com.bdy.model.dao.BdyBillHistoryDao;
@@ -162,7 +163,7 @@ public class ReportService {
 		foodKindNames = reportDao.getDayFoodKindName(date);
 		return foodKindNames;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public JSONObject getSingleDayJSON(java.util.Date date) {
 
@@ -214,13 +215,13 @@ public class ReportService {
 		JSONObject mainkindNameobj = new JSONObject();
 		JSONArray mainkindList = new JSONArray();
 		for (BdyOrderlistReport mainKindName : mainKindNames) {
-			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
+			List<FoodAmountReport> foodAmounts = new ArrayList<FoodAmountReport>();
 			foodAmounts = reportDao.getDayMainAmount(
 					mainKindName.getMainkindName(), date);
 			JSONObject mainkindNameObj = new JSONObject();
 			JSONArray mainNameList = new JSONArray();
 			JSONArray mainAmountList = new JSONArray();
-			for (DayFoodAmountReport foodAmount : foodAmounts) {
+			for (FoodAmountReport foodAmount : foodAmounts) {
 				mainNameList.add(foodAmount.getFoodName());
 				mainAmountList.add(foodAmount.getAmount());
 			}
@@ -249,13 +250,13 @@ public class ReportService {
 		JSONArray foodkindList = new JSONArray();
 		for (BdyOrderlistReport foodKindName : foodKindNames) {
 
-			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
+			List<FoodAmountReport> foodAmounts = new ArrayList<FoodAmountReport>();
 			foodAmounts = reportDao.getDayFoodAmount(
 					foodKindName.getFoodkindName(), date);
 			JSONObject foodkindNameObj = new JSONObject();
 			JSONArray foodNameList = new JSONArray();
 			JSONArray foodAmountList = new JSONArray();
-			for (DayFoodAmountReport foodAmount : foodAmounts) {
+			for (FoodAmountReport foodAmount : foodAmounts) {
 				foodNameList.add(foodAmount.getFoodName());
 				foodAmountList.add(foodAmount.getAmount());
 			}
@@ -278,6 +279,7 @@ public class ReportService {
 	@SuppressWarnings("unchecked")
 	public JSONObject getOrderDetailByBillIdJSON(int billId) {
 		JSONObject obj = new JSONObject();
+		JSONArray odId = new JSONArray();
 		JSONArray foodName = new JSONArray();
 		JSONArray foodPrice = new JSONArray();
 		JSONArray foodSet = new JSONArray();
@@ -287,6 +289,7 @@ public class ReportService {
 		orderlistReports = orderlistReportDao
 				.getOrderlistReportByBillId(billId);
 		for (BdyOrderlistReport orderlistReport : orderlistReports) {
+			odId.add(orderlistReport.getOdId());
 			foodName.add(orderlistReport.getFoodName());
 			foodPrice.add(orderlistReport.getFoodPrice());
 			if (orderlistReport.getSetName() != null) {
@@ -296,6 +299,7 @@ public class ReportService {
 			}
 			foodAddMoney.add(orderlistReport.getAddmoney());
 		}
+		obj.put("orderId", odId);
 		obj.put("foodName", foodName);
 		obj.put("foodPrice", foodPrice);
 		obj.put("foodSet", foodSet);
@@ -379,13 +383,13 @@ public class ReportService {
 		JSONObject mainkindNameobj = new JSONObject();
 		JSONArray mainkindList = new JSONArray();
 		for (BdyOrderlistReport mainKindName : mainKindNames) {
-			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
+			List<FoodAmountReport> foodAmounts = new ArrayList<FoodAmountReport>();
 			foodAmounts = reportDao.getMonthMainAmount(
 					mainKindName.getMainkindName(), year, month);
 			JSONObject mainkindNameObj = new JSONObject();
 			JSONArray mainNameList = new JSONArray();
 			JSONArray mainAmountList = new JSONArray();
-			for (DayFoodAmountReport foodAmount : foodAmounts) {
+			for (FoodAmountReport foodAmount : foodAmounts) {
 				mainNameList.add(foodAmount.getFoodName());
 				mainAmountList.add(foodAmount.getAmount());
 			}
@@ -413,12 +417,12 @@ public class ReportService {
 		JSONObject foodkindNameobj = new JSONObject();
 		JSONArray foodkindList = new JSONArray();
 		for (BdyOrderlistReport foodKindName : foodKindNames) {
-			List<DayFoodAmountReport> foodAmounts = new ArrayList<DayFoodAmountReport>();
+			List<FoodAmountReport> foodAmounts = new ArrayList<FoodAmountReport>();
 			foodAmounts = reportDao.getMonthFoodAmount(foodKindName.getFoodkindName(),year, month);
 			JSONObject foodkindNameObj = new JSONObject();
 			JSONArray foodNameList = new JSONArray();
 			JSONArray foodAmountList = new JSONArray();
-			for (DayFoodAmountReport foodAmount : foodAmounts) {
+			for (FoodAmountReport foodAmount : foodAmounts) {
 				foodNameList.add(foodAmount.getFoodName());
 				foodAmountList.add(foodAmount.getAmount());
 			}
