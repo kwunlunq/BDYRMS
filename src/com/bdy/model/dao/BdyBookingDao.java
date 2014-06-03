@@ -1,5 +1,7 @@
 package com.bdy.model.dao;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
+
 import com.bdy.model.BdyBooking;
 
 
@@ -39,6 +42,16 @@ public class BdyBookingDao {
 		if (iter.hasNext()) {
 			result = (BdyBooking) iter.next();
 		}
+		session.close();
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<BdyBooking> getBookingByDate(Date date){
+		Session session = sf.openSession();
+		List<BdyBooking> result = session.createCriteria(BdyBooking.class)
+								.add(Restrictions.ge("bkEatdate", date))
+								.list();
 		session.close();
 		return result;
 	}
