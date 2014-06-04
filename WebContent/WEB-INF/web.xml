@@ -12,6 +12,8 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  
+  
   <filter>
     <display-name>StrutsPrepareAndExecuteFilter</display-name>
     <filter-name>StrutsPrepareAndExecuteFilter</filter-name>
