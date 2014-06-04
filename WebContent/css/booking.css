@@ -1,0 +1,31 @@
+.title{
+	font-size:1.5em;
+	float:left;
+}
+#bookingDatePicker{
+	font-size:0.8em;
+	border-radius:10px;
+	text-align:center;
+	height:28px;
+}
+#ui-datepicker-div{
+	border:2px solid blue;
+}
+#addBooking input{
+	width:100%;
+	border-radius:7px;
+}
+
+.ui-dialog-titlebar-close{
+	display:none;
+}
+
+#assignTable{
+	font-size:0.8em;
+	padding:2px;
+}
+
+.error{
+	color:red;
+	font-size:0.8em;
+}

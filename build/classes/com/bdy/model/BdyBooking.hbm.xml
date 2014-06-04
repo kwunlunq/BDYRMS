@@ -8,7 +8,7 @@
             <column name="BK_ID" />
             <generator class="native" />
         </id>
-        <property name="bkName" type="serializable">
+        <property name="bkName" type="string">
             <column name="BK_NAME" />
         </property>
         <property name="bkPhone" type="string">
@@ -23,7 +23,7 @@
         <property name="bkEatdate" type="timestamp">
             <column name="BK_EATDATE" length="23" />
         </property>
-        <property name="bkContent" type="serializable">
+        <property name="bkContent" type="string">
             <column name="BK_CONTENT" />
         </property>
         <property name="bkState" type="java.lang.Integer">
