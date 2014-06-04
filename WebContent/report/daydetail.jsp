@@ -118,7 +118,8 @@ table,th,td,tr {
 					<form action="<c:url value="/report/DayReportServlet" />" method="get">
 						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">請選擇日期
 						: <input type="text" id="datepicker" name="date"
-							value="${param.date}">${errorMsgs.dateError}
+							value="${param.date}">
+						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
 							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 						</span>

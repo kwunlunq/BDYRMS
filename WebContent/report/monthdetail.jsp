@@ -122,7 +122,8 @@ table,th,td,tr {
 
 						</select> 年 <select name="month" id="month">
 
-						</select> 月     ${errorMsgs.dateError}
+						</select> 月     
+						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
 							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 						</span>
