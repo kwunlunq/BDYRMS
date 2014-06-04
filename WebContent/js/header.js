@@ -11,14 +11,14 @@ $(function() {
 });
 
 function billsCount(){
-	var url = contextPath+"/order/getOrderDataServlet";
+	var url = contextPath+"/header/getHeaderDataServlet";
 	$.getJSON(url, {"data":"bills"}, function(result) {
 		$('#todayBillsCount').text(result);
 	});
 }
 
 function updateInfo(firstTime) {
-	var url = contextPath+"/order/getOrderDataServlet?data=";
+	var url = contextPath+"/header/getHeaderDataServlet?data=";
 	var param = "updateTable";
 	if (firstTime) {
 		param = "table";
@@ -48,7 +48,7 @@ function updateInfo(firstTime) {
 		$('#tableNotUse').text(tableNotUse);
 	});
 
-	var url = contextPath+"/order/getOrderDataServlet";
+	var url = contextPath+"/header/getHeaderDataServlet";
 	$.getJSON(url, {"data":"orderNotCheckAndCustNum"}, function(result) {
 		// 未結點餐單
 		$('#orderNum').text(result.orderNum);
@@ -59,7 +59,7 @@ function updateInfo(firstTime) {
 }
 
 function updateIncome() {
-	var url = contextPath+"/order/getOrderDataServlet";
+	var url = contextPath+"/header/getHeaderDataServlet";
 	$.getJSON(url, {"data":"todayIncome"}, function(result) {
 		console.log(result);
 			$('#todayIncome').text(result);
@@ -69,7 +69,7 @@ function updateIncome() {
 	
 }
 function updateDiscount() {
-	var url = contextPath+"/order/getOrderDataServlet";
+	var url = contextPath+"/header/getHeaderDataServlet";
 	$('#dicsountDiv').empty();
 	$('#dicsountDiv').append('<strong class="strongLabel">優惠資訊</strong>');
 	$.getJSON(url, {"data":"updateDiscount"}, function(result) {
