@@ -69,17 +69,16 @@ function setTableToMaxStyle(tableId){
 	$(footer).css("font-size","1.3em");
 	$(footer).addClass("ui-state-default ui-corner-bottom");
 	var tb = $('#'+tableId);
+	$('#'+tableId+' tr:even').css({background:'#e8f4ff'});
+	$('#'+tableId+' tr:odd').css({background:'white'});
+	$(tb).css("border-spacing","0");
 	$(tb).css("width","100%");
+	$(tb).css("height",$('#writeCodeInThisDiv').height()-$(header).height()-$(footer).height()-50);
 	$(tb).css("border","1px solid rgb(167,207,223)");
 	$(tb).css("text-align","center");
 	$(tb).find('th').addClass("ui-state-default");
-	$('#'+tableId+">tbody").find('td').css("border","1px solid rgb(167,207,223)");
-	$('#'+tableId+">tbody").find('tr').addClass("max_td_style");
-	$('#'+tableId+">tbody").find('tr').hover(function(){
-		$(this).addClass("max_td_hover");
-	},function(){
-		$(this).removeClass("max_td_hover");
-	});
+	$('#'+tableId+" td").css("border-bottom","1px solid rgb(167,207,223)");
+	$('#'+tableId+" tr").addClass("max_td_style");
 	var count = 0;
 	var thCount = 0;
 	$('#'+tableId+">thead").find('th').each(function(){
@@ -89,8 +88,23 @@ function setTableToMaxStyle(tableId){
 		count++;
 	});
 	if(count <= 0){
-		$('#'+tableId+">tbody").append("<tr id='nodata'><td colspan='"+thCount+"' style='text-align:center'>尚無資料</td></tr>");
+		$('#'+tableId+">tbody").append("<tr style='height:100%'><td colspan='"+thCount+"' style='text-align:center;font-size:2em;'>尚無資料</td></tr>");
 	}else{
-		$('#'+tableId+">tbody").find("tr[id=nodata]").remove();
+		$('#'+tableId+">tbody").append("<tr><td style='height:100%' colspan='"+thCount+"'></td></tr>");
 	}
+	$('#'+tableId+' tr:odd').hover(function(){
+		$(this).css("background","#d7ebf9");
+		$('#'+tableId+' tr:last').css("background","white");
+	},function(){
+		$(this).css("background","white");
+		$('#'+tableId+' tr:last').css("background","white");
+	});
+	
+	$('#'+tableId+' tr:even').hover(function(){
+		$(this).css("background","#d7ebf9");
+		$('#'+tableId+' tr:last').css("background","white");
+	},function(){
+		$(this).css("background","#e8f4ff");
+		$('#'+tableId+' tr:last').css("background","white");
+	});
 }

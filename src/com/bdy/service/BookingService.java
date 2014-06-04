@@ -11,11 +11,32 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 import com.bdy.model.BdyBooking;
+import com.bdy.model.BdyTable;
 import com.bdy.model.dao.BdyBookingDao;
+import com.bdy.model.dao.BdyFloorDao;
+import com.bdy.model.dao.BdyTableDao;
 
 public class BookingService {
 
 	BdyBookingDao bookingDao;
+	BdyTableDao tableDao;
+	BdyFloorDao floorDao;
+
+	public BdyFloorDao getFloorDao() {
+		return floorDao;
+	}
+
+	public void setFloorDao(BdyFloorDao floorDao) {
+		this.floorDao = floorDao;
+	}
+
+	public BdyTableDao getTableDao() {
+		return tableDao;
+	}
+
+	public void setTableDao(BdyTableDao tableDao) {
+		this.tableDao = tableDao;
+	}
 
 	public BdyBookingDao getBookingDao() {
 		return bookingDao;
@@ -32,11 +53,20 @@ public class BookingService {
 		List<BdyBooking> bookingList = bookingDao.getBookingByDate(startDate,endDate);
 		JsonArrayBuilder bookingBuilder = Json.createArrayBuilder();
 		for(BdyBooking bookingBean : bookingList){
+			String tbName = "";
+			String tbFloorName = "";
+			if(bookingBean.getTbId() != -1){
+				BdyTable tableBean = tableDao.getTableById(bookingBean.getTbId());
+				tbName = tableBean.getName();
+				tbFloorName = tableBean.getBdyFloor().getName();
+			}
 			bookingBuilder.add(Json.createObjectBuilder()
 					.add("bkId", bookingBean.getBkId())
 					.add("phone", bookingBean.getBkPhone())
 					.add("empId", bookingBean.getEmpId())
 					.add("tbId", bookingBean.getTbId())
+					.add("tbName", tbName)
+					.add("tbFloorName", tbFloorName)
 					.add("custNum", bookingBean.getBkNumber())
 					.add("state", bookingBean.getBkState())
 					.add("content", bookingBean.getBkContent())

@@ -3,13 +3,13 @@
 	float:left;
 }
 #bookingDatePicker{
-	font-size:1.0em;
-	border-radius:10px;
+	font-size:0.9em;
+	border-radius:7px;
 	text-align:center;
-	height:28px;
+	height:25px;
 }
 #ui-datepicker-div{
-	border:2px solid blue;
+	border:2px solid darkgray;
 }
 #addBooking input{
 	width:100%;
