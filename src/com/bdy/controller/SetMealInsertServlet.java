@@ -48,6 +48,7 @@ public class SetMealInsertServlet extends HttpServlet {
 		
 		Double setprice = Double.valueOf(sprice);
 		String check[]=request.getParameterValues("checkname");
+		
 		List<FoodKindPrice> prices = new LinkedList<FoodKindPrice>();
 		switch(btnname){
 		case "確定":
@@ -56,6 +57,7 @@ public class SetMealInsertServlet extends HttpServlet {
 		for(int i=0;i<check.length;i++){
 			Integer var= Integer.valueOf(check[i]);
 			String price=request.getParameter("price"+var);
+			
 			//System.out.println("fkID=" + var+"price="+Double.valueOf(price));
 			FoodKindPrice bean = new FoodKindPrice();
 			bean.setFkId(var);
@@ -67,6 +69,7 @@ public class SetMealInsertServlet extends HttpServlet {
 		case "確認更改":	
 			Integer sId = Integer.valueOf(setId);
 			for(int i=0;i<check.length;i++){
+				//System.out.println(check[i]); 抓fkId
 				Integer var= Integer.valueOf(check[i]);
 				String price=request.getParameter("price"+var);
 				//System.out.println("fkID=" + var+"price="+Double.valueOf(price));

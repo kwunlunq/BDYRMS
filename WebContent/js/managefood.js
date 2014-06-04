@@ -4,6 +4,7 @@ var xmlHttpInitMK = new XMLHttpRequest();
 var xmlHttpInitInsertMK = new XMLHttpRequest();
 
 $(function(){
+	setTableToMaxStyle("sortTable1");
 	var orders = order.split(",");
 	if(del=="1"){
 		showState("刪除成功");

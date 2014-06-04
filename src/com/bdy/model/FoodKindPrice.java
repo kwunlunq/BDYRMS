@@ -4,7 +4,15 @@ public class FoodKindPrice {
 	Integer sdId;
 	Integer fkId;
 	Double pirce;
+	BdySetdetail setDetail;
 	
+	
+	public BdySetdetail getSetDetail() {
+		return setDetail;
+	}
+	public void setSetDetail(BdySetdetail setDetail) {
+		this.setDetail = setDetail;
+	}
 	public Integer getSdId() {
 		return sdId;
 	}

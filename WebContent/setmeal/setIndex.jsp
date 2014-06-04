@@ -100,7 +100,7 @@ height:100%;
 	</div>
 	<div class="setCol">
 	<h3>套餐價錢:<input name="setPriceName" id="setPrice" type="text" size="3"></h3>
-	<div id="changebtn"><input type="submit" name='buttonName' value="確定" onclick="return checkPrice()"></div>
+	<div id="changebtn"><input class='MainBtnColor' type="submit" name='buttonName' value="確定" onclick="return checkPrice()"></div>
 	</div>
 	
 	</form>
@@ -115,7 +115,7 @@ height:100%;
 		<span id="detailname" detailfkid="${setdetails.bdyFoodkind.fkId }" detailid="${setdetails.sdId }">${setdetails.bdyFoodkind.name }</span>
 		<span id="settext${setdetails.sdId }">${setdetails.price }</span>
 		</c:if>
-		</c:forEach><input type="button"  value="修改" onclick="updateSet(${set.setId})"><input type="button" value="刪除" onclick="deleteSet(${set.setId})"><br>
+		</c:forEach><input class='MainBtnColor' type="button"  value="修改" onclick="updateSet(${set.setId})"><input class='MainBtnColor' type="button" value="刪除" onclick="deleteSet(${set.setId})"><br>
 		</div>
 		</c:forEach>
 		

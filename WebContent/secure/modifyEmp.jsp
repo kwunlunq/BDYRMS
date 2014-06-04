@@ -61,7 +61,7 @@ var contextPath='<%=request.getContextPath()%>';
 	 <s:property value="%{fieldErrors['emp.empId']}"/>
 	<s:iterator var="emp" value="emps" status="headcheck" >	
 	<s:if test="%{#headcheck.first}">
-	<table id="table1" >		
+	<table id="empTable" >		
 		<thead>
 			<tr>
 				<td>員工ID</td>

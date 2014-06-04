@@ -81,8 +81,8 @@ var contextPath='<%=request.getContextPath()%>';
 			<label>電話</label><input type="text" name="emp.phone" value="${param['emp.phone']}"><s:property value="%{fieldErrors['emp.phone'][0]}"/><br>
 			<label>住址</label><input type="text" name="emp.empAddress" value="${param['emp.empAddress']}"><s:property value="%{fieldErrors['emp.empAddress'][0]}"/><br>
 				<input type="hidden" name="emp.resign" value="0">					 			
-			<input type="submit" value="送出">
-			<input type="reset" value="清除">
+			<input class='MainBtnColor' type="submit" value="送出">
+			<input class='MainBtnColor' type="reset" value="清除">
 			</form>
 			</fieldset>
 			<a href="<c:url value="/secure/showEmp.action" />">回員工資料表</a>
