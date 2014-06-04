@@ -92,6 +92,15 @@ table,th,td,tr {
 .DataTables_sort_icon { 
 	display:none;
 }
+#datepicker{
+	font-size:1.0em;
+	border-radius:10px;
+	text-align:center;
+	height:28px;
+}
+#ui-datepicker-div{
+	border:2px solid blue;
+}
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -116,9 +125,8 @@ table,th,td,tr {
 
 					<!-- START Write -->
 					<form action="<c:url value="/report/DayReportServlet" />" method="get">
-						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">請選擇日期
-						: <input type="text" id="datepicker" name="date"
-							value="${param.date}">
+						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">
+						<input type="text" id="datepicker" size="10" maxlength="10" placeholder="請輸入日期" name="date" value="${param.date}">
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
 							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
