@@ -28,9 +28,9 @@ public class KitchenFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		System.out.println(" -- kitchen filter -- ");
+//		System.out.println(" -- kitchen filter -- ");
 		HttpServletRequest request = (HttpServletRequest) req;
-		System.out.println(request.getRequestURL());
+//		System.out.println(request.getRequestURL());
 		HttpServletResponse response = (HttpServletResponse) resp;
 		HttpSession session = request.getSession();
 		
@@ -44,6 +44,7 @@ public class KitchenFilter implements Filter {
 				chain.doFilter(req, resp);
 			} else {
 				response.sendRedirect(contextPath+"/index.jsp");
+				System.out.println("權限不足");
 			}
 		}
 	}
