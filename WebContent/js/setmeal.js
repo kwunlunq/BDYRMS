@@ -1,3 +1,7 @@
+$(function(){
+	$( 'body' ).find("div[cssId=accordion]").accordion();
+	
+});
 
 function showMe (fkId,it, box) {
 	  var vis = (box.checked) ? "block" : "none";
@@ -115,7 +119,7 @@ function updateSet(setId){
 		$('#text'+detailfkids[i]).val(settext);
 	}
 	$('#changebtn').empty();
-	$('#changebtn').append( "<input  class='MainBtnColor' name='buttonName' type='submit' value='確認更改' onclick='return checkPrice()'>" +
+	$('#changebtn').append( "<input class='MainBtnColor' name='buttonName' type='submit' value='確認更改' onclick='return checkPrice()'>" +
 							"<input class='MainBtnColor' type='button' value='取消' onclick='onclear()'>"+
 							"<input type='hidden' name='setId' value='"+setId+"'>");
 	getTotalPrice();

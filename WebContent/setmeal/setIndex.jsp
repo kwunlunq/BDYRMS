@@ -56,6 +56,7 @@ float:left;
 width: 50%;
 height:100%;
 }
+
 </style>
 <title>BDY RMS - SetMeal</title>
 </head>
@@ -81,11 +82,13 @@ height:100%;
 	</div>
 	<div class="setColMid">
 	<h3>選擇套餐種類</h3>
+		<div id="format">
 		<s:iterator var="fk" value="foodKind">
 		<s:if test="%{#fk.isMain==0}">		
-		<input type="checkbox" name="checkname" value="<s:property value="#fk.fkId" />" id="check<s:property value="#fk.fkId" />" onclick="showMe(<s:property value="#fk.fkId" />,'span<s:property value="#fk.fkId" />', this)" ><s:property value="#fk.name" />
+		<input class="checkbox"  type="checkbox" name="checkname" value="<s:property value="#fk.fkId" />" id="check<s:property value="#fk.fkId" />" onclick="showMe(<s:property value="#fk.fkId" />,'span<s:property value="#fk.fkId" />', this)" >
+		<label ><s:property value="#fk.name" /></label>
 		</s:if>
-		</s:iterator>
+		</s:iterator></div>
 		<div id="fkindChecked"></div>	
 		<h4>限定價錢總合:<span id="totalPrice">0</span></h4>
 		
@@ -108,15 +111,15 @@ height:100%;
 	<div id="showSetMeal">
 		
 		<c:forEach var="set" items="${set}">
-		<div id="setId${set.setId }">
-		<span id="setname${set.setId }">${set.name}</span> -----<span id="setprice${set.setId }">${set.price }</span><br>
-		<c:forEach var="setdetails" items="${set.bdySetdetails }">
+		<div id="setId${set.setId }" cssId="accordion">
+		<h4><span id="setname${set.setId }">${set.name}</span> -----<span id="setprice${set.setId }">${set.price }</span></h4>
+		<div><c:forEach var="setdetails" items="${set.bdySetdetails }">
 		<c:if test="${setdetails.bdyFoodkind.fkId != '6'}">
 		<span id="detailname" detailfkid="${setdetails.bdyFoodkind.fkId }" detailid="${setdetails.sdId }">${setdetails.bdyFoodkind.name }</span>
 		<span id="settext${setdetails.sdId }">${setdetails.price }</span>
 		</c:if>
 		</c:forEach><input class='MainBtnColor' type="button"  value="修改" onclick="updateSet(${set.setId})"><input class='MainBtnColor' type="button" value="刪除" onclick="deleteSet(${set.setId})"><br>
-		</div>
+		</div></div>
 		</c:forEach>
 		
 	</div>
