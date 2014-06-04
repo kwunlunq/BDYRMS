@@ -46,7 +46,7 @@ public class MonthReportServlet extends HttpServlet {
 		request.setAttribute("errorMsgs", errors);
 
 		if (col1 == null || col2 == null || col1.trim().length() == 0|| col2.trim().length() == 0) {
-			errors.put("dateError", "Please select a year and a month");
+			errors.put("dateError", "請選擇一個年份與月份");
 			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
 					request, response);
 			return;
@@ -59,7 +59,7 @@ public class MonthReportServlet extends HttpServlet {
 			year = Integer.parseInt(col1);
 			month = Integer.parseInt(col2);
 		} catch (NumberFormatException e1) {
-			errors.put("dateError", "Year and month must be integer");
+			errors.put("dateError", "年份與月份必須是正整數");
 			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
 					request, response);
 			return;
@@ -74,7 +74,7 @@ public class MonthReportServlet extends HttpServlet {
 		} catch (NamingException e) {
 		}
 		if (beans == null || beans.isEmpty()) {
-			errors.put("dateError", "No data!!");
+			errors.put("dateError", "沒有查詢到資料!!");
 			request.getRequestDispatcher("/report/monthdetail.jsp").forward(
 					request, response);
 			return;

@@ -90,6 +90,8 @@ $(function() {
 		dateFormat : "yy-mm-dd",
 		changeMonth : true,
 		changeYear : true,
+		showAnim:"slideDown",
+		showButtonPanel: true,
 		beforeShow : function(input) {
 			$(input).css({
 				"position" : "relative",
