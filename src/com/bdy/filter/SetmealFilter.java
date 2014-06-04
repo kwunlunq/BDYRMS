@@ -19,27 +19,28 @@ import com.bdy.model.BdyPriority;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/order/*")
-public class OrderFilter implements Filter {
-    public OrderFilter() {
+@WebFilter("/setmeal/*")
+public class SetmealFilter implements Filter {
+    public SetmealFilter() {
     }
 
 	public void destroy() {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-//		System.out.println(" -- order filter -- ");
+//		System.out.println(" -- setmeal filter -- ");
 		HttpServletRequest request = (HttpServletRequest) req;
 //		System.out.println(request.getRequestURL());
 		HttpServletResponse response = (HttpServletResponse) resp;
 		HttpSession session = request.getSession();
+		
 		String contextPath = request.getContextPath();
 		BdyEmp emp = (BdyEmp) session.getAttribute("empData");
 		if (emp == null) {
 			response.sendRedirect(contextPath+"/index.jsp");
 		} else {
 			int prio = emp.getBdyPriority().getPrio();
-			if (prio == 1 || prio == 2) {
+			if (prio == 1) {
 				chain.doFilter(req, resp);
 			} else {
 				response.sendRedirect(contextPath+"/index.jsp");

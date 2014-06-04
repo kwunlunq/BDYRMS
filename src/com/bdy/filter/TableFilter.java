@@ -28,22 +28,34 @@ public class TableFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-		System.out.println(" -- table filter -- ");
+//		System.out.println(" -- table filter -- ");
 		HttpServletRequest request = (HttpServletRequest) req;
-		System.out.println(request.getRequestURL());
+//		System.out.println(request.getRequestURI());
 		HttpServletResponse response = (HttpServletResponse) resp;
 		HttpSession session = request.getSession();
-
+		
 		String contextPath = request.getContextPath();
 		BdyEmp emp = (BdyEmp) session.getAttribute("empData");
 		if (emp == null) {
 			response.sendRedirect(contextPath+"/index.jsp");
 		} else {
 			int prio = emp.getBdyPriority().getPrio();
-			if (prio == 1 || prio == 2) {
-				chain.doFilter(req, resp);
+			if ("/table/tableset.jsp".equals(request.getServletPath())) {
+				if (prio == 1) {
+					chain.doFilter(req, resp);
+				} else {
+					response.sendRedirect(contextPath+"/index.jsp");
+					System.out.println("權限不足");
+				}
+			} else if ("/table/opentable.jsp".equals(request.getServletPath())) {
+				if (prio == 1 || prio == 2) {
+					chain.doFilter(req, resp);
+				} else {
+					response.sendRedirect(contextPath+"/index.jsp");
+					System.out.println("權限不足");
+				}
 			} else {
-				response.sendRedirect(contextPath+"/index.jsp");
+				chain.doFilter(req, resp);
 			}
 		}
 	}

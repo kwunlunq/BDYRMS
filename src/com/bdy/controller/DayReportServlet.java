@@ -44,7 +44,7 @@ public class DayReportServlet extends HttpServlet {
 		request.setAttribute("errorMsgs", errors);
 
 		if (col == null || col.trim().length() == 0) {
-			errors.put("dateError", "Please enter date for select");
+			errors.put("dateError", "請輸入一個日期來查詢");
 			request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 					response);
 			return;
@@ -57,7 +57,7 @@ public class DayReportServlet extends HttpServlet {
 		try {
 			date = sdf.parse(col);
 		} catch (ParseException e) {
-				errors.put("dateError", "Date must be a date of YYYY-MM-DD");
+				errors.put("dateError", "日期的型式必須是YYYY-MM-DD");
 				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 						response);
 				return;
@@ -73,7 +73,7 @@ public class DayReportServlet extends HttpServlet {
 			List<BdyBillHistory> beans = new ArrayList<BdyBillHistory>();
 			beans=service.getDayRevenue(date);
 			if (beans == null||beans.isEmpty()) {
-				errors.put("dateError", "No data!!");
+				errors.put("dateError", "查無此日資料!!");
 				request.getRequestDispatcher("/report/daydetail.jsp").forward(request,
 						response);
 				return;

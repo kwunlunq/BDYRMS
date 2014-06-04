@@ -24,13 +24,7 @@ $(function() {
 		}
 		$("select[id=month]").append(opt);
 	}
-	$('table').DataTable({
-		"jQueryUI" : true,
-		"scrollY" : ($('#writeCodeInThisDiv').height() - 290),
-		"scrollCollapse" : true,
-		"paging" : false,
-		"stateSave" : true,
-	});
+	setTableToMaxStyle("bills");
 	$("#monthReportTabs").tabs();
 	$("#monthMainsCount").tabs()
 			.addClass("ui-tabs-vertical ui-helper-clearfix");
