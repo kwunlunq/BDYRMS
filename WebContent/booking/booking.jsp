@@ -59,7 +59,7 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 	<div id="writeCodeInThisDiv">
-	<div id="bookingTableHeader" class="ui-state-default ui-corner-top">
+	<div id="bookingTableHeader">
 	訂位資訊  - 
 	<input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
 	 - <span style="font-size:0.7em;">共 <span id="bookingCount" style="color:red;"></span> 筆</span>
@@ -68,12 +68,12 @@ var contextPath='<%=request.getContextPath()%>';
 	<table id="bookingTable">
 	    <thead>
 	    	<tr>
-		    	<th>狀態</th>
-		        <th>大名</th>
-		        <th>電話</th>
-		        <th>人數</th>
-		        <th>用餐時間</th>
-		        <th>指定座位</th>
+		    	<th style='width:50px;'>狀態</th>
+		    	<th style='width:100px;'>用餐時間</th>
+		        <th style='width:170px;'>顧客</th>
+		        <th style='width:100px;'>電話</th>
+		        <th style='width:50px;'>人數</th>
+		        <th style='width:120px;'>指定座位</th>
 		        <th>備註</th>
 		        <th style='width:170px;'>功能</th>
 	        </tr>
@@ -81,7 +81,7 @@ var contextPath='<%=request.getContextPath()%>';
 	    <tbody>
 	    </tbody>
     </table>
-    <div id="bookingTableFooter" class="ui-state-default ui-corner-bottom">
+    <div id="bookingTableFooter">
     </div>
     <div id="addBooking" title="新增訂位" style="display:none">
 	    <form id="addBookingForm" name="addBookingForm">

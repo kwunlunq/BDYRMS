@@ -85,7 +85,7 @@ var contextPath='<%=request.getContextPath()%>';
 			<ul id="sortableFloor">
 			</ul>
 		</div>
-		<div id="editTableDialog" title="編輯場地" style='display:none'>
+		<div id="editTableDialog" title="編輯桌子" style='display:none'>
 			<p>桌子名稱：<span id='editTbNameError' style='color:red;font-size:0.8em'></span></p>
 			<input id='editTbNameText' type="text">
 			<p>容納人數：<span id='editTbSizeError' style='color:red;font-size:0.8em'></span></p>

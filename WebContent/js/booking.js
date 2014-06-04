@@ -93,7 +93,6 @@ function loadBookingData(eatDate){
 	    dataType :'json',
 	    success: function(bookingList) {
 	    	$('#bookingTable tbody').empty();
-	    	console.log(bookingList.data);
 	    	$('#bookingCount').text(bookingList.data.length);
 	    	for(var i=0;i<bookingList.data.length;i++){
 	    		var bookingData = bookingList.data[i];
@@ -118,14 +117,14 @@ function loadBookingData(eatDate){
 	    		if(bookingData.state == 1){
 	    			state = "已取消";
 	    		}
-	    		var editBtn = $("<input id='editBooking' type='button' class='MainBtnColor' value='編輯'>");
+	    		var editBtn = $("<input id='editBooking' type='button' class='MainBtnColor' value='修改'>");
 	    		var cancelBtn = $("<input id='cancelBooking' bookingId='"+bookingData.bkId+"' type='button' class='MainBtnColor' value='取消訂位'>");
 	    		var tr = $('<tr>');
 	    		$(tr).append("<td>"+state+"</td>");
+	    		$(tr).append("<td>"+eatDate+"</td>");
 	    		$(tr).append("<td>"+bookingData.name+"</td>");
 	    		$(tr).append("<td>"+bookingData.phone+"</td>");
 	    		$(tr).append("<td>"+bookingData.custNum+"</td>");
-	    		$(tr).append("<td>"+eatDate+"</td>");
 	    		$(tr).append("<td>"+tbStr+"</td>");
 	    		$(tr).append("<td>"+content+"</td>");
 	    		var td = $("<td></td>");
@@ -262,13 +261,13 @@ function chcekAndSendFormData(){
 	var hour = $("#hour").val();
 	var min = $("#min").val();
 	var content = $("#addBookingForm input[name=content]").val();
-	var tbId = $("#addBookingForm input[name=tbId]").val();
+	var tbId = $("#addBookingForm select[id=tableSelect]").val();
 	var empId = $("#addBookingForm input[name=empId]").val();
 	var assignTable1 = $('#assignTable label[for=assignTable1]').attr("aria-pressed");
 	var send = true;
-	if(name.length == 0 || name == null || name == "" || name.length > 10){
+	if(name.length == 0 || name == null || name == "" || name.length > 4){
 		send = false;
-		$("#nameError").text("必填,小於10個字");
+		$("#nameError").text("必填,小於5個字");
 	}else{
 		bookingData.name = name;
 		$("#nameError").text("");
@@ -278,6 +277,7 @@ function chcekAndSendFormData(){
 		send = false;
 		$("#phoneError").text("必填,須輸入10個數字");
 	}else if(!expr.test(phone)){
+		send = false;
 		$("#phoneError").text("格式錯誤-09XXXXXXXX");
 	}else{
 		bookingData.phone = phone;
@@ -325,6 +325,7 @@ function chcekAndSendFormData(){
 		    	loadBookingData(eatDate);
 		    	$('#bookingDatePicker').val(eatDate);
 		    	$("#addBooking").dialog('close');
+		    	$("#addBookingForm")[0].reset();
 		    }
 		});
 	}

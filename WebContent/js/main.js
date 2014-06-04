@@ -63,21 +63,22 @@ function setTableToMaxStyle(tableId){
 	var header = $('#'+tableId+'Header');
 	$(header).css("padding","10px");
 	$(header).css("font-size","1.3em");
-	$(header).addClass("ui-state-default ui-corner-top");
+	$(header).addClass("tableHeaderAndFooter ui-corner-top");
 	var footer = $('#'+tableId+'Footer');
 	$(footer).css("padding","10px");
 	$(footer).css("font-size","1.3em");
-	$(footer).addClass("ui-state-default ui-corner-bottom");
+	$(footer).addClass("tableHeaderAndFooter ui-corner-bottom");
 	var tb = $('#'+tableId);
 	$('#'+tableId+' tr:even').css({background:'#e8f4ff'});
 	$('#'+tableId+' tr:odd').css({background:'white'});
 	$(tb).css("border-spacing","0");
 	$(tb).css("width","100%");
-	$(tb).css("height",$('#writeCodeInThisDiv').height()-$(header).height()-$(footer).height()-50);
-	$(tb).css("border","1px solid rgb(167,207,223)");
+	$(tb).css("border","2px solid rgb(53,106,160)");
 	$(tb).css("text-align","center");
-	$(tb).find('th').addClass("ui-state-default");
-	$('#'+tableId+" td").css("border-bottom","1px solid rgb(167,207,223)");
+	$(tb).find('th').addClass("tableThead");
+	$(tb).find('th:first').css("border-left","0");
+	$(tb).find('th:last').css("border-right","0");
+	$('#'+tableId+" td").css("border","1px solid rgb(167,207,223)");
 	$('#'+tableId+" tr").addClass("max_td_style");
 	var count = 0;
 	var thCount = 0;
@@ -88,23 +89,17 @@ function setTableToMaxStyle(tableId){
 		count++;
 	});
 	if(count <= 0){
-		$('#'+tableId+">tbody").append("<tr style='height:100%'><td colspan='"+thCount+"' style='text-align:center;font-size:2em;'>尚無資料</td></tr>");
-	}else{
-		$('#'+tableId+">tbody").append("<tr><td style='height:100%' colspan='"+thCount+"'></td></tr>");
+		$('#'+tableId+">tbody").append("<tr><td colspan='"+thCount+"' style='text-align:center;font-size:2em;'>尚無資料</td></tr>");
 	}
 	$('#'+tableId+' tr:odd').hover(function(){
 		$(this).css("background","#d7ebf9");
-		$('#'+tableId+' tr:last').css("background","white");
 	},function(){
 		$(this).css("background","white");
-		$('#'+tableId+' tr:last').css("background","white");
 	});
 	
 	$('#'+tableId+' tr:even').hover(function(){
 		$(this).css("background","#d7ebf9");
-		$('#'+tableId+' tr:last').css("background","white");
 	},function(){
 		$(this).css("background","#e8f4ff");
-		$('#'+tableId+' tr:last').css("background","white");
 	});
 }
