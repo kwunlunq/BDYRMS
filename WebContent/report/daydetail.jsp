@@ -48,13 +48,13 @@ var mealId = [];
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables_themeroller.min.css"/>">
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/jquery.dataTables.min.css"/>">
 <style type="text/css">
-table{
-	font-size:0.85em;
-	text-align:center;
-}
-table,th,td,tr { 
- 	border-style: double; 
-}
+/* table{ */
+/* 	font-size:0.85em; */
+/* 	text-align:center; */
+/* } */
+/* table,th,td,tr {  */
+/*  	border-style: double;  */
+/* } */
 .ui-tabs-vertical {
 	width: 55em;
 }
