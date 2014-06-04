@@ -59,21 +59,28 @@ var contextPath='<%=request.getContextPath()%>';
 </div>
 <div id="article">
 	<div id="writeCodeInThisDiv">
-		<table id="bookingTable" class="display" cellspacing="0" width="80%">
-        <thead>
-            <tr>
-            	<th>編號</th>
-                <th>大名</th>
-                <th>電話</th>
-                <th>人數</th>
-                <th>用餐時間</th>
-                <th>指定座位</th>
-                <th>備註</th>
-            </tr>
-        </thead> 
-        <tbody>
-        </tbody>
+	<div id="bookingTableHeader" class="ui-state-default ui-corner-top">
+	訂位資訊 
+	 - <input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
+	 - <input id="addBookingBtn" type="button" class="MainBtnColor" value="新增訂位">
+	</div>
+	<table id="bookingTable" class="display" cellspacing="0">
+	    <thead>
+	    	<tr>
+		    	<th>狀態</th>
+		        <th>大名</th>
+		        <th>電話</th>
+		        <th>人數</th>
+		        <th>用餐時間</th>
+		        <th>指定座位</th>
+		        <th>備註</th>
+	        </tr>
+	    </thead> 
+	    <tbody>
+	    </tbody>
     </table>
+    <div id="bookingTableFooter" class="ui-state-default ui-corner-bottom">
+    </div>
     <div id="addBooking" title="新增訂位" style="display:none">
 	    <form id="addBookingForm" name="addBookingForm">
 		    <p class="formLabel">*姓名：<span class="error" id="nameError"></span></p>

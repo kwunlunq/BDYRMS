@@ -38,7 +38,7 @@ $(function(){
 });
 var count = 1;
 function countLoginTime(){
-	if(count<=5){
+	if(count<=30){
 		$('h3').text(count + " s");
 	}else{
 		$('#loginState').text("登入逾時");

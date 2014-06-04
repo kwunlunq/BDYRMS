@@ -1,18 +1,17 @@
 var bookingUrl = contextPath + "/booking";
+var d = new Date();
+var month = (d.getMonth() + 1);
+if((d.getMonth() + 1) < 10){
+	month = "0" + month;
+}
+var day = d.getDate();
+if(d.getDate() < 10){
+	day = "0" + day;
+}
+var today = d.getFullYear() + "-" + month + "-" + day;
 
-$(function() {
-    $('#bookingTable').DataTable({
-    	"jQueryUI": true,
-    	"scrollY": ($('#writeCodeInThisDiv').height() - 150),
-        "scrollCollapse": true,
-        "paging": false,
-        "stateSave": true,
-    });
-    $('#bookingTable_info').remove();
-    $('#bookingTable_filter').html("訂位資訊  - ");
-    $('#bookingTable_filter').append('<input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >');
-    $('#bookingTable_filter').append(' - <input id="addBookingBtn" type="button" class="MainBtnColor" value="新增訂位">');
-    $('#bookingTable_filter').attr("class","title");
+$(function() {	
+	setTableToMaxStyle("bookingTable");
 	$( "#bookingDatePicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true,
@@ -58,6 +57,8 @@ $(function() {
 		if(i % 5 == 0)
 			$('#min').append("<option value='"+min+"'>"+min+"</option>");
 	}
+	$('#bookingDatePicker').val(today);
+	loadBookingData();
 	$('#bookingDatePicker').change(loadBookingData);
     hideLoading();
 });
@@ -65,7 +66,7 @@ $(function() {
 function loadBookingData(){
 	var bookingJson = {
 			"act" : "searchByDate",
-			"date": $('#bookingDatePicker').val()	
+			"date": $('#bookingDatePicker').val()
 	};
 	console.log(bookingJson);
 	$.ajax({
@@ -75,20 +76,37 @@ function loadBookingData(){
 	    contentType: 'application/json; charset=utf-8',
 	    dataType :'json',
 	    success: function(bookingList) {
+	    	$('#bookingTable tbody').empty();
 	    	console.log(bookingList.data);
 	    	for(var i=0;i<bookingList.data.length;i++){
 	    		var bookingData = bookingList.data[i];
+	    		var eatDate = bookingData.eatDate.substring(10,16);
+	    		var tbId = "";
+	    		if(bookingData.tbId != -1){
+	    			tbId = bookingData.tbId;
+	    		}else{
+	    			tbId = "無";
+	    		}
+	    		var content = bookingData.content;
+	    		if(bookingData.content.length < 1 || bookingData.content ==null || bookingData.content == ""){
+	    			content = "無";
+	    		}
+	    		var state = "正常";
+	    		if(bookingData.state == 1){
+	    			state = "已取消";
+	    		}
 	    		var tr = $('<tr>');
-	    		$(tr).append("<td>"+bookingData.bkId+"</td>");
+	    		$(tr).append("<td>"+state+"</td>");
 	    		$(tr).append("<td>"+bookingData.name+"</td>");
 	    		$(tr).append("<td>"+bookingData.phone+"</td>");
 	    		$(tr).append("<td>"+bookingData.custNum+"</td>");
-	    		$(tr).append("<td>"+bookingData.eatDate+"</td>");
-	    		$(tr).append("<td>"+bookingData.tbId+"</td>");
-	    		$(tr).append("<td>"+bookingData.content+"</td>");
+	    		$(tr).append("<td>"+eatDate+"</td>");
+	    		$(tr).append("<td>"+tbId+"</td>");
+	    		$(tr).append("<td>"+content+"</td>");
 	    		$('#bookingTable tbody').append(tr);
 	    	}
-	    	$('#bookingTable').DataTable().draw();
+	    	showState("資料載入完畢");
+	    	setTableToMaxStyle("bookingTable");
 	    }
 	});
 }
@@ -197,6 +215,7 @@ function getTables(floor){
 
 function chcekAndSendFormData(){
 	var bookingData = {
+			"act" : "insertBooking",
 			"name" : "",
 			"phone": "",
 			"number" : "",
@@ -267,7 +286,15 @@ function chcekAndSendFormData(){
 		bookingData.empId = empId;
 		bookingData.content = content;
 		console.log(JSON.stringify(bookingData));
-		
-//		$("#addBooking").dialog('close');
+		$.ajax({
+		    url: bookingUrl,
+		    type: 'POST',
+		    data: JSON.stringify(bookingData),
+		    contentType: 'application/json; charset=utf-8',
+		    success: function() {
+		    	showState("新增成功");
+		    	$("#addBooking").dialog('close');
+		    }
+		});
 	}
 }

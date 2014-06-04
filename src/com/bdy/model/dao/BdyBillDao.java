@@ -158,7 +158,7 @@ public class BdyBillDao {
 		} catch (HibernateException e) {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
-			System.out.println("--");
+//			System.out.println("--");
 //			System.out.println("No income found");
 		}
 		session.close();

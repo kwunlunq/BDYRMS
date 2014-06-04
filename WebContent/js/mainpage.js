@@ -52,7 +52,6 @@ function loadNews(){
 	$( "#mainPageAcdion" ).empty();
 	url_getAllNews = contextPath + "/news";
 	$.getJSON(url_getAllNews,{"act":"getAllNews"},function(datas){
-		console.log(datas);
 		for(var i in datas){
 			var newsPostdate = datas[i].newsPostdate.substring(0,19);
 			var title = $("<h3>["+datas[i].newsType+"] "+datas[i].newsTitle+"<span class='titleDate'>At "+newsPostdate+"</span></h3>");

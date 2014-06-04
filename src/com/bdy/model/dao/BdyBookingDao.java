@@ -2,6 +2,7 @@ package com.bdy.model.dao;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,10 +48,13 @@ public class BdyBookingDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<BdyBooking> getBookingByDate(Date date){
+	public List<BdyBooking> getBookingByDate(Date startDate,Date endDate){
 		Session session = sf.openSession();
+		System.out.println("dao------------------");
+		System.out.println(startDate);
+		System.out.println(endDate);
 		List<BdyBooking> result = session.createCriteria(BdyBooking.class)
-								.add(Restrictions.ge("bkEatdate", date))
+								.add(Restrictions.between("bkEatdate", startDate,endDate))
 								.list();
 		session.close();
 		return result;

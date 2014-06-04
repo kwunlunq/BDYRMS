@@ -58,3 +58,39 @@ function hideLoading(){
 		$(this).remove();
 	});
 }
+
+function setTableToMaxStyle(tableId){
+	var header = $('#'+tableId+'Header');
+	$(header).css("padding","10px");
+	$(header).css("font-size","1.3em");
+	$(header).addClass("ui-state-default ui-corner-top");
+	var footer = $('#'+tableId+'Footer');
+	$(footer).css("padding","10px");
+	$(footer).css("font-size","1.3em");
+	$(footer).addClass("ui-state-default ui-corner-bottom");
+	var tb = $('#'+tableId);
+	$(tb).css("width","100%");
+	$(tb).css("border","1px solid rgb(167,207,223)");
+	$(tb).css("text-align","center");
+	$(tb).find('th').addClass("ui-state-default");
+	$('#'+tableId+">tbody").find('td').css("border","1px solid rgb(167,207,223)");
+	$('#'+tableId+">tbody").find('tr').addClass("max_td_style");
+	$('#'+tableId+">tbody").find('tr').hover(function(){
+		$(this).addClass("max_td_hover");
+	},function(){
+		$(this).removeClass("max_td_hover");
+	});
+	var count = 0;
+	var thCount = 0;
+	$('#'+tableId+">thead").find('th').each(function(){
+		thCount++;
+	});
+	$('#'+tableId+">tbody").find('tr').each(function(){
+		count++;
+	});
+	if(count <= 0){
+		$('#'+tableId+">tbody").append("<tr id='nodata'><td colspan='"+thCount+"' style='text-align:center'>尚無資料</td></tr>");
+	}else{
+		$('#'+tableId+">tbody").find("tr[id=nodata]").remove();
+	}
+}

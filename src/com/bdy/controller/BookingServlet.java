@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.servlet.ServletException;
@@ -47,7 +46,7 @@ public class BookingServlet extends HttpServlet {
 		JsonReader jsonReader = Json.createReader(req.getReader());
 		JsonObject object = jsonReader.readObject();
 		String action = object.getString("act");
-		DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		switch(action)
 		{
 			case "searchByDate":
@@ -55,29 +54,27 @@ public class BookingServlet extends HttpServlet {
 				Date date = null;
 				try {
 					date = (Date)formatter.parse(input_date);
-					System.out.println(date.toString());
+					JsonObject bookingArray = BS.getBookingByDate(date);
+					out.write(bookingArray.toString());
 				} catch (ParseException e) {
 					System.out.println("input_date change to date fialed");
 				} 
-				JsonObject bookingArray = BS.getBookingByDate(date);
-				out.write(bookingArray.toString());
 				break;
 			case "insertBooking":
-				String bkName = object.getString("bkName"); 
-				String bkPhone = object.getString("bkName"); 
-				String empId = object.getString("bkName");
-				int tbId = Integer.parseInt(object.getString("bkName"));
-				int bkNumber = Integer.parseInt(object.getString("bkName")); 
+				String bkName = object.getString("name"); 
+				String bkPhone = object.getString("phone"); 
+				String empId = object.getString("empId");
+				int tbId = Integer.parseInt(object.getString("tbId"));
+				int bkNumber = Integer.parseInt(object.getString("number")); 
 				int bkState = 0;
-				String bkContent = object.getString("bkName");
-				String eatDate_str = object.getString("bkName");
-				String hour = object.getString("bkName");
-				String min = object.getString("bkName");
+				String bkContent = object.getString("content");
+				String eatDate_str = object.getString("eatDate");
+				String hour = object.getString("hour");
+				String min = object.getString("min");
 				Date eatDate = null;
 				try {
 					eatDate = (Date)formatter.parse(eatDate_str);
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Calendar eatDateTime = new GregorianCalendar();
@@ -88,7 +85,7 @@ public class BookingServlet extends HttpServlet {
 				Date bkEatdate = eatDateTime.getTime();
 				Calendar c = new GregorianCalendar();
 				Date bkOrderdate = c.getTime();
-				//BS.insertBooking(bkName, bkPhone, empId, tbId, bkNumber, bkState, bkContent, bkEatdate, bkOrderdate);
+				BS.insertBooking(bkName, bkPhone, empId, tbId, bkNumber, bkState, bkContent, bkEatdate, bkOrderdate);
 				break;
 		}
 	}

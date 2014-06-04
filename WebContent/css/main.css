@@ -356,3 +356,10 @@ p {
 	 margin-bottom:5px;
 	 display:inline-block;
 }
+
+.max_tr_style{
+	background: rgb(255,255,255);	
+}
+.max_tr_hover{
+	background: yellow;
+}

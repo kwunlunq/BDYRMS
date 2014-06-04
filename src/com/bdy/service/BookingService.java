@@ -2,10 +2,10 @@ package com.bdy.service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -27,7 +27,9 @@ public class BookingService {
 	
 	public JsonObject getBookingByDate(Date date){
 		System.out.println("TSS Strat to getBookingByDate(Calendar date)");
-		List<BdyBooking> bookingList = bookingDao.getBookingByDate(date);
+		Date startDate = startDate(date);
+		Date endDate = endDate(date);
+		List<BdyBooking> bookingList = bookingDao.getBookingByDate(startDate,endDate);
 		JsonArrayBuilder bookingBuilder = Json.createArrayBuilder();
 		for(BdyBooking bookingBean : bookingList){
 			bookingBuilder.add(Json.createObjectBuilder()
@@ -66,5 +68,28 @@ public class BookingService {
 		System.out.println("TSS [ booking = "+bookingBean.toString()+" ]");
 		bookingDao.insert(bookingBean);
 		System.out.println("TSE insertBooking(BdyBooking booking) done");
+	}
+	
+	public Date startDate(Date myDate) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(myDate);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal.getTime();
+	}
+	
+	public Date endDate(Date d){
+		if(d==null)return null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		cal.set(Calendar.HOUR, 11);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.HOUR_OF_DAY,23);
+		cal.set(Calendar.MILLISECOND, 999);
+		return cal.getTime();
 	}
 }
