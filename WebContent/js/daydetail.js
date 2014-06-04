@@ -1,15 +1,5 @@
 $(function() {
-	$('table').DataTable({
-		"jQueryUI" : true,
-		"scrollY" : ($('#writeCodeInThisDiv').height() - 290),
-		"scrollCollapse" : true,
-		"paging" : false,
-		"stateSave" : true,
-		"aoColumnDefs" : [ {
-			aTargets : [ 7 ],
-			bSortable : false
-		} ],
-	});
+	setTableToMaxStyle("bills");
 	$("#billOrderDialog").dialog({
 		autoOpen : false,
 		show : {

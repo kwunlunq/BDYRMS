@@ -142,21 +142,21 @@ table,th,td,tr {
 						</ul>
 						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:90">
+								<div id="billsHeader">
 									日期 : ${param.date} |
-									單日來客數 : 
-									<c:set var="totalNum" value="0" />
-									<c:forEach var="bills" items="${bills}">
-										<c:set var="totalNum" value="${totalNum+bills.custNum}" />
-									</c:forEach>
-									${totalNum} 人 |
-									單日營收 : 
-									<c:set var="totalPrice" value="0" />
-									<c:forEach var="bills" items="${bills}">
-										<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
-									</c:forEach>
-									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
-								</h3>
+										單日來客數 : 
+										<c:set var="totalNum" value="0" />
+										<c:forEach var="bills" items="${bills}">
+											<c:set var="totalNum" value="${totalNum+bills.custNum}" />
+										</c:forEach>
+										${totalNum} 人 |
+										單日營收 : 
+										<c:set var="totalPrice" value="0" />
+										<c:forEach var="bills" items="${bills}">
+											<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
+										</c:forEach>
+										<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
+								</div>
 								<table id="bills" style="margin: 0 auto">
 									<thead>
 										<tr>
@@ -190,6 +190,8 @@ table,th,td,tr {
 										</c:forEach>
 									</tbody>
 								</table>
+								<div id="billsFooter">
+								</div>
 							</c:if>
 						</div>
 						<div id="billOrderDialog">

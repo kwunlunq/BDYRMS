@@ -138,7 +138,7 @@ table,th,td,tr {
 						</ul>
 						<div id="monthReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:99">
+								<div id="billsHeader">
 									${param.year}年${param.month}月報表 | 
 									單月來客數 :
 									<c:set var="totalNum" value="0" />
@@ -152,7 +152,7 @@ table,th,td,tr {
 										<c:set var="totalPrice" value="${totalPrice+bills.dayTatolFinPrice}" />
 									</c:forEach>
 									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
-								</h3>
+								</div>
 								<table id="bills" style="margin: 0 auto">
 									<thead>
 										<tr>
@@ -171,6 +171,8 @@ table,th,td,tr {
 										</c:forEach>
 									</tbody>
 								</table>
+								<div id="billsHeader">
+								</div>
 							</c:if>
 						</div>
 						<div id="monthReportTabs-2">
