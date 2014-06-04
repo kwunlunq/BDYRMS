@@ -807,7 +807,8 @@ public void updateSetMeal(int setId,String setName,Double setPrice){
 }
 
 public void updateSetDetail(int setId,List<FoodKindPrice> list){
-	
+	//delete	
+	//update
 	for(FoodKindPrice temp:list){
 		BdySetdetail detail = new BdySetdetail();
 		detail.setBdySet(setDao.getSet(setId));
@@ -815,12 +816,71 @@ public void updateSetDetail(int setId,List<FoodKindPrice> list){
 		detail.setPrice(temp.getPirce());
 		setdetailDao.update(detail);
 	}
+	//insert
+	
+//	BdySet sets = setDao.getSet(setId);
+//	Set<BdySetdetail> setDetails = sets.getBdySetdetails();
+//	List<BdyFoodkind> foodKinds = new ArrayList<BdyFoodkind>();
+//	for(BdySetdetail setDetail:setDetails){
+//		foodKinds.add(setDetail.getBdyFoodkind());
+//	}
+//	
+//	for(FoodKindPrice temp:list){
+//		foodKinds.add(foodkindDao.getFoodkind(temp.getFkId()));
+//	}
+//	
+//	for(BdyFoodkind kind:foodKinds){
+//		if(kind.getFkId() !=6 && Collections.frequency(foodKinds, kind.getFkId())==1){
+//			System.out.println(kind.getName() + Collections.frequency(foodKinds, kind.getFkId()));
+//			for(FoodKindPrice tempInsert:list){
+//			if(foodkindDao.getFoodkind(tempInsert.getFkId()).equals(kind)){
+//				BdySetdetail detail = new BdySetdetail();
+//				detail.setBdySet(setDao.getSet(setId));
+//				detail.setBdyFoodkind(foodkindDao.getFoodkind(tempInsert.getFkId()));
+//				detail.setPrice(tempInsert.getPirce());
+//				setdetailDao.insert(detail);
+//				}
+//			}
+//		}
+//	}
+	
+//	boolean b=false;
+//	for(FoodKindPrice temp:list){
+//		for(BdyFoodkind kind:foodKinds){
+//			if(foodkindDao.getFoodkind(temp.getFkId()).equals(kind)){
+//				break;
+//			}else{
+//				continue;
+//			}
+//				
+//		}
+//		if(b==false){
+//			continue;
+//		}else{
+//		BdySetdetail detail = new BdySetdetail();
+//		detail.setBdySet(setDao.getSet(setId));
+//		detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
+//		detail.setPrice(temp.getPirce());
+//		setdetailDao.insert(detail);
+//		}
+//	}
+	List<BdySetdetail> setDetails = setdetailDao.getAllSetdetail();
+	for(BdySetdetail sd:setDetails){
+		for(FoodKindPrice temp:list){
+		if(sd.getSdId()==setId&&sd.getBdyFoodkind().getFkId()==temp.getFkId()){
+			break;
+//			BdySetdetail detail = new BdySetdetail();
+//			detail.setBdySet(setDao.getSet(setId));
+//			detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
+//			detail.setPrice(temp.getPirce());
+//			setdetailDao.insert(detail);
+			}
+		
+		}
+	}
+	
 	
 }
-
-
-
-
 
 
 

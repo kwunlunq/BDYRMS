@@ -140,8 +140,10 @@ if(judgeSetDetail!=""){
 
   </ul>
   		<div id="tabs-1">
-		共${fn:length(resultFood)}筆 
+		<div id="sortTable1Header">共${fn:length(resultFood)}筆 
 		<a href="javascript:void(0)" id="foodDialog-link" class="ui-state-default ui-corner-all" ">新增一筆資料</a>
+		</div>
+		
 		<div id="foodInsertDialog" title="新增食物" style="display:none">
 		<p>食物名稱:<br><input type="text" id="insertFoodName"><s:property value="%{fieldErrors.foodname[0]}"/></p>
 		<p>食物價錢:<br><input type="text" id="insertFoodPrice" name="foodPrice"><s:property value="%{fieldErrors.foodPrice[0]}"/></p>

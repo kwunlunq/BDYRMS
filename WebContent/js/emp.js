@@ -1,4 +1,6 @@
 $(function(){
+	
+		setTableToMaxStyle("empTable");
 		$(document).ready(
 		function(){
 			$('#mySelect').hide();});

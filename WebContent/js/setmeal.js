@@ -60,11 +60,14 @@ function setConfirm(){
 }
 
 function checkPrice(){
+	
 	var setPrice = document.getElementById("setPrice").value;
+	
 	if(isNaN(setPrice)||setPrice==''){
 		alert("請輸入數字");
 		return false;
 	}else{
+		
 		var settatolPrice = document.getElementById("totalPrice").innerHTML;
 		if(!isNaN(setPrice) && parseInt(setPrice) > parseInt(settatolPrice)){
 			alert("套餐價錢不能大於限定價錢總合 ");
@@ -112,8 +115,8 @@ function updateSet(setId){
 		$('#text'+detailfkids[i]).val(settext);
 	}
 	$('#changebtn').empty();
-	$('#changebtn').append( "<input name='buttonName' type='submit' value='確認更改'>" +
-							"<input type='button' value='取消' onclick='onclear()'>"+
+	$('#changebtn').append( "<input  class='MainBtnColor' name='buttonName' type='submit' value='確認更改' onclick='return checkPrice()'>" +
+							"<input class='MainBtnColor' type='button' value='取消' onclick='onclear()'>"+
 							"<input type='hidden' name='setId' value='"+setId+"'>");
 	getTotalPrice();
 	
@@ -134,7 +137,7 @@ function onclear(){
 	$('#setName').val('');
 	$('#setPrice').val('');
 	$('#changebtn').empty();
-	$('#changebtn').append("<input type='submit' name='buttonName' value='確定' onclick='return checkPrice()'>");
+	$('#changebtn').append("<input class='MainBtnColor' type='submit' name='buttonName' value='確定' onclick='return checkPrice()'>");
 }
 
 function deleteSet(setId){
