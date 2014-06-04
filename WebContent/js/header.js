@@ -61,7 +61,7 @@ function updateInfo(firstTime) {
 function updateIncome() {
 	var url = contextPath+"/header/getHeaderDataServlet";
 	$.getJSON(url, {"data":"todayIncome"}, function(result) {
-		console.log(result);
+//		console.log(result);
 			$('#todayIncome').text(result);
 });
 	
