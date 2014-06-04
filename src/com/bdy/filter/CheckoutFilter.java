@@ -19,20 +19,21 @@ import com.bdy.model.BdyPriority;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter("/order/*")
-public class OrderFilter implements Filter {
-    public OrderFilter() {
+@WebFilter("/checkout/*")
+public class CheckoutFilter implements Filter {
+    public CheckoutFilter() {
     }
 
 	public void destroy() {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-//		System.out.println(" -- order filter -- ");
+//		System.out.println(" -- checkout filter -- ");
 		HttpServletRequest request = (HttpServletRequest) req;
 //		System.out.println(request.getRequestURL());
 		HttpServletResponse response = (HttpServletResponse) resp;
 		HttpSession session = request.getSession();
+		
 		String contextPath = request.getContextPath();
 		BdyEmp emp = (BdyEmp) session.getAttribute("empData");
 		if (emp == null) {

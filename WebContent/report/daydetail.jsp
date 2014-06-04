@@ -92,6 +92,15 @@ table,th,td,tr {
 .DataTables_sort_icon { 
 	display:none;
 }
+#datepicker{
+	font-size:1.0em;
+	border-radius:10px;
+	text-align:center;
+	height:28px;
+}
+#ui-datepicker-div{
+	border:2px solid blue;
+}
 </style>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -116,9 +125,8 @@ table,th,td,tr {
 
 					<!-- START Write -->
 					<form action="<c:url value="/report/DayReportServlet" />" method="get">
-						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">請選擇日期
-						: <input type="text" id="datepicker" name="date"
-							value="${param.date}">
+						<input type="submit" class="MainBtnColor" value="查詢單日營運狀況">
+						<input type="text" id="datepicker" size="10" maxlength="10" placeholder="請輸入日期" name="date" value="${param.date}">
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
 							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
@@ -134,21 +142,21 @@ table,th,td,tr {
 						</ul>
 						<div id="dayReportTabs-1">
 							<c:if test="${not empty bills}">
-								<h3 style="text-align:center;position:absolute;top:60px;left:40px;z-index:90">
+								<div id="billsHeader">
 									日期 : ${param.date} |
-									單日來客數 : 
-									<c:set var="totalNum" value="0" />
-									<c:forEach var="bills" items="${bills}">
-										<c:set var="totalNum" value="${totalNum+bills.custNum}" />
-									</c:forEach>
-									${totalNum} 人 |
-									單日營收 : 
-									<c:set var="totalPrice" value="0" />
-									<c:forEach var="bills" items="${bills}">
-										<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
-									</c:forEach>
-									<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
-								</h3>
+										單日來客數 : 
+										<c:set var="totalNum" value="0" />
+										<c:forEach var="bills" items="${bills}">
+											<c:set var="totalNum" value="${totalNum+bills.custNum}" />
+										</c:forEach>
+										${totalNum} 人 |
+										單日營收 : 
+										<c:set var="totalPrice" value="0" />
+										<c:forEach var="bills" items="${bills}">
+											<c:set var="totalPrice" value="${totalPrice+bills.finPrice}" />
+										</c:forEach>
+										<fmt:formatNumber type="number" value="${totalPrice}" maxFractionDigits="0" /> 元
+								</div>
 								<table id="bills" style="margin: 0 auto">
 									<thead>
 										<tr>
@@ -182,6 +190,8 @@ table,th,td,tr {
 										</c:forEach>
 									</tbody>
 								</table>
+								<div id="billsFooter">
+								</div>
 							</c:if>
 						</div>
 						<div id="billOrderDialog">

@@ -435,7 +435,7 @@ public class ReportService {
 		foodkindNameList.add(foodkindNameobj);
 		obj.put("foodkind", foodkindNameList);
 		obj.put("foodkindNames", foodkindNames);
-		//System.out.println(obj);
+		System.out.println(obj);
 		return obj;
 	}
 

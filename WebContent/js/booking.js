@@ -58,15 +58,31 @@ $(function() {
 			$('#min').append("<option value='"+min+"'>"+min+"</option>");
 	}
 	$('#bookingDatePicker').val(today);
-	loadBookingData();
-	$('#bookingDatePicker').change(loadBookingData);
+	loadBookingData(today);
+	$('#bookingDatePicker').change(function(){
+		loadBookingData($('#bookingDatePicker').val());
+	});
+	$("table").on('click','editBooking',function(){
+		editBooking($(this));
+	});
+	$("table").on('click','cancelBooking',function(){
+		cancelBooking($(this));
+	});
     hideLoading();
 });
 
-function loadBookingData(){
+function editBooking(btn){
+	
+}
+
+function cancelBooking(btn){
+	
+}
+
+function loadBookingData(eatDate){
 	var bookingJson = {
 			"act" : "searchByDate",
-			"date": $('#bookingDatePicker').val()
+			"date": eatDate
 	};
 	console.log(bookingJson);
 	$.ajax({
@@ -78,14 +94,21 @@ function loadBookingData(){
 	    success: function(bookingList) {
 	    	$('#bookingTable tbody').empty();
 	    	console.log(bookingList.data);
+	    	$('#bookingCount').text(bookingList.data.length);
 	    	for(var i=0;i<bookingList.data.length;i++){
 	    		var bookingData = bookingList.data[i];
 	    		var eatDate = bookingData.eatDate.substring(10,16);
 	    		var tbId = "";
+	    		var tbName = "";
+	    		var tbFloorName = "";
+	    		var tbStr = "無";
 	    		if(bookingData.tbId != -1){
 	    			tbId = bookingData.tbId;
+	    			tbName = bookingData.tbName;
+	    			tbFloorName = bookingData.tbFloorName;
+	    			tbStr = "("+tbFloorName+") "+tbName;
 	    		}else{
-	    			tbId = "無";
+	    			tbStr = "無";
 	    		}
 	    		var content = bookingData.content;
 	    		if(bookingData.content.length < 1 || bookingData.content ==null || bookingData.content == ""){
@@ -95,14 +118,20 @@ function loadBookingData(){
 	    		if(bookingData.state == 1){
 	    			state = "已取消";
 	    		}
+	    		var editBtn = $("<input id='editBooking' type='button' class='MainBtnColor' value='編輯'>");
+	    		var cancelBtn = $("<input id='cancelBooking' bookingId='"+bookingData.bkId+"' type='button' class='MainBtnColor' value='取消訂位'>");
 	    		var tr = $('<tr>');
 	    		$(tr).append("<td>"+state+"</td>");
 	    		$(tr).append("<td>"+bookingData.name+"</td>");
 	    		$(tr).append("<td>"+bookingData.phone+"</td>");
 	    		$(tr).append("<td>"+bookingData.custNum+"</td>");
 	    		$(tr).append("<td>"+eatDate+"</td>");
-	    		$(tr).append("<td>"+tbId+"</td>");
+	    		$(tr).append("<td>"+tbStr+"</td>");
 	    		$(tr).append("<td>"+content+"</td>");
+	    		var td = $("<td></td>");
+	    		$(td).append(editBtn);
+	    		$(td).append(cancelBtn);
+	    		$(tr).append(td);
 	    		$('#bookingTable tbody').append(tr);
 	    	}
 	    	showState("資料載入完畢");
@@ -239,15 +268,15 @@ function chcekAndSendFormData(){
 	var send = true;
 	if(name.length == 0 || name == null || name == "" || name.length > 10){
 		send = false;
-		$("#nameError").text("必填,小於10字");
+		$("#nameError").text("必填,小於10個字");
 	}else{
 		bookingData.name = name;
 		$("#nameError").text("");
 	}
 	var expr = /09\d{8}/;
-	if(phone.length == 0 || phone == null || phone == ""){
+	if(phone.length == 0 || phone == null || phone == "" || phone.length != 10){
 		send = false;
-		$("#phoneError").text("必填");
+		$("#phoneError").text("必填,須輸入10個數字");
 	}else if(!expr.test(phone)){
 		$("#phoneError").text("格式錯誤-09XXXXXXXX");
 	}else{
@@ -293,6 +322,8 @@ function chcekAndSendFormData(){
 		    contentType: 'application/json; charset=utf-8',
 		    success: function() {
 		    	showState("新增成功");
+		    	loadBookingData(eatDate);
+		    	$('#bookingDatePicker').val(eatDate);
 		    	$("#addBooking").dialog('close');
 		    }
 		});

@@ -60,11 +60,12 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 	<div id="writeCodeInThisDiv">
 	<div id="bookingTableHeader" class="ui-state-default ui-corner-top">
-	訂位資訊 
-	 - <input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
-	 - <input id="addBookingBtn" type="button" class="MainBtnColor" value="新增訂位">
+	訂位資訊  - 
+	<input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
+	 - <span style="font-size:0.7em;">共 <span id="bookingCount" style="color:red;"></span> 筆</span>
+	<input style="float:right" id="addBookingBtn" type="button" class="MainBtnColor" value="新增訂位">
 	</div>
-	<table id="bookingTable" class="display" cellspacing="0">
+	<table id="bookingTable">
 	    <thead>
 	    	<tr>
 		    	<th>狀態</th>
@@ -74,6 +75,7 @@ var contextPath='<%=request.getContextPath()%>';
 		        <th>用餐時間</th>
 		        <th>指定座位</th>
 		        <th>備註</th>
+		        <th style='width:170px;'>功能</th>
 	        </tr>
 	    </thead> 
 	    <tbody>
