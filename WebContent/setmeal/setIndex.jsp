@@ -56,6 +56,21 @@ float:left;
 width: 50%;
 height:100%;
 }
+input[type="checkbox"] {
+     display:none; 
+}
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../images/check_radio_sheet.png) left top no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"]:checked + label span {
+    background:url(../images/check_radio_sheet.png) -19px top no-repeat;
+}
 
 </style>
 <title>BDY RMS - SetMeal</title>
@@ -74,7 +89,7 @@ height:100%;
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	<div id="top" style="height: 300px;">
+	<div id="top" style="height: 300px; overflow:scroll;" >
 	<form action="<c:url value='/setmeal/setInsert'/>" method="post">
 	<div class="setCol">
 	<h3>套餐名稱</h3>
@@ -86,7 +101,7 @@ height:100%;
 		<s:iterator var="fk" value="foodKind">
 		<s:if test="%{#fk.isMain==0}">		
 		<input class="checkbox"  type="checkbox" name="checkname" value="<s:property value="#fk.fkId" />" id="check<s:property value="#fk.fkId" />" onclick="showMe(<s:property value="#fk.fkId" />,'span<s:property value="#fk.fkId" />', this)" >
-		<label ><s:property value="#fk.name" /></label>
+		<label for="check<s:property value="#fk.fkId" />"><span id="chspanId"></span></label><s:property value="#fk.name" />
 		</s:if>
 		</s:iterator></div>
 		<div id="fkindChecked"></div>	
@@ -108,18 +123,17 @@ height:100%;
 	
 	</form>
 	</div>
-	<div id="showSetMeal">
+	<div id="showSetMeal" cssId="accordion">
 		
 		<c:forEach var="set" items="${set}">
-		<div id="setId${set.setId }" cssId="accordion">
 		<h4><span id="setname${set.setId }">${set.name}</span> -----<span id="setprice${set.setId }">${set.price }</span></h4>
-		<div><c:forEach var="setdetails" items="${set.bdySetdetails }">
+		<div id="setId${set.setId }"><c:forEach var="setdetails" items="${set.bdySetdetails }">
 		<c:if test="${setdetails.bdyFoodkind.fkId != '6'}">
 		<span id="detailname" detailfkid="${setdetails.bdyFoodkind.fkId }" detailid="${setdetails.sdId }">${setdetails.bdyFoodkind.name }</span>
 		<span id="settext${setdetails.sdId }">${setdetails.price }</span>
 		</c:if>
 		</c:forEach><input class='MainBtnColor' type="button"  value="修改" onclick="updateSet(${set.setId})"><input class='MainBtnColor' type="button" value="刪除" onclick="deleteSet(${set.setId})"><br>
-		</div></div>
+		</div>
 		</c:forEach>
 		
 	</div>

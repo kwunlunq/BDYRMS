@@ -1,6 +1,6 @@
 $(function(){
 	$( 'body' ).find("div[cssId=accordion]").accordion();
-	
+//	 $( "#format" ).buttonset();
 });
 
 function showMe (fkId,it, box) {
