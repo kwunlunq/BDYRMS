@@ -62,20 +62,20 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="bookingTableHeader">
 	訂位資訊  - 
 	<input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
-	 - <span style="font-size:0.7em;">共 <span id="bookingCount" style="color:red;"></span> 筆</span>
-	<input style="float:right" id="addBookingBtn" type="button" class="MainBtnColor" value="新增訂位">
+	 - <span style="font-size:0.7em;">共 <span id="bookingCount" style="font-size:1.5em;"></span> 筆</span>
+	<input style="float:right" id="addBookingBtn" type="button" value="新增訂位">
 	</div>
 	<table id="bookingTable">
 	    <thead>
 	    	<tr>
 		    	<th style='width:50px;'>狀態</th>
-		    	<th style='width:100px;'>用餐時間</th>
-		        <th style='width:170px;'>顧客</th>
+		    	<th style='width:70px;'>用餐時間</th>
+		        <th style='width:120px;'>顧客</th>
 		        <th style='width:100px;'>電話</th>
 		        <th style='width:50px;'>人數</th>
-		        <th style='width:120px;'>指定座位</th>
+		        <th style='width:100px;'>指定座位</th>
 		        <th>備註</th>
-		        <th style='width:170px;'>功能</th>
+		        <th style='width:250px;'>功能</th>
 	        </tr>
 	    </thead> 
 	    <tbody>

@@ -19,7 +19,7 @@ $(function() {
 		showAnim:"slideDown",
 		showButtonPanel: true
 	});
-	$('#addBookingBtn').click(showAddBookingDialog);
+	$('#addBookingBtn').click(showAddBookingDialog);	
 	$('#floorSelect').change(function(){
 		getTables($(this).val());
 	});
@@ -62,21 +62,29 @@ $(function() {
 	$('#bookingDatePicker').change(function(){
 		loadBookingData($('#bookingDatePicker').val());
 	});
-	$("table").on('click','editBooking',function(){
-		editBooking($(this));
-	});
-	$("table").on('click','cancelBooking',function(){
-		cancelBooking($(this));
-	});
     hideLoading();
 });
 
-function editBooking(btn){
-	
+function deleteBooking(btn){
+
 }
 
 function cancelBooking(btn){
-	
+	var editBookingJson = {
+			"act" : "updateBookingState",
+			"bkId": $(btn).attr("bkId"),
+			"bkState" : $(btn).attr("bkState")
+	};
+	$.ajax({
+	    url: bookingUrl,
+	    type: 'POST',
+	    data: JSON.stringify(editBookingJson),
+	    contentType: 'application/json; charset=utf-8',
+	    success: function() {
+	    	loadBookingData($('#bookingDatePicker').val());
+	    	showState("已"+$(btn).val());
+	    }
+	});
 }
 
 function loadBookingData(eatDate){
@@ -113,12 +121,19 @@ function loadBookingData(eatDate){
 	    		if(bookingData.content.length < 1 || bookingData.content ==null || bookingData.content == ""){
 	    			content = "無";
 	    		}
+	    		var cancelBtn = $("<input class='btnInTable' id='cancelBooking' bkState='1' bkId='"+bookingData.bkId+"' type='button' value='取消訂位'>");
+	    		var comeBtn = $("<input class='btnInTable' id='comeBooking' bkState='2' bkId='"+bookingData.bkId+"' type='button' value='到場'>");
 	    		var state = "正常";
 	    		if(bookingData.state == 1){
 	    			state = "已取消";
+	    			comeBtn = "";
+	    			cancelBtn = $("<input class='btnInTable' id='cancelBooking' bkState='0' bkId='"+bookingData.bkId+"' type='button' value='復原訂位'>");
+	    		}else if(bookingData.state == 2){
+	    			state = "已到場";
+	    			comeBtn = "";
+	    			cancelBtn = "";
 	    		}
-	    		var editBtn = $("<input id='editBooking' type='button' class='MainBtnColor' value='修改'>");
-	    		var cancelBtn = $("<input id='cancelBooking' bookingId='"+bookingData.bkId+"' type='button' class='MainBtnColor' value='取消訂位'>");
+	    		var deleteBtn = $("<input class='btnInTable' id='editBooking' type='button' value='刪除'>");
 	    		var tr = $('<tr>');
 	    		$(tr).append("<td>"+state+"</td>");
 	    		$(tr).append("<td>"+eatDate+"</td>");
@@ -128,12 +143,21 @@ function loadBookingData(eatDate){
 	    		$(tr).append("<td>"+tbStr+"</td>");
 	    		$(tr).append("<td>"+content+"</td>");
 	    		var td = $("<td></td>");
-	    		$(td).append(editBtn);
 	    		$(td).append(cancelBtn);
+	    		$(td).append(comeBtn);
+	    		$(td).append(deleteBtn);
 	    		$(tr).append(td);
 	    		$('#bookingTable tbody').append(tr);
+	    		$("input[id=editBooking]").click(function(){
+	    			editBooking($(this));
+	    		});
+	    		$("input[id=cancelBooking]").click(function(){
+	    			cancelBooking($(this));
+	    		});
+	    		$("input[id=comeBooking]").click(function(){
+	    			cancelBooking($(this));
+	    		});
 	    	}
-	    	showState("資料載入完畢");
 	    	setTableToMaxStyle("bookingTable");
 	    }
 	});

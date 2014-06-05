@@ -118,14 +118,14 @@ table,th,td,tr {
 					<!-- START Write -->
 					<form action="<c:url value="/report/MonthReportServlet" />" method="get">
 						<input type="submit" class="MainBtnColor" value="查詢單月營運狀況">
-						<select name="year" id="year">
-
-						</select> 年 <select name="month" id="month">
-
+						<select name="year" id="year" class="MainBtnColor">
+							<option>請選擇年份</option>
+						</select> 年 <select name="month" id="month" class="MainBtnColor" >
+							<option>請選擇年份</option>
 						</select> 月     
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
-							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							<a class="MainBtnColor" href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 						</span>
 					</form>
 					<hr>

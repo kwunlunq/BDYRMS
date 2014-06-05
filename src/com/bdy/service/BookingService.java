@@ -84,7 +84,7 @@ public class BookingService {
 	}
 	
 	public void insertBooking(String bkName ,String bkPhone,String empId,int tbId,int bkNumber,int bkState,String bkContent,Date bkEatdate,Date bkOrderdate){
-		System.out.println("TSS Strat to insertBooking(BdyBooking booking)");
+		System.out.println("TSS Strat to insertBooking(String bkName ,String bkPhone,String empId,int tbId,int bkNumber,int bkState,String bkContent,Date bkEatdate,Date bkOrderdate)");
 		BdyBooking bookingBean = new BdyBooking();
 		bookingBean.setBkName(bkName);
 		bookingBean.setBkPhone(bkPhone);
@@ -98,6 +98,16 @@ public class BookingService {
 		System.out.println("TSS [ booking = "+bookingBean.toString()+" ]");
 		bookingDao.insert(bookingBean);
 		System.out.println("TSE insertBooking(BdyBooking booking) done");
+	}
+	
+	public void updateBookingState(int bkId , int bkState){
+		System.out.println("TSS Strat to updateBookingState(int bkId , int bkState)");
+		System.out.println("TSS [ bkId = "+bkId+" ]");
+		System.out.println("TSS [ bkState = "+bkState+" ]");
+		BdyBooking bookingBean = bookingDao.getBooking(bkId);
+		bookingBean.setBkState(bkState);
+		bookingDao.update(bookingBean);
+		System.out.println("TSE updateBookingState(int bkId , int bkState) done");
 	}
 	
 	public Date startDate(Date myDate) {

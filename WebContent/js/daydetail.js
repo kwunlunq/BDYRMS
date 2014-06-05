@@ -1,5 +1,6 @@
 $(function() {
 	setTableToMaxStyle("bills");
+	
 	$("#billOrderDialog").dialog({
 		autoOpen : false,
 		show : {
@@ -34,6 +35,8 @@ $(function() {
 				var foodAddMoney = orderdetails.foodAddMoney;
 				$('#billOrderDialog').empty();
 				var table = $("<table></table>");
+				var thead = $("<thead></thead>");
+				var tbody = $("<tbody></tbody>");
 				var tr = $("<tr></tr>");
 				var th = $("<th></th>");
 				$(th).append("單號");
@@ -50,7 +53,8 @@ $(function() {
 				var th = $("<th></th>");
 				$(th).append("差額");
 				$(tr).append(th);
-				$(table).append(tr);
+				$(thead).append(tr);
+				$(table).append(thead);
 				for ( var i = 0; i < foodName.length; i++) {
 					var tr = $("<tr></tr>");
 					var td = $("<td></td>");
@@ -68,10 +72,13 @@ $(function() {
 					var td = $("<td></td>");
 					$(td).append(foodAddMoney[i]);
 					$(tr).append(td);
-					$(table).append(tr);
+					$(tbody).append(tr);
+					$(table).append(tbody);
 				};
+				$(table).attr("id", "orderlistById");
 				$(table).attr("style", "margin: 0 auto");
 				$('#billOrderDialog').append(table);
+				setTableToMaxStyle("orderlistById");
 			}
 		});
 	});
