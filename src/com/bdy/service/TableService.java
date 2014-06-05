@@ -7,8 +7,10 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
+import com.bdy.model.BdyBooking;
 import com.bdy.model.BdyFloor;
 import com.bdy.model.BdyTable;
+import com.bdy.model.dao.BdyBookingDao;
 import com.bdy.model.dao.BdyFloorDao;
 import com.bdy.model.dao.BdyTableDao;
 
@@ -16,7 +18,14 @@ public class TableService {
 
 	BdyFloorDao floorDao;
 	BdyTableDao tableDao;
+	BdyBookingDao bookingDao;
 	
+	public BdyBookingDao getBookingDao() {
+		return bookingDao;
+	}
+	public void setBookingDao(BdyBookingDao bookingDao) {
+		this.bookingDao = bookingDao;
+	}
 	public BdyFloorDao getFloorDao() {
 		return floorDao;
 	}
@@ -77,6 +86,12 @@ public class TableService {
 			if(DTL.getString(i) != null && DTL.getString(i) != "" && DTL.getString(i).length()>0 && !DTL.getString(i).startsWith("tb"))
 			{
 				int tbid = Integer.parseInt(DTL.getString(i));
+				List<BdyBooking> bookingList = bookingDao.getBookingByTbId(tbid);
+				for(int j=0;j<bookingList.size();j++){
+					BdyBooking bookingBean = bookingList.get(j);
+					bookingBean.setTbId(-2);
+					bookingDao.update(bookingBean);
+				}
 				tableDao.deleteTableById(tbid);
 			}
 		}

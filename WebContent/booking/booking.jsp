@@ -61,9 +61,17 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 	<div id="writeCodeInThisDiv">
 	<div id="bookingTableHeader">
-	訂位資訊  - 
+	<span style="font-family: Microsoft JhengHei;">訂位資料表</span> 
 	<input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
 	<input style="float:right" id="addBookingBtn" type="button" value="新增訂位">
+	<div class="imgIcon">
+		<img title='未到場' src="<c:url value="/images/Green-icon.png"/>">
+		<span class="imgText">未到場</span>
+	   	<img title='到場' src="<c:url value="/images/Blue-icon.png"/>">
+	   	<span class="imgText">到場</span>
+	   	<img title='取消' src="<c:url value="/images/Gray-icon.png"/>">
+	   	<span class="imgText">取消訂位</span>
+   	</div>
 	</div>
 	<table id="bookingTable">
 	    <thead>

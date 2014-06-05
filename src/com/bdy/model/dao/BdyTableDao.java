@@ -94,7 +94,6 @@ private SessionFactory sf = null;
 		Iterator tables = criteria.list().iterator();
 		while (tables.hasNext()) {
 			BdyTable table = (BdyTable) tables.next();
-			System.out.println(table.getName());
 			session.delete(table);
 		}
 		tx.commit();

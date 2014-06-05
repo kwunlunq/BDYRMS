@@ -218,7 +218,6 @@ function divTBclick(divTB){
 		$('#tbClickDialog div[id=buttonBar]').append(tbOpenBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 	}else if(tbState == 2){
-		$('#tbClickDialog div[id=buttonBar]').append(tbLeaveBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbCheckoutBtn);
 	}else if(tbState == 3){
@@ -241,14 +240,6 @@ function divTBclick(divTB){
 			$(divTB).css("z-index","0");
     		$('#tbClickDialog').dialog('close');
 		}else if(act == "checkout"){
-			var updateTable ={
-					"act" : "tbOpen",
-					"tbId" : tbId,
-					"tbState" : 0,
-					"custNum" : "0",
-					"floor" : "-1"
-			};
-			doChangeTableState(updateTable,"");
 			$(divTB).css("z-index","0");
 			window.location=contextPath+"/checkout/checkDetail.action?tabId="+tbId;
 		}else if(act == "order"){

@@ -453,6 +453,9 @@ loginTimeout=30;
 		<property name="tableDao">
 			<ref bean="BdyTableDao"/>
 		</property>
+		<property name="bookingDao">
+			<ref bean="BdyBookingDao"/>
+		</property>
 	</bean>	
 	
 	<bean id="BookingService" class="com.bdy.service.BookingService">

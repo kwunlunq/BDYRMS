@@ -49,7 +49,7 @@ public class BookingService {
 	}
 	
 	public JsonObject getBookingByDate(Date date){
-		System.out.println("BSS Strat to getBookingByDate(Calendar date)");
+		System.out.println("BSS Strat to getBookingByDate(Date date)");
 		Date startDate = startDate(date);
 		Date endDate = endDate(date);
 		List<BdyBooking> bookingList = bookingDao.getBookingByDate(startDate,endDate);

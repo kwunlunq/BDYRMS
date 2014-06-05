@@ -39,6 +39,18 @@ $(function() {
 	
 });
 
+function resetTableData(){
+	tablesDataForSaveInJson = {
+			"act" : null,
+			"floor" : "-1",
+			"floorName" : null,
+			"tables" : [],
+			"delTBlist" : [],
+			"delFloorList": [],
+			"floorList" : []
+	};
+}
+
 function updateSession(){
 	var url = contextPath + "/order/getOrderDataServlet";
 	$.getJSON(url,{"data":"updateTable"});
@@ -358,6 +370,7 @@ function doLoadTable(){
 					addTB(tbId ,tbName , tbSize , tbState , tbLocation);
 				}
 				showState("讀取完成");
+				resetTableData();
 			}
 	    }
 	});
@@ -457,12 +470,9 @@ function saveFloor(){
 			    data: JSON.stringify(tablesDataForSaveInJson),
 			    contentType: 'application/json; charset=utf-8',
 			    success: function(msg) {
-					showState("儲存完成");
 					updateSession();
-					tablesDataForSaveInJson.delTBlist = [];
-					tablesDataForSaveInJson.tables = [];
-					tablesDataForSaveInJson.act = null;
-					tablesDataForSaveInJson.floor = -1;
+					resetTableData();
+					showState("儲存完成");
 			   }
 		});
 	}else{
