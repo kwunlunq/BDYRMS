@@ -15,7 +15,7 @@ var currentStatus = {"FId":null,
 					 "Foods":[], 
 					 };
 $(function() {
-	dwr.engine.setActiveReverseAjax(true);
+//	dwr.engine.setActiveReverseAjax(true);
 	currentStatus.EmpId = empId;
 	if (empId==null || empId=="") {
 		alert("請先登入!");
@@ -94,7 +94,7 @@ function listenerInitial() {
 				text: "送出",
 				click: function() {
 //					Service.update({value:"有人點餐"});
-					Service.sendMes("新消息");
+//					Service.sendMes("新消息");
 					sendOrder();
 				}}]
 	});
