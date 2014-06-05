@@ -72,7 +72,7 @@ public class SetMealInsertServlet extends HttpServlet {
 				//System.out.println(check[i]); 抓fkId
 				Integer var= Integer.valueOf(check[i]);
 				String price=request.getParameter("price"+var);
-				//System.out.println("fkID=" + var+"price="+Double.valueOf(price));
+				System.out.println("setId = "+sId+"fkID=" + var+"price="+Double.valueOf(price));
 				FoodKindPrice bean = new FoodKindPrice();
 				bean.setFkId(var);
 				bean.setPirce(Double.valueOf(price));
