@@ -9,6 +9,10 @@ if(d.getDate() < 10){
 	day = "0" + day;
 }
 var today = d.getFullYear() + "-" + month + "-" + day;
+var stateColor = [];
+stateColor[0] = contextPath + "/images/Green-icon.png";
+stateColor[1] = contextPath + "/images/Gray-icon.png";
+stateColor[2] = contextPath + "/images/Blue-icon.png";
 
 $(function() {	
 	setTableToMaxStyle("bookingTable");
@@ -151,7 +155,7 @@ function loadBookingData(eatDate){
 	    		}
 	    		var deleteBtn = $("<input class='btnInTable' id='deleteBooking' type='button' bkId='"+bookingData.bkId+"' value='刪除'>");
 	    		var tr = $('<tr>');
-	    		$(tr).append("<td>"+state+"</td>");
+	    		$(tr).append("<td><img style='width:60%;' src='"+stateColor[bookingData.state]+"' title='"+state+"'></td>");
 	    		$(tr).append("<td>"+eatDate+"</td>");
 	    		$(tr).append("<td>"+bookingData.name+"</td>");
 	    		$(tr).append("<td>"+bookingData.phone+"</td>");
