@@ -134,6 +134,8 @@ function loadBookingData(eatDate){
 	    			tbName = bookingData.tbName;
 	    			tbFloorName = bookingData.tbFloorName;
 	    			tbStr = "("+tbFloorName+") "+tbName;
+	    		}else if(bookingData.tbId == -2){
+	    			tbStr = "座位已不存在";
 	    		}else{
 	    			tbStr = "不指定";
 	    		}

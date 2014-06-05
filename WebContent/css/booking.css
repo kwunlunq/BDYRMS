@@ -7,6 +7,7 @@
 	border-radius:7px;
 	text-align:center;
 	height:25px;
+	background-color:#e8f4ff;
 }
 
 #addBooking input{
@@ -26,4 +27,26 @@
 .error{
 	color:red;
 	font-size:0.8em;
+}
+.imgIcon{
+	border-radius:5px;
+	float:right;
+/* 	background-color:#e8f4ff; */
+	height:30px;
+	position:relative;
+	top:3px;
+	margin-right:10px;
+/* 	color:black; */
+	padding-left:2px;
+	padding-right:2px;
+}
+
+.imgIcon img{
+	height:95%;
+}
+
+.imgText{
+	position:relative;
+	top:-5px;
+	font-size:0.6em;
 }

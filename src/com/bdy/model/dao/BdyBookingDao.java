@@ -34,6 +34,14 @@ public class BdyBookingDao {
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<BdyBooking> getBookingByTbId(int tbId){
+		Session session = sf.openSession();
+		List<BdyBooking> result = session.createCriteria(BdyBooking.class).add(Restrictions.eq("tbId", tbId)).list();
+		session.close();
+		return result;
+	}
+	
 	public BdyBooking getBookingTodayAndTbId(Date startDate,Date endDate,int tbId){
 		Session session = sf.openSession();
 		BdyBooking result = (BdyBooking)session.createCriteria(BdyBooking.class)
