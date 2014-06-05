@@ -129,7 +129,7 @@ var mealId = [];
 						<input type="text" id="datepicker" size="10" maxlength="10" placeholder="請輸入日期" name="date" value="${param.date}">
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
-							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							<a class="MainBtnColor" href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 						</span>
 					</form>
 					<hr>
