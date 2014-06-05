@@ -87,9 +87,13 @@ public class BookingServlet extends HttpServlet {
 				Date bkOrderdate = c.getTime();
 				BS.insertBooking(bkName, bkPhone, empId, tbId, bkNumber, bkState, bkContent, bkEatdate, bkOrderdate);
 				break;
+			case "updateBookingState":
+				int bkId = Integer.parseInt(object.getString("bkId")); 
+				int State = Integer.parseInt(object.getString("bkState"));
+				BS.updateBookingState(bkId, State);
+				break;
 		}
 	}
-	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)

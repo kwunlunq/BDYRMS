@@ -64,10 +64,16 @@ function setTableToMaxStyle(tableId){
 	$(header).css("padding","10px");
 	$(header).css("font-size","1.3em");
 	$(header).addClass("tableHeaderAndFooter ui-corner-top");
+	$(header).find('input[type=button]').button();
+	$(header).find('input[type=button]').css("font-size","0.7em");
+	$(header).find('input[type=button]').css("font-weight","narmal");
 	var footer = $('#'+tableId+'Footer');
 	$(footer).css("padding","10px");
 	$(footer).css("font-size","1.3em");
 	$(footer).addClass("tableHeaderAndFooter ui-corner-bottom");
+	$(footer).find('input[type=button]').button();
+	$(footer).find('input[type=button]').css("font-size","0.7em");
+	$(footer).find('input[type=button]').css("font-weight","narmal");
 	var tb = $('#'+tableId);
 	$('#'+tableId+' tr:even').css({background:'#e8f4ff'});
 	$('#'+tableId+' tr:odd').css({background:'white'});
@@ -80,6 +86,8 @@ function setTableToMaxStyle(tableId){
 	$(tb).find('th:last').css("border-right","0");
 	$('#'+tableId+" td").css("border","1px solid rgb(167,207,223)");
 	$('#'+tableId+" tr").addClass("max_td_style");
+	$(tb).find('input[type=button]').button();
+	$(tb).find('input[type=button]').css("font-size","0.95em");
 	var count = 0;
 	var thCount = 0;
 	$('#'+tableId+">thead").find('th').each(function(){
