@@ -185,7 +185,7 @@ var mealId = [];
 												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
 												<td title="${bills.billEmpId}">${bills.billEmpName}</td>
 												<td>${bills.endDate}</td>
-												<td id="showdetail" billId="${bills.billId}" style="cursor: pointer">顯示明細</td>
+												<td><input id="showdetail" billId="${bills.billId}" type="button" value=顯示明細></td>
 											</tr>
 										</c:forEach>
 									</tbody>
