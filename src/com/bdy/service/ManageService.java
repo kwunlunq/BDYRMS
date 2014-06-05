@@ -807,15 +807,47 @@ public void updateSetMeal(int setId,String setName,Double setPrice){
 }
 
 public void updateSetDetail(int setId,List<FoodKindPrice> list){
-	//delete	
-	//update
-	for(FoodKindPrice temp:list){
-		BdySetdetail detail = new BdySetdetail();
-		detail.setBdySet(setDao.getSet(setId));
-		detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
-		detail.setPrice(temp.getPirce());
-		setdetailDao.update(detail);
+	
+	//update	
+	BdySet set = setDao.getSet(setId);
+	Set<BdySetdetail> setDetail = set.getBdySetdetails();
+	List<BdySetdetail> setDetaillist = new ArrayList<BdySetdetail>(setDetail);
+	Iterator<BdySetdetail> it = setDetaillist.iterator();
+	while(it.hasNext()){
+		BdySetdetail temp = (BdySetdetail)it.next();
+		if(temp.getBdyFoodkind().getFkId()==6){
+			it.remove();
+		}
 	}
+	Collections.sort(setDetaillist, new Comparator<BdySetdetail>() {
+
+		@Override
+		public int compare(BdySetdetail o1, BdySetdetail o2) {
+			// TODO Auto-generated method stub
+			return new Integer(o1.getBdyFoodkind().getFkId()).compareTo(new Integer(o2.getBdyFoodkind().getFkId()));
+		}
+	});
+	
+	Collections.sort(list, new Comparator<FoodKindPrice>() {
+
+		@Override
+		public int compare(FoodKindPrice o1, FoodKindPrice o2) {
+			// TODO Auto-generated method stub
+			return new Integer(o1.getFkId()).compareTo(new Integer(o2.getFkId()));
+		}
+
+		
+	});
+	
+	
+	
+	for(int i=0;i<setDetaillist.size();i++){
+	BdySetdetail tempSetDetail=	setDetaillist.get(i);
+	tempSetDetail.setPrice(list.get(i).getPirce());
+	setdetailDao.update(tempSetDetail);
+	}
+	
+	
 	//insert
 	
 //	BdySet sets = setDao.getSet(setId);
@@ -864,26 +896,10 @@ public void updateSetDetail(int setId,List<FoodKindPrice> list){
 //		setdetailDao.insert(detail);
 //		}
 //	}
-	List<BdySetdetail> setDetails = setdetailDao.getAllSetdetail();
-	for(BdySetdetail sd:setDetails){
-		for(FoodKindPrice temp:list){
-		if(sd.getSdId()==setId&&sd.getBdyFoodkind().getFkId()==temp.getFkId()){
-			break;
-//			BdySetdetail detail = new BdySetdetail();
-//			detail.setBdySet(setDao.getSet(setId));
-//			detail.setBdyFoodkind(foodkindDao.getFoodkind(temp.getFkId()));
-//			detail.setPrice(temp.getPirce());
-//			setdetailDao.insert(detail);
-			}
-		
-		}
-	}
+
 	
 	
 }
-
-
-
 
 
 

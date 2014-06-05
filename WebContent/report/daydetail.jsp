@@ -129,7 +129,7 @@ var mealId = [];
 						<input type="text" id="datepicker" size="10" maxlength="10" placeholder="請輸入日期" name="date" value="${param.date}">
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
-							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							<a class="MainBtnColor" href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 						</span>
 					</form>
 					<hr>
@@ -185,7 +185,7 @@ var mealId = [];
 												<td><fmt:formatNumber value="${bills.finPrice}" maxFractionDigits="0"/></td>
 												<td title="${bills.billEmpId}">${bills.billEmpName}</td>
 												<td>${bills.endDate}</td>
-												<td id="showdetail" billId="${bills.billId}" style="cursor: pointer">顯示明細</td>
+												<td><input id="showdetail" billId="${bills.billId}" type="button" value=顯示明細></td>
 											</tr>
 										</c:forEach>
 									</tbody>

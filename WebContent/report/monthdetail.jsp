@@ -55,7 +55,26 @@ table {
 }
 table,th,td,tr { 
  	border-style: double; 
-} 
+}
+select{
+	color:white;
+	padding:4px;
+	-moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	-webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
+	background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
+	background-color:#33bdef;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #057fd0;
+}
 .ui-tabs-vertical {
 	width: 55em;
 }
@@ -119,13 +138,13 @@ table,th,td,tr {
 					<form action="<c:url value="/report/MonthReportServlet" />" method="get">
 						<input type="submit" class="MainBtnColor" value="查詢單月營運狀況">
 						<select name="year" id="year">
-
+							<option>請選擇年份</option>
 						</select> 年 <select name="month" id="month">
-
+							<option>請選擇年份</option>
 						</select> 月     
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
-							<a href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
+							<a class="MainBtnColor" href="<c:url value='/report/reportmenu.jsp'/>">返回報表選單</a>
 						</span>
 					</form>
 					<hr>
