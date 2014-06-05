@@ -1,5 +1,7 @@
 package com.bdy.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -47,7 +49,7 @@ public class BookingService {
 	}
 	
 	public JsonObject getBookingByDate(Date date){
-		System.out.println("TSS Strat to getBookingByDate(Calendar date)");
+		System.out.println("BSS Strat to getBookingByDate(Calendar date)");
 		Date startDate = startDate(date);
 		Date endDate = endDate(date);
 		List<BdyBooking> bookingList = bookingDao.getBookingByDate(startDate,endDate);
@@ -55,10 +57,12 @@ public class BookingService {
 		for(BdyBooking bookingBean : bookingList){
 			String tbName = "";
 			String tbFloorName = "";
+			int tbFloorId = -1;
 			if(bookingBean.getTbId() != -1){
 				BdyTable tableBean = tableDao.getTableById(bookingBean.getTbId());
 				tbName = tableBean.getName();
 				tbFloorName = tableBean.getBdyFloor().getName();
+				tbFloorId = tableBean.getBdyFloor().getFloorid();
 			}
 			bookingBuilder.add(Json.createObjectBuilder()
 					.add("bkId", bookingBean.getBkId())
@@ -67,6 +71,7 @@ public class BookingService {
 					.add("tbId", bookingBean.getTbId())
 					.add("tbName", tbName)
 					.add("tbFloorName", tbFloorName)
+					.add("tbFloorId", tbFloorId)
 					.add("custNum", bookingBean.getBkNumber())
 					.add("state", bookingBean.getBkState())
 					.add("content", bookingBean.getBkContent())
@@ -77,14 +82,15 @@ public class BookingService {
 		}
 		JsonObjectBuilder dataBuilder = Json.createObjectBuilder();
 		dataBuilder.add("data", bookingBuilder);
-        System.out.println("TSE Return data :");
+        System.out.println("BSE Return data :");
         JsonObject data = dataBuilder.build();
-        System.out.println("TSE " +  data.toString());
+        System.out.println("BSE " +  data.toString());
+        System.out.println("BSE --------------------------- done");
         return data;
 	}
 	
 	public void insertBooking(String bkName ,String bkPhone,String empId,int tbId,int bkNumber,int bkState,String bkContent,Date bkEatdate,Date bkOrderdate){
-		System.out.println("TSS Strat to insertBooking(String bkName ,String bkPhone,String empId,int tbId,int bkNumber,int bkState,String bkContent,Date bkEatdate,Date bkOrderdate)");
+		System.out.println("BSS Strat to insertBooking(String bkName ,String bkPhone,String empId,int tbId,int bkNumber,int bkState,String bkContent,Date bkEatdate,Date bkOrderdate)");
 		BdyBooking bookingBean = new BdyBooking();
 		bookingBean.setBkName(bkName);
 		bookingBean.setBkPhone(bkPhone);
@@ -95,19 +101,52 @@ public class BookingService {
 		bookingBean.setBkContent(bkContent);
 		bookingBean.setBkEatdate(bkEatdate);
 		bookingBean.setBkOrderdate(bkOrderdate);
-		System.out.println("TSS [ booking = "+bookingBean.toString()+" ]");
+		System.out.println("BSS [ booking = "+bookingBean.toString()+" ]");
 		bookingDao.insert(bookingBean);
-		System.out.println("TSE insertBooking(BdyBooking booking) done");
+		System.out.println("BSE --------------------------- done");
 	}
 	
 	public void updateBookingState(int bkId , int bkState){
-		System.out.println("TSS Strat to updateBookingState(int bkId , int bkState)");
-		System.out.println("TSS [ bkId = "+bkId+" ]");
-		System.out.println("TSS [ bkState = "+bkState+" ]");
+		System.out.println("BSS Strat to updateBookingState(int bkId , int bkState)");
+		System.out.println("BSS [ bkId = "+bkId+" ]");
+		System.out.println("BSS [ bkState = "+bkState+" ]");
 		BdyBooking bookingBean = bookingDao.getBooking(bkId);
 		bookingBean.setBkState(bkState);
 		bookingDao.update(bookingBean);
-		System.out.println("TSE updateBookingState(int bkId , int bkState) done");
+		System.out.println("BSE --------------------------- done");
+	}
+	
+	public void deleteBooking(int bkId){
+		System.out.println("BSS Strat to deleteBooking(int bkId)");
+		System.out.println("BSS [ bkId = "+bkId+" ]");
+		bookingDao.delete(bkId);
+		System.out.println("BSE --------------------------- done");
+	}
+	
+	public String getBookingWithTable(int tbId){
+		System.out.println("BSS Strat to getBookingWithTable(int tbId)");
+		System.out.println("BSS [ tbId = "+tbId+" ]");
+		Date today = new Date();
+		Date endDate = endDate(today);
+		System.out.println("BSS [ today = "+today+" ]");
+		System.out.println("BSS [ endDate = "+endDate+" ]");
+		BdyBooking bookingBean = bookingDao.getBookingTodayAndTbId(today, endDate, tbId);
+		if(bookingBean != null){
+			String eatDate = new java.text.SimpleDateFormat("HH:mm").format(bookingBean.getBkEatdate());
+			JsonObjectBuilder bookingObjectBuilder = Json.createObjectBuilder()
+									.add("bkId", bookingBean.getBkId())
+									.add("phone", bookingBean.getBkPhone())
+									.add("custNum", bookingBean.getBkNumber())
+									.add("name",bookingBean.getBkName())
+									.add("eatDate",eatDate)
+									.add("bkState",bookingBean.getBkState());
+	        System.out.println("BSE Return data :");
+	        JsonObject data = bookingObjectBuilder.build();
+	        System.out.println("BSE " +  data.toString());
+	        System.out.println("BSE --------------------------- done");
+	        return data.toString();
+		}
+        return null;
 	}
 	
 	public Date startDate(Date myDate) {

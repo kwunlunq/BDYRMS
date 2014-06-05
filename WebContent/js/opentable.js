@@ -8,8 +8,10 @@ var floorDataList = [];
 var stateName = ["閒置","點餐","用餐","預約","關閉"];
 var stateDesc = ["0-閒置中","1-等待點餐","2-用餐中","3-有客人預約","4-不開放使用"];
 var tableUrl = contextPath + "/table/tableset";
+var bookingUrl = contextPath + "/booking";
 var count = 0;
 var idCount = 0;
+var bookingDataList = [];
 
 function getFloor(){
 	tablesDataForSaveInJson.act = "init";
@@ -32,12 +34,46 @@ function getFloor(){
 			}
 			$('#selectFloor').append("<hr>");
 			$('#selectFloor').append("<input style='font-size:1.0em;width:100%;margin:2px' class='MainBtnColor' type='button' floorId='-1' value='離開'>");
-			if(activeFloor == null || activeFloor.length == 0 ){
+			if(activeFloor == null || activeFloor.length == 0 || activeFloor == -1){
 				doLoadTable(firstFloorId,floorDataList[firstFloorId]);
 			}else{
 				doLoadTable(activeFloor,floorDataList[activeFloor]);
 			}
 	    }
+	});
+}
+
+function checkBookingTable(){
+	$('#picTB>div').each(function(){
+		var tbId = $(this).attr("id");
+		var getBookingBytbId = {
+				"act" : "checkBooking",
+				"tbId" : tbId,
+		};
+		$.ajax({
+			   url: bookingUrl,
+			   type: 'POST',
+			   data: JSON.stringify(getBookingBytbId),
+			   contentType: 'application/json; charset=utf-8',
+			   dataType:'JSON',
+			   success: function(booking) {
+				   if(booking != null){
+					   var bookingData = {
+								"bkId" : booking.bkId,
+								"name" : booking.name,
+								"phone" : booking.phone,
+								"custNum" : booking.custNum,
+								"eatDate" : booking.eatDate,
+								"bkState" : booking.bkState
+					   };
+					   if(bookingData.bkState != 2){
+						   $('#'+tbId).attr("class","divTBBooking divTB");
+						   $('#'+tbId).attr("tbState","3");
+						   bookingDataList[tbId] = bookingData;
+					   }
+				   }
+			   }
+		});
 	});
 }
 
@@ -73,6 +109,7 @@ function doLoadTable(floorId,floorName){
 					addTB(tbId ,tbName , tbSize , tbState , tbLocation, custNum, floorId, floorName);
 				}
 				showState("讀取完成");
+				checkBookingTable();
 			}
 	    }
 	});
@@ -164,6 +201,7 @@ function divTBclick(divTB){
 	$('#tbClickDialog span[id=tbNameLable]').text(tbName);
 	$('#tbClickDialog span[id=tbSizeLable]').text(tbSize);
 	$('#tbClickDialog span[id=tbStateLable]').text(stateName[tbState] + "(" + stateDesc[tbState] + ")");
+	$('#bookingData').empty();
 	var tbOpenBtn = $('<input id="takeSet" value="帶位" type="button" aria-disabled="false">');
 	var tbOrderBtn = $('<input id="order" value="點餐" type="button" aria-disabled="false">');
 	var tbCheckoutBtn = $('<input id="checkout" value="結帳" type="button" aria-disabled="false">');
@@ -184,7 +222,15 @@ function divTBclick(divTB){
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbCheckoutBtn);
 	}else if(tbState == 3){
+		var bookingBean = bookingDataList[tbId];
+		$('#bookingData').append("<div style='width:100%;background:gray;color:white'>訂位資訊</div>");
+		$('#bookingData').append("<p>姓名："+bookingBean.name+"</p>");
+		$('#bookingData').append("<p>電話："+bookingBean.phone+"</p>");
+		$('#bookingData').append("<p>人數："+bookingBean.custNum+"</p>");
+		$('#bookingData').append("<p>用餐時間："+bookingBean.eatDate+"</p>");
 		$('#countP').css("display","block");
+		var comeBtn = $("<input id='comeBooking' bkState='2' bkId='"+bookingBean.bkId+"' type='button' value='到場'>");
+		$('#tbClickDialog div[id=buttonBar]').append(comeBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOpenBtn);
 		$('#tbClickDialog div[id=buttonBar]').append(tbOrderBtn);
 	}
@@ -217,7 +263,7 @@ function divTBclick(divTB){
 			}else{
 				showState("未輸入來客數");
 			}
-		}else if(act == "takeSet"){
+		}else if(act == "takeSet" || act == "comeBooking"){
 			if($('#peopleCount').val()>0 && $('#peopleCount').val().length>0 && $('#peopleCount').val()<1000){
 				var updateTable ={
 						"act" : "tbOpen",
@@ -232,7 +278,10 @@ function divTBclick(divTB){
 				$(divTB).attr("tbState","1");
 				$(divTB).find('span[id=tbSizeSpan]').text(updateTable.custNum+"("+tbSize+")");
 				$(divTB).css("z-index","0");
-				$('#tbClickDialog').dialog('close');
+				if(act == "comeBooking"){
+					cancelBooking($(this).attr("bkId"),$(this).attr("bkState"));
+					$('#tbClickDialog').dialog('close');
+				}
 			}else if($('#peopleCount').val()>999){
 				showState("超過上限 (小於3位)");
 			}else{
@@ -276,6 +325,20 @@ function divTBclick(divTB){
 	        effect: "blind",
 	        duration: 500
 	    }
+	});
+}
+
+function cancelBooking(bkId,bkState){
+	var editBookingJson = {
+			"act" : "updateBookingState",
+			"bkId": bkId,
+			"bkState" : bkState
+	};
+	$.ajax({
+	    url: bookingUrl,
+	    type: 'POST',
+	    data: JSON.stringify(editBookingJson),
+	    contentType: 'application/json; charset=utf-8',
 	});
 }
 

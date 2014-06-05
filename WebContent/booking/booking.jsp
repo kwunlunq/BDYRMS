@@ -40,6 +40,7 @@ var contextPath='<%=request.getContextPath()%>';
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以下)-->
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/booking.css"/>">
 <script src="<c:url value="/js/booking.js"/>"></script>
+<script src="<c:url value="/js/jquery.ui.datepicker-zh-TW.js"/>"></script>
 <!-- 根據 自己的功能 增加的 Script 與 CSS 外掛  (以上)-->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -62,7 +63,6 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="bookingTableHeader">
 	訂位資訊  - 
 	<input size="10" maxlength="10" type="text" placeholder="輸入日期" id="bookingDatePicker" >
-	 - <span style="font-size:0.7em;">共 <span id="bookingCount" style="font-size:1.5em;"></span> 筆</span>
 	<input style="float:right" id="addBookingBtn" type="button" value="新增訂位">
 	</div>
 	<table id="bookingTable">
@@ -82,6 +82,9 @@ var contextPath='<%=request.getContextPath()%>';
 	    </tbody>
     </table>
     <div id="bookingTableFooter">
+    	<div style="position:relative;width:100%;height:10px">
+    	<span style="position:absolute;right:0px;top:-5px;font-size:0.7em;">- 共  <span id="bookingCount" style="font-size:1.2em;"></span> 筆 -</span>
+    	</div>
     </div>
     <div id="addBooking" title="新增訂位" style="display:none">
 	    <form id="addBookingForm" name="addBookingForm">
@@ -97,17 +100,10 @@ var contextPath='<%=request.getContextPath()%>';
 		    <select id="min"></select>分
 		    <p class="formLabel">備註：</p>
 		    <input name="content" type="text">
-		    <p class="formLabel">是否指定座位:
-		    	<span id="assignTable">
-    				<input type="radio" id="assignTable1" name="assignTable"><label for="assignTable1">是</label>
-    				<input type="radio" id="assignTable2" name="assignTable"><label for="assignTable2">否</label>
-    			</span>
-		    </p>
-		    <div id="tableChoose" style="display:none">
+		    <p class="formLabel">指定座位:</p>
 		    <span>樓層:<select id="floorSelect"></select></span>
 		    <span>桌號:<select id="tableSelect"></select></span>
 		    <p><span class="error" id="tableChooseError"></span></p>
-		    </div>
 		    <input type="hidden" name="empId" value="${empData.empId}">
 		    <input type="hidden" id="tbId" name="tbId" value="-1">
 	    </form>

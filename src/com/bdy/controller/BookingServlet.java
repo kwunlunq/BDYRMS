@@ -92,6 +92,16 @@ public class BookingServlet extends HttpServlet {
 				int State = Integer.parseInt(object.getString("bkState"));
 				BS.updateBookingState(bkId, State);
 				break;
+			case "deleteBooking":
+				int bkIdtoDel = Integer.parseInt(object.getString("bkId"));
+				BS.deleteBooking(bkIdtoDel);
+				break;
+			case "checkBooking":
+				int tbIdtoCheck = Integer.parseInt(object.getString("tbId"));
+				String bookingAndTable = BS.getBookingWithTable(tbIdtoCheck);
+				if(bookingAndTable != null)
+					out.write(bookingAndTable);
+				break;
 		}
 	}
 	

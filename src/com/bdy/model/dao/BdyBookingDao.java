@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -33,6 +34,18 @@ public class BdyBookingDao {
 		return result;
 	}
 	
+	public BdyBooking getBookingTodayAndTbId(Date startDate,Date endDate,int tbId){
+		Session session = sf.openSession();
+		BdyBooking result = (BdyBooking)session.createCriteria(BdyBooking.class)
+								.add(Restrictions.between("bkEatdate", startDate,endDate))
+								.add(Restrictions.eq("tbId", tbId))
+								.addOrder(Order.asc("bkEatdate"))
+								.setMaxResults(1)
+								.uniqueResult();
+		session.close();
+		return result;
+	}
+	
 	public BdyBooking getBooking(int bkId) {
 		Session session = sf.openSession();
 		Iterator iter = session.createCriteria(BdyBooking.class)
@@ -50,9 +63,6 @@ public class BdyBookingDao {
 	@SuppressWarnings("unchecked")
 	public List<BdyBooking> getBookingByDate(Date startDate,Date endDate){
 		Session session = sf.openSession();
-		System.out.println("dao------------------");
-		System.out.println(startDate);
-		System.out.println(endDate);
 		List<BdyBooking> result = session.createCriteria(BdyBooking.class)
 								.add(Restrictions.between("bkEatdate", startDate,endDate))
 								.list();

@@ -12,6 +12,7 @@ var today = d.getFullYear() + "-" + month + "-" + day;
 
 $(function() {	
 	setTableToMaxStyle("bookingTable");
+	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
 	$( "#bookingDatePicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true,
@@ -66,7 +67,20 @@ $(function() {
 });
 
 function deleteBooking(btn){
-
+	var deleteBookingJson = {
+		"act" : "deleteBooking",
+		"bkId": $(btn).attr("bkId"),
+	};
+	$.ajax({
+		   url: bookingUrl,
+		   type: 'POST',
+		   data: JSON.stringify(deleteBookingJson),
+		   contentType: 'application/json; charset=utf-8',
+		   success: function() {
+			   loadBookingData($('#bookingDatePicker').val());
+			   showState("已刪除");
+		   }
+	});
 }
 
 function cancelBooking(btn){
@@ -83,6 +97,9 @@ function cancelBooking(btn){
 	    success: function() {
 	    	loadBookingData($('#bookingDatePicker').val());
 	    	showState("已"+$(btn).val());
+	    	if($(btn).attr("bkState")==2){
+	    		window.location = contextPath + "/table/opentable.jsp?f="+$(btn).attr("FloorId");
+	    	}
 	    }
 	});
 }
@@ -92,7 +109,6 @@ function loadBookingData(eatDate){
 			"act" : "searchByDate",
 			"date": eatDate
 	};
-	console.log(bookingJson);
 	$.ajax({
 	    url: bookingUrl,
 	    type: 'POST',
@@ -115,25 +131,25 @@ function loadBookingData(eatDate){
 	    			tbFloorName = bookingData.tbFloorName;
 	    			tbStr = "("+tbFloorName+") "+tbName;
 	    		}else{
-	    			tbStr = "無";
+	    			tbStr = "不指定";
 	    		}
 	    		var content = bookingData.content;
 	    		if(bookingData.content.length < 1 || bookingData.content ==null || bookingData.content == ""){
 	    			content = "無";
 	    		}
 	    		var cancelBtn = $("<input class='btnInTable' id='cancelBooking' bkState='1' bkId='"+bookingData.bkId+"' type='button' value='取消訂位'>");
-	    		var comeBtn = $("<input class='btnInTable' id='comeBooking' bkState='2' bkId='"+bookingData.bkId+"' type='button' value='到場'>");
-	    		var state = "正常";
+	    		var comeBtn = $("<input class='btnInTable' id='comeBooking' floorId='"+bookingData.tbFloorId+"' bkState='2' bkId='"+bookingData.bkId+"' type='button' value='到場'>");
+	    		var state = "等待";
 	    		if(bookingData.state == 1){
-	    			state = "已取消";
+	    			state = "取消";
 	    			comeBtn = "";
 	    			cancelBtn = $("<input class='btnInTable' id='cancelBooking' bkState='0' bkId='"+bookingData.bkId+"' type='button' value='復原訂位'>");
 	    		}else if(bookingData.state == 2){
-	    			state = "已到場";
+	    			state = "到場";
 	    			comeBtn = "";
 	    			cancelBtn = "";
 	    		}
-	    		var deleteBtn = $("<input class='btnInTable' id='editBooking' type='button' value='刪除'>");
+	    		var deleteBtn = $("<input class='btnInTable' id='deleteBooking' type='button' bkId='"+bookingData.bkId+"' value='刪除'>");
 	    		var tr = $('<tr>');
 	    		$(tr).append("<td>"+state+"</td>");
 	    		$(tr).append("<td>"+eatDate+"</td>");
@@ -148,16 +164,16 @@ function loadBookingData(eatDate){
 	    		$(td).append(deleteBtn);
 	    		$(tr).append(td);
 	    		$('#bookingTable tbody').append(tr);
-	    		$("input[id=editBooking]").click(function(){
-	    			editBooking($(this));
-	    		});
-	    		$("input[id=cancelBooking]").click(function(){
-	    			cancelBooking($(this));
-	    		});
-	    		$("input[id=comeBooking]").click(function(){
-	    			cancelBooking($(this));
-	    		});
 	    	}
+    		$("input[id=deleteBooking]").click(function(){
+    			deleteBooking($(this));
+    		});
+    		$("input[id=cancelBooking]").click(function(){
+    			cancelBooking($(this));
+    		});
+    		$("input[id=comeBooking]").click(function(){
+    			cancelBooking($(this));
+    		});
 	    	setTableToMaxStyle("bookingTable");
 	    }
 	});
@@ -252,6 +268,7 @@ function getTables(floor){
 	    success: function(tableList) {
 	    	$('#tableSelect').empty();
 	    	if(tableList != null && tableList != "" && tableList.length != 0){
+	    		$('#tableSelect').append("<option value='-1'>不指定</option>");
 		    	for(var i=0; i<tableList.length;i++){
 					var tableData = tableList[i];
 					var tbId = tableData.tbId;
@@ -287,7 +304,6 @@ function chcekAndSendFormData(){
 	var content = $("#addBookingForm input[name=content]").val();
 	var tbId = $("#addBookingForm select[id=tableSelect]").val();
 	var empId = $("#addBookingForm input[name=empId]").val();
-	var assignTable1 = $('#assignTable label[for=assignTable1]').attr("aria-pressed");
 	var send = true;
 	if(name.length == 0 || name == null || name == "" || name.length > 4){
 		send = false;
@@ -325,19 +341,12 @@ function chcekAndSendFormData(){
 		$("#eatDateError").text("");
 	}
 	
-	if(tbId == -1 && assignTable1 == true){
-		send = false;
-		$("#tableChooseError").text("指定座位失敗");
-	}else{
-		bookingData.tbId = tbId;
-		$("#tableChooseError").text("");
-	}
-	
 	if(send){
 		bookingData.hour = hour;
 		bookingData.min = min;
 		bookingData.empId = empId;
 		bookingData.content = content;
+		bookingData.tbId = tbId;
 		console.log(JSON.stringify(bookingData));
 		$.ajax({
 		    url: bookingUrl,

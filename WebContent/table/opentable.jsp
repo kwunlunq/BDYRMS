@@ -88,8 +88,9 @@ var activeFloor = '${param.f}';
 				<button type="button" id="numBtn" class="MainBtnColor">9</button>
 				<button type="button" id="numBtn" class="MainBtnColor">C</button>
 			</div>
-			<hr>
-			<div id="buttonBar" style='text-align:right;'></div>
+			<div id="bookingData" style="margin-top:5px;margin-bottom:5px;border:1px solid gray"></div>
+			<div id="buttonBar" style='text-align:right;'>
+			</div>
 		</div>
 	</div><!-- 	id="writeCodeInThisDiv" -->
 </div>
