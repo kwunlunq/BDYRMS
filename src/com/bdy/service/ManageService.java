@@ -242,7 +242,7 @@ public class ManageService {
 		
 		System.out.println("Final size="+listfood.size());
 		listfood.addFirst(food);
-		List<BdyFood> list = new ArrayList<>(listfood);
+		List<BdyFood> list = new ArrayList<BdyFood>(listfood);
 		
 		return list;
 	}

@@ -28,7 +28,7 @@ import com.bdy.service.ManageService;
 
 @WebServlet("/secure/option")
 public class ManageOptionServlet extends HttpServlet {
-
+	enum actionString {foodinit,setinit,insertFood,insertSet,foodKindInit,insertFoodKind,foodMK,insertMK}
 	ManageService optionservice;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -46,8 +46,8 @@ public class ManageOptionServlet extends HttpServlet {
 		optionservice = (ManageService)context.getBean("ManageService");
 		PrintWriter out = response.getWriter();		
 		String action = request.getParameter("act");
-		switch (action) {
-		case "foodinit":
+		switch (actionString.valueOf(action)) {
+		case foodinit:
 			String id = request.getParameter("id");
 			String fkId = request.getParameter("fkId");
 			List<BdyFoodkind> rest = optionservice.getAllFoodKind();
@@ -66,7 +66,7 @@ public class ManageOptionServlet extends HttpServlet {
 			foodKind += "-"+fkId;
 			out.print(foodKind);
 			break;
-		case "setinit":
+		case setinit:
 			String detailid = request.getParameter("detailid");
 			String sid = request.getParameter("sid");
 			String fkid = request.getParameter("fkid");
@@ -90,7 +90,7 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(resultSet);
 			break;
-		case "insertFood":
+		case insertFood:
 			List<BdyFoodkind> insertFood = optionservice.getAllFoodKind();
 			Collections.sort(insertFood,new Comparator<BdyFoodkind>(){
 
@@ -106,7 +106,7 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(resultInsertFood);
 			break;
-		case "insertSet":
+		case insertSet:
 			List<BdyFoodkind> insertSetFood = optionservice.getAllFoodKind();
 			List<BdySet> insertSetSet = optionservice.getAllSet();
 			Collections.sort(insertSetFood,new Comparator<BdyFoodkind>() {
@@ -128,7 +128,7 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(resultInsertSet);
 			break;
-		case "foodKindInit":
+		case foodKindInit:
 			String areafkId = request.getParameter("fkId");
 			String areamaId = request.getParameter("maId");
 			
@@ -140,7 +140,7 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(str);
 			break;
-		case "insertFoodKind":
+		case insertFoodKind:
 			List<BdyMakearea> insertma = optionservice.getAllMakeArea();
 			String resultFoodKind = "";
 			for(BdyMakearea m:insertma){
@@ -149,7 +149,7 @@ public class ManageOptionServlet extends HttpServlet {
 			out.print(resultFoodKind);
 			break;
 		//.......MK
-		case "foodMK":
+		case foodMK:
 			String fdId = request.getParameter("fdId");
 			String mkId = request.getParameter("mkId");
 			List<BdyMainkind> mk = optionservice.getAllMainKind();
@@ -168,7 +168,7 @@ public class ManageOptionServlet extends HttpServlet {
 			}
 			out.print(resultMK);
 			break;
-		case "insertMK":
+		case insertMK:
 			List<BdyMainkind> mkInsert = optionservice.getAllMainKind();
 			Collections.sort(mkInsert,new Comparator<BdyMainkind>(){
 

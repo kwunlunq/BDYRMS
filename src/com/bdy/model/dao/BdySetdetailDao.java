@@ -186,7 +186,7 @@ private SessionFactory sf = null;
 				   			   .list()
 				   			   .iterator();
 		while (iter.hasNext()) {
-			count = (int)(long) iter.next();
+			count = (Integer) iter.next();
 		}
 		session.close();
 		return count;

@@ -22,7 +22,7 @@ import com.bdy.model.FoodKindPrice;
 import com.bdy.service.ManageService;
 @WebServlet("/setmeal/setInsert")
 public class SetMealInsertServlet extends HttpServlet {
-	
+	enum btnnameString {確認更改,確定}
 	ManageService service;
 	@Override
 	public void init() throws ServletException {
@@ -50,8 +50,8 @@ public class SetMealInsertServlet extends HttpServlet {
 		String check[]=request.getParameterValues("checkname");
 		
 		List<FoodKindPrice> prices = new LinkedList<FoodKindPrice>();
-		switch(btnname){
-		case "確定":
+		switch(btnnameString.valueOf(btnname)){
+		case 確定:
 		
 		
 		for(int i=0;i<check.length;i++){
@@ -66,7 +66,7 @@ public class SetMealInsertServlet extends HttpServlet {
 		}
 		service.insertSet(name,setprice);
 		service.insertSetDetail(prices);break;
-		case "確認更改":	
+		case 確認更改:	
 			Integer sId = Integer.valueOf(setId);
 			for(int i=0;i<check.length;i++){
 				//System.out.println(check[i]); 抓fkId
