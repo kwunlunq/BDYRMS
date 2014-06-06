@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="<c:url value="/images/BDYLogoHeadIcon.png"/>" />
 <title>Insert title here</title>
 <script type='text/javascript' src='/BDYRMS/js/jquery.js'></script>
 <script type='text/javascript' src='/BDYRMS/dwr/engine.js'></script>

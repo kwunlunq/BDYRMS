@@ -8,6 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
+<link rel="shortcut icon" href="<c:url value="/images/BDYLogoHeadIcon.png"/>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- 27~29行JavaScript程式碼 作用等同於 ＜c:url＞的功能 
 	   如果有掛載JS檔案 且 利用JavaScript產生有包含路徑讀取專案內其他文件或檔案的時候
