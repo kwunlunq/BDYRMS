@@ -65,17 +65,17 @@ var contextPath='<%=request.getContextPath()%>';
 	<table id="empTable" >		
 		<thead>
 			<tr>
-				<td>員工ID</td>
-				<td>員工姓名</td>
-				<td>員工性別</td>
-				<td>員工職位</td>
-				<td>到職日期</td>
-<!-- 				<td>年資</td> -->
-				<td>薪資</td>
-				<td>電話</td>
-				<td>住址</td>
-				<td>離職</td>
-				<td>修改</td>
+				<th>員工ID</th>
+				<th>員工姓名</th>
+				<th>員工性別</th>
+				<th>員工職位</th>
+				<th>到職日期</th>
+<!-- 				<th>年資</th> -->
+				<th>薪資</th>
+				<th>電話</th>
+				<th>住址</th>
+				<th>離職</th>
+				<th>修改</th>
 			</tr>
 		</thead>
 		<tbody>
