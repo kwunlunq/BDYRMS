@@ -23,7 +23,7 @@ public class TableSetServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	TableService TS;
-
+	enum actionString {init,save,load,addFloor,updateFloor,tbOpen}
 	@Override
 	public void init() throws ServletException {
 		WebApplicationContext context = WebApplicationContextUtils
@@ -41,31 +41,31 @@ public class TableSetServlet extends HttpServlet {
 		JsonObject object = jsonReader.readObject();
 		String action = object.getString("act");
 		int floor = Integer.parseInt(object.getString("floor"));
-		switch(action)
+		switch(actionString.valueOf(action))
 		{
-			case "init":
+			case init:
 				JsonArray floorList = TS.getFloorListInJson();
 				out.print(floorList.toString());
 				break;
-			case "save":
+			case save:
 				JsonArray tables = object.getJsonArray("tables");
 				JsonArray DTL = object.getJsonArray("delTBlist");
 				TS.saveTableByJson(tables, floor, DTL);
 				break;
-			case "load":
+			case load:
 				JsonArray tableList = TS.getTableByFloorInJson(floor);
 		        out.print(tableList.toString());
 				break;
-			case "addFloor":
+			case addFloor:
 				String floorName = object.getString("floorName");
 				TS.insertFloor(floorName);
 				break;
-			case "updateFloor":
+			case updateFloor:
 				JsonArray updateFloorList = object.getJsonArray("floorList");
 				JsonArray delFloorList = object.getJsonArray("delFloorList");
 				TS.updateFloor(updateFloorList, delFloorList);
 				break;
-			case "tbOpen":
+			case tbOpen:
 				int tbId = Integer.parseInt(object.getString("tbId"));
 				int tbState = object.getInt("tbState");
 				int custNum = Integer.parseInt(object.getString("custNum"));

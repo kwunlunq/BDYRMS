@@ -41,7 +41,7 @@ public class GetOrderDataServlet extends HttpServlet{
 
 	OrderService service;
 	ManageService manageService;
-
+	enum dataString { initial, bills, updateTable,table,todayIncome,food,fk,set,updateDiscount,discount,orderNotCheckAndCustNum,emp,clear };
 	@Override
 	public void init() throws ServletException {
 		WebApplicationContext context = 
@@ -62,8 +62,8 @@ public class GetOrderDataServlet extends HttpServlet{
 			out.print("Param not found! (\"data\")");
 			return ;
 		}
-		switch (data) {
-		case "initial" :
+		switch (dataString.valueOf(data)) {
+		case initial :
 			TreeMap<Integer, BdyMainkind> mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
 			TreeMap<Integer, BdyFoodkind> fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
 			TreeMap<Integer, BdyFood> foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
@@ -73,7 +73,7 @@ public class GetOrderDataServlet extends HttpServlet{
 			TreeMap<Integer, BdySetdetail> sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
 //			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
 			break;
-		case "bills":
+		case bills:
 			Calendar c = new GregorianCalendar();
 		    c.set(Calendar.HOUR_OF_DAY, 0); //anything 0 - 23
 		    c.set(Calendar.MINUTE, 0);
@@ -87,52 +87,52 @@ public class GetOrderDataServlet extends HttpServlet{
 			}
 			out.write(billsCount.toString());
 			break;
-		case "updateTable" :
+		case updateTable :
 			session.removeAttribute("tables");
 			session.removeAttribute("floors");
-		case "table" :
+		case table :
 			tables = getDataToSession(session, new Integer(0), new BdyTable(), "tables", "getAllTables");
 			floors = getDataToSession(session, new Integer(0), new BdyFloor(), "floors", "getAllFloors");
 			JsonArray table = service.makeJSONTables(tables, floors);
 			out.write(table.toString());
 			break;
-		case "todayIncome" :
+		case todayIncome :
 			out.print(service.getTodayIncome().toString());
 			break;
-		case "food" :
+		case food :
 			foods = getDataToSession(session, new Integer(0), new BdyFood(), "foods", "getAllFoods");
 			fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
 			mks = getDataToSession(session, new Integer(0), new BdyMainkind(), "mks", "getAllMks");
 			JsonObject food = service.makeJSONFoods(foods, fks, mks);
 			out.write(food.toString());
 			break;
-		case "fk" :
+		case fk :
 			fks = getDataToSession(session, new Integer(0), new BdyFoodkind(), "fks", "getAllFksSortedBySeq");
 			JsonArray fk = service.makeJSONFks(fks);
 			out.write(fk.toString());
 			break;
-		case "set" :
+		case set :
 			sets = getDataToSession(session, new Integer(0), new BdySet(), "sets", "getAllSets");
 			sds = getDataToSession(session, new Integer(0), new BdySetdetail(), "sds", "getAllSortedSetdetails");
 			JsonArray sd = service.makeJSONSets(sets, sds);
 			out.write(sd.toString());
 			break;
-		case "updateDiscount" :
+		case updateDiscount :
 			session.removeAttribute("diss");
 //			System.out.println("Session Cleared : discount");
-		case "discount" :
+		case discount :
 			TreeMap<Integer, BdyDiscount> diss = getDataToSession(session, new Integer(0), new BdyDiscount(), "diss", "getAllDiscounts");
 			JsonArray dis = service.makeJSONDiss(diss);
 			out.write(dis.toString());
 			break;
-		case "orderNotCheckAndCustNum" :
+		case orderNotCheckAndCustNum :
 			out.write(service.getOrderNotCheckAndCustNum().toString());
 			break;
-		case "emp" :
+		case emp :
 			session.removeAttribute("emp");
 			getEmpToSession(session, empId);
 			break;
-		case "clear" :
+		case clear :
 			session.removeAttribute("foods");
 			session.removeAttribute("fks");
 			session.removeAttribute("mks");

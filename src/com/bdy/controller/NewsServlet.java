@@ -27,7 +27,7 @@ public class NewsServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private WebApplicationContext context;
-	
+	enum actionString {postNews,getAllNews,delNews}
 	@Override
 	public void init() throws ServletException {
 		context = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
@@ -42,8 +42,8 @@ public class NewsServlet extends HttpServlet {
 		String action = req.getParameter("act");
 		BdyNewsDao newsDao = (BdyNewsDao) context.getBean("BdyNewsDao");
 		
-		switch(action){
-			case "postNews":
+		switch(actionString.valueOf(action)){
+			case postNews:
 				String newsTitle = req.getParameter("newsTitle");
 				String newsType = req.getParameter("newsType");
 				String newsContent = req.getParameter("newsContent");
@@ -63,7 +63,7 @@ public class NewsServlet extends HttpServlet {
 				System.out.println("Content: "+ news.getNewsContent());
 				//resp.sendRedirect("mainpage.jsp");
 				break;
-			case "getAllNews":
+			case getAllNews:
 				List<BdyNews> newsList = newsDao.getAllNewsSortByDateDESC();
 				JsonArrayBuilder newsBuilder = Json.createArrayBuilder();
 				for(BdyNews newsBean : newsList){
@@ -78,7 +78,7 @@ public class NewsServlet extends HttpServlet {
 				}
 				out.write(newsBuilder.build().toString());
 				break;
-			case "delNews":
+			case delNews:
 				int newsId = Integer.parseInt(req.getParameter("newsId"));
 				newsDao.deleteNewsById(newsId);
 				break;

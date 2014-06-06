@@ -29,7 +29,7 @@ public class BookingServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	BookingService BS;
-
+	enum actionString{searchByDate,insertBooking,updateBookingState,deleteBooking,checkBooking};
 	@Override
 	public void init() throws ServletException {
 		WebApplicationContext context = WebApplicationContextUtils
@@ -47,9 +47,9 @@ public class BookingServlet extends HttpServlet {
 		JsonObject object = jsonReader.readObject();
 		String action = object.getString("act");
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		switch(action)
+		switch(actionString.valueOf(action))
 		{
-			case "searchByDate":
+			case searchByDate:
 				String input_date = object.getString("date");
 				Date date = null;
 				try {
@@ -60,7 +60,7 @@ public class BookingServlet extends HttpServlet {
 					System.out.println("input_date change to date fialed");
 				} 
 				break;
-			case "insertBooking":
+			case insertBooking:
 				String bkName = object.getString("name"); 
 				String bkPhone = object.getString("phone"); 
 				String empId = object.getString("empId");
@@ -87,16 +87,16 @@ public class BookingServlet extends HttpServlet {
 				Date bkOrderdate = c.getTime();
 				BS.insertBooking(bkName, bkPhone, empId, tbId, bkNumber, bkState, bkContent, bkEatdate, bkOrderdate);
 				break;
-			case "updateBookingState":
+			case updateBookingState:
 				int bkId = Integer.parseInt(object.getString("bkId")); 
 				int State = Integer.parseInt(object.getString("bkState"));
 				BS.updateBookingState(bkId, State);
 				break;
-			case "deleteBooking":
+			case deleteBooking:
 				int bkIdtoDel = Integer.parseInt(object.getString("bkId"));
 				BS.deleteBooking(bkIdtoDel);
 				break;
-			case "checkBooking":
+			case checkBooking:
 				int tbIdtoCheck = Integer.parseInt(object.getString("tbId"));
 				String bookingAndTable = BS.getBookingWithTable(tbIdtoCheck);
 				if(bookingAndTable != null)
