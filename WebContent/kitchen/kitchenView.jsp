@@ -62,9 +62,10 @@ var page='<%=session.getAttribute("page")%>';
 		    </s:iterator>
 		 	</ul>
 			  <div id="tabs-all">
-			  <table  border="1">	    	 	
+			  <table id="kitchenView"  border="1">	    	 	
 						  	<s:iterator var="item" value="viewlist" status="headCheck">
-						  		<s:if test="%{#headCheck.first}">  	
+						  		<s:if test="%{#headCheck.first}"> 
+						  	<thead> 	
 						  	<tr>
 								<th>桌號</th>
 								<th>餐點名稱</th>
@@ -74,6 +75,8 @@ var page='<%=session.getAttribute("page")%>';
 								<th>距離時間</th>
 								<th>確定出餐</th>	
 						  	</tr>
+						  	</thead>
+						  	<tbody>
 						  		</s:if>
 								<tr>
 									<td><input type="hidden" name="calc" value="<s:property value="#item.outMealTime.time"/>"><s:property value="#item.tableID"/></td>
@@ -85,11 +88,13 @@ var page='<%=session.getAttribute("page")%>';
 									<td><a name="change" href="javascript:void(0)" onclick="deleteItem(<s:property value='#item.orderlistID'/>,0)">出餐</a></td>
 								</tr>
 							</s:iterator>
+							</tbody>
 						  	</table>
 				</div><!-- table all -->		  	
 			 			 <s:iterator var="foodkind" value="foodKinds">
 			 			 	<div id="tabs-<s:property value="#foodkind.fkId" />">
-			 			 						<table name="tabFood" border="1">	
+			 			 						<table id="kitchenView" name="tabFood" border="1">	
+												<thead>
 												<tr>
 															<th>桌號</th>
 															<th>餐點名稱</th>
@@ -98,7 +103,9 @@ var page='<%=session.getAttribute("page")%>';
 												<!-- 			<th>製作時間</th> -->
 															<th>距離時間</th>
 															<th>確定出餐</th>	
-												</tr> 	  		
+												</tr> 
+												</thead>
+												<tbody>  		
 			 			 		<s:iterator var="item" value="viewlist" status="headCheck">
 			 			 							 			 		 
 											<s:if test="%{#item.foodkindID==#foodkind.fkId}">												
@@ -113,6 +120,7 @@ var page='<%=session.getAttribute("page")%>';
 											</tr>
 											</s:if>					 			
 			 			 		</s:iterator>
+			 			 		</tbody>
 			 			 		</table>
 			 			 	</div>
 			 			 </s:iterator>

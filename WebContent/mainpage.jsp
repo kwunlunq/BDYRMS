@@ -27,6 +27,7 @@
 <!-- 必要的 Script 與 CSS 外掛 (以下) -->
 <script type="text/javascript">
 var contextPath='<%=request.getContextPath()%>';
+var prio = '${empData.bdyPriority.prio }';
 </script>
 <%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
 <script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
@@ -59,9 +60,12 @@ var contextPath='<%=request.getContextPath()%>';
 	<div id="writeCodeInThisDiv">
 	<div id="mainPageAcdionTittle">
 		<h2>最新消息~
+			<c:set value="${empData.bdyPriority.prio }" var="prio"></c:set>
+			<c:if test="${prio == 1}">
 			<span id="newsBtnBox" style="float:right">
 			<input class="MainBtnColor" id="btnAddNews" type="button" value="發佈消息">
 			</span>
+			</c:if>
 		</h2>
 	</div>
 	<div id="addNewsDIV" style="display:none">

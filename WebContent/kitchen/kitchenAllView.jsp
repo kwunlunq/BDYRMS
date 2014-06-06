@@ -43,7 +43,7 @@ var contextPath='<%=request.getContextPath()%>';
 <%-- <script type='text/javascript' src='/BDYRMS/dwr/util.js'></script> --%>
 <%-- <script>dwr.engine.setActiveReverseAjax(false);</script> --%>
 <script src="<c:url value="/js/kitchenViewAjax.js"/>"></script>
-<script src="<c:url value="/js/mainpage.js"/>"></script>
+<%-- <script src="<c:url value="/js/mainpage.js"/>"></script> --%>
 <script>
 // For DWR
 // $(function(){
@@ -69,7 +69,9 @@ var contextPath='<%=request.getContextPath()%>';
 <div id="article">
 
 	<div id="writeCodeInThisDiv">
-	<div id="div1">
+<!-- 	<div id="div1"> -->
+	<input type="button" value="載入新訂單" class="MainBtnColor" onclick="ckeckOrder()">
+		<input type="button" value="全部出餐" class="MainBtnColor" onclick="allOrderout()">
 		<div id="tabs">
 			 <ul>
 		    <li><a href="#tabs-all">出餐總覽品項</a></li>
@@ -84,9 +86,7 @@ var contextPath='<%=request.getContextPath()%>';
 		 	 	</div>
 		 	 </s:iterator>
 		</div>
-		<input type="button" value="載入新訂單" class="MainBtnColor" onclick="ckeckOrder()">
-		<input type="button" value="全部出餐" class="MainBtnColor" onclick="allOrderout()">
-	</div>
+<!-- 	</div> -->
 <!-- 	For DWR -->
 <!-- 	<div id="kitchenDiv"> -->
 <!-- 	 等待新點餐單 -->
