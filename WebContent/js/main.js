@@ -28,7 +28,7 @@ if(d<=9) d="0"+d;
 $('#hourHeader').html(h+":");
 $('#minHeader').html(m);
 $('#secHeader').html(":"+s);
-$('#todayHeader').html(year + " - " + month + " - " +d + "(" + w_str[w]+")");
+$('#todayHeader').html(year + " - " + month + " - " +d + " (" + w_str[w]+")");
 //time+=h+":"+m+":"+s;
 //document.getElementById('clock').innerHTML=time;
 tick=setTimeout("clock()",1000); 
