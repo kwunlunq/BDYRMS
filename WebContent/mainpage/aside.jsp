@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div><img id="functionLogo" src="<c:url value="/images/function.jpg"/>"></div>
-<div id="functionTXT">功能選單</div>
-
+<%-- <div><img id="functionLogo" src="<c:url value="/images/function.jpg"/>"></div> --%>
+<!-- <div id="functionTXT">${empData.bdyPriority.jobname}</div> -->
+<div style="margin-top:10px;width:100%">
+	<div style='margin:0 auto;width:90%;border-radius:10px;border:1px solid darkgray'>
+		<div style='background-color:darkgray;border-radius:10px 10px 0 0;color:white'>
+			${empData.bdyPriority.jobname}
+		</div>
+		<p style="font-size:1.3em"><strong>${empData.name}</strong></p>
+	</div>
+</div>
 <c:set value="${empData.bdyPriority.prio }" var="prio"></c:set>
 <input class="MainBtnColor asideBtn" type="button" value="公告" onclick="goURL('<c:url value="/mainpage.jsp" />')"><br>
 <c:if test="${prio == 1 || prio == 2 }">

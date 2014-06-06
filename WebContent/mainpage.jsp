@@ -29,8 +29,7 @@
 var contextPath='<%=request.getContextPath()%>';
 var prio = '${empData.bdyPriority.prio }';
 </script>
-<%-- <script src="<c:url value="/js/jquery.js"/>"></script> --%>
-<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+<script src="<c:url value="/js/jquery.js"/>"></script>
 <script src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script src="<c:url value="/js/main.js"/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/main.css"/>">
