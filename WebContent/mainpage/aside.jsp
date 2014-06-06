@@ -4,8 +4,8 @@
 <%-- <div><img id="functionLogo" src="<c:url value="/images/function.jpg"/>"></div> --%>
 <!-- <div id="functionTXT">${empData.bdyPriority.jobname}</div> -->
 <div style="margin-top:10px;width:100%">
-	<div style='margin:0 auto;width:90%;border-radius:10px;border:1px solid darkgray'>
-		<div style='background-color:darkgray;border-radius:10px 10px 0 0;color:white'>
+	<div style='margin:0 auto;width:90%;border-radius:7px;border:1px solid darkgray'>
+		<div style='background-color:darkgray;border-radius:7px 7px 0 0;color:white'>
 			${empData.bdyPriority.jobname}
 		</div>
 		<p style="font-size:1.3em"><strong>${empData.name}</strong></p>
