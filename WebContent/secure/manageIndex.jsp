@@ -157,10 +157,10 @@ if(judgeSetDetail!=""){
 		<thead>
 		<tr>
 		<th>食物名稱</th>
-<%-- 		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=price" />')">食物價錢</div></th> --%>
-<%-- 		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=qty" />')">庫存量</div></th> --%>
-		<th>食物價錢</th> 
-		<th>庫存量</th>
+		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=price" />')">食物價錢</div></th>
+		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=qty" />')">庫存量</div></th>
+<!-- 		<th>食物價錢</th>  -->
+<!-- 		<th>庫存量</th> -->
 		<th>說明</th>
 		<th>種類</th>
 		<th>主餐種類</th>
@@ -207,6 +207,7 @@ if(judgeSetDetail!=""){
 		 <div id="tabs-2">
 <!-- 		 <a href="javascript:void(0)" id="setDialog-link" class="ui-state-default ui-corner-all" ">新增一筆套餐品項</a> -->
 <%-- 		 <a href="<c:url value='/setmeal/setIndex.jsp'/>" class="ui-state-default ui-corner-all" ">新增一筆套餐</a> --%>
+		<div id="sortTable2Header"></div>
 		 <div id="setInsertDialog" title="新增套餐品項" style="display:none">
 		 <p>套餐名稱:<br><span id="insertSetName"></span></p>
 		 <p>食物類別:<br><span id="insertSetFoodKind"></span></p>
@@ -242,7 +243,7 @@ if(judgeSetDetail!=""){
 		</div>
 		
 		<div id="tabs-3">
-		<a href="javascript:void(0)" id="foodKindDialog-link" class="ui-state-default ui-corner-all" ">新增一樣類別</a>
+		<div id="sortTable3Header"><a href="javascript:void(0)" id="foodKindDialog-link" class="ui-state-default ui-corner-all" ">新增一樣類別</a></div>
 		<div id="foodKindInsertDialog" title="新增類別" style="display:none">
 		<p>類別名稱:<br><input type="text" id="insertFoodKindName"><s:property value="%{fieldErrors.fkName[0]}"/></p>
 		<p>製作時間:<br><input type="text" size="2" id="insertFoodKindPeriod"><s:property value="%{fieldErrors.fkPeriod[0]}"/></p>

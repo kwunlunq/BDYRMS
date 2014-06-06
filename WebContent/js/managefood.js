@@ -4,7 +4,9 @@ var xmlHttpInitMK = new XMLHttpRequest();
 var xmlHttpInitInsertMK = new XMLHttpRequest();
 
 $(function(){
-	//setTableToMaxStyle("sortTable1");
+	setTableToMaxStyle("sortTable1");
+	setTableToMaxStyle("sortTable2");
+	setTableToMaxStyle("sortTable3");
 	var orders = order.split(",");
 	if(del=="1"){
 		showState("刪除成功");
@@ -13,34 +15,34 @@ $(function(){
 	insertSetOption();
 	insertFoodKindOption();
 	//insertOptionMK();
-	$('#sortTable1').DataTable({
-	    "jQueryUI": true,
-	    "scrollY": ($('#aside').height()-275),
-	    "scrollCollapse": true,
-	    "paging": false,
-	    "aoColumnDefs":[{
-	    	//aTargets:[1,2,3,4,5,6],
-	    	bSortable:false
-	    }],
-	});
-	$('#sortTable2').DataTable({
-    "jQueryUI": true,
-    "scrollY": ($('#aside').height()-275),
-    "scrollCollapse": true,
-    "paging": false,
-    "aoColumnDefs":[{
-    	bSortable:false
-    }],
-});
-	$('#sortTable3').DataTable({
-	    "jQueryUI": true,
-	    "scrollY": ($('#aside').height()-275),
-	    "scrollCollapse": true,
-	    "paging": false,
-	    "aoColumnDefs":[{
-	    	bSortable:false
-	    }],
-	});
+//	$('#sortTable1').DataTable({
+//	    "jQueryUI": true,
+//	    "scrollY": ($('#aside').height()-275),
+//	    "scrollCollapse": true,
+//	    "paging": false,
+//	    "aoColumnDefs":[{
+//	    	//aTargets:[1,2,3,4,5,6],
+//	    	bSortable:false
+//	    }],
+//	});
+//	$('#sortTable2').DataTable({
+//    "jQueryUI": true,
+//    "scrollY": ($('#aside').height()-275),
+//    "scrollCollapse": true,
+//    "paging": false,
+//    "aoColumnDefs":[{
+//    	bSortable:false
+//    }],
+//});
+//	$('#sortTable3').DataTable({
+//	    "jQueryUI": true,
+//	    "scrollY": ($('#aside').height()-275),
+//	    "scrollCollapse": true,
+//	    "paging": false,
+//	    "aoColumnDefs":[{
+//	    	bSortable:false
+//	    }],
+//	});
 	
 	var obj;
 		
