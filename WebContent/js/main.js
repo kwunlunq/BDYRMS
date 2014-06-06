@@ -1,6 +1,38 @@
 
 window.onresize = resizeWindow;
 window.onload = resizeWindow;
+$(function(){
+	clock();
+});
+var tick;
+function stop() {
+clearTimeout(tick);
+}
+function clock() {
+var ut=new Date();
+var h,m,s;
+//var time="        ";
+h=ut.getHours();
+m=ut.getMinutes();
+s=ut.getSeconds();
+var year = ut.getFullYear();
+var month = ut.getMonth() +1 ;
+var d = ut.getDate();
+var w = ut.getDay();
+var w_str = ["日","一","二","三","四","五","六"];
+if(s<=9) s="0"+s;
+if(m<=9) m="0"+m;
+if(h<=9) h="0"+h;
+if(month<=9) month = "0"+month;
+if(d<=9) d="0"+d;
+$('#hourHeader').html(h+":");
+$('#minHeader').html(m);
+$('#secHeader').html(":"+s);
+$('#todayHeader').html(year + " - " + month + " - " +d + "(" + w_str[w]+")");
+//time+=h+":"+m+":"+s;
+//document.getElementById('clock').innerHTML=time;
+tick=setTimeout("clock()",1000); 
+}
 
 function resizeWindow(){
 	var mainContentWidth = $('#mainPageContent').width();

@@ -27,7 +27,15 @@
 <strong class="strongLabel">優惠資訊</strong>
 </div>
 
-<div class="topLabel">
+<div style="position:relative;right:-90px;width:225px;" class="topLabel">
+<p style="position:absolute;top:2px;">
+<span style='font-size:1.6em' id=todayHeader></span>
+</p>
+<p style="position:absolute;bottom:2px;">
+<span style='font-size:4em' id="hourHeader"></span>
+<span style='font-size:4em' id="minHeader"></span>
+<span style='font-size:2em' id="secHeader"></span>
+</p>
 </div>
 
 
