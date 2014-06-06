@@ -67,7 +67,7 @@
     		<result name="success" type="redirect">/secure/insertNewEmp.jsp</result>
     	</action>
     	<action name="insertEmp" class="com.bdy.controller.ManageInsertEmpAction">
-    		<result name="success">/secure/insertNewEmp.jsp</result>
+    		<result name="success" type="redirect">/secure/showEmp.action</result>
     		<result name="input">/secure/insertNewEmp.jsp</result>
     	</action>
     	<action name="insertDiscount" class="com.bdy.controller.ManageInsertDiscountAction">

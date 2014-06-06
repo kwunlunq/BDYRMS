@@ -67,10 +67,10 @@ var contextPath='<%=request.getContextPath()%>';
 			<legend>新增員工</legend>
 		<form action="<c:url value="/secure/insertEmp.action" />" method="post">
 			<label>姓名:</label><input type="text" name="emp.name" size="10"  placeholder="guest" autofocus autocomplete="off" value="${param['emp.name']}"><s:property value="%{fieldErrors['emp.name'][0]}"/><br>
-			<label>密碼:</label><input type="password" name="emp.passwd" value="${param['emp.passwd']}" tabindex="1"><br>
+			<label>密碼:</label><input readonly="readonly" type="text" name="emp.passwd" value="0000" tabindex="1"><br>
 			<label>性別:</label><input type="radio" name="emp.sex" value="M">男
 				<input type="radio" name="emp.sex" value="W">女<br>
-			<label>身分證字號:</label><input type="text" name="emp.empId" tabindex="2" value="${param['emp.id']}" pattern="[a-zA-Z]{1}[1-2]{1}\d{8}" accesskey="1"><s:property value="%{fieldErrors['emp.empId'][0]}"/><br>
+			<label>身分證字號:</label><input maxlength="10" type="text" name="emp.empId" tabindex="2" value="${param['emp.id']}" pattern="[a-zA-Z]{1}[1-2]{1}\d{8}" accesskey="1"><s:property value="%{fieldErrors['emp.empId'][0]}"/><br>
 			<label>職位:</label><s:select
 					value="pri" 
 					name="emp.bdyPriority.priId"

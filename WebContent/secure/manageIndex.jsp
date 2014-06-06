@@ -157,8 +157,10 @@ if(judgeSetDetail!=""){
 		<thead>
 		<tr>
 		<th>食物名稱</th>
-		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=price" />')">食物價錢</div></th>
-		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=qty" />')">庫存量</div></th>
+<%-- 		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=price" />')">食物價錢</div></th> --%>
+<%-- 		<th><div class="sort" onclick="goURL('<c:url value="/secure/sort?act=sort&type=qty" />')">庫存量</div></th> --%>
+		<th>食物價錢</th> 
+		<th>庫存量</th>
 		<th>說明</th>
 		<th>種類</th>
 		<th>主餐種類</th>
