@@ -14,7 +14,7 @@ $(function(){
 	insertOption();
 	insertSetOption();
 	insertFoodKindOption();
-	//insertOptionMK();
+	insertOptionMK();
 //	$('#sortTable1').DataTable({
 //	    "jQueryUI": true,
 //	    "scrollY": ($('#aside').height()-275),
@@ -137,20 +137,13 @@ function insertOptionMK(){
 	xmlHttpInitInsertMK.send("act=insertMK");
 }
 
-
+var temps = new Array(10);
 function initcallbackInsertMK(){
 	if(xmlHttpInitInsertMK.readyState == 4){
 		if(xmlHttpInitInsertMK.status == 200){
 			var data = xmlHttpInitInsertMK.responseText;
-			var temps = data.split(";");
-			var insertOptionMK = document.createElement("select");
-			insertOptionMK.setAttribute("id", "OptionMK");
-			for(var i=0;i<temps.length-1;i++){
-				var temp = temps[i].split(",");
-				insertOptionMK.innerHTML +="<option value='"+temp[0]+"'>"+temp[1]+"</option>";
-			}
-			$('#insertMK').append(insertOptionMK);
-			$('#divMK').css("visibility","visible");
+			temps = data.split(";");			
+			
 		}
 	}
 }
@@ -189,7 +182,14 @@ function mkInsertChange(){
 	var val=document.getElementById("insetId").value;
 	var isMain = changeInsertMk.split(":");
 	if(isMain[val-1]==1){
-		insertOptionMK();
+		var insertOptionMK = document.createElement("select");
+		insertOptionMK.setAttribute("id", "OptionMK");
+		for(var i=0;i<temps.length-1;i++){
+			var temp = temps[i].split(",");
+			insertOptionMK.innerHTML +="<option value='"+temp[0]+"'>"+temp[1]+"</option>";
+		}
+		$('#insertMK').append(insertOptionMK);
+		$('#divMK').css("visibility","visible");
 	}else{
 		$('#insertMK').empty();
 		$('#divMK').css("visibility","hidden");
@@ -214,6 +214,7 @@ function insertFood(){
 }
 
 function fcancel(fdid,fkId,mkId,fname,fprice,fqty,fdesc,ffkind,fmk) {
+	
 	document.getElementById("fname"+fdid).innerHTML=fname;
 	document.getElementById("fprice"+fdid).innerHTML=fprice;
 	document.getElementById("fqty"+fdid).innerHTML=fqty;
@@ -223,7 +224,7 @@ function fcancel(fdid,fkId,mkId,fname,fprice,fqty,fdesc,ffkind,fmk) {
 	document.getElementById("foodbtn"+fdid).innerHTML=
 		"<input class='MainBtnColor' type='button' id='foodupdate'  value='修改' onclick='fupdate("+fdid+
 		","+fkId+","+mkId+")'><input class='MainBtnColor' type='button' id='fooddelete'  value='刪除' onclick='fdeleteFood("+fdid+")'>";
-	
+	setTableToMaxStyle("sortTable1");
 	
 };
 function fupdate(fdid,fkId,mkId){
@@ -377,6 +378,14 @@ function mKchange(fdId,fkId){
 	var mkk = mainKind.split(":");
 	if(mkk[(val-1)]==1){
 		foodmkOption(fdId,1);
+//		var insertOptionMK = document.createElement("select");
+//		insertOptionMK.setAttribute("id", "OptionMK");
+//		for(var i=0;i<temps.length-1;i++){
+//			var temp = temps[i].split(",");
+//			insertOptionMK.innerHTML +="<option value='"+temp[0]+"'>"+temp[1]+"</option>";
+//		}
+//		$('#insertMK').append(insertOptionMK);
+//		$('#divMK').css("visibility","visible");
 	}else{
 		$('#foodmk'+fdId).empty();
 	}

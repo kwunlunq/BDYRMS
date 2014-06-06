@@ -29,6 +29,7 @@ function empUpdate(empId){
 		}
 	}else{
 	$('#update'+empId).val("確定").after($("<input type='button' class='MainBtnColor' id='cancel+"+empId+"' value='取消'/>").one("click",goback));
+	setTableToMaxStyle("empTable");
 	var count = 0;
 	$('#trEmp'+empId+'>td').each(function(){
 		if(count==0){//---empId

@@ -121,6 +121,7 @@ function fkcancel(fkname,fkperiod,fkma,fkseq,fkId,maId){
 	$('#TRfk'+fkId+'>td:last').html
 	("<input class='MainBtnColor' type='button' value='修改' onclick='fkupdate("+fkId+","+maId+
 			")'><input class='MainBtnColor' type='button' value='刪除' onclick='fdeleteFood("+fkId+")'>");
+	setTableToMaxStyle("sortTable3");
 }
 function fkconfirm(fkId){
 	var fkname = document.getElementById("foodkindname"+fkId).firstChild.value;
