@@ -9,8 +9,10 @@
 <div id="LogoLabel">
 <img id="bannerLogo" src="<c:url value="/images/BDY_Logo.png"/>">
 </div>
-
-
+<div class="topLabel">
+<strong class="strongLabel">${empData.bdyPriority.jobname}</strong>
+<p><span class="topItem">${empData.name}</span>
+</div>
 <div class="topLabel ui-state-highlight ui-corner-all">
 <strong class="strongLabel">餐廳資訊</strong>
 <p><span class="topItem">餐聽內人數  </span><span id="custInside" class="topValueint"></span><span>人</span></p>
@@ -25,7 +27,7 @@
 <p><span class="topItem">翻桌次數  </span><span class="unit">翻</span><span id="todayBillsCount" class="incomeValue"></span></p>
 </div>
 
-<div class="topLabel" id="dicsountDiv" class="ui-state-highlight">
+<div class="topLabel ui-state-highlight ui-corner-all" id="dicsountDiv">
 <strong class="strongLabel">優惠資訊</strong>
 </div>
 

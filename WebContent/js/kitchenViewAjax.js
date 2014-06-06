@@ -5,6 +5,7 @@ $(function() {
 			  cala();	 
 			  setInterval(cala,1000);
 		$(":button").addClass("MainBtnColor");
+		hideLoading();
 });
 window.onload=function(){
 	cala();	 
@@ -15,7 +16,8 @@ function getAllSortData(){
 	$.getJSON(strUrl,function(datas){
 		
 		var eleTable=document.createElement("table");
-			eleTable.setAttribute("border","1");
+			//eleTable.setAttribute("border","1");
+			eleTable.setAttribute("id","kitchenView");
 		var eleThead=document.createElement("thead");
 		var eleTbody=document.createElement("tbody");
 		var eleTr=document.createElement("tr");	
@@ -107,6 +109,7 @@ function getAllSortData(){
 //			.add("製作區域",temp.getBdyMakearea().getName())
 			var b = false;//-------------出始為false title
 			for(var i=0;i<datas[1].foodkind.length;i++){
+				var tableId = "";
 				console.log(datas[1].foodkind[i].種類編號+":第1次檢查點");
 				for(var j=0;j<datas[0].allmeall.length;j++){					
 					if((datas[1].foodkind[i].種類編號)==(datas[0].allmeall[j].食物種類)){//1==1
@@ -116,6 +119,7 @@ function getAllSortData(){
 							var eleTable=document.createElement("table");//---table
 								eleTable.setAttribute("border","1");
 								eleTable.setAttribute("id","table"+datas[1].foodkind[i].種類編號);//--table Id
+								tableId = "table"+datas[1].foodkind[i].種類編號;
 							var eleThead=document.createElement("thead");
 							var eleTbody=document.createElement("tbody");
 							var eleTr=document.createElement("tr");	
@@ -190,10 +194,11 @@ function getAllSortData(){
 						console.log("第3次檢查點BBBB==="+b+":FKID="+datas[1].foodkind[i].種類編號+":OrderListFoodKind="+datas[0].allmeall[j].食物種類);
 						continue;
 					}
+					setTableToMaxStyle(tableId);
 				}
 				b=false;
 			}
-		
+			setTableToMaxStyle("kitchenView");
 	});
 }
 

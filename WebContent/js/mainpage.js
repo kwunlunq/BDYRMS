@@ -55,10 +55,14 @@ function loadNews(){
 		for(var i in datas){
 			var newsPostdate = datas[i].newsPostdate.substring(0,19);
 			var title = $("<h3>["+datas[i].newsType+"] "+datas[i].newsTitle+"<span class='titleDate'>At "+newsPostdate+"</span></h3>");
-			var content = $("<div id='newsContent'><pre>"+datas[i].newsContent+"</pre><br><span style='float:right'>by "+datas[i].newsPostname+"<input class='MainBtnColor' id='delNewsBtn' newsId='"+datas[i].newsId+"' type='button' value='刪除'><span></div>");
+			var content = $("<div id='newsContent'><pre>"+datas[i].newsContent+"</pre><br><span style='float:right'>by "+datas[i].newsPostname+"<input id='delNewsBtn' style='font-size:0.8em;' newsId='"+datas[i].newsId+"' type='button' value='刪除消息'><span></div>");
+			if(prio != 1){
+				content = $("<div id='newsContent'><pre>"+datas[i].newsContent+"</pre><br><span style='float:right'>by "+datas[i].newsPostname+"<span></div>");
+			}
 			//<h3>使用Jquery UI 注意事項  <span class='titleDate'>(重要  20140512)</span></h3>
 			$('#mainPageAcdion').append(title);
 			$('#mainPageAcdion').append(content);
+			$('#delNewsBtn').button();
 		}
 		$( "#mainPageAcdion" ).accordion( "refresh" );
 		$( "#mainPageAcdion" ).accordion({active: 0});

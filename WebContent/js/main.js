@@ -61,22 +61,32 @@ function hideLoading(){
 
 function setTableToMaxStyle(tableId){
 	var header = $('#'+tableId+'Header');
+	var footer = $('#'+tableId+'Footer');
+	var tb = $('#'+tableId);
+	if(tableId == 'talbe'){
+		tb = $('talbe');
+	}
 	$(header).css("padding","10px");
 	$(header).css("font-size","1.3em");
 	$(header).addClass("tableHeaderAndFooter ui-corner-top");
 	$(header).find('input[type=button]').button();
 	$(header).find('input[type=button]').css("font-size","0.7em");
 	$(header).find('input[type=button]').css("font-weight","narmal");
-	var footer = $('#'+tableId+'Footer');
+	
 	$(footer).css("padding","10px");
 	$(footer).css("font-size","1.3em");
 	$(footer).addClass("tableHeaderAndFooter ui-corner-bottom");
 	$(footer).find('input[type=button]').button();
 	$(footer).find('input[type=button]').css("font-size","0.7em");
 	$(footer).find('input[type=button]').css("font-weight","narmal");
-	var tb = $('#'+tableId);
-	$('#'+tableId+' tr:even').css({background:'#e8f4ff'});
-	$('#'+tableId+' tr:odd').css({background:'white'});
+	
+	if(tableId == 'talbe'){
+		$('table tr:even').css({background:'#e8f4ff'});
+		$('table tr:odd').css({background:'white'});
+	}else{
+		$('#'+tableId+' tr:even').css({background:'#e8f4ff'});
+		$('#'+tableId+' tr:odd').css({background:'white'});
+	}
 	$(tb).css("border-spacing","0");
 	$(tb).css("width","100%");
 	$(tb).css("border","2px solid rgb(53,106,160)");
@@ -84,30 +94,67 @@ function setTableToMaxStyle(tableId){
 	$(tb).find('th').addClass("tableThead");
 	$(tb).find('th:first').css("border-left","0");
 	$(tb).find('th:last').css("border-right","0");
-	$('#'+tableId+" td").css("border","1px solid rgb(167,207,223)");
-	$('#'+tableId+" tr").addClass("max_td_style");
+	if(tableId == 'talbe'){
+		$('talbe td').css("border","1px solid rgb(167,207,223)");
+		$('talbe tr').addClass("max_td_style");
+	}else{
+		$('#'+tableId+" td").css("border","1px solid rgb(167,207,223)");
+		$('#'+tableId+" tr").addClass("max_td_style");
+	}
+
 	$(tb).find('input[type=button]').button();
 	$(tb).find('input[type=button]').css("font-size","0.95em");
 	var count = 0;
 	var thCount = 0;
-	$('#'+tableId+">thead").find('th').each(function(){
-		thCount++;
-	});
-	$('#'+tableId+">tbody").find('tr').each(function(){
-		count++;
-	});
-	if(count <= 0){
-		$('#'+tableId+">tbody").append("<tr><td colspan='"+thCount+"' style='text-align:center;font-size:2em;'>尚無資料</td></tr>");
-	}
-	$('#'+tableId+' tr:odd').hover(function(){
-		$(this).css("background","#d7ebf9");
-	},function(){
-		$(this).css("background","white");
-	});
 	
-	$('#'+tableId+' tr:even').hover(function(){
-		$(this).css("background","#d7ebf9");
-	},function(){
-		$(this).css("background","#e8f4ff");
-	});
+	if(tableId == 'talbe'){
+		$("talbe thead").find('th').each(function(){
+			thCount++;
+		});
+		$("talbe tbody").find('tr').each(function(){
+			count++;
+		});
+	}else{
+		$('#'+tableId+">thead").find('th').each(function(){
+			thCount++;
+		});
+		$('#'+tableId+">tbody").find('tr').each(function(){
+			count++;
+		});
+	}
+	
+	
+	if(count <= 0){
+		if(tableId == 'talbe'){
+			$("table tbody").append("<tr><td colspan='"+thCount+"' style='text-align:center;font-size:2em;'>尚無資料</td></tr>");
+		}else{
+			$('#'+tableId+">tbody").append("<tr><td colspan='"+thCount+"' style='text-align:center;font-size:2em;'>尚無資料</td></tr>");
+		}
+	}
+	
+	if(tableId == 'talbe'){
+		$('talbe tr:odd').hover(function(){
+			$(this).css("background","#d7ebf9");
+		},function(){
+			$(this).css("background","white");
+		});
+		
+		$('talbe tr:even').hover(function(){
+			$(this).css("background","#d7ebf9");
+		},function(){
+			$(this).css("background","#e8f4ff");
+		});
+	}else{
+		$('#'+tableId+' tr:odd').hover(function(){
+			$(this).css("background","#d7ebf9");
+		},function(){
+			$(this).css("background","white");
+		});
+		
+		$('#'+tableId+' tr:even').hover(function(){
+			$(this).css("background","#d7ebf9");
+		},function(){
+			$(this).css("background","#e8f4ff");
+		});
+	}
 }
