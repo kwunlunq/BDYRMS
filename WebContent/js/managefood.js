@@ -351,12 +351,13 @@ function fconfirm(fdid,mkId){
 	var fqty = document.getElementById("fqty"+fdid).firstChild.value;
 	var fdesc = document.getElementById("fdesc"+fdid).firstChild.value;
 	var ffkind = document.getElementById("selectname"+fdid).options[document.getElementById("selectname"+fdid).selectedIndex].value;
-
+	
 	var fmk = 0;
 	
 	try {
 		fmk = document.getElementById("mkOptionId" + fdid).options[document
 				.getElementById("mkOptionId" + fdid).selectedIndex].value;
+		
 	} catch (e) {
 	}
 	updateFood(fdid,fname,fprice,fqty,fdesc,ffkind,0,fmk);
@@ -377,7 +378,7 @@ function mKchange(fdId,fkId){
 	var val=document.getElementById("selectname"+fdId).value;
 	var mkk = mainKind.split(":");
 	if(mkk[(val-1)]==1){
-		foodmkOption(fdId,1);
+//		foodmkOption(fdId,1);
 //		var insertOptionMK = document.createElement("select");
 //		insertOptionMK.setAttribute("id", "OptionMK");
 //		for(var i=0;i<temps.length-1;i++){
@@ -386,6 +387,13 @@ function mKchange(fdId,fkId){
 //		}
 //		$('#insertMK').append(insertOptionMK);
 //		$('#divMK').css("visibility","visible");
+		var insertOptionMK = document.createElement("select");
+		insertOptionMK.setAttribute("id", "mkOptionId"+fdId);
+		for(var i=0;i<temps.length-1;i++){
+			var temp = temps[i].split(",");
+			insertOptionMK.innerHTML +="<option value='"+temp[0]+"'>"+temp[1]+"</option>";
+		}
+		$('#foodmk'+fdId).append(insertOptionMK);
 	}else{
 		$('#foodmk'+fdId).empty();
 	}
