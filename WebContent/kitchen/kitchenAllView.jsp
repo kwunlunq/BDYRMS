@@ -76,7 +76,7 @@ var contextPath='<%=request.getContextPath()%>';
 			 <ul>
 		    <li><a href="#tabs-all">出餐總覽品項</a></li>
 		    <s:iterator var="foodkind" value="foodKinds">
-		    	<li><a href="#tabs-<s:property value='#foodkind.fkId' />"><s:property value="#foodkind.name" />區</a></li>
+		    	<li><a href="#tabs-<s:property value='#foodkind.fkId' />"><s:property value="#foodkind.name" />類</a></li>
 		    </s:iterator>
 		 	</ul>
 		 	<div id="tabs-all">
