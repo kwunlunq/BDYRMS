@@ -12,10 +12,10 @@ function getDisCount(valuekey){
 	if(divide==false){
 	$.getJSON(contextPath+"/secure/getDisCount",{"disId":valuekey},function(data){
 		if(parseFloat(data)==1.0){
-			$("#disShow").empty();
+//			$("#disShow").empty();
 			$('#showprice').html($('#price').val());
 		}else{
-		$("#disShow").empty().html(data+"折");		
+//		$("#disShow").empty().html(data+"折");		
 		var price = parseFloat($('#price').val());
 		var finprice =price*parseFloat(data);
 		$('#showprice').html(finprice);
@@ -25,10 +25,10 @@ function getDisCount(valuekey){
 
 		$.getJSON(contextPath+"/secure/getDisCount",{"disId":valuekey},function(data){
 			if(parseFloat(data)==1.0){
-				$("#disShow").empty();
+//				$("#disShow").empty();
 				$('#showprice').html(paymentPrice);
 			}else{
-			$("#disShow").empty().html(data+"折");
+//			$("#disShow").empty().html(data+"折");
 			var finprice =paymentPrice*parseFloat(data);
 			$('#showprice').html(finprice);
 			}
@@ -42,14 +42,16 @@ function showDiscription(){
 	$("input[name='realprice']").show();
 	$('#discription').show();
 	$("label[name='realpriceText'],label[name='discriptionText']").show();
-	$("#dis,#disText").hide();
+	$("#dis").hide();
+	$("#disText").show();
 	$("#checkout").hide();
 		b=false;
 	}else{
 		$("input[name='realprice']").hide();
 	    $('#discription').hide();
 	    $("label[name='realpriceText'],label[name='discriptionText']").hide();
-	    $("#dis,#disText").show();
+	    $("#dis").show();
+	    $("#disText").show();
 	    $("#checkout").show();
 	    b=true;
 	}	

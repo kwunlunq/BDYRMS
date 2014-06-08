@@ -595,6 +595,8 @@ public BdyTable getOrderTableName(int tableId){
 	
 	
 	public void insertBill(CheckOut check){
+		
+		
 		BdyBill bill = new BdyBill();
 		bill.setEndDate(check.getEndDate());
 		bill.setCustNum(check.getCustNum());
@@ -620,6 +622,7 @@ public BdyTable getOrderTableName(int tableId){
 		
 		BdyTable table = tableDao.getTableById(check.getTabId());//-----change table state to 0(no use)
 		table.setTableState(0);
+		table.setCustNum(0);
 		tableDao.updateTable(table);
 		
 		for(BdyOrder order:check.getOrders()){//----------------------change orders that have checkout
