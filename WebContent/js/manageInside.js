@@ -99,6 +99,7 @@ function cancelMA(maId,text){
 	$('#maTD'+maId).text(text);
 	$('#mabtn'+maId).html("<input class='MainBtnColor' type='button' value='修改' onclick='updateMA("+maId+")'>" +
 						  "<input class='MainBtnColor' type='button' value='刪除' onclick='deleteMA("+maId+")'>");
+	setTableToMaxStyle("table2");
 }
 function confirmMA(maId){
 	var str = $('#maTD'+maId+'>input').val();
