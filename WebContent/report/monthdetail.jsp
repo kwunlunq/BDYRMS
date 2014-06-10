@@ -141,7 +141,7 @@ select{
 						<select name="year" id="year">
 							<option>請選擇年份</option>
 						</select> 年 <select name="month" id="month">
-							<option>請選擇年份</option>
+							<option>請選擇月份</option>
 						</select> 月     
 						<span style="color: red">${errorMsgs.dateError}</span>
 						<span style="display:inline-block;float:right;margin-top:10px;">
