@@ -62,7 +62,7 @@ function loadNews(){
 			//<h3>使用Jquery UI 注意事項  <span class='titleDate'>(重要  20140512)</span></h3>
 			$('#mainPageAcdion').append(title);
 			$('#mainPageAcdion').append(content);
-			$('#delNewsBtn').button();
+			$('#mainPageAcdion input').button();
 		}
 		$( "#mainPageAcdion" ).accordion( "refresh" );
 		$( "#mainPageAcdion" ).accordion({active: 0});
