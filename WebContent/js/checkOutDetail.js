@@ -10,7 +10,7 @@ var divide=false;
 var paymentPrice;
 function getDisCount(valuekey){
 	if(divide==false){
-	$.getJSON(contextPath+"/secure/getDisCount",{"disId":valuekey},function(data){
+	$.getJSON(contextPath+"/checkout/getDisCount",{"disId":valuekey},function(data){
 		if(parseFloat(data)==1.0){
 //			$("#disShow").empty();
 			$('#showprice').html($('#price').val());
@@ -23,7 +23,7 @@ function getDisCount(valuekey){
 	});
 	}else{
 
-		$.getJSON(contextPath+"/secure/getDisCount",{"disId":valuekey},function(data){
+		$.getJSON(contextPath+"/checkout/getDisCount",{"disId":valuekey},function(data){
 			if(parseFloat(data)==1.0){
 //				$("#disShow").empty();
 				$('#showprice').html(paymentPrice);

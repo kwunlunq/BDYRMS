@@ -15,7 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.bdy.model.BdyDiscount;
 import com.bdy.service.ManageService;
 
-@WebServlet(urlPatterns = { "/secure/getDisCount" })
+@WebServlet(urlPatterns = { "/checkout/getDisCount" })
 public class GetDiscountServlet extends HttpServlet {
 
 	ManageService service;

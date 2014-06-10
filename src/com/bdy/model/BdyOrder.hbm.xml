@@ -29,7 +29,7 @@
             </key>
             <one-to-many class="com.bdy.model.BdyBilldetail" />
         </set>
-        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select" >
+        <set name="bdyOrderlists" table="BDY_ORDERLIST" inverse="true" lazy="false" fetch="select" cascade="delete">
             <key>
                 <column name="OD_ID" />
             </key>
