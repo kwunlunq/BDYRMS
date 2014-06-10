@@ -271,8 +271,8 @@ function divTBclick(divTB){
 				$(divTB).css("z-index","0");
 				if(act == "comeBooking"){
 					cancelBooking($(this).attr("bkId"),$(this).attr("bkState"));
-					$('#tbClickDialog').dialog('close');
 				}
+				$('#tbClickDialog').dialog('close');
 			}else if($('#peopleCount').val()>999){
 				showState("超過上限 (小於3位)");
 			}else{

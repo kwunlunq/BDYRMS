@@ -73,6 +73,7 @@ public class BdyBookingDao {
 		Session session = sf.openSession();
 		List<BdyBooking> result = session.createCriteria(BdyBooking.class)
 								.add(Restrictions.between("bkEatdate", startDate,endDate))
+								.addOrder(Order.asc("bkEatdate"))
 								.list();
 		session.close();
 		return result;
